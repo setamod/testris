@@ -29,6 +29,7 @@
       <a class="brand" href="./" aria-label="BLOK ana sayfa"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>BLOK<span class="brand-dot">.</span></span></a>
       <span class="edition-tag">CYBERPUNK EDITION<span>NEON ARCADE / V.02</span></span>
       <span class="header-tagline">GECEYE BAĞLAN. RİTMİ YAKALA.</span>
+      <button id="sound-button" class="sound-button" aria-pressed="true" aria-label="Ses efektlerini kapat"><svg><use href="#i-sound"/></svg><span>Ses açık</span></button>
       <button class="help-button" id="help-button"><span class="question-mark">?</span> Nasıl oynanır</button>
     </header>
     <div class="system-bar" aria-hidden="true"><span><i></i> SİSTEM ÇEVRİMİÇİ <b>//</b> SEKTÖR 07</span><span>ARCADE PROTOKOLÜ <b>02.77</b></span></div>
@@ -82,7 +83,7 @@
       </aside>
     </main>
 
-    <footer class="site-footer"><span><b class="footer-slash">//</b> GECE MODU AKTİF. SINIR YOK.</span><div><span class="local-note"><span></span> Rekorun bu tarayıcıda saklanır</span><button id="sound-button" class="sound-button" aria-pressed="false"><svg><use href="#i-muted"/></svg><span>Ses kapalı</span></button></div></footer>
+    <footer class="site-footer"><span><b class="footer-slash">//</b> GECE MODU AKTİF. SINIR YOK.</span><div><span class="local-note"><span></span> Rekorun bu tarayıcıda saklanır</span><div class="audio-controls"><label for="sound-volume">SES</label><input id="sound-volume" type="range" min="0" max="100" step="1" value="55" aria-label="Ses düzeyi"><output id="sound-volume-value" for="sound-volume">55%</output><button id="sound-test" class="sound-test" title="Satır temizleme efektini dinle"><svg><use href="#i-play"/></svg>Sesi dene</button></div></div></footer>
   </div>
 
   <dialog id="help-dialog" class="help-dialog"><div class="dialog-top"><span class="section-label">KISA BİR HATIRLATMA</span><button class="icon-button" id="close-help" aria-label="Kapat"><svg><use href="#i-close"/></svg></button></div><h2>Her şey yerine oturur.</h2><p>Blokları boşluk bırakmadan diz. Yatay bir satırı tamamen doldurduğunda satır silinir ve puan kazanırsın. Bloklar tepeye ulaşırsa oyun biter.</p><div class="help-keys"><div><span>Hareket</span><span><kbd>←</kbd> <kbd>→</kbd></span></div><div><span>Döndür</span><span><kbd>↑</kbd> / <kbd>X</kbd> · tersine <kbd>Z</kbd></span></div><div><span>Yavaşça indir</span><kbd>↓</kbd></div><div><span>Anında bırak</span><kbd>SPACE</kbd></div><div><span>Parçayı sakla</span><kbd>C</kbd></div><div><span>Mola / devam</span><kbd>P</kbd> / <kbd>ESC</kbd></div></div><div class="help-scoring"><strong>Daha çok satır, daha çok puan.</strong><p>1 satır: 100 · 2 satır: 300 · 3 satır: 500 · 4 satır: 800<br>Puanlar seviyenle çarpılır. Her 10 satırda oyun hızlanır.</p></div><button class="primary-button" id="got-it">Tamam, hazırım <svg><use href="#i-arrow"/></svg></button></dialog>

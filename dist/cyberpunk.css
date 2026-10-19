@@ -141,6 +141,15 @@ kbd { color:#a5d7e5; background:#0d1926; border-color:#2b465e; border-radius:2px
 .sound-button { color:#a1b9ce; font-family:var(--code); font-size:9px; }
 .sound-button svg { color:var(--cyan); }
 .sound-button:hover { color:var(--cyan); }
+.site-header .sound-button { padding:8px; border:1px solid #274355; gap:7px; }
+.site-header .sound-button[aria-pressed="true"] { color:var(--cyan); background:#05eef50a; border-color:#176575; }
+.audio-controls { display:flex; align-items:center; gap:9px; font:400 8px var(--code); color:#86a4ba; }
+.audio-controls input { width:72px; height:16px; margin:0; accent-color:var(--cyan); cursor:pointer; }
+.audio-controls output { width:28px; font-variant-numeric:tabular-nums; color:var(--cyan); }
+.audio-controls input:focus-visible { outline:1px solid var(--cyan); outline-offset:3px; }
+.sound-test { display:flex; align-items:center; gap:5px; padding:7px 8px; border:1px solid #304058; background:#0b1a29; color:#a8c6d7; font:400 8px var(--code); }
+.sound-test svg { width:12px; height:12px; color:var(--pink); }
+.sound-test:hover { border-color:var(--pink); color:var(--pink); }
 .touch-controls button { color:#b7e2ef; background:#0c1b2b; border:1px solid #28445b; border-radius:1px; }
 .touch-controls button:active { color:#051319; background:var(--cyan); box-shadow:0 0 12px #05eef566; }
 .touch-controls .touch-drop { color:var(--cyan); background:#07303b; border-color:#1a7180; }
@@ -171,6 +180,8 @@ kbd { color:#a5d7e5; background:#0d1926; border-color:#2b465e; border-radius:2px
   .score-value { font-size:33px; }
   .game-overlay { padding-top:94px; }
   .edition-tag { font-size:8px; }
+  .site-header .sound-button { margin-left:auto; }
+  .site-header .help-button { margin-left:0; }
 }
 @media (max-width:560px) {
   .site-header { height:77px; gap:12px; }
@@ -208,6 +219,13 @@ kbd { color:#a5d7e5; background:#0d1926; border-color:#2b465e; border-radius:2px
   .next-piece>span { font-size:5px; }
   .site-footer>span { font-size:6px; letter-spacing:.3px; }
   .sound-button { font-size:8px; }
+  .site-header .sound-button { padding:5px; width:25px; height:25px; justify-content:center; flex-shrink:0; }
+  .site-header .sound-button>span { display:none; }
+  .site-header .sound-button svg { width:14px; height:14px; }
+  .site-footer { flex-wrap:wrap; align-content:center; justify-content:center; gap:10px; padding:16px 0; }
+  .site-footer>span { width:100%; text-align:center; }
+  .audio-controls { gap:9px; }
+  .audio-controls input { width:90px; }
   .footer-slash { margin-right:3px; }
   .board-toast { font-size:18px; }
 }

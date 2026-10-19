@@ -1,4 +1,5 @@
 import {Game,SHAPES,COLORS} from './engine.mjs';
+import {NeonAudio} from './audio.mjs';
 
 const $=id=>document.getElementById(id);
 const canvas=$('board'),ctx=canvas.getContext('2d');
@@ -7,26 +8,25 @@ const names={I:'I',O:'kare',T:'T',S:'S',Z:'Z',J:'J',L:'L'};
 const safeRead=(key,fallback)=>{try{return localStorage.getItem(key)??fallback;}catch{return fallback;}};
 const safeWrite=(key,value)=>{try{localStorage.setItem(key,String(value));}catch{}};
 let best=Math.max(0,Number(safeRead('blok-best','0'))||0),previousBest=best;
-let soundEnabled=safeRead('blok-sound','false')==='true',audioContext;
+let soundEnabled=safeRead('blok-sound','true')==='true';
+const storedVolume=Number(safeRead('blok-volume','55'));
+const sound=new NeonAudio({enabled:soundEnabled,volume:Number.isFinite(storedVolume)?storedVolume/100:.55,onUnavailable:()=>updateSound()});
 let lastFrame=0,toastTimer,wasPlayingBeforeHelp=false,flash=0,flashRows=[],particles=[],dropTrails=[],sessionGeneration=0;
 const heldKeys=new Map(),uiCache={};
-function tone(frequency=440,duration=.06,type='sine',volume=.025){if(!soundEnabled)return;try{audioContext??=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();const oscillator=audioContext.createOscillator(),gain=audioContext.createGain();oscillator.type=type;oscillator.frequency.setValueAtTime(frequency,audioContext.currentTime);gain.gain.setValueAtTime(volume,audioContext.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+duration);oscillator.connect(gain);gain.connect(audioContext.destination);oscillator.start();oscillator.stop(audioContext.currentTime+duration);}catch{}}
 function toast(message){$('board-toast').textContent=message;$('board-toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('board-toast').classList.remove('show'),1100);}
 function onEvent(event){
- if(event.type==='move')tone(170,.025,'sine',.008);
- if(event.type==='rotate')tone(330,.045,'sine',.015);
- if(event.type==='hold')tone(420,.06,'sine',.02);
- if(event.type==='drop'){$('board-frame').classList.remove('bump');void $('board-frame').offsetWidth;$('board-frame').classList.add('bump');tone(100,.09,'triangle',.04);if(!matchMedia('(prefers-reduced-motion: reduce)').matches){const p=game.active;for(let x=0;x<p.matrix.length;x++){const y=p.matrix.findIndex(row=>row[x]);if(y>=0)dropTrails.push({x:(p.x+x)*30,y:Math.max(0,(p.y+y)*30-150),end:(p.y+y+1)*30,life:210,color:COLORS[p.type]});}}}
- if(event.type==='lock')tone(140,.055,'triangle',.02);
+ if(['move','rotate','hold','lock'].includes(event.type))sound.play(event.type);
+ if(event.type==='drop'){$('board-frame').classList.remove('bump');void $('board-frame').offsetWidth;$('board-frame').classList.add('bump');sound.play('drop');if(!matchMedia('(prefers-reduced-motion: reduce)').matches){const p=game.active;for(let x=0;x<p.matrix.length;x++){const y=p.matrix.findIndex(row=>row[x]);if(y>=0)dropTrails.push({x:(p.x+x)*30,y:Math.max(0,(p.y+y)*30-150),end:(p.y+y+1)*30,life:210,color:COLORS[p.type]});}}}
  if(event.type==='clear'){
   flash=220;flashRows=event.rows;
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)for(const row of event.rows)for(let i=0;i<20;i++)particles.push({x:Math.random()*300,y:row*30+15,vx:(Math.random()-.5)*100,vy:-30-Math.random()*90,life:600+Math.random()*300,color:Object.values(COLORS)[Math.floor(Math.random()*7)]});
   toast(event.count===4?`DÖRT DÖRTLÜK! +${event.points}`:`${event.count} SATIR · +${event.points}`);
-  [440,554,660,880].slice(0,event.count).forEach((f,i)=>setTimeout(()=>tone(f,.15,'triangle',.04),i*65));
+  sound.play('clear',{count:event.count});
+  if(event.levelUp)sound.play('level',{delay:.55});
   if(event.levelUp){const generation=sessionGeneration,level=game.level;setTimeout(()=>{if(generation===sessionGeneration)toast(`SEVİYE ${level} ↑`);},1300);}
  }
- if(event.type==='over'){heldKeys.clear();tone(130,.4,'triangle',.04);updateOverlay();}
- if(event.type==='start'){tone(523,.1,'triangle',.03);setTimeout(()=>tone(784,.14,'triangle',.03),100);}
+ if(event.type==='over'){heldKeys.clear();sound.stopAll();sound.play('over');updateOverlay();}
+ if(event.type==='start')sound.play('start');
 }
 const game=new Game({onEvent});
 
@@ -77,19 +77,24 @@ function updateOverlay(){
  if(status==='paused'){text('overlay-eyebrow','SİNYAL BEKLENİYOR // DURAKLATILDI');text('overlay-title','Kısa devre.');$('overlay-description').innerHTML='Şehir bekliyor. Bloklar da.<br>Hazır olduğunda yeniden bağlan.';text('start-label','Devam et');$('start-hint').innerHTML='ya da <kbd>P</kbd> tuşuna bas';}
  else if(status==='over'){text('overlay-eyebrow',game.score>previousBest?'YENİ REKOR // SİSTEM AŞILDI':'BAĞLANTI SONLANDI // TEKRAR DENE');text('overlay-title','Bir tur daha?');$('overlay-description').innerHTML=`<strong class="final-score">${game.score.toLocaleString('tr-TR')}</strong><br>${game.lines} satır · ${game.level}. seviye`;text('start-label','Yeniden oyna');$('start-hint').innerHTML='ya da <kbd>ENTER</kbd> tuşuna bas';}
 }
-function start(){heldKeys.clear();particles=[];dropTrails=[];flash=0;sessionGeneration++;clearTimeout(toastTimer);previousBest=best;$('board-toast').classList.remove('show');game.start();$('start-button').blur();updateOverlay();updateUI();}
-function pauseToggle(){heldKeys.clear();if(game.status==='playing')game.pause();else if(game.status==='paused')game.resume();updateOverlay();}
-function action(name){if(game.status!=='playing')return;({left:()=>game.move(-1),right:()=>game.move(1),rotate:()=>game.rotate(),reverse:()=>game.rotate(-1),down:()=>game.down(true),drop:()=>game.hardDrop(),hold:()=>game.hold()})[name]?.();updateUI();}
+function start(){sound.unlock();sound.stopAll();heldKeys.clear();particles=[];dropTrails=[];flash=0;sessionGeneration++;clearTimeout(toastTimer);previousBest=best;$('board-toast').classList.remove('show');game.start();$('start-button').blur();updateOverlay();updateUI();}
+function pauseToggle(){heldKeys.clear();if(game.status==='playing'){game.pause();sound.stopAll();sound.play('pause');}else if(game.status==='paused'){sound.unlock();game.resume();sound.play('resume');}updateOverlay();}
+function action(name){if(game.status!=='playing')return;({left:()=>game.move(-1),right:()=>game.move(1),rotate:()=>game.rotate(),reverse:()=>game.rotate(-1),down:()=>{if(game.down(true))sound.play('softDrop');},drop:()=>game.hardDrop(),hold:()=>game.hold()})[name]?.();updateUI();}
 $('start-button').addEventListener('click',()=>{if(game.status==='paused')pauseToggle();else start();});
 $('restart-button').addEventListener('click',start);
 $('pause-button').addEventListener('click',pauseToggle);
-function updateSound(){$('sound-button').setAttribute('aria-pressed',String(soundEnabled));$('sound-button').querySelector('use').setAttribute('href',soundEnabled?'#i-sound':'#i-muted');$('sound-button').querySelector('span').textContent=soundEnabled?'Ses açık':'Ses kapalı';}
-$('sound-button').addEventListener('click',()=>{soundEnabled=!soundEnabled;safeWrite('blok-sound',soundEnabled);updateSound();tone(523,.1);});updateSound();
-$('help-button').addEventListener('click',()=>{wasPlayingBeforeHelp=game.status==='playing';if(wasPlayingBeforeHelp){game.pause();heldKeys.clear();updateOverlay();}dialog.showModal();});
-$('close-help').addEventListener('click',()=>dialog.close());$('got-it').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});dialog.addEventListener('close',()=>{if(wasPlayingBeforeHelp){game.resume();updateOverlay();}wasPlayingBeforeHelp=false;});
+function updateSound(){const audible=soundEnabled&&sound.volume>0&&sound.available;$('sound-button').setAttribute('aria-pressed',String(audible));$('sound-button').setAttribute('aria-label',sound.available?(audible?'Ses efektlerini kapat':'Ses efektlerini aç'):'Bu tarayıcı ses efektlerini desteklemiyor');$('sound-button').title=sound.available?(audible?'Ses efektleri açık':'Ses efektleri kapalı'):'Ses desteklenmiyor';$('sound-button').querySelector('use').setAttribute('href',audible?'#i-sound':'#i-muted');$('sound-button').querySelector('span').textContent=audible?'Ses açık':'Ses kapalı';$('sound-volume').value=String(Math.round(sound.volume*100));$('sound-volume').setAttribute('aria-valuetext',`Yüzde ${Math.round(sound.volume*100)}`);$('sound-volume-value').textContent=`${Math.round(sound.volume*100)}%`;$('sound-button').disabled=!sound.available;$('sound-volume').disabled=!sound.available;$('sound-test').disabled=!sound.available;}
+function enableSound(){soundEnabled=true;sound.setEnabled(true);if(sound.volume===0){sound.setVolume(.55);safeWrite('blok-volume',55);}safeWrite('blok-sound',true);sound.unlock();updateSound();}
+$('sound-button').addEventListener('click',()=>{if(soundEnabled&&sound.volume>0){soundEnabled=false;sound.setEnabled(false);safeWrite('blok-sound',false);updateSound();}else{enableSound();sound.play('confirm');}});
+$('sound-volume').addEventListener('input',e=>{sound.setVolume(Number(e.target.value)/100);safeWrite('blok-volume',Math.round(sound.volume*100));updateSound();});
+$('sound-volume').addEventListener('change',()=>{if(sound.volume>0){enableSound();sound.play('confirm');}});
+$('sound-test').addEventListener('click',()=>{enableSound();sound.stopAll();sound.play('clear',{count:4});});updateSound();
+$('help-button').addEventListener('click',()=>{wasPlayingBeforeHelp=game.status==='playing';if(wasPlayingBeforeHelp){game.pause();sound.stopAll();sound.play('pause');heldKeys.clear();updateOverlay();}dialog.showModal();});
+$('close-help').addEventListener('click',()=>dialog.close());$('got-it').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});dialog.addEventListener('close',()=>{if(wasPlayingBeforeHelp){game.resume();sound.play('resume');updateOverlay();}wasPlayingBeforeHelp=false;});
 const keyActions={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'rotate',ArrowDown:'down',' ':'drop',c:'hold',C:'hold',x:'rotate',X:'rotate',z:'reverse',Z:'reverse'};
 document.addEventListener('keydown',e=>{
  if(dialog.open||e.ctrlKey||e.metaKey||e.altKey)return;
+ if(e.target.matches('input,select,textarea'))return;
  if((e.key==='Enter'||(e.key===' '&&game.status!=='playing'))&&e.target.closest('button,a'))return;
  if(['p','P','Escape'].includes(e.key)){e.preventDefault();if(!e.repeat)pauseToggle();return;}
  if(e.key==='Enter'&&(game.status==='ready'||game.status==='over')){e.preventDefault();if(!e.repeat)start();return;}
@@ -103,7 +108,7 @@ for(const button of document.querySelectorAll('[data-action]')){
  // Keyboard and assistive-technology activation also works on touch controls.
  button.addEventListener('click',e=>{if(e.detail===0)action(button.dataset.action);});
 }
-function autoPause(){heldKeys.clear();if(game.pause())updateOverlay();}
+function autoPause(){heldKeys.clear();sound.stopAll();if(game.pause())updateOverlay();}
 window.addEventListener('blur',autoPause);document.addEventListener('visibilitychange',()=>{if(document.hidden)autoPause();});
 function frame(timestamp){const dt=lastFrame?Math.min(100,timestamp-lastFrame):0;lastFrame=timestamp;
  if(game.status==='playing'){for(const key of heldKeys.values()){key.clock+=dt;while(key.clock>=key.delay){key.clock-=key.delay;key.delay=key.action==='down'?40:55;action(key.action);if(game.status!=='playing')break;}}game.tick(dt);updateUI();}
