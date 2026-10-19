@@ -8,7 +8,7 @@ const safeRead=(key,fallback)=>{try{return localStorage.getItem(key)??fallback;}
 const safeWrite=(key,value)=>{try{localStorage.setItem(key,String(value));}catch{}};
 let best=Math.max(0,Number(safeRead('blok-best','0'))||0),previousBest=best;
 let soundEnabled=safeRead('blok-sound','false')==='true',audioContext;
-let lastFrame=0,toastTimer,wasPlayingBeforeHelp=false,flash=0,flashRows=[],particles=[],sessionGeneration=0;
+let lastFrame=0,toastTimer,wasPlayingBeforeHelp=false,flash=0,flashRows=[],particles=[],dropTrails=[],sessionGeneration=0;
 const heldKeys=new Map(),uiCache={};
 function tone(frequency=440,duration=.06,type='sine',volume=.025){if(!soundEnabled)return;try{audioContext??=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();const oscillator=audioContext.createOscillator(),gain=audioContext.createGain();oscillator.type=type;oscillator.frequency.setValueAtTime(frequency,audioContext.currentTime);gain.gain.setValueAtTime(volume,audioContext.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+duration);oscillator.connect(gain);gain.connect(audioContext.destination);oscillator.start();oscillator.stop(audioContext.currentTime+duration);}catch{}}
 function toast(message){$('board-toast').textContent=message;$('board-toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('board-toast').classList.remove('show'),1100);}
@@ -16,7 +16,7 @@ function onEvent(event){
  if(event.type==='move')tone(170,.025,'sine',.008);
  if(event.type==='rotate')tone(330,.045,'sine',.015);
  if(event.type==='hold')tone(420,.06,'sine',.02);
- if(event.type==='drop'){$('board-frame').classList.remove('bump');void $('board-frame').offsetWidth;$('board-frame').classList.add('bump');tone(100,.09,'triangle',.04);}
+ if(event.type==='drop'){$('board-frame').classList.remove('bump');void $('board-frame').offsetWidth;$('board-frame').classList.add('bump');tone(100,.09,'triangle',.04);if(!matchMedia('(prefers-reduced-motion: reduce)').matches){const p=game.active;for(let x=0;x<p.matrix.length;x++){const y=p.matrix.findIndex(row=>row[x]);if(y>=0)dropTrails.push({x:(p.x+x)*30,y:Math.max(0,(p.y+y)*30-150),end:(p.y+y+1)*30,life:210,color:COLORS[p.type]});}}}
  if(event.type==='lock')tone(140,.055,'triangle',.02);
  if(event.type==='clear'){
   flash=220;flashRows=event.rows;
@@ -32,10 +32,14 @@ const game=new Game({onEvent});
 
 function roundedRect(c,x,y,w,h,r){c.beginPath();c.roundRect(x,y,w,h,r);}
 function block(c,x,y,size,color,ghost=false){
- if(ghost){c.strokeStyle=color;c.globalAlpha=.32;c.lineWidth=1.2;roundedRect(c,x+2,y+2,size-4,size-4,3);c.stroke();c.globalAlpha=1;return;}
- c.fillStyle=color;roundedRect(c,x+1,y+1,size-2,size-2,3);c.fill();
- c.fillStyle='#ffffff26';roundedRect(c,x+3,y+3,size-6,2,1);c.fill();
- c.fillStyle='#00000016';roundedRect(c,x+3,y+size-5,size-6,2,1);c.fill();
+ c.save();
+ if(ghost){c.fillStyle=color+'0b';c.strokeStyle=color;c.globalAlpha*=.5;c.lineWidth=.9;roundedRect(c,x+2,y+2,size-4,size-4,1);c.fill();c.stroke();c.fillStyle=color;c.fillRect(x+size/2-2,y+size/2-.5,4,1);c.restore();return;}
+ const gradient=c.createLinearGradient(x,y,x+size,y+size);gradient.addColorStop(0,color+'70');gradient.addColorStop(.4,color+'28');gradient.addColorStop(1,color+'42');
+ c.fillStyle='#080f1d';roundedRect(c,x+1.5,y+1.5,size-3,size-3,1.5);c.fill();c.fillStyle=gradient;c.fill();
+ c.strokeStyle=color;c.lineWidth=1.15;c.shadowColor=color;c.shadowBlur=7;c.stroke();c.shadowBlur=0;
+ c.strokeStyle=color+'45';c.lineWidth=.6;roundedRect(c,x+4.5,y+4.5,size-9,size-9,.5);c.stroke();
+ c.fillStyle='#eaffffb0';c.fillRect(x+4,y+3,size-8,1);c.fillStyle=color;c.fillRect(x+size-7,y+size-6,3,1.5);
+ c.restore();
 }
 function drawPiece(c,piece,y=piece.y,ghost=false){piece.matrix.forEach((row,py)=>row.forEach((v,px)=>{if(v&&py+y>=0)block(c,(piece.x+px)*30,(y+py)*30,30,COLORS[piece.type],ghost);}));}
 const demoRows=[
@@ -47,12 +51,15 @@ const demoRows=[
  ['L','L','I','I','I','I','S','S',null,'Z']
 ];
 function render(dt){
- ctx.setTransform(2,0,0,2,0,0);ctx.clearRect(0,0,300,600);ctx.fillStyle='#1f282f';ctx.fillRect(0,0,300,600);
- ctx.strokeStyle='#ffffff05';ctx.lineWidth=.7;ctx.beginPath();for(let x=0;x<=300;x+=30){ctx.moveTo(x,0);ctx.lineTo(x,600);}for(let y=0;y<=600;y+=30){ctx.moveTo(0,y);ctx.lineTo(300,y);}ctx.stroke();
+ ctx.setTransform(2,0,0,2,0,0);ctx.clearRect(0,0,300,600);ctx.fillStyle='#070d18';ctx.fillRect(0,0,300,600);
+ const ambient=ctx.createRadialGradient(150,250,0,150,250,360);ambient.addColorStop(0,'#09304430');ambient.addColorStop(1,'#070d1800');ctx.fillStyle=ambient;ctx.fillRect(0,0,300,600);
+ ctx.strokeStyle='#1a7a9227';ctx.lineWidth=.6;ctx.beginPath();for(let x=0;x<=300;x+=30){ctx.moveTo(x,0);ctx.lineTo(x,600);}for(let y=0;y<=600;y+=30){ctx.moveTo(0,y);ctx.lineTo(300,y);}ctx.stroke();
+ ctx.fillStyle='#47859b30';for(let x=30;x<300;x+=60)for(let y=30;y<600;y+=60)ctx.fillRect(x-1,y-1,2,2);
+ dropTrails=dropTrails.filter(trail=>trail.life>0);for(const trail of dropTrails){trail.life-=dt;ctx.globalAlpha=Math.max(0,trail.life/210)*.35;const gradient=ctx.createLinearGradient(0,trail.y,0,trail.end);gradient.addColorStop(0,trail.color+'00');gradient.addColorStop(1,trail.color);ctx.fillStyle=gradient;ctx.fillRect(trail.x+2,trail.y,26,trail.end-trail.y);}ctx.globalAlpha=1;
  if(game.status==='ready'){demoRows.forEach((row,y)=>row.forEach((type,x)=>{if(type)block(ctx,x*30,(y+14)*30,30,COLORS[type]);}));}
  else{game.board.forEach((row,y)=>row.forEach((type,x)=>{if(type)block(ctx,x*30,y*30,30,COLORS[type]);}));if(game.active&&game.status!=='over'){drawPiece(ctx,game.active,game.ghostY(),true);drawPiece(ctx,game.active);}}
- if(flash>0){ctx.fillStyle=`rgba(220,245,129,${flash/440})`;flashRows.forEach(row=>ctx.fillRect(0,row*30,300,30));flash-=dt;}
- particles=particles.filter(p=>p.life>0);for(const p of particles){p.life-=dt;p.x+=p.vx*dt/1000;p.y+=p.vy*dt/1000;p.vy+=160*dt/1000;ctx.globalAlpha=Math.min(1,p.life/400);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,3,3);}ctx.globalAlpha=1;
+ if(flash>0){ctx.fillStyle=`rgba(5,238,245,${flash/440})`;flashRows.forEach(row=>ctx.fillRect(0,row*30,300,30));flash-=dt;}
+ particles=particles.filter(p=>p.life>0);for(const p of particles){p.life-=dt;p.x+=p.vx*dt/1000;p.y+=p.vy*dt/1000;p.vy+=160*dt/1000;ctx.globalAlpha=Math.max(0,Math.min(1,p.life/400));ctx.fillStyle=p.color;ctx.shadowColor=p.color;ctx.shadowBlur=8;ctx.fillRect(p.x,p.y,3,3);}ctx.shadowBlur=0;ctx.globalAlpha=1;
 }
 function preview(id,type,dim=false){const element=$(id),c=element.getContext('2d');c.clearRect(0,0,element.width,element.height);if(!type)return;const matrix=SHAPES[type];const cells=[];matrix.forEach((r,y)=>r.forEach((v,x)=>{if(v)cells.push([x,y]);}));const minX=Math.min(...cells.map(p=>p[0])),maxX=Math.max(...cells.map(p=>p[0])),minY=Math.min(...cells.map(p=>p[1])),maxY=Math.max(...cells.map(p=>p[1]));const size=27,offsetX=(element.width-(maxX-minX+1)*size)/2,offsetY=(element.height-(maxY-minY+1)*size)/2;c.globalAlpha=dim?.35:1;cells.forEach(([x,y])=>block(c,offsetX+(x-minX)*size,offsetY+(y-minY)*size,size,COLORS[type]));c.globalAlpha=1;}
 function text(id,value){if(uiCache[id]!==value){$(id).textContent=value;uiCache[id]=value;}}
@@ -67,10 +74,10 @@ function updateUI(){
 function updateOverlay(){
  const status=game.status;overlay.hidden=status==='playing';$('pause-button').disabled=status==='ready'||status==='over';$('pause-button').setAttribute('aria-label',status==='paused'?'Oyuna devam et':'Oyunu duraklat');$('pause-button').title=status==='paused'?'Devam et (P)':'Duraklat (P)';$('pause-button').querySelector('use').setAttribute('href',status==='paused'?'#i-play':'#i-pause');
  $('status-dot').className=`status-dot ${status}`;text('game-status',({ready:'OYUNA HAZIR',playing:'OYUN DEVAM EDİYOR',paused:'KÜÇÜK BİR MOLA',over:'OYUN BİTTİ'})[status]);
- if(status==='paused'){text('overlay-eyebrow','İYİ BİR MOLA, İYİ BİR HAMLE.');text('overlay-title','Bir nefes al.');$('overlay-description').innerHTML='Blokların seni bekliyor.<br>Hazır olduğunda devam et.';text('start-label','Devam et');$('start-hint').innerHTML='ya da <kbd>P</kbd> tuşuna bas';}
- else if(status==='over'){text('overlay-eyebrow',game.score>previousBest?'YENİ REKOR. YENİ HEDEF.':'HER OYUN, YENİ BİR İHTİMAL.');text('overlay-title','Bir tur daha?');$('overlay-description').innerHTML=`<strong style="color:#dcf581;font:500 27px var(--mono)">${game.score.toLocaleString('tr-TR')}</strong><br>${game.lines} satır · ${game.level}. seviye`;text('start-label','Yeniden oyna');$('start-hint').innerHTML='ya da <kbd>ENTER</kbd> tuşuna bas';}
+ if(status==='paused'){text('overlay-eyebrow','SİNYAL BEKLENİYOR // DURAKLATILDI');text('overlay-title','Kısa devre.');$('overlay-description').innerHTML='Şehir bekliyor. Bloklar da.<br>Hazır olduğunda yeniden bağlan.';text('start-label','Devam et');$('start-hint').innerHTML='ya da <kbd>P</kbd> tuşuna bas';}
+ else if(status==='over'){text('overlay-eyebrow',game.score>previousBest?'YENİ REKOR // SİSTEM AŞILDI':'BAĞLANTI SONLANDI // TEKRAR DENE');text('overlay-title','Bir tur daha?');$('overlay-description').innerHTML=`<strong class="final-score">${game.score.toLocaleString('tr-TR')}</strong><br>${game.lines} satır · ${game.level}. seviye`;text('start-label','Yeniden oyna');$('start-hint').innerHTML='ya da <kbd>ENTER</kbd> tuşuna bas';}
 }
-function start(){heldKeys.clear();particles=[];flash=0;sessionGeneration++;clearTimeout(toastTimer);previousBest=best;$('board-toast').classList.remove('show');game.start();$('start-button').blur();updateOverlay();updateUI();}
+function start(){heldKeys.clear();particles=[];dropTrails=[];flash=0;sessionGeneration++;clearTimeout(toastTimer);previousBest=best;$('board-toast').classList.remove('show');game.start();$('start-button').blur();updateOverlay();updateUI();}
 function pauseToggle(){heldKeys.clear();if(game.status==='playing')game.pause();else if(game.status==='paused')game.resume();updateOverlay();}
 function action(name){if(game.status!=='playing')return;({left:()=>game.move(-1),right:()=>game.move(1),rotate:()=>game.rotate(),reverse:()=>game.rotate(-1),down:()=>game.down(true),drop:()=>game.hardDrop(),hold:()=>game.hold()})[name]?.();updateUI();}
 $('start-button').addEventListener('click',()=>{if(game.status==='paused')pauseToggle();else start();});

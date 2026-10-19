@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f6f5f0">
-  <meta name="description" content="Biraz odak, biraz refleks. BLOK ile klasik blok yerleştirme oyununu yeniden keşfet.">
-  <title>BLOK — Bir blok daha.</title>
+  <meta name="theme-color" content="#080b14">
+  <meta name="description" content="BLOK // Cyberpunk Edition. Neon bloklar, yüksek voltaj ve sınırsız ihtimal. Gece moduna bağlan.">
+  <title>BLOK // Cyberpunk Edition</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./cyberpunk.css">
 </head>
 <body>
   <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -26,15 +27,17 @@
   <div class="page-shell">
     <header class="site-header">
       <a class="brand" href="./" aria-label="BLOK ana sayfa"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>BLOK<span class="brand-dot">.</span></span></a>
-      <span class="header-tagline">ESKİ BİR KLASİK. YENİ BİR RİTİM.</span>
+      <span class="edition-tag">CYBERPUNK EDITION<span>NEON ARCADE / V.02</span></span>
+      <span class="header-tagline">GECEYE BAĞLAN. RİTMİ YAKALA.</span>
       <button class="help-button" id="help-button"><span class="question-mark">?</span> Nasıl oynanır</button>
     </header>
+    <div class="system-bar" aria-hidden="true"><span><i></i> SİSTEM ÇEVRİMİÇİ <b>//</b> SEKTÖR 07</span><span>ARCADE PROTOKOLÜ <b>02.77</b></span></div>
 
     <main class="arcade-layout">
       <section class="intro-panel" aria-labelledby="intro-title">
-        <div class="eyebrow"><span class="tiny-square"></span> BİRAZ ODAK, BİRAZ REFLEKS</div>
+        <div class="eyebrow"><span class="tiny-square"></span> YÜKSEK VOLTAJ. TAM ODAK.</div>
         <h1 id="intro-title">Bir blok<br>daha<span class="accent-dot">.</span></h1>
-        <p class="intro-copy">Parçaları yerleştir. Satırları tamamla.<br>Kendi ritmini bul.</p>
+        <p class="intro-copy">Neonları hizala. Sistemi aş.<br>Gecenin rekorunu sen yaz.</p>
         <div class="intro-rule"></div>
         <div class="hold-heading"><span class="section-label">CEPTEKİ PARÇA</span><kbd>C</kbd></div>
         <div class="hold-box" id="hold-box"><canvas id="hold-canvas" width="176" height="88" aria-label="Saklanan parça: boş"></canvas><span id="hold-empty">Bir parçayı sonraya sakla</span></div>
@@ -45,7 +48,7 @@
           <div><span class="key-group"><kbd>↓</kbd></span><span>Hızlandır</span></div>
           <div><span class="key-group"><kbd class="space-key">SPACE</kbd></span><span>Anında bırak</span></div>
         </div>
-        <div class="little-note"><span aria-hidden="true">↳</span> Acele etme. Bloklar edecek.</div>
+        <div class="little-note"><span aria-hidden="true">↳</span> Şehir uyumaz. Bloklar durmaz.</div>
       </section>
 
       <section class="game-column" aria-label="Oyun alanı">
@@ -55,9 +58,9 @@
           <div class="game-overlay" id="game-overlay">
             <div class="overlay-content">
               <div class="overlay-blocks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-              <span class="overlay-eyebrow" id="overlay-eyebrow">KÜÇÜK BİR MOLA VER.</span>
-              <h2 id="overlay-title">Yerini bul.</h2>
-              <p id="overlay-description">Her parçanın bir yeri var.<br>Hadi, ilkini sen bul.</p>
+              <span class="overlay-eyebrow" id="overlay-eyebrow">NEON AĞINA HOŞ GELDİN.</span>
+              <h2 id="overlay-title">Gece senin.</h2>
+              <p id="overlay-description">Blokları hizala. Sınırları zorla.<br>Yeni bir rekora bağlan.</p>
               <button class="primary-button" id="start-button"><span id="start-label">Oyuna başla</span><svg><use href="#i-arrow"/></svg></button>
               <span class="start-hint" id="start-hint">ya da <kbd>ENTER</kbd> tuşuna bas</span>
             </div>
@@ -79,7 +82,7 @@
       </aside>
     </main>
 
-    <footer class="site-footer"><span>AZ PARÇA. SONSUZ İHTİMAL.</span><div><span class="local-note"><span></span> Rekorun bu tarayıcıda saklanır</span><button id="sound-button" class="sound-button" aria-pressed="false"><svg><use href="#i-muted"/></svg><span>Ses kapalı</span></button></div></footer>
+    <footer class="site-footer"><span><b class="footer-slash">//</b> GECE MODU AKTİF. SINIR YOK.</span><div><span class="local-note"><span></span> Rekorun bu tarayıcıda saklanır</span><button id="sound-button" class="sound-button" aria-pressed="false"><svg><use href="#i-muted"/></svg><span>Ses kapalı</span></button></div></footer>
   </div>
 
   <dialog id="help-dialog" class="help-dialog"><div class="dialog-top"><span class="section-label">KISA BİR HATIRLATMA</span><button class="icon-button" id="close-help" aria-label="Kapat"><svg><use href="#i-close"/></svg></button></div><h2>Her şey yerine oturur.</h2><p>Blokları boşluk bırakmadan diz. Yatay bir satırı tamamen doldurduğunda satır silinir ve puan kazanırsın. Bloklar tepeye ulaşırsa oyun biter.</p><div class="help-keys"><div><span>Hareket</span><span><kbd>←</kbd> <kbd>→</kbd></span></div><div><span>Döndür</span><span><kbd>↑</kbd> / <kbd>X</kbd> · tersine <kbd>Z</kbd></span></div><div><span>Yavaşça indir</span><kbd>↓</kbd></div><div><span>Anında bırak</span><kbd>SPACE</kbd></div><div><span>Parçayı sakla</span><kbd>C</kbd></div><div><span>Mola / devam</span><kbd>P</kbd> / <kbd>ESC</kbd></div></div><div class="help-scoring"><strong>Daha çok satır, daha çok puan.</strong><p>1 satır: 100 · 2 satır: 300 · 3 satır: 500 · 4 satır: 800<br>Puanlar seviyenle çarpılır. Her 10 satırda oyun hızlanır.</p></div><button class="primary-button" id="got-it">Tamam, hazırım <svg><use href="#i-arrow"/></svg></button></dialog>

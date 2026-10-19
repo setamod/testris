@@ -1,6 +1,6 @@
 # BLOK
 
-Türkçe arayüzlü, tarayıcıda çalışan bir blok yerleştirme oyunu. Kurulum veya derleme gerektirmez.
+Türkçe arayüzlü, tarayıcıda çalışan bir blok yerleştirme oyunu. Cyberpunk teması; neon camgöbeği ve pembe ışıklar, çerçeveli bloklar, tarama çizgileri ve ışık izleri içerir. Kurulum veya derleme gerektirmez.
 
 ## Çalıştırma
 
@@ -26,4 +26,4 @@ Tablet ve telefonda ekran kontrolleri görünür. Her 10 temizlenen satırda sev
 
 `node --test tests/engine.test.mjs`
 
-`dist/engine.mjs` oyun kurallarını, `dist/app.mjs` çizim ve etkileşimi içerir.
+`dist/engine.mjs` oyun kurallarını, `dist/app.mjs` çizim ve etkileşimi içerir. `dist/style.css` yerleşimi, `dist/cyberpunk.css` görsel temayı tanımlar.
