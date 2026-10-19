@@ -8,7 +8,7 @@ const safeRead=(key,fallback)=>{try{return localStorage.getItem(key)??fallback;}
 const safeWrite=(key,value)=>{try{localStorage.setItem(key,String(value));}catch{}};
 let best=Math.max(0,Number(safeRead('blok-best','0'))||0),previousBest=best;
 let soundEnabled=safeRead('blok-sound','false')==='true',audioContext;
-let lastFrame=0,toastTimer,wasPlayingBeforeHelp=false,flash=0,flashRows=[],particles=[];
+let lastFrame=0,toastTimer,wasPlayingBeforeHelp=false,flash=0,flashRows=[],particles=[],sessionGeneration=0;
 const heldKeys=new Map(),uiCache={};
 function tone(frequency=440,duration=.06,type='sine',volume=.025){if(!soundEnabled)return;try{audioContext??=new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();const oscillator=audioContext.createOscillator(),gain=audioContext.createGain();oscillator.type=type;oscillator.frequency.setValueAtTime(frequency,audioContext.currentTime);gain.gain.setValueAtTime(volume,audioContext.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+duration);oscillator.connect(gain);gain.connect(audioContext.destination);oscillator.start();oscillator.stop(audioContext.currentTime+duration);}catch{}}
 function toast(message){$('board-toast').textContent=message;$('board-toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('board-toast').classList.remove('show'),1100);}
@@ -23,7 +23,7 @@ function onEvent(event){
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)for(const row of event.rows)for(let i=0;i<20;i++)particles.push({x:Math.random()*300,y:row*30+15,vx:(Math.random()-.5)*100,vy:-30-Math.random()*90,life:600+Math.random()*300,color:Object.values(COLORS)[Math.floor(Math.random()*7)]});
   toast(event.count===4?`DÖRT DÖRTLÜK! +${event.points}`:`${event.count} SATIR · +${event.points}`);
   [440,554,660,880].slice(0,event.count).forEach((f,i)=>setTimeout(()=>tone(f,.15,'triangle',.04),i*65));
-  if(event.levelUp)setTimeout(()=>toast(`SEVİYE ${game.level} ↑`),1300);
+  if(event.levelUp){const generation=sessionGeneration,level=game.level;setTimeout(()=>{if(generation===sessionGeneration)toast(`SEVİYE ${level} ↑`);},1300);}
  }
  if(event.type==='over'){heldKeys.clear();tone(130,.4,'triangle',.04);updateOverlay();}
  if(event.type==='start'){tone(523,.1,'triangle',.03);setTimeout(()=>tone(784,.14,'triangle',.03),100);}
@@ -70,7 +70,7 @@ function updateOverlay(){
  if(status==='paused'){text('overlay-eyebrow','İYİ BİR MOLA, İYİ BİR HAMLE.');text('overlay-title','Bir nefes al.');$('overlay-description').innerHTML='Blokların seni bekliyor.<br>Hazır olduğunda devam et.';text('start-label','Devam et');$('start-hint').innerHTML='ya da <kbd>P</kbd> tuşuna bas';}
  else if(status==='over'){text('overlay-eyebrow',game.score>previousBest?'YENİ REKOR. YENİ HEDEF.':'HER OYUN, YENİ BİR İHTİMAL.');text('overlay-title','Bir tur daha?');$('overlay-description').innerHTML=`<strong style="color:#dcf581;font:500 27px var(--mono)">${game.score.toLocaleString('tr-TR')}</strong><br>${game.lines} satır · ${game.level}. seviye`;text('start-label','Yeniden oyna');$('start-hint').innerHTML='ya da <kbd>ENTER</kbd> tuşuna bas';}
 }
-function start(){heldKeys.clear();particles=[];flash=0;previousBest=best;$('board-toast').classList.remove('show');game.start();updateOverlay();updateUI();}
+function start(){heldKeys.clear();particles=[];flash=0;sessionGeneration++;clearTimeout(toastTimer);previousBest=best;$('board-toast').classList.remove('show');game.start();$('start-button').blur();updateOverlay();updateUI();}
 function pauseToggle(){heldKeys.clear();if(game.status==='playing')game.pause();else if(game.status==='paused')game.resume();updateOverlay();}
 function action(name){if(game.status!=='playing')return;({left:()=>game.move(-1),right:()=>game.move(1),rotate:()=>game.rotate(),reverse:()=>game.rotate(-1),down:()=>game.down(true),drop:()=>game.hardDrop(),hold:()=>game.hold()})[name]?.();updateUI();}
 $('start-button').addEventListener('click',()=>{if(game.status==='paused')pauseToggle();else start();});
@@ -83,6 +83,7 @@ $('close-help').addEventListener('click',()=>dialog.close());$('got-it').addEven
 const keyActions={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'rotate',ArrowDown:'down',' ':'drop',c:'hold',C:'hold',x:'rotate',X:'rotate',z:'reverse',Z:'reverse'};
 document.addEventListener('keydown',e=>{
  if(dialog.open||e.ctrlKey||e.metaKey||e.altKey)return;
+ if((e.key==='Enter'||(e.key===' '&&game.status!=='playing'))&&e.target.closest('button,a'))return;
  if(['p','P','Escape'].includes(e.key)){e.preventDefault();if(!e.repeat)pauseToggle();return;}
  if(e.key==='Enter'&&(game.status==='ready'||game.status==='over')){e.preventDefault();if(!e.repeat)start();return;}
  const name=keyActions[e.key];if(!name)return;e.preventDefault();if(e.repeat)return;
