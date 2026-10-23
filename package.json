@@ -8,6 +8,8 @@
     "test": "node --test tests/*.test.mjs",
     "package:mac": "node scripts/package-portable.mjs",
     "prepare:ios": "node scripts/prepare-ios.mjs",
-    "package:ios": "node scripts/package-ios.mjs"
+    "package:ios": "node scripts/package-ios.mjs",
+    "prepare:android": "node scripts/prepare-android.mjs",
+    "package:android": "node scripts/package-android.mjs"
   }
 }
