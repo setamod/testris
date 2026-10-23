@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "start": "python3 -m http.server 4173 --directory dist",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "package:mac": "node scripts/package-portable.mjs",
+    "prepare:ios": "node scripts/prepare-ios.mjs",
+    "package:ios": "node scripts/package-ios.mjs"
   }
 }

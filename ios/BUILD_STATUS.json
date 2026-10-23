@@ -1,0 +1,22 @@
+{
+  "swift_syntax": "passed",
+  "project_plists": "passed",
+  "javascript_tests": 39,
+  "xcode_available": true,
+  "ios_build": "passed",
+  "physical_device_test": "not_run",
+  "signing_team_configured": true,
+  "app_store_submission": "not_performed",
+  "xcode_installed": true,
+  "xcode_version": "27.1 (27A9275)",
+  "xcode_license_accepted": true,
+  "simulator_build": "passed_unsigned_arm64_and_x86_64",
+  "iphone_build": "passed_unsigned_arm64",
+  "ios_sdk": "27.1",
+  "simulator_runtime": "not_installed_download_cancelled",
+  "physical_device_install": "completed_launch_blocked_untrusted_developer_certificate",
+  "developer_mode_enabled": true,
+  "physical_device_launch": "blocked_untrusted_developer_certificate",
+  "iphone_signed_build": "passed_in_xcode",
+  "provisioning_profile_created": true
+}

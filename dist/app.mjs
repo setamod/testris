@@ -1,5 +1,6 @@
 import {Game,SHAPES,COLORS} from './engine.mjs';
 import {NeonAudio} from './audio.mjs';
+import {createFamilyStudio} from './family.mjs';
 
 const $=id=>document.getElementById(id);
 const canvas=$('board'),ctx=canvas.getContext('2d');
@@ -29,6 +30,7 @@ function onEvent(event){
  if(event.type==='start')sound.play('start');
 }
 const game=new Game({onEvent});
+const family=createFamilyStudio({read:safeRead,write:(key,value)=>{let stored=false;try{localStorage.setItem(key,value);stored=true;}catch{}const native=globalThis.webkit?.messageHandlers?.blok;if(native){native.postMessage({type:'preference',key,value});if(globalThis.__BLOK_NATIVE_STORAGE__)globalThis.__BLOK_NATIVE_STORAGE__[key]=value;stored=true;}if(!stored)throw Error('Kayıt kullanılamıyor');},pause:()=>{autoPause();wasPlayingBeforeHelp=false;},onChange:()=>{uiCache.preview=null;}});
 
 function roundedRect(c,x,y,w,h,r){c.beginPath();c.roundRect(x,y,w,h,r);}
 function block(c,x,y,size,color,ghost=false){
@@ -41,7 +43,7 @@ function block(c,x,y,size,color,ghost=false){
  c.fillStyle='#eaffffb0';c.fillRect(x+4,y+3,size-8,1);c.fillStyle=color;c.fillRect(x+size-7,y+size-6,3,1.5);
  c.restore();
 }
-function drawPiece(c,piece,y=piece.y,ghost=false){piece.matrix.forEach((row,py)=>row.forEach((v,px)=>{if(v&&py+y>=0)block(c,(piece.x+px)*30,(y+py)*30,30,COLORS[piece.type],ghost);}));}
+function drawPiece(c,piece,y=piece.y,ghost=false){piece.matrix.forEach((row,py)=>row.forEach((v,px)=>{if(v&&py+y>=0)block(c,(piece.x+px)*30,(y+py)*30,30,COLORS[piece.type],ghost);}));if(!ghost&&family.enabled){const asset=family.renderer.texture(piece.type,piece.rotation);c.drawImage(asset,piece.x*30,y*30,piece.matrix.length*30,piece.matrix.length*30);}}
 const demoRows=[
  [null,null,null,null,null,null,null,null,null,'I'],
  ['T',null,null,null,null,null,null,null,null,'I'],
@@ -57,11 +59,11 @@ function render(dt){
  ctx.fillStyle='#47859b30';for(let x=30;x<300;x+=60)for(let y=30;y<600;y+=60)ctx.fillRect(x-1,y-1,2,2);
  dropTrails=dropTrails.filter(trail=>trail.life>0);for(const trail of dropTrails){trail.life-=dt;ctx.globalAlpha=Math.max(0,trail.life/210)*.35;const gradient=ctx.createLinearGradient(0,trail.y,0,trail.end);gradient.addColorStop(0,trail.color+'00');gradient.addColorStop(1,trail.color);ctx.fillStyle=gradient;ctx.fillRect(trail.x+2,trail.y,26,trail.end-trail.y);}ctx.globalAlpha=1;
  if(game.status==='ready'){demoRows.forEach((row,y)=>row.forEach((type,x)=>{if(type)block(ctx,x*30,(y+14)*30,30,COLORS[type]);}));}
- else{game.board.forEach((row,y)=>row.forEach((type,x)=>{if(type)block(ctx,x*30,y*30,30,COLORS[type]);}));if(game.active&&game.status!=='over'){drawPiece(ctx,game.active,game.ghostY(),true);drawPiece(ctx,game.active);}}
+ else{game.board.forEach((row,y)=>row.forEach((type,x)=>{if(type){block(ctx,x*30,y*30,30,COLORS[type]);const tile=game.tiles[y][x];if(family.enabled&&tile){const asset=family.renderer.texture(tile.type,tile.rotation),p=family.renderer.pixel;ctx.drawImage(asset,tile.x*p,tile.y*p,p,p,x*30,y*30,30,30);}}}));if(game.active&&game.status!=='over'){drawPiece(ctx,game.active,game.ghostY(),true);drawPiece(ctx,game.active);}}
  if(flash>0){ctx.fillStyle=`rgba(5,238,245,${flash/440})`;flashRows.forEach(row=>ctx.fillRect(0,row*30,300,30));flash-=dt;}
  particles=particles.filter(p=>p.life>0);for(const p of particles){p.life-=dt;p.x+=p.vx*dt/1000;p.y+=p.vy*dt/1000;p.vy+=160*dt/1000;ctx.globalAlpha=Math.max(0,Math.min(1,p.life/400));ctx.fillStyle=p.color;ctx.shadowColor=p.color;ctx.shadowBlur=8;ctx.fillRect(p.x,p.y,3,3);}ctx.shadowBlur=0;ctx.globalAlpha=1;
 }
-function preview(id,type,dim=false){const element=$(id),c=element.getContext('2d');c.clearRect(0,0,element.width,element.height);if(!type)return;const matrix=SHAPES[type];const cells=[];matrix.forEach((r,y)=>r.forEach((v,x)=>{if(v)cells.push([x,y]);}));const minX=Math.min(...cells.map(p=>p[0])),maxX=Math.max(...cells.map(p=>p[0])),minY=Math.min(...cells.map(p=>p[1])),maxY=Math.max(...cells.map(p=>p[1]));const size=27,offsetX=(element.width-(maxX-minX+1)*size)/2,offsetY=(element.height-(maxY-minY+1)*size)/2;c.globalAlpha=dim?.35:1;cells.forEach(([x,y])=>block(c,offsetX+(x-minX)*size,offsetY+(y-minY)*size,size,COLORS[type]));c.globalAlpha=1;}
+function preview(id,type,dim=false){const element=$(id),c=element.getContext('2d');c.clearRect(0,0,element.width,element.height);if(!type)return;const matrix=SHAPES[type];const cells=[];matrix.forEach((r,y)=>r.forEach((v,x)=>{if(v)cells.push([x,y]);}));const minX=Math.min(...cells.map(p=>p[0])),maxX=Math.max(...cells.map(p=>p[0])),minY=Math.min(...cells.map(p=>p[1])),maxY=Math.max(...cells.map(p=>p[1]));const size=27,offsetX=(element.width-(maxX-minX+1)*size)/2,offsetY=(element.height-(maxY-minY+1)*size)/2;c.globalAlpha=dim?.35:1;cells.forEach(([x,y])=>block(c,offsetX+(x-minX)*size,offsetY+(y-minY)*size,size,COLORS[type]));if(family.enabled)c.drawImage(family.renderer.texture(type),(offsetX-minX*size),(offsetY-minY*size),matrix.length*size,matrix.length*size);c.globalAlpha=1;}
 function text(id,value){if(uiCache[id]!==value){$(id).textContent=value;uiCache[id]=value;}}
 function updateUI(){
  if(game.score>best){best=game.score;safeWrite('blok-best',best);}
@@ -93,7 +95,7 @@ $('help-button').addEventListener('click',()=>{wasPlayingBeforeHelp=game.status=
 $('close-help').addEventListener('click',()=>dialog.close());$('got-it').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});dialog.addEventListener('close',()=>{if(wasPlayingBeforeHelp){game.resume();sound.play('resume');updateOverlay();}wasPlayingBeforeHelp=false;});
 const keyActions={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'rotate',ArrowDown:'down',' ':'drop',c:'hold',C:'hold',x:'rotate',X:'rotate',z:'reverse',Z:'reverse'};
 document.addEventListener('keydown',e=>{
- if(dialog.open||e.ctrlKey||e.metaKey||e.altKey)return;
+ if(dialog.open||family.isOpen||e.ctrlKey||e.metaKey||e.altKey)return;
  if(e.target.matches('input,select,textarea'))return;
  if((e.key==='Enter'||(e.key===' '&&game.status!=='playing'))&&e.target.closest('button,a'))return;
  if(['p','P','Escape'].includes(e.key)){e.preventDefault();if(!e.repeat)pauseToggle();return;}

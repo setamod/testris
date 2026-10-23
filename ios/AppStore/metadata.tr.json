@@ -1,0 +1,30 @@
+{
+  "name": "Familytris: Neon Arcade",
+  "subtitle": "Ailenle kişiselleşen bloklar",
+  "primary_language": "tr-TR",
+  "primary_category": "Games",
+  "game_subcategories": [
+    "Puzzle",
+    "Casual"
+  ],
+  "bundle_identifier": "com.mertbekisoglu.blok",
+  "version": "1.0.0",
+  "keywords": "aile,blok,bulmaca,neon,arcade,fotoğraf,çevrimdışı",
+  "promotional_text": "Ailenin yüzleri çizgi karakterlere dönüşsün. Fotoğrafları cihazda işleyen, çevrimdışı oynanan neon blok oyunu.",
+  "description": "Familytris, ailenin ve arkadaşlarının yüzlerini hazır çizgi karakterlere yerleştiren bir blok oyunudur.\n\nAilem bölümünden en fazla 7 fotoğraf seç. Yüz otomatik yakınlaştırılır ve kıyafetli karikatür gövdelere yerleştirilir. Şekilleri karıştırabilir, kişileri adlandırabilir veya fotoğraf eklemeden hazır karakterlerle oynayabilirsin.\n\nParçaları döndür, yatay satırları tamamla ve rekorunu aş. Her 10 satırda hız artar.\n\n• iPhone dokunmatik kontrolleri\n• İnternetsiz oyun, neon grafikler ve ses efektleri\n• Dokunsal geri bildirim, parça saklama ve üç parça önizlemesi\n• Fotoğraflar, rekor ve tercihler yalnızca cihazda saklanır\n• Reklam, hesap, analiz veya takip yok\n\nFotoğraflar bir sunucuya gönderilmez. Ailem bölümündeki Sil düğmesiyle aile kaydından kaldırılabilir.",
+  "whats_new": "İlk Familytris sürümü: yerel yüz fotoğrafları, kişiselleşen karakterler, neon grafikler ve çevrimdışı oyun.",
+  "privacy_url": null,
+  "support_url": null,
+  "copyright": null,
+  "review_contact": null,
+  "login_required": false,
+  "data_collection": "No data collected",
+  "pending_before_submission": [
+    "Apple Developer üyeliği ve imzalama takımı",
+    "Xcode ile başarılı iOS derlemesi ve fiziksel iPhone testi",
+    "Herkese açık destek ve gizlilik URL'leri",
+    "Telif ve inceleme iletişim bilgileri",
+    "Gerçek iPhone ekran görüntüleri",
+    "Yaş derecelendirme ve mağaza dağıtım ayarları"
+  ]
+}
