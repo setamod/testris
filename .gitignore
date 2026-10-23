@@ -5,5 +5,8 @@ node_modules/
 ios/build/
 ios/build-device/
 ios/DerivedData/
+android/.gradle/
+android/.idea/
+android/**/build/
 **/xcuserdata/
 *.xcuserstate

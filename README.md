@@ -45,3 +45,7 @@ Cyberpunk ses efektleri Web Audio ile tarayıcıda sentezlenir. Hareket, döndü
 Onaylanan detaylı karakter görünümü oyuna bağlandı. Ailem düğmesinden en fazla 7 yüz eklenir; yüzler cihazda yakınlaştırılır, çizgi gövdelere yerleşir ve yalnızca yerel kayda alınır. Karakter görselleri dönen, saklanan ve kilitlenen parçalarda korunur; satır temizlenirken kalan parçalar doğru satırlarla taşınır.
 
 39 oyun/ses/kişiselleştirme/iOS köprü testi geçti. Xcode 27.1 ve iOS 27.1 SDK ile simülatör ve gerçek iPhone işlemcisi derlemeleri başarılı. Personal Team yapılandırıldı; imzalı iPhone derlemesi de başarılı. Geliştirici Modu açıldı ve cihaz hazırlığı tamamlandı; uygulamanın açılması iPhone’daki geliştirici sertifikası için güven onayını bekliyor. Cihazda oyun testi ve App Store gönderimi henüz yapılmadı. Xcode projesi ios/BLOK.xcodeproj; iPhone ekranındaki uygulama adı Familytris. Kurulum ayrıntıları ios/README-TR.md dosyasındadır.
+
+## Familytris Android sürümü
+
+Android Studio projesi `android/` klasöründedir. Oyun, yerel WebView içinde çevrimdışı çalışır; rekor, ses ve aile fotoğrafları yalnızca cihazda saklanır. Oyun kaynakları değiştiğinde `npm run prepare:android` çalıştırın. Android Studio kurulumu, cihaz testi ve Google Play yayın adımları: [Android açıklaması](android/README-TR.md).
