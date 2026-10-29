@@ -1,0 +1,8 @@
+{
+  "before_median_ms": 575.14,
+  "after_median_ms": 263.46,
+  "workload": "60 seeds × 12 Blitz moves, hint search and refills",
+  "same_boards_scores_rows": true,
+  "scope": "Node CPU workload, not an iPhone FPS measurement",
+  "speedup": 2.18
+}

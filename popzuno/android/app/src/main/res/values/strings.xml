@@ -1,0 +1,7 @@
+<resources>
+<string name="app_name">Popzuno</string>
+<string name="settings">Popzuno settings</string>
+<string name="haptics">Haptics</string>
+<string name="done">Done</string>
+<string name="privacy">Privacy policy</string>
+</resources>

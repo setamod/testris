@@ -1,0 +1,7 @@
+<resources>
+<string name="app_name">Popzuno</string>
+<string name="settings">Impostazioni Popzuno</string>
+<string name="haptics">Vibrazioni</string>
+<string name="done">Fatto</string>
+<string name="privacy">Informativa sulla privacy</string>
+</resources>

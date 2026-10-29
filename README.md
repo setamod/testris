@@ -1,3 +1,25 @@
+# Popzuno & Familytris
+
+![Popzuno](popzuno/branding/popzuno-logo.png)
+
+## Popzuno — güncel oyun
+
+Fotoğraflarla kişiselleştirilebilen, beş modlu çevrimdışı eşleştirme oyunu. Güncel sürüm: **0.9.8 (17)**.
+
+- [Oyun kaynakları ve çalıştırma adımları](popzuno/README.md)
+- [iPhone projesi](popzuno/ios/README-TR.md) · [Android projesi](popzuno/android/README-TR.md)
+- [Logo ve görsel kimlik](popzuno/branding/README-TR.md)
+- [Canlı destek ve gizlilik sitesi](https://popzuno.frostytang32768.chatgpt.site/)
+- [Destek sitesinin kaynakları](popzuno/publication/site/dist/)
+
+Kod, varsayılan karakterler, sesler, lisans bildirimleri ve mağaza taslakları `popzuno/` klasöründedir. Kişisel fotoğraflar, yerel hesap işlemleri, imzalama anahtarları, geliştirici araçları ve derlenmiş paketler Git'e dahil edilmez. Mağaza yayını henüz yapılmadı.
+
+## Önceki BLOK / Familytris oyunu
+
+Önceki oyunun kaynakları ve Android/Pages geliştirmeleri deponun kökünde korunmuştur. Aşağıdaki açıklama bu eski projeye aittir.
+
+---
+
 # BLOK
 
 Türkçe arayüzlü, tarayıcıda çalışan bir blok yerleştirme oyunu. Cyberpunk teması; neon camgöbeği ve pembe ışıklar, çerçeveli bloklar, tarama çizgileri ve ışık izleri içerir. Kurulum veya derleme gerektirmez.

@@ -1,0 +1,3 @@
+"CFBundleDisplayName" = "Popzuno";
+"NSCameraUsageDescription" = "Take an optional photo for your Popzuno character. Processing stays on your device.";
+"NSPhotoLibraryUsageDescription" = "Only the photo you select is processed on your device to personalize your character.";

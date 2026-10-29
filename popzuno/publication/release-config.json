@@ -1,0 +1,29 @@
+{
+  "product": "Popzuno",
+  "build": 17,
+  "bundleIdentifier": "com.mertbekisoglu.bulusko",
+  "businessModel": "paid_upfront_no_ads_no_iap",
+  "price": null,
+  "salesCountries": null,
+  "developerAccounts": {
+    "apple": "active_verified",
+    "googlePlay": "paused_before_registration_fee_by_owner"
+  },
+  "contact": {
+    "name": "Mert Bekisoglu",
+    "email": "mertbek@gmail.com",
+    "publicUseConfirmed": true
+  },
+  "publicPrivacyUrl": "https://popzuno.frostytang32768.chatgpt.site/privacy.html",
+  "publicSupportUrl": "https://popzuno.frostytang32768.chatgpt.site/support.html",
+  "legalClearance": "not_obtained",
+  "storeSubmission": "not_performed",
+  "sdkTermsAcceptedByUser": "2026-10-27",
+  "siteProjectId": "appgprj_6ae06affdc4881918b75d747bfbea05a",
+  "primaryLocale": "tr",
+  "spendingPolicy": {
+    "additionalPaymentsAuthorized": false,
+    "googleRegistrationPayment": "deferred_until_game_polished_and_owner_approval"
+  },
+  "previousProductName": "Kynburst"
+}

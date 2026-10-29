@@ -1,0 +1,53 @@
+plugins { id 'com.android.application' }
+
+def releaseInfo = new groovy.json.JsonSlurper().parse(file('../../publication/release-config.json'))
+def appInfo = new groovy.json.JsonSlurper().parse(file('../../package.json'))
+def signingFile = rootProject.file('keystore.properties')
+def signingValues = new Properties()
+if (signingFile.exists()) signingFile.withInputStream { signingValues.load(it) }
+
+android {
+    namespace 'com.mertbekisoglu.bulusko'
+    compileSdk 36
+    defaultConfig {
+        applicationId 'com.mertbekisoglu.bulusko'
+        minSdk 26
+        targetSdk 36
+        versionCode releaseInfo.build as int
+        versionName appInfo.version
+        testInstrumentationRunner 'com.mertbekisoglu.bulusko.SmokeInstrumentation'
+    }
+    buildFeatures { buildConfig true }
+    // All six in-app languages must work offline after a single install.
+    bundle { language { enableSplit = false } }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+    signingConfigs {
+        if (signingFile.exists()) {
+            release {
+                storeFile rootProject.file(signingValues['storeFile'])
+                storePassword signingValues['storePassword']
+                keyAlias signingValues['keyAlias']
+                keyPassword signingValues['keyPassword']
+            }
+        }
+    }
+    buildTypes {
+        debug { applicationIdSuffix '.debug'; versionNameSuffix '-debug' }
+        release {
+            minifyEnabled false
+            debuggable false
+            if (signingFile.exists()) signingConfig signingConfigs.release
+        }
+    }
+    lint { abortOnError true; checkReleaseBuilds true }
+}
+
+// Refuse a requested signed publication build rather than silently using a debug key.
+tasks.register('verifyReleaseSigning') {
+    doLast {
+        if (!signingFile.exists()) throw new GradleException('Create ignored keystore.properties using the documented owner-controlled upload key. No debug key may be used for publication.')
+        ['storeFile','storePassword','keyAlias','keyPassword'].each { if (!signingValues[it]) throw new GradleException('Missing release signing field: ' + it) }
+    }
+}
+tasks.register('storeBundle') { dependsOn 'verifyReleaseSigning'; dependsOn 'bundleRelease' }
+tasks.configureEach { if (name == 'bundleRelease') mustRunAfter 'verifyReleaseSigning' }

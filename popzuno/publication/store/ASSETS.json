@@ -1,0 +1,63 @@
+{
+  "assets": [
+    {
+      "file": "app-store-icon-1024.png",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 1103914,
+      "sha256": "5fb7802d9e241444f3ffcf28be3f6e41292f8cfa7776f5a08b2afe6af1bad1b7"
+    },
+    {
+      "file": "google-play-icon-512.png",
+      "width": 512,
+      "height": 512,
+      "bytes": 317699,
+      "sha256": "dc8d83dc18a605f605cda5d2db6a24e80fc38a811a48f1d7ce4269d810687ac7"
+    },
+    {
+      "file": "google-feature-1024x500.png",
+      "width": 1024,
+      "height": 500,
+      "bytes": 212962,
+      "sha256": "ebfac7f93613bbc4e00bca07645b545c5b067c4f4f6ebbc40a682d3dbf70a03d"
+    },
+    {
+      "file": "ios-ready-tr.png",
+      "width": 1320,
+      "height": 2868,
+      "bytes": 2214453,
+      "sha256": "68efdd2b03804737f8b85de511a84594956933eb01641aa97ead0574f9bc7446"
+    },
+    {
+      "file": "android-gameplay-tr.png",
+      "width": 1080,
+      "height": 2400,
+      "bytes": 819949,
+      "sha256": "399ad92110c02350884de666816312446b59babb4e92e848d6cb89d76e93aebe"
+    },
+    {
+      "file": "android-time-rush-en.png",
+      "width": 1080,
+      "height": 2400,
+      "bytes": 685313,
+      "sha256": "ccf0e131befe3f75a487acd90ebbd17998b0af11ca706322c3bc547966925d00"
+    },
+    {
+      "file": "android-time-critical-en.png",
+      "width": 1080,
+      "height": 2400,
+      "bytes": 775302,
+      "sha256": "55f8ad1e609436f0be2a6c37765f02068eb994206623ff717117fd344eeb2d97"
+    },
+    {
+      "file": "android-time-ended-en.png",
+      "width": 1080,
+      "height": 2400,
+      "bytes": 463643,
+      "sha256": "8282e8b2cd65583cb693b5317f93db6d973ea479a97491c66c8d26b44b76940e"
+    }
+  ],
+  "screenshots": "actual simulator/emulator captures with default illustrated characters; no personal photos",
+  "feature": "Popzuno generated emblem and native typography; source scripts/prepare-brand.swift",
+  "iosScreenshotLocale": "tr"
+}

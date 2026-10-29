@@ -1,0 +1,238 @@
+import SwiftUI
+import WebKit
+import UIKit
+import Combine
+
+private let nativeCopy: [String: [String: String]] = [
+    "it": [
+        "Privacy policy and all licenses": "Informativa sulla privacy e tutte le licenze",
+        "Operating-system backups may include app data according to your settings. Deletion details are explained in the privacy policy.": "I backup del sistema possono includere dati dell’app secondo le impostazioni. I dettagli sulla cancellazione sono nell’informativa.",
+        "Try again": "Riprova",
+        "Haptic feedback": "Feedback aptico",
+        "Haptics": "Vibrazioni",
+        "Test haptics": "Prova le vibrazioni",
+        "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Abbinamenti grandi, Bomb, Rocket, Cross e Nova producono vibrazioni di diversa intensità.",
+        "Privacy": "Privacy",
+        "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Le foto scelte vengono elaborate sul dispositivo. Volti, nomi, livelli, record e preferenze restano nella memoria locale dell’app.",
+        "Delete photos in My family. There are no accounts, ads, analytics or uploads.": "Puoi eliminare le foto in La mia famiglia. Non ci sono account, pubblicità, analisi o caricamenti.",
+        "Credits": "Riconoscimenti",
+        "Popzuno settings": "Impostazioni Popzuno",
+        "Done": "Fatto",
+        "The bundled game file is missing.": "Il file del gioco non è disponibile.",
+        "The game could not load. Please try again.": "Impossibile caricare il gioco. Riprova.",
+        "The game stopped. You can reopen it.": "Il gioco si è fermato. Puoi riaprirlo.",
+    ],
+    "es": [
+        "Privacy policy and all licenses": "Política de privacidad y todas las licencias",
+        "Operating-system backups may include app data according to your settings. Deletion details are explained in the privacy policy.": "Las copias del sistema pueden incluir datos de la app según tus ajustes. La política explica los detalles del borrado.",
+        "Try again": "Reintentar",
+        "Haptic feedback": "Respuesta háptica",
+        "Haptics": "Vibración",
+        "Test haptics": "Probar vibración",
+        "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Las combinaciones grandes, Bomb, Rocket, Cross y Nova producen vibraciones de distinta intensidad.",
+        "Privacy": "Privacidad",
+        "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Las fotos elegidas se procesan en tu dispositivo. Las caras, los nombres, las etapas, los récords y las preferencias se guardan localmente en esta app.",
+        "Delete photos in My family. There are no accounts, ads, analytics or uploads.": "Puedes eliminar las fotos en Mi familia. No hay cuentas, anuncios, analítica ni subidas de datos.",
+        "Credits": "Créditos",
+        "Popzuno settings": "Ajustes de Popzuno",
+        "Done": "Listo",
+        "The bundled game file is missing.": "Falta el archivo del juego.",
+        "The game could not load. Please try again.": "No se pudo cargar el juego. Inténtalo de nuevo.",
+        "The game stopped. You can reopen it.": "El juego se ha detenido. Puedes volver a abrirlo.",
+    ],
+    "de": [
+        "Privacy policy and all licenses": "Datenschutz und alle Lizenzen",
+        "Operating-system backups may include app data according to your settings. Deletion details are explained in the privacy policy.": "Systembackups können je nach Einstellungen App-Daten enthalten. Einzelheiten zur Löschung stehen in der Datenschutzerklärung.",
+        "Try again": "Erneut versuchen",
+        "Haptic feedback": "Haptisches Feedback",
+        "Haptics": "Vibration",
+        "Test haptics": "Vibration testen",
+        "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Große Kombinationen, Bomb, Rocket, Cross und Nova erzeugen unterschiedlich starke Vibrationen.",
+        "Privacy": "Datenschutz",
+        "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Ausgewählte Fotos werden auf deinem Gerät verarbeitet. Gesichter, Namen, Stufen, Rekorde und Einstellungen bleiben im lokalen Speicher dieser App.",
+        "Delete photos in My family. There are no accounts, ads, analytics or uploads.": "Lösche Fotos unter Meine Familie. Es gibt keine Konten, Werbung, Analysen oder Uploads.",
+        "Credits": "Mitwirkende",
+        "Popzuno settings": "Popzuno-Einstellungen",
+        "Done": "Fertig",
+        "The bundled game file is missing.": "Die Spieldatei fehlt.",
+        "The game could not load. Please try again.": "Das Spiel konnte nicht geladen werden. Versuche es erneut.",
+        "The game stopped. You can reopen it.": "Das Spiel wurde angehalten. Du kannst es erneut öffnen.",
+    ],
+    "ru": [
+        "Privacy policy and all licenses": "Политика и все лицензии",
+        "Operating-system backups may include app data according to your settings. Deletion details are explained in the privacy policy.": "Резервные копии системы могут содержать данные приложения в зависимости от настроек. Подробности удаления описаны в политике.",
+        "Try again": "Попробовать снова",
+        "Haptic feedback": "Тактильный отклик",
+        "Haptics": "Вибрация",
+        "Test haptics": "Проверить вибрацию",
+        "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Большие комбинации, Bomb, Rocket, Cross и Nova дают вибрацию разной силы.",
+        "Privacy": "Конфиденциальность",
+        "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Выбранные фото обрабатываются на устройстве. Лица, имена, этапы, рекорды и настройки хранятся только в локальном хранилище приложения.",
+        "Delete photos in My family. There are no accounts, ads, analytics or uploads.": "Фото можно удалить в разделе «Моя семья». Здесь нет аккаунтов, рекламы, аналитики или загрузки данных на сервер.",
+        "Credits": "Авторы и ресурсы",
+        "Popzuno settings": "Настройки Popzuno",
+        "Done": "Готово",
+        "The bundled game file is missing.": "Файл игры не найден.",
+        "The game could not load. Please try again.": "Не удалось загрузить игру. Попробуй ещё раз.",
+        "The game stopped. You can reopen it.": "Игра остановилась. Можно открыть её снова.",
+    ],
+]
+
+
+struct GameWebView: UIViewRepresentable {
+    let controller: BuluskoController
+    func makeUIView(context: Context) -> WKWebView { controller.makeWebView() }
+    func updateUIView(_ view: WKWebView, context: Context) {}
+    static func dismantleUIView(_ view: WKWebView, coordinator: ()) {
+        view.configuration.userContentController.removeScriptMessageHandler(forName: "bulusko")
+        view.stopLoading()
+        UIApplication.shared.isIdleTimerDisabled = false
+    }
+}
+
+final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandler, WKNavigationDelegate {
+    @Published var showSettings = false
+    @Published var loadError: String?
+    @Published var language: String
+    @Published var hapticsEnabled: Bool {
+        didSet { preferences.set(hapticsEnabled, forKey: "bulusko.haptics"); if !hapticsEnabled { haptics.stop() } }
+    }
+    private let preferences: UserDefaults
+    private weak var webView: WKWebView?
+    private let haptics = GatheringHaptics()
+    private var announcer: ArcadeAnnouncer?
+    private let impact = UIImpactFeedbackGenerator(style: .light)
+    private let selection = UISelectionFeedbackGenerator()
+    private let notice = UINotificationFeedbackGenerator()
+    private var lastFeedback: CFTimeInterval = 0
+    private var resetting = false
+    private var url: URL? { Bundle.main.url(forResource: "index", withExtension: "html", subdirectory: "Game") }
+
+    init(preferences: UserDefaults = .standard) {
+        self.preferences = preferences
+        let raw = preferences.string(forKey: NativeStore.prefix + "settings") ?? "{}"
+        let data = raw.data(using: .utf8) ?? Data()
+        let object = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
+        let savedLanguage = object?["language"] as? String ?? "tr"
+        language = ["tr", "en", "it", "es", "de", "ru"].contains(savedLanguage) ? savedLanguage : "tr"
+        hapticsEnabled = preferences.object(forKey: "bulusko.haptics") as? Bool ?? true
+        super.init()
+    }
+
+    func text(_ tr: String, _ en: String) -> String { language == "tr" ? tr : nativeCopy[language]?[en] ?? en }
+    private var bootstrap: String { "window.__BULUSKO_STORAGE__ = \(NativeStore.snapshot(preferences));" }
+
+    func makeWebView() -> WKWebView {
+        let configuration = WKWebViewConfiguration()
+        configuration.websiteDataStore = .default()
+        configuration.allowsInlineMediaPlayback = true
+        configuration.ignoresViewportScaleLimits = false
+        configuration.preferences.javaScriptCanOpenWindowsAutomatically = false
+        configuration.userContentController.add(self, name: "bulusko")
+        configuration.userContentController.addUserScript(WKUserScript(source: bootstrap, injectionTime: .atDocumentStart, forMainFrameOnly: true))
+        let view = WKWebView(frame: .zero, configuration: configuration)
+        view.isOpaque = false
+        view.backgroundColor = UIColor(red: 16/255, green: 18/255, blue: 29/255, alpha: 1)
+        view.scrollView.backgroundColor = view.backgroundColor
+        view.scrollView.bounces = false
+        view.scrollView.contentInsetAdjustmentBehavior = .never
+        view.allowsBackForwardNavigationGestures = false
+        view.navigationDelegate = self
+        webView = view
+        reload()
+        return view
+    }
+
+    func reload() {
+        guard let url else { loadError = text("Oyun dosyası bulunamadı.", "The bundled game file is missing."); return }
+        loadError = nil
+        webView?.configuration.userContentController.removeAllUserScripts()
+        webView?.configuration.userContentController.addUserScript(WKUserScript(source: bootstrap, injectionTime: .atDocumentStart, forMainFrameOnly: true))
+        webView?.loadFileURL(url, allowingReadAccessTo: url)
+    }
+
+    func pauseForBackground() {
+        announcer?.stop()
+        haptics.stop()
+        UIApplication.shared.isIdleTimerDisabled = false
+        webView?.evaluateJavaScript("window.dispatchEvent(new Event('blur'));")
+    }
+
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard let url, message.frameInfo.isMainFrame,
+              message.webView?.url?.standardizedFileURL == url.standardizedFileURL,
+              let body = message.body as? [String: Any], let type = body["type"] as? String else { return }
+        switch type {
+        case "reset":
+            resetting = true
+            pauseForBackground()
+            NativeStore.reset(preferences)
+            hapticsEnabled = true
+            language = "tr"
+            WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: .distantPast) { [weak self] in self?.reload() }
+        case "preference":
+            guard !resetting else { return }
+            if let key = body["key"] as? String, let value = body["value"] as? String,
+               NativeStore.save(key: key, value: value, preferences: preferences), key == NativeStore.prefix + "settings",
+               let data = value.data(using: .utf8), let settings = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] {
+                let savedLanguage = settings["language"] as? String ?? "tr"
+                language = ["tr", "en", "it", "es", "de", "ru"].contains(savedLanguage) ? savedLanguage : "tr"
+            }
+        case "state":
+            let playing = body["playing"] as? Bool == true
+            UIApplication.shared.isIdleTimerDisabled = playing && UIApplication.shared.applicationState == .active
+            if !playing { haptics.stop(); announcer?.stop() }
+        case "prepareCheers":
+            if UIApplication.shared.applicationState == .active { if announcer == nil { announcer = ArcadeAnnouncer() }; announcer?.prepare() }
+        case "cheer":
+            if let kind = body["kind"] as? String, let volume = body["volume"] as? Double, volume.isFinite { if announcer == nil { announcer = ArcadeAnnouncer() }; announcer?.play(kind, volume: Float(min(1, max(0, volume)))) }
+        case "stopCheer": announcer?.stop()
+        case "feedback":
+            if let event = body["event"] as? String { feedback(event, count: body["count"] as? Int ?? 1, reason: body["reason"] as? String ?? "") }
+        case "support":
+            if let contact = URL(string: "mailto:mertbek@gmail.com?subject=Popzuno") { UIApplication.shared.open(contact) }
+        case "settings":
+            pauseForBackground()
+            showSettings = true
+        default: break
+        }
+    }
+
+    private func feedback(_ event: String, count: Int, reason: String) {
+        guard hapticsEnabled, UIApplication.shared.applicationState == .active else { return }
+        let now = CACurrentMediaTime()
+        guard now-lastFeedback > 0.055 || ["clear", "pulse", "over"].contains(event) else { return }
+        lastFeedback = now
+        switch event {
+        case "start": selection.prepare(); impact.prepare(); notice.prepare(); haptics.prepare()
+        case "rotate": selection.selectionChanged()
+        case "place": impact.impactOccurred(intensity: 0.55)
+        case "clear": haptics.clear(count)
+        case "pulse": haptics.clear(2)
+        case "over": notice.notificationOccurred(reason == "complete" || reason == "timeout" ? .success : .warning)
+        default: break
+        }
+    }
+
+    func testHaptics() { if hapticsEnabled { haptics.clear(2) } }
+    func openPrivacy() { showSettings = false; webView?.evaluateJavaScript("window.dispatchEvent(new Event('kynburst:privacy'));") }
+
+    func webView(_ webView: WKWebView, decidePolicyFor action: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        decisionHandler(action.request.url?.standardizedFileURL == url?.standardizedFileURL ? .allow : .cancel)
+    }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        resetting = false; loadError = nil
+        #if DEBUG && targetEnvironment(simulator)
+        // Deterministic visual fixture for safe-area/layout checks. Excluded from
+        // every Release build and every physical-device build; never resets data.
+        if ProcessInfo.processInfo.arguments.contains("--layout-check") {
+            let mode = ProcessInfo.processInfo.arguments.first(where: { $0.hasPrefix("--layout-mode=") })?.replacingOccurrences(of: "--layout-mode=", with: "") ?? "ascend"
+            if ["ascend", "survival", "blitz", "timeRush", "daily"].contains(mode) {
+                webView.evaluateJavaScript("document.querySelector('[data-tide-mode=\(mode)]').click();document.querySelector('#home-play').click();")
+            }
+        }
+        #endif
+    }
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) { loadError = text("Oyun açılamadı. Tekrar deneyebilirsin.", "The game could not load. Please try again.") }
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) { pauseForBackground(); loadError = text("Oyun durdu. Yeniden açabilirsin.", "The game stopped. You can reopen it.") }
+}

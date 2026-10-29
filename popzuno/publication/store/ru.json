@@ -1,0 +1,20 @@
+{
+  "locale": "ru",
+  "platformLocales": {
+    "apple": "ru",
+    "google": "ru-RU"
+  },
+  "name": "Popzuno",
+  "subtitle": "Сдвигай. Совмещай. Взрывай.",
+  "shortDescription": "Совмещай лица и ставь рекорды в пяти офлайн-режимах. Фото необязательны.",
+  "description": "Меняй соседние блоки, собирай совпадения и вовремя используй силы. Пять режимов для нового личного рекорда.\n\nСдерживай рост поля в Rush. Набирай очки минуту в Blitz 60. Получай секунды за совпадения в Time Rush. Выполняй цели этапов в Ascend. Проходи одинаковый старт дня UTC в Daily 90.\n\nКвадрат даёт Bomb; четыре по горизонтали Rocket; четыре по вертикали Shuffle; пересечение L/T Cross; пять в ряд Nova. Собирай цепочки и включай Overdrive.\n\nИграй с рисованными лицами или настрой семь персонажей разрешёнными фото, которые обрабатываются на устройстве. Без аккаунтов, рекламы, аналитики и покупок внутри приложения. Одна платная загрузка, игра офлайн. Рекорды локальны; Daily не является онлайн-рейтингом.\n\nCircuit Bloom следует скорости игры; эффекты звучат отдельно, вибрация доступна на поддерживаемых устройствах. Турецкий, английский, итальянский, испанский, немецкий и русский.",
+  "keywords": "совпадения,головоломка,аркада,офлайн,лица,сдвиг,комбо,рекорд",
+  "categories": [
+    "Games/Puzzle",
+    "Games/Arcade"
+  ],
+  "privacyUrl": "https://popzuno.frostytang32768.chatgpt.site/privacy/ru.html",
+  "supportUrl": "https://popzuno.frostytang32768.chatgpt.site/support/ru.html",
+  "pricing": "paid_upfront_price_pending",
+  "releaseNotes": "Privacy policy, local data deletion and platform publication preparation."
+}

@@ -1,0 +1,368 @@
+{
+  "verified_on": "2026-10-29",
+  "app": "Popzuno",
+  "version": "0.9.8",
+  "build": 17,
+  "status": "local_store_candidate_prepared_not_submitted",
+  "business_model": "paid_upfront_no_ads_no_iap",
+  "tests": {
+    "javascript": {
+      "passed": 74,
+      "failed": 0,
+      "report": "evidence/javascript-tests.txt"
+    },
+    "swift_native_storage": "passed_preferences_photo_validation_monotonic_records_and_reset",
+    "android_native_emulator": {
+      "passed": 138,
+      "failed": 0,
+      "api": 36,
+      "report": "evidence/android-smoke.txt",
+      "tested_version": "0.9.8 (17)",
+      "current_change_scope": "current full native suite including offline brand/logo checks and 90 viewport/mode/language fit cases"
+    },
+    "android_release_lint": {
+      "errors": 0,
+      "warnings": 3,
+      "warning_ids": [
+        "AndroidGradlePluginVersion",
+        "ObsoleteSdkInt",
+        "MonochromeLauncherIcon"
+      ]
+    },
+    "package_checks": 231,
+    "browser": {
+      "policy_and_notices": "six_languages_verified",
+      "type_reload_and_full_reset": "passed_with_real_keyboard_input",
+      "responsive_viewports": [
+        [
+          319,
+          584
+        ],
+        [
+          390,
+          844
+        ],
+        [
+          1280,
+          720
+        ]
+      ],
+      "horizontal_overflow": false,
+      "console_errors": 0,
+      "stage_default_and_preference_migration": "passed",
+      "stage_intermission": "real_pointer_moves; frozen clocks; pause/resume preserves countdown; stage 2 starts at 123 BPM",
+      "stage_card_layout_languages": [
+        "tr",
+        "de",
+        "ru"
+      ],
+      "celebration_preferences": "0.9.5 native Android verified voice toggle and independent announcer volume survive reload; Swift preferences test preserves cheerVolume",
+      "loss_explanations": "real UI manual rise to overflow; six localized result cards fit at 319x584; new TR screenshot at 390x844",
+      "new_packaged_console_errors": 0,
+      "home_menu": "real mode selection; browsing modes retains paused run and score; Continue resumes same run",
+      "home_small_screen_locales": [
+        "tr",
+        "en",
+        "it",
+        "es",
+        "de",
+        "ru"
+      ],
+      "home_play_action_visible_at_319x584": true,
+      "fullscreen_result_small_screen_verified_locales": [
+        "tr",
+        "en",
+        "it",
+        "es"
+      ],
+      "fullscreen_result_native_verified_locales": [
+        "tr",
+        "en",
+        "it",
+        "es",
+        "de",
+        "ru"
+      ],
+      "baseline_version": "0.9.4 layout; 0.9.5 native voice volume persistence; unchanged by 0.9.6 audio repair",
+      "status": "Historical browser checks retained; current responsive layout verified in native Android WebView and iOS simulator."
+    },
+    "visual_review": {
+      "ios": "actual 0.9.8 iPhone 18 Pro Max simulator main menu and Ascend gameplay verified",
+      "android": "actual 0.9.8 API36 TR gameplay; EN TimeRush menu, final seconds and fullscreen result",
+      "android_renderer": "host_GPU_with_Vulkan_disabled; software_emulator_capture_corruption_resolved_in_final_capture",
+      "stage_transition": "stage timing/pause engine regression tests passed; earlier visual baseline archived",
+      "overflow": "actual browser fullscreen overflow card; native fullscreen timed result validated in all six locales",
+      "current_change_scope": "Popzuno branding and static logo; no gameplay layout/audio/storage changes",
+      "ios_evidence": "evidence/popzuno-ios-gameplay-tr.png",
+      "ios_store_screenshot": "current 0.9.8 main menu, actual 1320x2868 simulator capture"
+    },
+    "swift_native_storage_last_run_version": "0.9.5 (14); storage implementation unchanged",
+    "mobile_layout": {
+      "passed": 90,
+      "failed": 0,
+      "viewports": [
+        [
+          319,
+          584
+        ],
+        [
+          360,
+          640
+        ],
+        [
+          391,
+          781
+        ]
+      ],
+      "modes": [
+        "ascend",
+        "survival",
+        "blitz",
+        "timeRush",
+        "daily"
+      ],
+      "languages": [
+        "tr",
+        "en",
+        "it",
+        "es",
+        "de",
+        "ru"
+      ],
+      "assertions": [
+        "visible HUD/clock/arena/all powers inside viewport",
+        "no horizontal or vertical document scrolling",
+        "power targets at least 44 CSS px (pixel rounding tolerance 0.5)",
+        "square-cell board takes maximum available width or height"
+      ],
+      "evidence": "evidence/android-layout-fit.json",
+      "layout_measurements_per_animation_frame": 0
+    },
+    "branding": {
+      "date": "2026-10-29",
+      "product": "Popzuno",
+      "version": "0.9.8",
+      "build": 17,
+      "installed_name_version_verified": true,
+      "bundle_id_unchanged": true,
+      "byte_identical_gameplay_storage_and_audio": {
+        "storage.mjs": true,
+        "arcade-engine.mjs": true,
+        "sound.mjs": true,
+        "impact.mjs": true,
+        "cheers.mjs": true,
+        "voice-bank.mjs": true
+      },
+      "locales": [
+        "tr",
+        "en",
+        "it",
+        "es",
+        "de",
+        "ru"
+      ],
+      "logo_offline_native_verified": true,
+      "personal_data_packaged": false,
+      "trademark_clearance": "not_obtained"
+    }
+  },
+  "ios": {
+    "bundle_identifier": "com.mertbekisoglu.bulusko",
+    "release_archive": "artifacts/Popzuno-0.9.8-unsigned.xcarchive",
+    "release_archive_built": true,
+    "distribution_signed": false,
+    "simulator_release_build_and_launch": "Debug simulator build and launch passed on 0.9.8; main menu/Ascend visually verified. Unsigned device Release archive passed.",
+    "current_revision_installed_on_physical_iphone": true,
+    "last_verified_physical_iphone_version": "0.9.8 (17)",
+    "embedded_game_sha256": "8180380ddfcb121dced39dfd5607ca3f91055a1101ef5ca1d2e469c2ab836839",
+    "localized_permission_resources": [
+      "de.lproj",
+      "en.lproj",
+      "es.lproj",
+      "it.lproj",
+      "ru.lproj",
+      "tr.lproj"
+    ],
+    "physical_iphone_install_and_launch": "in_place_install_version_and_launch_verified_by_CoreDevice; owner_playtest_feedback_pending",
+    "development_profile_ttl_days": 365,
+    "development_profile_expires_utc": "2027-10-28T10:37:19Z",
+    "development_certificate_expires_on": "2027-10-20",
+    "owner_main_menu_confirmation": false,
+    "owner_app_open_confirmation": false,
+    "installed_display_name": "Popzuno"
+  },
+  "android": {
+    "minimum_api": 26,
+    "target_api": 36,
+    "debug_apk": "artifacts/Popzuno-0.9.8-debug.apk",
+    "release_aab": "artifacts/Popzuno-0.9.8-UNSIGNED.aab",
+    "release_signed": false,
+    "permissions": [
+      "android.permission.VIBRATE"
+    ],
+    "internet_permission": false,
+    "backups_enabled": false,
+    "native_sdk_libraries": 0,
+    "actual_bundle_inspection": {
+      "aab_sha256": "f88c19a28853343444a420783401aa8b9cff959c3230a6597212527bd9975a6c",
+      "game_sha256": "baac4773ce1600ff7bb14295a0861e9e010601c03ae6a3d2b95578d9a536f092",
+      "game_matches_current_source": true,
+      "legal_files_match": [
+        "chakrapetch-OFL.txt",
+        "ibmplexmono-OFL.txt",
+        "pico-MIT.txt",
+        "music-NOTICE.txt",
+        "SOURCES.md",
+        "ASSET-INVENTORY.json"
+      ],
+      "signed": false,
+      "native_libraries": []
+    },
+    "physical_device_test": "pending"
+  },
+  "public_pages": {
+    "privacy": "https://popzuno.frostytang32768.chatgpt.site/privacy/tr.html",
+    "support": "https://popzuno.frostytang32768.chatgpt.site/support/tr.html",
+    "six_languages": true,
+    "public_unauthenticated_access_verified": true,
+    "developer_contact_publication": "explicitly_approved_by_owner",
+    "product": "Popzuno",
+    "updated_on": "2026-10-29",
+    "existing_url_preserved": false,
+    "url_slug": "popzuno",
+    "url_changed_on": "2026-10-29"
+  },
+  "original_familytris": {
+    "checked_files": 84,
+    "changed": [],
+    "unchanged": true
+  },
+  "source_licenses": {
+    "inventory": "../vendor/ASSET-INVENTORY.json",
+    "embedded_notices": 6,
+    "pico_model_bytes": 239632,
+    "pico_model_sha256": "d8014993e7298c7b1865d1f8b855d6dbf4ec5c808bf879e2091ab6837abf90cd",
+    "pico_model_current_official_distribution_license": "MIT",
+    "music": "original_procedural_no_external_recording",
+    "logo": "OpenAI image generation for this project; no reference image; provenance and hashes in asset inventory"
+  },
+  "artifacts": {
+    "Popzuno-0.9.8-UNSIGNED.aab": {
+      "bytes": 1940481,
+      "sha256": "f88c19a28853343444a420783401aa8b9cff959c3230a6597212527bd9975a6c"
+    },
+    "Popzuno-0.9.8-debug.apk": {
+      "bytes": 2267677,
+      "sha256": "b7871265c714fde2518e5700e36600c5751b3ee434004d4547a887d02f600c2e"
+    }
+  },
+  "owner_external_gates": [
+    "Google_registration_terms_fee_and_verifications_deferred_at_owner_request; store_contracts_and_tax_bank",
+    "Owner_distribution_signing_and_store_app_records",
+    "Price_sales_markets_target_audience_and_age_rating_choices",
+    "Commercial_IP_review_not_obtained_and_trademark_not_cleared",
+    "Final_real_device_audio_haptics_photo_picker_long_session_tests",
+    "TestFlight_and_Google_closed_test_12_continuous_testers_14_days_then_production_access_application",
+    "Review_final_store_forms_then_submit_and_await_store_decisions"
+  ],
+  "store_submission_performed": false,
+  "commercial_availability": false,
+  "developer_account_progress": {
+    "apple": "active_membership_verified",
+    "googlePlay": "registration_prepared_terms_and_fee_paused_at_owner_request",
+    "details": "ACCOUNT-STATUS.json"
+  },
+  "audio_celebrations": {
+    "fixed_clip_count": 7,
+    "clip_total_bytes": 415028,
+    "clip_total_seconds": 8.64,
+    "runtime_ai_inference": false,
+    "network_voice_calls": false,
+    "model_distributed": false,
+    "source": "vendor/ANNOUNCER-ASSETS.json",
+    "licenses": "vendor/music-NOTICE.txt",
+    "speech_pool": 1,
+    "decoded_clip_cache": 7,
+    "nova_priority": "preempts lower calls; repeated Nova within 1.1 seconds does not restart a scream",
+    "triple_speech": false,
+    "matching_policy": "fixed four/five/LT, combo3/4 once per sustained chain, Nova activation only; ordinary power effects without voice",
+    "offline_audio_and_cancellation_tests": "passed",
+    "subjective_voice_tone": "owner liked six existing 0.9.6 calls; all six recordings retained byte-identically; new Nova-ready call matched unprompted local speech recognition, owner listening feedback pending",
+    "decoder_unavailable_fallback": "installed offline OS voice; no model redistributed",
+    "double_combo_speech": false,
+    "independent_announcer_gain": 0.4,
+    "cooldown_ms": {
+      "four": 6500,
+      "other": 4500,
+      "stronger_combo_escalation": 2500
+    },
+    "generator": "Chatterbox 0.1.7 with synthetic-only Kokoro reference",
+    "watermark": "default PerTh retained",
+    "intelligibility_check": {
+      "model": "openai/whisper-base.en",
+      "revision": "911407f4214e0e1d82085af863093ec0b66f9cd6",
+      "method": "unprompted local recognition; no phrase hints; punctuation/case normalized",
+      "results": [
+        {
+          "kind": "four",
+          "sha256": "337202fccac76c06ca8dce9cb8a1534039671e6e8446dee23074eb5ac223fa75",
+          "transcript": "Nice move."
+        },
+        {
+          "kind": "five",
+          "sha256": "f5b687cdd5ae9dc726c2e7e55a478ddece18651c6b212b8c7b866751899f815c",
+          "transcript": "Awesome!"
+        },
+        {
+          "kind": "cross",
+          "sha256": "08bcde86786c0e258b266cb439024eda2be82c9280b275ff47b5fa19af899cbb",
+          "transcript": "Excellent."
+        },
+        {
+          "kind": "combo3",
+          "sha256": "c48ff654c94a1f7f9319e2a9054f12c802508a18ba272d0a15735cc23d9b35e2",
+          "transcript": "Triple Combo"
+        },
+        {
+          "kind": "combo4",
+          "sha256": "9332babcba587c7c5633dfbfd57763bb61f908618f960d62b20b0d2cbabc7259",
+          "transcript": "Monster Combo"
+        },
+        {
+          "kind": "nova",
+          "sha256": "cf464c5fe2567141897add7350df89e336c9d2e67ace196bb3dd6cf0a7e967b0",
+          "transcript": "Oh yeah!"
+        },
+        {
+          "kind": "novaReady",
+          "sha256": "ed2da7f5985d2a999cd804a40c09614d97302d2c3196d56ca8a4080ee25dfbcb",
+          "transcript": "Nova ready."
+        }
+      ],
+      "limitation": "Diagnostic only; owner listening is required for subjective tone and real-device sound balance."
+    },
+    "repaired_calls": [
+      "four: Nice move!",
+      "combo4: Monster combo!",
+      "nova: Oh yeah!"
+    ],
+    "unchanged_calls": [
+      "four",
+      "five",
+      "cross",
+      "combo3",
+      "combo4",
+      "nova"
+    ],
+    "speech_check_model_shipped": false,
+    "new_reward_call": "Nova ready! only on granted Nova acquisition or stage gift; full inventory does not call",
+    "nova_ready_minimum_gap_ms": 1800
+  },
+  "brand_revision": {
+    "previous_name": "Kynburst",
+    "current_name": "Popzuno",
+    "trademark_clearance": "not_obtained",
+    "actual_name_scan": "evidence/name-review-2026-10-29/popzuno-quick-store-scan.json",
+    "persistent_identifiers_unchanged": true
+  }
+}

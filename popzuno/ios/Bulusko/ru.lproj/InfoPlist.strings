@@ -1,0 +1,3 @@
+"CFBundleDisplayName" = "Popzuno";
+"NSCameraUsageDescription" = "Сделай необязательное фото для персонажа Popzuno. Обработка выполняется на устройстве.";
+"NSPhotoLibraryUsageDescription" = "Только выбранное фото обрабатывается на устройстве для настройки персонажа.";

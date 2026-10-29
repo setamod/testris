@@ -1,0 +1,20 @@
+{
+  "locale": "es",
+  "platformLocales": {
+    "apple": "es-ES",
+    "google": "es-ES"
+  },
+  "name": "Popzuno",
+  "subtitle": "Desliza. Combina. Desata.",
+  "shortDescription": "Combina caras y supera récords en cinco modos sin conexión. Fotos opcionales.",
+  "description": "Intercambia bloques vecinos, crea combinaciones y usa los poderes en el momento justo. Cinco modos para superar tu mejor marca.\n\nResiste el campo ascendente en Rush. Puntúa durante un minuto en Blitz 60. Gana segundos combinando en Time Rush. Completa objetivos en Ascend. Juega la misma apertura del día UTC en Daily 90.\n\nUn cuadrado da Bomb; cuatro horizontales Rocket; cuatro verticales Shuffle; un cruce L/T Cross; cinco en línea Nova. Encadena jugadas y activa Overdrive.\n\nJuega con caras ilustradas o personaliza siete personajes con fotos autorizadas, procesadas en tu dispositivo. Sin cuentas, anuncios, analítica ni compras integradas. Una descarga de pago, juego sin conexión. Récords locales; Daily no es una clasificación online.\n\nCircuit Bloom adapta la música a la velocidad, con efectos separados y vibración en dispositivos compatibles. Turco, inglés, italiano, español, alemán y ruso.",
+  "keywords": "combinar,puzle,arcade,sin conexión,caras,deslizar,combo,récord",
+  "categories": [
+    "Games/Puzzle",
+    "Games/Arcade"
+  ],
+  "privacyUrl": "https://popzuno.frostytang32768.chatgpt.site/privacy/es.html",
+  "supportUrl": "https://popzuno.frostytang32768.chatgpt.site/support/es.html",
+  "pricing": "paid_upfront_price_pending",
+  "releaseNotes": "Privacy policy, local data deletion and platform publication preparation."
+}
