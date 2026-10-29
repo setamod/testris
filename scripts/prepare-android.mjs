@@ -1,54 +1,34 @@
-import {copyFile,mkdir,readFile,stat,writeFile} from 'node:fs/promises';
-import {dirname,join,resolve} from 'node:path';
+import {readFile,writeFile,mkdir,copyFile,unlink} from 'node:fs/promises';
+import {resolve,dirname,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
-import vm from 'node:vm';
-
-const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
-const android=join(root,'android','app','src','main','assets');
-const game=join(android,'game');
-await mkdir(game,{recursive:true});
-
-// Keep the Android client fully offline, just like the iOS and portable builds.
-execFileSync(process.execPath,[join(root,'scripts','package-portable.mjs')],{stdio:'pipe'});
-let html=await readFile(join(root,'..','releases','Familytris-Mac','OYNA.html'),'utf8');
-function replaceRequired(before,after){
- if(!html.includes(before))throw Error(`Android game integration is out of date: ${before.slice(0,55)}`);
- html=html.replace(before,after);
+import {LEGAL_FILES} from './generate-legal.mjs';
+import {PRIVACY_COPY} from '../dist/privacy.mjs';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),main=join(root,'android','app','src','main');
+execFileSync(process.execPath,[join(root,'scripts','package.mjs')],{stdio:'pipe'});
+let html=await readFile(join(root,'..','releases','Popzuno-Prototip','OYNA.html'),'utf8');
+html=html.replace('width=device-width, initial-scale=1, viewport-fit=cover','width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
+html=html.replace('href="./OYNA.html"','href="./index.html"');
+const bridge=`<script>
+window.webkit={messageHandlers:{bulusko:{postMessage:function(value){window.KynburstNative.postMessage(JSON.stringify(value));}}}};
+if(!navigator.share)Object.defineProperty(navigator,'share',{value:async function(value){window.KynburstNative.postMessage(JSON.stringify({type:'share',text:String(value.text||'')}));}});
+</script>`;
+html=html.replace('<head>','<head>'+bridge);
+await mkdir(join(main,'assets','game'),{recursive:true});await writeFile(join(main,'assets','game','index.html'),html);
+await mkdir(join(main,'assets','legal'),{recursive:true});for(const name of LEGAL_FILES)await copyFile(join(root,'vendor',name),join(main,'assets','legal',name));
+const native={tr:['Popzuno ayarları','Titreşim','Bitti'],en:['Popzuno settings','Haptics','Done'],it:['Impostazioni Popzuno','Vibrazioni','Fatto'],es:['Ajustes de Popzuno','Vibración','Listo'],de:['Popzuno-Einstellungen','Vibration','Fertig'],ru:['Настройки Popzuno','Вибрация','Готово']};
+const escape=value=>value.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll("'","\\'");
+for(const [lang,[settings,haptics,done]]of Object.entries(native)){
+ const folder=join(main,'res',lang==='en'?'values':'values-'+lang);await mkdir(folder,{recursive:true});
+ await writeFile(join(folder,'strings.xml'),'<resources>\n'+Object.entries({app_name:'Popzuno',settings,haptics,done,privacy:PRIVACY_COPY[lang].policy}).map(([key,value])=>`<string name="${key}">${escape(value)}</string>`).join('\n')+'\n</resources>\n');
 }
-replaceRequired('class="brand" href="./OYNA.html"','class="brand" href="./index.html"');
-replaceRequired(
- "const safeRead=(key,fallback)=>{try{return localStorage.getItem(key)??fallback;}catch{return fallback;}};",
- "const safeRead=(key,fallback)=>{try{const value=globalThis.BLOK?.getPreference?.(key);return typeof value==='string'?value:localStorage.getItem(key)??fallback;}catch{return fallback;}};"
-);
-replaceRequired(
- "const safeWrite=(key,value)=>{try{localStorage.setItem(key,String(value));}catch{}};",
- "const safeWrite=(key,value)=>{const text=String(value);globalThis.BLOK?.savePreference?.(key,text);try{localStorage.setItem(key,text);}catch{}};"
-);
-replaceRequired(
- "const family=createFamilyStudio({read:safeRead,write:(key,value)=>{let stored=false;try{localStorage.setItem(key,value);stored=true;}catch{}const native=globalThis.webkit?.messageHandlers?.blok;if(native){native.postMessage({type:'preference',key,value});if(globalThis.__BLOK_NATIVE_STORAGE__)globalThis.__BLOK_NATIVE_STORAGE__[key]=value;stored=true;}if(!stored)throw Error('Kayıt kullanılamıyor');},pause:()=>{autoPause();wasPlayingBeforeHelp=false;},onChange:()=>{uiCache.preview=null;}});",
- "const family=createFamilyStudio({read:safeRead,write:safeWrite,pause:()=>{autoPause();wasPlayingBeforeHelp=false;},onChange:()=>{uiCache.preview=null;}});"
-);
-replaceRequired('function onEvent(event){',"function onEvent(event){\n if(['rotate','hold','drop','clear','over','start'].includes(event.type))globalThis.BLOK?.feedback?.(event.type,event.count??0,!!event.levelUp);");
-replaceRequired(
- '<button class="primary-button" id="got-it">',
- '<button id="native-settings" class="native-settings-button">Uygulama ayarları ve gizlilik</button><button class="primary-button" id="got-it">'
-);
-const bridge=`
-$('native-settings').addEventListener('click',()=>{wasPlayingBeforeHelp=false;dialog.close();autoPause();globalThis.BLOK?.showSettings?.();});
-const nativeState=()=>globalThis.BLOK?.setPlaying?.(game.status==='playing');
-new MutationObserver(nativeState).observe($('game-status'),{childList:true,characterData:true,subtree:true});
-nativeState();
-`;
-replaceRequired('\n})();\n</script>','\n'+bridge+'\n})();\n</script>');
-const mobileStyles=await readFile(join(root,'android','mobile.css'),'utf8');
-replaceRequired('</head>',`<style>${mobileStyles}</style></head>`);
-if(html.includes('type="module"')||/@import\s/.test(html)||/(?:src|href)=["']https?:/i.test(html))throw Error('Android resources are not self-contained.');
-new vm.Script(html.match(/<script>([\s\S]*?)<\/script>/)[1]);
-await writeFile(join(game,'index.html'),html);
-
-const legal=join(android,'legal');
-await mkdir(legal,{recursive:true});
-for(const name of ['chakrapetch-OFL.txt','ibmplexmono-OFL.txt'])await copyFile(join(root,'vendor','fonts',name),join(legal,name));
-await copyFile(join(root,'vendor','pico-MIT.txt'),join(legal,'pico-MIT.txt'));
-console.log(JSON.stringify({game:join(game,'index.html'),game_bytes:(await stat(join(game,'index.html')).size)}));
+// Approved Popzuno artwork; adaptive masks retain the complete central emblem.
+await mkdir(join(main,'res','mipmap-anydpi-v26'),{recursive:true});await mkdir(join(main,'res','mipmap-anydpi-v33'),{recursive:true});await mkdir(join(main,'res','drawable'),{recursive:true});
+await writeFile(join(main,'res','drawable','launcher_foreground.xml'),'<inset xmlns:android="http://schemas.android.com/apk/res/android" android:inset="18dp"><bitmap android:src="@drawable/popzuno_icon" android:gravity="fill" android:filter="true"/></inset>');
+await writeFile(join(main,'res','drawable','launcher_monochrome.xml'),'<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108"><group android:scaleX="0.72" android:scaleY="0.72" android:translateX="15.12" android:translateY="15.12"><path android:pathData="M19,17h24q8,0 8,8v12h-11q-12,0 -12,12v3h-9q-8,0 -8,-8v-19q0,-8 8,-8M77,28h11q9,0 9,9v22q0,9 -9,9h-7v-18q0,-11 -10,-13v-1q0,-8 6,-8M41,43h26q10,0 10,10v29q0,10 -10,10h-26q-10,0 -10,-10v-29q0,-10 10,-10M78,9l3,8 9,3 -9,3 -3,8 -3,-8 -9,-3 9,-3Z" android:fillColor="#ffffff"/><path android:pathData="M43,63h3M62,63h3M44,73q10,13 20,0" android:strokeColor="#00000000" android:strokeWidth="0" android:fillColor="#00000000"/></group></vector>');
+await writeFile(join(main,'res','mipmap-anydpi-v26','ic_launcher.xml'),'<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@color/launcher_background"/><foreground android:drawable="@drawable/launcher_foreground"/></adaptive-icon>');
+await writeFile(join(main,'res','mipmap-anydpi-v33','ic_launcher.xml'),'<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android"><background android:drawable="@color/launcher_background"/><foreground android:drawable="@drawable/launcher_foreground"/><monochrome android:drawable="@drawable/launcher_monochrome"/></adaptive-icon>');
+await writeFile(join(main,'res','values','colors.xml'),'<resources><color name="launcher_background">#151226</color></resources>');
+for(const density of ['mdpi','hdpi','xhdpi','xxhdpi','xxxhdpi'])for(const file of ['ic_launcher.png','ic_launcher_art.png'])await unlink(join(main,'res','mipmap-'+density,file)).catch(error=>{if(error.code!=='ENOENT')throw error;});
+await unlink(join(main,'res','mipmap-anydpi','ic_launcher.xml')).catch(error=>{if(error.code!=='ENOENT')throw error;});
+console.log(JSON.stringify({platform:'android',targetSdk:36,minSdk:26,assets:'offline',internetPermission:false,photoAccess:'system_picker',backup:false,game:join(main,'assets','game','index.html')}));

@@ -1,24 +1,82 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {NeonAudio,effectPattern} from '../dist/audio.mjs';
+import {FlowAudio,flowTempo,REWARD_SOUNDS} from '../dist/sound.mjs';
 
-function audioHarness(options={}){
+function harness(){
  const sources=[];
- const param=()=>({value:0,setValueAtTime(){},exponentialRampToValueAtTime(){},setTargetAtTime(value){this.value=value;},cancelScheduledValues(){}});
- const node=()=>({connect(){},disconnect(){this.disconnected=true;}});
- const source=()=>{const n={...node(),frequency:param(),start(time){this.startTime=time;},stop(time){this.stopTime=time;}};sources.push(n);return n;};
- const context={currentTime:0,sampleRate:8000,state:'suspended',destination:{},resume(){this.state='running';return Promise.resolve();},createGain(){return {...node(),gain:param()};},createDynamicsCompressor(){return {...node(),threshold:param(),knee:param(),ratio:param(),attack:param(),release:param()};},createBuffer(channels,length){return {getChannelData:()=>new Float32Array(length)};},createBufferSource:source,createOscillator:source,createBiquadFilter(){return {...node(),frequency:param()};}};
- let creations=0;
- const audio=new NeonAudio({...options,contextFactory:()=>{creations++;return context;}});
- return {audio,context,sources,creations:()=>creations};
+ const parameter=()=>({value:0,setValueAtTime(){},exponentialRampToValueAtTime(){},setTargetAtTime(value){this.lastTarget=value;}});
+ const node=()=>({connections:[],connect(target){this.connections.push(target);},disconnect(){this.disconnected=true;}});
+ const source=()=>{const s={...node(),frequency:parameter(),start(time){this.startTime=time;},stop(time){this.stopTime=time;}};sources.push(s);return s;};
+ const context={sampleRate:12000,createBuffer:(count,length,rate)=>{const channels=Array.from({length:count},()=>new Float32Array(length));return {duration:length/rate,getChannelData:i=>channels[i]};},currentTime:0,state:'running',destination:{},createGain:()=>({...node(),gain:parameter()}),createDynamicsCompressor:()=>({...node(),threshold:parameter(),knee:parameter(),ratio:parameter(),attack:parameter(),release:parameter()}),createStereoPanner:()=>({...node(),pan:parameter()}),createBiquadFilter:()=>({...node(),frequency:parameter()}),createBufferSource:source,createOscillator:source};
+ const audio=new FlowAudio();audio.context=context;audio.musicBus={gain:parameter()};audio.fxBus={gain:parameter()};audio.voiceBus={gain:parameter()};audio.musicBus.gain.value=.3;audio.voiceBus.gain.value=.4;audio.master={gain:parameter()};audio.noiseBuffer={};return {audio,context,sources};
 }
-test('audio is initialized only after an interaction needs sound',()=>{const h=audioHarness();assert.equal(h.creations(),0);assert.equal(h.audio.play('start'),true);assert.equal(h.creations(),1);assert.equal(h.context.state,'running');h.audio.play('rotate');assert.equal(h.creations(),1);});
-test('muting immediately cancels all scheduled notes, including a future level jingle',()=>{const {audio,context,sources}=audioHarness();audio.play('level',{delay:.55});assert.ok(sources.every(s=>s.startTime>.5));audio.setEnabled(false);assert.equal(audio.voices.size,0);assert.ok(sources.every(s=>s.stopTime<=context.currentTime+.011&&s.disconnected));const count=sources.length;assert.equal(audio.play('drop'),false);assert.equal(sources.length,count);});
-test('muting before the first interaction does not initialize an audio context',()=>{const h=audioHarness({enabled:false});assert.equal(h.audio.play('start'),false);assert.equal(h.creations(),0);});
-test('volume zero is silent and volume values stay within a valid range',()=>{const h=audioHarness({volume:0});assert.equal(h.audio.play('start'),false);assert.equal(h.creations(),0);h.audio.setVolume(5);assert.equal(h.audio.volume,1);h.audio.setVolume(-2);assert.equal(h.audio.volume,0);h.audio.setVolume(NaN);assert.equal(h.audio.volume,.55);});
-test('rapid movement is rate limited without blocking other effects',()=>{const {audio,context}=audioHarness();assert.equal(audio.play('move'),true);assert.equal(audio.play('move'),false);assert.equal(audio.play('rotate'),true);context.currentTime=.05;assert.equal(audio.play('move'),true);});
-test('hard drop does not double up with a simultaneous locking impact',()=>{const {audio,context}=audioHarness();audio.play('drop');assert.equal(audio.play('lock'),false);context.currentTime=.12;assert.equal(audio.play('lock'),true);});
-test('bursts of effects keep at most 28 live voices and disconnect evicted sources',()=>{const {audio,sources}=audioHarness();for(let i=0;i<30;i++)audio.play('clear',{count:4});assert.equal(audio.voices.size,28);assert.ok(sources.slice(0,-28).every(s=>s.disconnected));audio.stopAll();assert.equal(audio.voices.size,0);});
-test('ended notes release their graph nodes',()=>{const {audio,sources}=audioHarness();audio.play('rotate');for(const s of sources)s.onended();assert.equal(audio.voices.size,0);assert.ok(sources.every(s=>s.disconnected));});
-test('missing audio support disables sound without crashing the game',()=>{let unavailable=0;const audio=new NeonAudio({contextFactory:()=>{throw Error('unsupported');},onUnavailable:()=>unavailable++});assert.equal(audio.play('start'),false);assert.equal(audio.available,false);assert.equal(unavailable,1);assert.equal(audio.play('drop'),false);assert.equal(unavailable,1);});
-test('all effects have finite, positive envelopes and a four-line clear has a richer finish',()=>{for(const name of ['move','softDrop','rotate','hold','drop','lock','clear','level','start','pause','resume','over','confirm']){const pattern=effectPattern(name);assert.ok(pattern.length);for(const n of pattern){assert.ok(n.duration>.004&&n.duration<1);assert.ok(n.gain>0&&n.gain<1);assert.ok(Number.isFinite(n.delay)&&n.delay>=0);if(n.type!=='noise')assert.ok(Number.isFinite(n.frequency)&&n.frequency>0&&Number.isFinite(n.to)&&n.to>0);}}assert.ok(effectPattern('clear',{count:4}).length>effectPattern('clear',{count:1}).length);});
+test('effect bursts never evict music or change its sequencer position',()=>{
+ const {audio}=harness();audio.setPlaying(true);audio.update(.5);const music=[...audio.voices].filter(v=>v.music),step=audio.step,clock=audio.clock;assert.ok(music.length);
+ for(let i=0;i<70;i++)audio.effect('clear',4);
+ assert.ok(music.every(v=>audio.voices.has(v)&&!v.source.disconnected));assert.equal([...audio.voices].filter(v=>!v.music).length,32);assert.equal(audio.step,step);assert.equal(audio.clock,clock);
+});
+test('new reward, Bomb, Rocket, Cross, Nova and stage sounds keep the music pool intact',()=>{
+ const {audio}=harness();audio.setPlaying(true);audio.update(.7);const music=[...audio.voices].filter(v=>v.music),step=audio.step;
+ for(let i=0;i<12;i++)for(const kind of ['earn-bomb','earn-rocket','earn-cross','earn-nova','bomb','rocket','cross','nova','shuffle','stage','stage-count','stage-ready'])audio.effect(kind);
+ assert.ok(music.every(v=>audio.voices.has(v)&&!v.source.disconnected));assert.ok([...audio.voices].filter(v=>!v.music).length<=32);assert.equal(audio.step,step);
+});
+test('music disable keeps effects alive; pause and global mute stop both pools',()=>{
+ const {audio,context}=harness();audio.setPlaying(true);audio.update(.4);audio.effect('place');const effects=[...audio.voices].filter(v=>!v.music);audio.setMusic(false);assert.deepEqual([...audio.voices],effects);audio.setMusic(true);audio.update(.4);context.currentTime+=.2;audio.update(.4);assert.ok([...audio.voices].some(v=>v.music));audio.setPlaying(false);assert.equal(audio.voices.size,0);audio.setPlaying(true);audio.update(.4);audio.setEnabled(false);assert.equal(audio.voices.size,0);const step=audio.step;audio.update(1);assert.equal(audio.step,step);
+});
+test('two minutes of music and impacts stay bounded and large time gaps cannot schedule a backlog',()=>{
+ const {audio,context}=harness();audio.setPlaying(true);
+ for(let frame=0;frame<7200;frame++){
+  context.currentTime=frame/60;for(const voice of [...audio.voices])if(voice.source.stopTime<=context.currentTime)voice.source.onended();audio.update(frame/7200);if(frame%30===0)audio.effect('clear',frame%4+1);
+  assert.ok([...audio.voices].filter(v=>v.music).length<=32);assert.ok([...audio.voices].filter(v=>!v.music).length<=32);
+ }
+ audio.stop();context.currentTime+=100;audio.update(1);assert.ok(audio.voices.size<=32);assert.ok([...audio.voices].every(v=>v.source.startTime>=context.currentTime));
+});
+test('tempo grows from 118 to 178 BPM and smoothing is independent of display refresh rate',()=>{
+ assert.equal(flowTempo(0),118);assert.equal(flowTempo(1),178);assert.equal(flowTempo(NaN),118);assert.equal(flowTempo(99),178);
+ const sixty=harness().audio,oneTwenty=harness().audio;sixty.enabled=false;oneTwenty.enabled=false;
+ for(let i=0;i<120;i++)sixty.update(1,1000/60);
+ for(let i=0;i<240;i++)oneTwenty.update(1,1000/120);
+ assert.ok(Math.abs(sixty.intensity-oneTwenty.intensity)<1e-10);assert.ok(sixty.intensity>.9&&sixty.intensity<1);
+});
+
+test('tempo follows explicit game pace while pressure only changes the arrangement',()=>{
+ const {audio}=harness();audio.enabled=false;
+ for(let i=0;i<120;i++)audio.update(1,1000/60,0);
+ assert.equal(flowTempo(audio.tempoPace),118);assert.ok(audio.intensity>.9);
+ for(let i=0;i<120;i++)audio.update(.1,1000/60,1);
+ assert.ok(flowTempo(audio.tempoPace)>177);assert.ok(audio.intensity<.2);
+});
+
+test('all five earned powers have distinct short signatures protected from blast bursts',()=>{
+ assert.deepEqual(Object.keys(REWARD_SOUNDS).sort(),['bomb','cross','nova','rocket','shuffle']);
+ assert.equal(new Set(Object.values(REWARD_SOUNDS).map(s=>JSON.stringify(s))).size,5);
+ for(const sound of Object.values(REWARD_SOUNDS))assert.ok((sound.pitches.length-1)*sound.gap+sound.duration<.8);
+ const {audio}=harness();audio.effect('earn-nova');const reward=[...audio.voices];assert.ok(reward.length>=6);
+ for(let i=0;i<70;i++)audio.effect('clear',4);
+ assert.ok(reward.every(v=>audio.voices.has(v)&&!v.source.disconnected));assert.ok(audio.voices.size<=32);
+});
+test('voice toggle, master mute, volume change and pause stop speech without stopping music for a cheer',()=>{
+ const {audio}=harness();const calls=[];audio.announcer={prepare:()=>calls.push('prepare'),play:(kind,volume)=>{calls.push([kind,volume]);return true;},stop:()=>calls.push('stop')};
+ audio.setPlaying(true);audio.update(.5);const music=[...audio.voices].filter(v=>v.music),step=audio.step;
+ assert.equal(audio.cheer('five'),true);assert.ok(music.every(v=>audio.voices.has(v)));assert.equal(audio.step,step);
+ audio.setCheers(false);assert.equal(audio.cheer('four'),false);audio.setCheers(true);audio.setVolume(0);assert.equal(audio.cheer('four'),false);
+ audio.setVolume(.5);audio.setEnabled(false);assert.equal(audio.cheer('four'),false);audio.setEnabled(true);audio.setPlaying(false);assert.equal(calls.at(-1),'stop');
+});
+
+test('Nova always takes the separate speech lane and music/blast bursts cannot evict it',()=>{
+ const {audio}=harness();audio.voiceClips=new Map(['four','five','nova'].map(k=>[k,{duration:1}]));audio.setPlaying(true);audio.update(.5);const music=[...audio.voices].filter(v=>v.music);
+ assert.equal(audio.cheer('four'),true);const first=audio.spokenVoice;assert.equal(audio.cheer('nova'),true);const nova=audio.spokenVoice;assert.notEqual(nova,first);assert.ok(!audio.voices.has(first));assert.equal(audio.cheer('four'),false);
+ for(let i=0;i<80;i++)audio.effect('clear',4);assert.ok(audio.voices.has(nova));assert.ok(music.every(v=>audio.voices.has(v)));assert.equal([...audio.voices].filter(v=>v.speech).length,1);
+ assert.equal(audio.previewCheer('four'),true);assert.notEqual(audio.spokenVoice,nova);audio.setCheers(false);assert.ok(!audio.voices.has(nova));assert.ok(music.every(v=>audio.voices.has(v)));
+});
+test('a clip decode completing after pause cannot play a stale cheer',async()=>{
+ const {audio,context}=harness(),decoding=[];context.decodeAudioData=()=>new Promise(resolve=>decoding.push(resolve));audio.setPlaying(true);audio.cheer('nova');assert.equal(decoding.length,7);audio.setPlaying(false);
+ for(const resolve of decoding)resolve({duration:1});await audio.clipLoad;assert.equal(audio.voiceClips.size,7);assert.equal(audio.spokenVoice,null);assert.equal(audio.voices.size,0);
+ assert.equal(audio.cheer('nova'),true);audio.setVolume(.2);assert.equal(audio.spokenVoice,null);
+});
+
+test('announcer defaults lower in its own bus and its volume control never ducks music or effects',()=>{
+ const {audio}=harness();assert.equal(audio.cheerVolume,.4);audio.voiceClips=new Map([['nova',{duration:1}]]);audio.setPlaying(true);audio.update(.5);audio.cheer('nova');const music=[...audio.voices].filter(v=>v.music);audio.effect('bomb');const impact=[...audio.voices].find(v=>!v.music&&!v.speech);
+ audio.setCheerVolume(.2);assert.equal(audio.voiceBus.gain.lastTarget,.2);assert.equal(audio.musicBus.gain.lastTarget,undefined);assert.equal(audio.fxBus.gain.lastTarget,undefined);assert.ok(music.every(v=>audio.voices.has(v)));
+ audio.setCheerVolume(0);assert.equal(audio.spokenVoice,null);assert.ok(audio.voices.has(impact));assert.ok(music.every(v=>audio.voices.has(v)));assert.equal(audio.cheer('nova'),false);
+});

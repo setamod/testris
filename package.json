@@ -1,15 +1,17 @@
 {
-  "name": "blok-arcade",
-  "version": "1.0.0",
+  "name": "popzuno",
+  "version": "0.9.8",
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "python3 -m http.server 4173 --directory dist",
+    "start": "python3 -m http.server 4186 --bind 127.0.0.1 --directory dist",
     "test": "node --test tests/*.test.mjs",
-    "package:mac": "node scripts/package-portable.mjs",
+    "package": "node scripts/package.mjs",
     "prepare:ios": "node scripts/prepare-ios.mjs",
-    "package:ios": "node scripts/package-ios.mjs",
     "prepare:android": "node scripts/prepare-android.mjs",
-    "package:android": "node scripts/package-android.mjs"
+    "prepare:publication": "node scripts/prepare-publication.mjs",
+    "verify:publication": "node scripts/verify-publication.mjs",
+    "build:android": "node scripts/build-android.mjs",
+    "test:android": "node scripts/test-android.mjs"
   }
 }

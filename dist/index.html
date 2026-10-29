@@ -1,114 +1,72 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#080b14">
-  <meta name="description" content="Familytris: ailen ve arkadaşlarınla kişiselleşen neon blok oyunu. Fotoğraflar yalnızca cihazında kalır.">
-  <title>Familytris // Neon Arcade</title>
-  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href="./cyberpunk.css">
-  <link rel="stylesheet" href="./family.css">
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="theme-color" content="#10121d">
+ <meta name="description" content="Popzuno: dört yönde kaydır, 3’lü sıra kur, Bomb, Rocket, Cross ve Nova kazan. Ailenin yüzleriyle yükselen bir arcade bulmacası.">
+ <title>Popzuno — Photo Match &amp; Blast</title>
+ <link rel="icon" type="image/svg+xml" href="./icon.svg">
+ <link rel="stylesheet" href="./style.css">
 </head>
-<body>
-  <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
-    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
-    <symbol id="i-play" viewBox="0 0 24 24"><path d="m9 5 11 7-11 7Z"/></symbol>
-    <symbol id="i-restart" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></symbol>
-    <symbol id="i-sound" viewBox="0 0 24 24"><path d="m11 5-6 4H2v6h3l6 4Zm4 3a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
-    <symbol id="i-muted" viewBox="0 0 24 24"><path d="m11 5-6 4H2v6h3l6 4Zm5 4 6 6m0-6-6 6"/></symbol>
-    <symbol id="i-cup" viewBox="0 0 24 24"><path d="M7 3h10v7a5 5 0 0 1-10 0Zm0 2H3v3a4 4 0 0 0 4 4m10-7h4v3a4 4 0 0 1-4 4m-5 3v6m-4 0h8"/></symbol>
-    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
-    <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M19 10a7 7 0 1 0 0 7m1-13v6h-6"/></symbol>
-    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3v13m-5-5 5 5 5-5M4 21h16"/></symbol>
-    <symbol id="i-family" viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M3 21v-4a6 6 0 0 1 12 0v4m2-17a3 3 0 0 1 0 6m1 4a5 5 0 0 1 3 4v3"/></symbol>
-  </svg>
+<body class="tide-experience">
+ <svg class="svg-library" aria-hidden="true"><defs>
+  <symbol id="icon-family" viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 21v-4a6 6 0 0 1 12 0v4m2-7a5 5 0 0 1 6 5v2"/></symbol>
+  <symbol id="icon-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 8a3 3 0 1 1 4 3c-1 1-1 2-1 3m0 3v.1"/></symbol>
+  <symbol id="icon-sound" viewBox="0 0 24 24"><path d="m11 4-6 5H2v6h3l6 5zM16 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
+  <symbol id="icon-mute" viewBox="0 0 24 24"><path d="m11 4-6 5H2v6h3l6 5zm5 5 6 6m0-6-6 6"/></symbol>
+  <symbol id="icon-rotate" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2 7M20 4v7h-7"/></symbol>
+  <symbol id="icon-wave" viewBox="0 0 24 24"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5z"/></symbol>
+  <symbol id="icon-hint" viewBox="0 0 24 24"><path d="M8 17h8m-7 4h6M7 12a7 7 0 1 1 10 0l-2 3H9z"/></symbol>
+  <symbol id="icon-undo" viewBox="0 0 24 24"><path d="M3 5v7h7M3 12l5-5a8 8 0 1 1-1 12"/></symbol>
+  <symbol id="icon-pause" viewBox="0 0 24 24"><path d="M8 4v16M16 4v16"/></symbol>
+  <symbol id="icon-play" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8z"/></symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24"><path d="m5 5 14 14m0-14L5 19"/></symbol>
+  <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6"/></symbol>
+  <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></symbol>
+ </defs></svg>
+ <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+ <div class="app-shell">
+  <header class="topbar">
+   <a class="brand" href="./index.html" aria-label="Popzuno">
+    <img class="brand-mark" src="./assets/popzuno-mark.png" width="43" height="43" alt="">
+    <span><b data-text="brand">Popzuno</b><small data-text="tagline">SWIPE. MATCH. UNLEASH.</small></span>
+   </a>
+   
+   <nav class="top-actions" aria-label="Oyun menüsü">
+    <button class="family-button" id="family-open"><svg><use href="#icon-family"/></svg><span data-text="family">Ailem</span></button>
+    <button class="icon-button" id="sound-toggle" aria-label="Ses" aria-pressed="true"><svg><use href="#icon-sound"/></svg></button>
+    <button class="icon-button" id="help-open" aria-label="Nasıl oynanır"><svg><use href="#icon-help"/></svg></button>
+   </nav>
+  </header>
+  <main id="tide-root"></main>
 
-  <div class="page-shell">
-    <header class="site-header">
-      <a class="brand" href="./" aria-label="Familytris ana sayfa"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Familytris<span class="brand-dot">.</span></span></a>
-      <span class="edition-tag">FAMILY EDITION<span>NEON ARCADE / V.03</span></span>
-      <span class="header-tagline">GECEYE BAĞLAN. RİTMİ YAKALA.</span>
-      <button id="family-button" class="family-button" aria-label="Aile fotoğraflarını düzenle"><svg aria-hidden="true"><use href="#i-family"/></svg><span>Ailem</span></button>
-      <button id="sound-button" class="sound-button" aria-pressed="true" aria-label="Ses efektlerini kapat"><svg><use href="#i-sound"/></svg><span>Ses açık</span></button>
-      <button class="help-button" id="help-button"><span class="question-mark">?</span> Nasıl oynanır</button>
-    </header>
-    <div class="system-bar" aria-hidden="true"><span><i></i> SİSTEM ÇEVRİMİÇİ <b>//</b> SEKTÖR 07</span><span>ARCADE PROTOKOLÜ <b>02.77</b></span></div>
-
-    <main class="arcade-layout">
-      <section class="intro-panel" aria-labelledby="intro-title">
-        <div class="eyebrow"><span class="tiny-square"></span> YÜKSEK VOLTAJ. TAM ODAK.</div>
-        <h1 id="intro-title">Bir blok<br>daha<span class="accent-dot">.</span></h1>
-        <p class="intro-copy">Ailen oyuna katılsın.<br>Fotoğrafları seç, karakterleri diz.</p>
-        <div class="intro-rule"></div>
-        <div class="hold-heading"><span class="section-label">CEPTEKİ PARÇA</span><kbd>C</kbd></div>
-        <div class="hold-box" id="hold-box"><canvas id="hold-canvas" width="176" height="88" aria-label="Saklanan parça: boş"></canvas><span id="hold-empty">Bir parçayı sonraya sakla</span></div>
-        <div class="keyboard-guide">
-          <span class="section-label">PARMAKLARIN HAZIR MI?</span>
-          <div><span class="key-group"><kbd>←</kbd><kbd>→</kbd></span><span>Hareket ettir</span></div>
-          <div><span class="key-group"><kbd>↑</kbd></span><span>Döndür</span></div>
-          <div><span class="key-group"><kbd>↓</kbd></span><span>Hızlandır</span></div>
-          <div><span class="key-group"><kbd class="space-key">SPACE</kbd></span><span>Anında bırak</span></div>
-        </div>
-        <div class="little-note"><span aria-hidden="true">↳</span> Şehir uyumaz. Bloklar durmaz.</div>
-      </section>
-
-      <section class="game-column" aria-label="Oyun alanı">
-        <div class="board-heading"><div class="live-label"><span class="status-dot" id="status-dot"></span><span id="game-status">OYUNA HAZIR</span></div><span class="board-size">10 × 20</span></div>
-        <div class="board-frame" id="board-frame">
-          <canvas id="board" width="600" height="1200" aria-label="10 sütun ve 20 satırlık blok oyunu alanı"></canvas>
-          <div class="game-overlay" id="game-overlay">
-            <div class="overlay-content">
-              <div class="overlay-blocks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-              <span class="overlay-eyebrow" id="overlay-eyebrow">FAMILYTRIS'E HOŞ GELDİN.</span>
-              <h2 id="overlay-title">Ailen oyunda.</h2>
-              <p id="overlay-description">Ailem düğmesinden yüzleri ekle.<br>Ya da çizgi karakterlerle hemen oyna.</p>
-              <button class="primary-button" id="start-button"><span id="start-label">Oyuna başla</span><svg><use href="#i-arrow"/></svg></button>
-              <span class="start-hint" id="start-hint">ya da <kbd>ENTER</kbd> tuşuna bas</span>
-            </div>
-          </div>
-          <div class="board-toast" id="board-toast" role="status"></div>
-        </div>
-        <div class="board-toolbar"><span class="session-time" id="session-time">00:00</span><div><button class="icon-button" id="pause-button" aria-label="Oyunu duraklat" title="Duraklat (P)" disabled><svg><use href="#i-pause"/></svg></button><span class="toolbar-divider"></span><button class="icon-button" id="restart-button" aria-label="Yeni oyun" title="Yeni oyun"><svg><use href="#i-restart"/></svg></button></div><span class="pause-hint"><kbd>P</kbd> mola</span></div>
-        <div class="touch-controls" aria-label="Dokunmatik oyun kontrolleri">
-          <button data-action="hold" aria-label="Parçayı sakla">C</button><button data-action="left" aria-label="Sola taşı">←</button><button data-action="rotate" aria-label="Döndür"><svg><use href="#i-rotate"/></svg></button><button data-action="right" aria-label="Sağa taşı">→</button><button data-action="down" aria-label="Hızlandır">↓</button><button data-action="drop" class="touch-drop" aria-label="Anında bırak"><svg><use href="#i-drop"/></svg></button>
-        </div>
-      </section>
-
-      <aside class="stats-panel" aria-label="Oyun istatistikleri">
-        <div class="score-panel"><span class="section-label">SKORUN</span><strong class="score-value" id="score">000000</strong><div class="record-line"><svg><use href="#i-cup"/></svg><span>En iyi</span><strong id="best-score">0</strong></div></div>
-        <div class="stat-pair"><div><span class="section-label">SEVİYE</span><strong id="level">01</strong></div><div><span class="section-label">SATIR</span><strong id="lines">00</strong></div></div>
-        <div class="level-progress"><div><span>Bir sonraki seviye</span><strong id="level-progress-label">0 / 10</strong></div><div class="progress-track"><div id="progress-fill"></div></div></div>
-        <div class="next-panel"><div class="next-heading"><span class="section-label">SIRADAKİLER</span><span class="next-count">03</span></div><div class="next-piece first"><span>01</span><canvas id="next-0" width="176" height="100" aria-label="Sıradaki birinci parça"></canvas></div><div class="next-piece"><span>02</span><canvas id="next-1" width="176" height="88" aria-label="Sıradaki ikinci parça"></canvas></div><div class="next-piece"><span>03</span><canvas id="next-2" width="176" height="88" aria-label="Sıradaki üçüncü parça"></canvas></div></div>
-        <div class="tip-card"><span class="tip-spark" aria-hidden="true">✦</span><div><strong>Küçük bir ipucu</strong><p>Aynı anda 4 satır temizle.<br>Büyük puanı kap.</p></div></div>
-      </aside>
-    </main>
-
-    <footer class="site-footer"><span><b class="footer-slash">//</b> GECE MODU AKTİF. SINIR YOK.</span><div><span class="local-note"><span></span> Rekorun bu tarayıcıda saklanır</span><div class="audio-controls"><label for="sound-volume">SES</label><input id="sound-volume" type="range" min="0" max="100" step="1" value="55" aria-label="Ses düzeyi"><output id="sound-volume-value" for="sound-volume">55%</output><button id="sound-test" class="sound-test" title="Satır temizleme efektini dinle"><svg><use href="#i-play"/></svg>Sesi dene</button></div></div></footer>
-  </div>
-
-  <dialog id="help-dialog" class="help-dialog"><div class="dialog-top"><span class="section-label">KISA BİR HATIRLATMA</span><button class="icon-button" id="close-help" aria-label="Kapat"><svg><use href="#i-close"/></svg></button></div><h2>Her şey yerine oturur.</h2><p>Blokları boşluk bırakmadan diz. Yatay bir satırı tamamen doldurduğunda satır silinir ve puan kazanırsın. Bloklar tepeye ulaşırsa oyun biter.</p><div class="help-keys"><div><span>Hareket</span><span><kbd>←</kbd> <kbd>→</kbd></span></div><div><span>Döndür</span><span><kbd>↑</kbd> / <kbd>X</kbd> · tersine <kbd>Z</kbd></span></div><div><span>Yavaşça indir</span><kbd>↓</kbd></div><div><span>Anında bırak</span><kbd>SPACE</kbd></div><div><span>Parçayı sakla</span><kbd>C</kbd></div><div><span>Mola / devam</span><kbd>P</kbd> / <kbd>ESC</kbd></div></div><div class="help-scoring"><strong>Daha çok satır, daha çok puan.</strong><p>1 satır: 100 · 2 satır: 300 · 3 satır: 500 · 4 satır: 800<br>Puanlar seviyenle çarpılır. Her 10 satırda oyun hızlanır.</p></div><button class="primary-button" id="got-it">Tamam, hazırım <svg><use href="#i-arrow"/></svg></button></dialog>
-  <dialog id="family-dialog" class="family-dialog" aria-labelledby="family-title">
-    <div class="dialog-top"><span class="section-label">KARAKTER STÜDYOSU</span><button id="close-family" class="icon-button" aria-label="Aile düzenleyicisini kapat"><svg><use href="#i-close"/></svg></button></div>
-    <h2 id="family-title">Aileni oyuna kat.</h2>
-    <p class="family-copy">En fazla 7 yüz fotoğrafı ekle. Yüz otomatik yakınlaştırılır ve çizgi gövdelere yerleşir.</p>
-    <div class="family-photo-row"><label class="family-file-label">Fotoğraf ekle<input id="family-files" type="file" accept="image/jpeg,image/png,image/webp" multiple aria-label="En fazla yedi yüz fotoğrafı seç"></label><button id="family-shuffle" type="button">Şekilleri karıştır</button></div>
-    <div id="family-people" class="family-people"></div><p id="family-empty" class="family-copy">Fotoğraf eklemeden de hazır karakterlerle oynayabilirsin.</p>
-    <div class="family-preview-grid">
-      <figure><canvas id="family-preview-L" width="180" height="180" aria-label="L karakter önizlemesi"></canvas><figcaption>L · <span id="family-name-L"></span></figcaption></figure>
-      <figure><canvas id="family-preview-T" width="180" height="180" aria-label="T karakter önizlemesi"></canvas><figcaption>T · <span id="family-name-T"></span></figcaption></figure>
-      <figure><canvas id="family-preview-Z" width="180" height="180" aria-label="Z karakter önizlemesi"></canvas><figcaption>Z · <span id="family-name-Z"></span></figcaption></figure>
-      <figure><canvas id="family-preview-I" width="180" height="180" aria-label="I karakter önizlemesi"></canvas><figcaption>I · <span id="family-name-I"></span></figcaption></figure>
-      <figure><canvas id="family-preview-O" width="180" height="180" aria-label="Kare karakter önizlemesi"></canvas><figcaption>Kare · <span id="family-name-O"></span></figcaption></figure>
-      <figure><canvas id="family-preview-S" width="180" height="180" aria-label="S karakter önizlemesi"></canvas><figcaption>S · <span id="family-name-S"></span></figcaption></figure>
-      <figure><canvas id="family-preview-J" width="180" height="180" aria-label="J karakter önizlemesi"></canvas><figcaption>J · <span id="family-name-J"></span></figcaption></figure>
-    </div>
-    <label class="family-enabled"><input id="family-enabled" type="checkbox" checked>Oyunda karakterleri göster</label>
-    <p id="family-status" class="family-status" role="status">Fotoğraflar internete gönderilmez. Sil düğmesiyle cihazdaki aile kaydından kaldırabilirsin.</p>
-    <button id="family-done" class="primary-button" type="button">Hazır, oyuna dön</button>
-  </dialog>
-  <script type="module" src="./app.mjs"></script>
+ </div>
+ <dialog id="help-dialog" class="panel-dialog help-dialog">
+  <div class="dialog-head"><span class="eyebrow" data-text="playbook">PLAYBOOK</span><button class="icon-button" data-close="help-dialog" aria-label="Kapat"><svg><use href="#icon-close"/></svg></button></div>
+  <h2 id="help-panel-title" data-text="helpTitle"></h2><nav class="panel-tabs"><button type="button" data-help-panel="help" aria-pressed="true" data-text="helpTab"></button><button type="button" data-help-panel="settings" aria-pressed="false" data-text="settingsTab"></button></nav><section id="help-content"><div id="help-patterns" class="help-patterns"></div><div class="help-steps"><p data-text="helpOne"></p><p data-text="helpTwo"></p><p data-text="helpThree"></p><p data-text="helpFour"></p><p data-text="helpFive"></p><p data-text="helpTime"></p></div>
+  <p class="keyboard-note" data-text="keys"></p>
+  </section><section id="settings-content" hidden><div class="settings"><label><span data-text="sound"></span><input id="audio-toggle" type="checkbox" checked></label><label><span data-text="language"></span><select id="language"><option value="tr">Türkçe</option><option value="en">English</option><option value="it">Italiano</option><option value="es">Español</option><option value="de">Deutsch</option><option value="ru">Русский</option></select></label><label><span data-text="musicToggle"></span><input id="music-toggle" type="checkbox" checked></label><label><span data-text="volume"></span><input id="volume" type="range" min="0" max="100" value="50"></label><p data-text="music"></p><label><span data-text="cheersToggle"></span><input id="cheers-toggle" type="checkbox" checked></label><label><span data-text="cheerVolume"></span><input id="cheer-volume" type="range" min="0" max="100" value="40"></label><p data-text="cheersNote"></p><div class="audio-previews"><button type="button" id="reward-preview" class="secondary-button" data-text="rewardPreview"></button><button type="button" id="cheer-preview" class="secondary-button" data-text="cheerPreview"></button></div></div>
+  </section><button id="privacy-open" class="secondary-button"></button><button id="native-settings" class="secondary-button" data-text="nativeSettings" hidden></button><button class="primary-button" data-close="help-dialog" data-text="done"></button>
+ </dialog>
+ <dialog id="family-dialog" class="panel-dialog family-dialog">
+  <div class="dialog-head"><span class="eyebrow" data-text="familyStudio">FAMILY STUDIO</span><button class="icon-button" data-close="family-dialog" aria-label="Kapat"><svg><use href="#icon-close"/></svg></button></div>
+  <h2 data-text="familyTitle"></h2><p class="dialog-copy" data-text="familyCopy"></p><div id="family-tabs" class="family-tabs"></div>
+  <div class="person-editor"><img id="person-preview" alt=""><div class="person-fields"><input id="person-name" type="text" maxlength="24" aria-label="Karakter adı"><label class="upload-button"><span data-text="addPhoto"></span><input type="file" id="person-photo" accept="image/jpeg,image/png,image/webp,image/heic"></label><button id="person-delete" class="delete-button" data-text="delete"></button></div></div>
+  <div class="crop-controls"><label><span data-text="zoom"></span><input id="crop-zoom" type="range" min="1" max="3" step=".02" value="1"></label><label><span data-text="horizontal"></span><input id="crop-x" type="range" min="0" max="1" step=".01" value=".5"></label><label><span data-text="vertical"></span><input id="crop-y" type="range" min="0" max="1" step=".01" value=".5"></label></div>
+  <p id="photo-status" class="photo-status" role="status"></p><p class="privacy-note" data-text="privacy"></p><p class="local-note" data-text="onlyLocal"></p><button class="primary-button" data-close="family-dialog" data-text="done"></button>
+ </dialog>
+ <dialog id="privacy-dialog" class="panel-dialog privacy-dialog" aria-labelledby="privacy-title">
+  <div class="dialog-head"><span class="eyebrow">POPZUNO</span><button class="icon-button" data-close="privacy-dialog" aria-label="Kapat"><svg><use href="#icon-close"/></svg></button></div>
+  <h2 id="privacy-title"></h2><div id="privacy-content"></div>
+  <h3 id="credits-title"></h3><div id="license-content"></div>
+  <button id="reset-open" class="delete-button"></button><button id="privacy-done" class="primary-button" data-close="privacy-dialog"></button>
+ </dialog>
+ <dialog id="reset-dialog" class="panel-dialog" aria-labelledby="reset-title">
+  <h2 id="reset-title"></h2><p id="reset-copy"></p><p id="reset-error" role="status"></p>
+  <button id="reset-confirm" class="delete-button"></button><button id="reset-cancel" class="primary-button" data-close="reset-dialog"></button>
+ </dialog>
+ <div id="app-notice" class="toast app-notice" role="status" aria-live="polite"></div>
+ <script type="module" src="./app.mjs"></script>
 </body>
 </html>

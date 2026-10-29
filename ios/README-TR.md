@@ -1,75 +1,28 @@
-# Familytris — iPhone ve App Store projesi
+# Popzuno 0.9 — Time Rush, Shuffle ve Nova birikimi
 
-`BLOK.xcodeproj` dosyasını Xcode'da açın. Oyun, yazı tipleri, ses sentezi ve lisanslar uygulamanın içindedir; oyun sırasında internet gerekmez. CocoaPods, npm veya başka bir paket kurulumu gerekmez.
+İmzalı **0.9.0 (9)** sürümü 27 Ekim 2026’da iPhone Air’e güncelleme olarak yüklendi ve açıldı. Uygulama kimliği `com.mertbekisoglu.bulusko`, dahili `Bulusko` projesi, fotoğraflar, dil tercihleri ve mevcut rekorlar korunur.
 
-## Familytris karakterleri
+## Nova ve Shuffle
 
-Ailem düğmesinden en fazla 7 yüz fotoğrafı eklenebilir. Yüzler cihazda otomatik yakınlaştırılır ve onaylanan kıyafetli çizgi gövdelere yerleştirilir. Kişiler adlandırılabilir, şekillere yeniden dağıtılabilir ve Sil ile kaldırılabilir. Küçük yüz kopyaları cihazda saklanır; fotoğraflar sunucuya gönderilmez. Fotoğraf seçme, kalıcı kayıt ve gerçek iPhone görünümü fiziksel cihazda ayrıca kontrol edilmelidir.
+Nova artık her modda bir tur içinde 99 adede kadar birikir. Her kullanım yalnızca bir adet harcar. Ascend etapları arasında stok korunur. Bomb/Rocket/Cross/Shuffle ikişer adettir.
 
-## Hazır olanlar
+Yatay dörtlü Rocket, dikey dörtlü Shuffle verir. Diğer desenler aynı: 2×2 Bomb, L/T Cross, düz beşli ve üstü Nova. Tek hamlede en güçlü ödül verilir: Nova > Cross > Rocket > Shuffle > Bomb. Shuffle doğrudan çalışır; dolu konumları ve her yüzün sayısını korur. 32 denemeyle sınırlı üretim, kendiliğinden eşleşme yapmayan ve geçerli hamle içeren farklı bir düzen bulur. Bulamazsa stok harcanmaz. Puan/süre kazandırmaz. Satır ve dolum RNG’si etkilenmez. 88 kalıcı hücre yeniden kurulmaz; hareket 280 ms sürer.
 
-- iOS 16 ve üzeri iPhone hedefi; dikey ekran ve sistem güvenli alanları.
-- SwiftUI uygulama, yerel WebKit oyun alanı ve 3 × 2 dokunmatik kontrol düzeni.
-- Döndürme, saklama, bırakma ve satır temizleme için yerel dokunsal geri bildirim.
-- Yardım ekranından açılan yerel ayarlar, titreşim tercihi ve gizlilik/lisans görünümü.
-- Uygulama arka plana geçtiğinde veya ses kesintisinde duraklatma.
-- Rekor ve ses tercihleri için uygulamaya özel kalıcı kayıt.
-- Çevrimdışı kaynaklar, iPhone ikonları, 1024 × 1024 App Store ikonu ve gizlilik manifesti.
-- Türkçe mağaza açıklaması, inceleme notları ve yayımlanabilecek destek/gizlilik sayfaları.
+## Time Rush
 
-## Bu bilgisayardaki doğrulama sınırı
+- 30 saniye ve bir Shuffle ile başlar. Satır yükselmez; Blitz gibi dolum vardır.
+- Üçlü +2 sn, daha büyük eşleşmeler daha fazla (en çok +7 sn) verir. Düşüş zincirleri yarım süre; tek hamlenin toplam kredisi en çok +8 sn.
+- Rezerv en çok 60 sn. Bonuslarla patlatma ve Shuffle süre vermez.
+- Her 30 aktif saniyede tüketim +0,1× artar; en çok 1,8×. Her 60 saniyede yeni yüz eklenir; en çok 7 yüz.
+- Saat sıfıra inerse tur biter; bekleyen bir patlama sonradan diriltemez. Mola/arka plan saati ve animasyonları dondurur.
+- Ayrı rekor: `best-shapes1-timeRush`. Altı dilde arayüz ve yardım güncellendi. Klavye: 1 Bomb, 2 Rocket, 3 Cross, 4 Nova, 5 Shuffle.
 
-Xcode 27.1 ve iOS 27.1 SDK ile hem simülatör hem gerçek iPhone işlemcisi için imzasız derleme başarılı. 39 JavaScript testi, Swift sözdizimi ve proje/plist kontrolleri geçti. Gerçek örnek fotoğrafta otomatik kadraj ve 7 şeklin 4 dönüşünde çizim sınırları kontrol edildi. Personal Team seçildi, imzalama profili oluşturuldu ve Xcode’da imzalı iPhone derlemesi başarılı. Geliştirici Modu açıldı ve cihaz hazırlığı tamamlandı. Uygulamanın açılması, iPhone’da Ayarlar → Genel → VPN ve Aygıt Yönetimi bölümündeki geliştirici sertifikasına güven onayını bekliyor. Simülatör çalıştırması, fiziksel cihazda oyun testi ve mağaza yüklemesi henüz yapılmadı. Son durum BUILD_STATUS.json dosyasındadır.
+## Doğrulama
 
-## 1. Xcode'u kurun
+46 JavaScript testi ve Foundation Swift kayıt testleri geçti. Nova’nın beş modda birikimi, tek kullanım, 100 karıştırmada yüz/hücre sayılarının korunması, başarısız karıştırmada stok, zaman ödülleri, kademeli tüketim, saniye sınırları, kare sürelerinden bağımsızlık ve sıfırda bitiş doğrulandı.
 
-[Mac App Store'dan Xcode](https://apps.apple.com/app/xcode/id497799835) kurun. Xcode'u açıp Apple'ın ilk kurulum ve lisans adımlarını kendiniz tamamlayın; iOS platform bileşenini yükleyin. App Store'a gönderim için güncel kararlı Xcode kullanın. Apple, 28 Nisan 2026'dan itibaren en az Xcode 26 / iOS 26 SDK ile derleme istiyor; desteklenen en düşük cihaz sürümü projede iOS 16 olarak ayrı tanımlıdır.
+Tarayıcıda Time Rush’ta gerçek dokunuşla Shuffle kullanıldı: önce/sonra 48 yüz ve aynı dağılım korundu. Sonraki 2×2 eşleşme +160 puan ve +3 sn verdi, sayaç 0:32 oldu. Rush/Time Rush/Ascend 319×584, 390×844, 1280×720’de taşmadan açıldı; en dar bonus düğmesi 44 pikselin üstünde kaldı. Almanca ve Rusça Time Rush düzenleri küçük/masaüstü ekranda doğrulandı; hata günlüğü boştu. Nova birikimi motor testleriyle doğrulandı. Gerçek kişisel fotoğraflar okunmadı.
 
-## 2. iPhone simülatöründe açın
+`node scripts/prepare-ios.mjs` gömülü oyunu ve mevcut projeyi yeniler. `Bulusko` şemasıyla kendi Team’in kullanılarak derlenir. İmzalı arm64 cihaz derlemesi başarılı; simülatör bu tur yeniden derlenmedi. Raporlar: `BUILD_STATUS.json`, `../VALIDATION.json`, önceki sürüm `BUILD_STATUS-0.8.json`.
 
-1. `BLOK.xcodeproj` dosyasına çift tıklayın.
-2. Üstte `BLOK` şemasını ve bir iPhone simülatörünü seçin.
-3. Run (▶) düğmesine basın.
-4. Küçük bir iPhone ve çentikli bir iPhone boyutunda kontrol düzenini, sesleri, rekoru ve arka plana geçişi test edin. Dokunsal geri bildirimi fiziksel iPhone'da test edin.
-
-Komut satırından imzasız simülatör derlemesi:
-
-```sh
-xcodebuild -project BLOK.xcodeproj -scheme BLOK -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
-```
-
-## 3. Kendi iPhone'unuza yükleyin
-
-1. Xcode → Settings → Accounts bölümünden Apple hesabınızla kendiniz giriş yapın.
-2. Projede `BLOK` hedefini, sonra `Signing & Capabilities` bölümünü açın.
-3. `Automatically manage signing` açık kalsın; `Team` alanından hesabınızı seçin.
-4. Varsayılan Bundle Identifier `com.mertbekisoglu.blok`. Hesabınızda bu kimlik kullanılamıyorsa benzersiz bir kimlikle değiştirin. App Store kaydı açıldıktan sonra kimliği tutarlı kullanın.
-5. iPhone'u Mac'e bağlayın, cihazın istediği güven/geliştirici adımlarını tamamlayın, çalıştırma hedefi olarak iPhone'u seçip Run'a basın.
-
-Ücretsiz bir Personal Team ile kendi cihazınızda test edebilirsiniz; Apple'ın ücretsiz imzalama profilleri süreli olduğu için yeniden yükleme gerekir. App Store ve TestFlight dağıtımı için Apple Developer Program üyeliği gerekir.
-
-## 4. TestFlight ve App Store
-
-1. Apple Developer Program üyeliğini ve hesap sözleşmelerini hesap sahibi tamamlamalıdır.
-2. App Store Connect'te iOS uygulaması oluşturun; Xcode'daki Bundle Identifier ile eşleştirin.
-3. `AppStore/metadata.tr.json` ve `AppStore/review-notes.txt` dosyalarını başlangıç olarak kullanın. Geliştirici telif bilgisi ve inceleme iletişim bilgilerini doldurun.
-4. `AppStore/public/privacy.html` ve `support.html` sayfalarını herkese açık HTTPS adreslerinde yayımlayın; gerçek adresleri mağaza formuna girin. Mevcut özel oyun bağlantısı yerine erişilebilir destek/gizlilik adresleri kullanın.
-5. Gerçek simülatör/cihaz ekran görüntülerini ekleyin. Bu pakette cihaz ekran görüntüsü üretilmiş gibi sunulan görseller yoktur.
-6. App Privacy sorularını mevcut koda göre yanıtlayın: uygulama kişisel veri toplamaz; rekor ve tercihler cihaz dışına aktarılmaz. Yeni SDK, reklam veya sunucu eklenirse bu beyanı güncelleyin.
-7. Yaş derecelendirme, kategori, fiyatlandırma, dağıtım ve gerekli geliştirici/işletme bilgilerini tamamlayın.
-8. Xcode'da hedefi `Any iOS Device (arm64)` yapın, Product → Archive → Distribute App → App Store Connect yolunu kullanın.
-9. Yüklenen derlemeyi önce kendi iPhone'unuzda TestFlight ile test edin; ardından mağaza sürümüne bağlayıp incelemeye gönderin.
-
-Bu proje bir kaynak paketidir; imzalı `.ipa` veya onaylanmış mağaza yayını değildir. App Store'a kabul, Apple'ın incelemesine bağlıdır.
-
-## Kaynakları güncelleme
-
-Ana proje klasöründe `node scripts/prepare-ios.mjs` oyun HTML'ini ve Xcode proje dosyasını günceller. Bu komut Xcode’da seçilen Team, Bundle Identifier ve sürüm ayarlarını korur. `node scripts/package-ios.mjs` doğrulama yapıp `../releases/Familytris-iOS-Projesi.zip` dosyasını oluşturur. Xcode'u açıp derlemek için bu scriptleri çalıştırmanız gerekmez.
-
-## Resmi başvuru kaynakları
-
-- [Cihaz testi ve üyelik](https://developer.apple.com/help/account/basics/about-your-developer-account)
-- [Apple Developer Program](https://developer.apple.com/programs/whats-included/)
-- [Güncel SDK gerekliliği](https://developer.apple.com/news/upcoming-requirements/?id=04282026a)
-- [UserDefaults gizlilik gerekçeleri](https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype)
-- [App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)
+Yedekler `../backups/Popzuno-0.8-before-time-shuffle.zip` ve `../backups/Popzuno-Prototip-0.8.zip`. Melodi korundu; sadece Shuffle ses efekti eklendi. Orijinal Familytris’in 71 dosyası değişmedi. App Store gönderimi yapılmadı. Gerçek telefondaki denge ve akıcılık hissi oyuncu denemesine açıktır.
