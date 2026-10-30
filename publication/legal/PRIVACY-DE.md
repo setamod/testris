@@ -18,7 +18,7 @@ Keine Konten, Werbung, Nachverfolgung, Analyse, Cloud-Rangliste oder Übertragun
 
 ## Speicherung und Löschung
 
-Lokale Daten bleiben bis zur Löschung. Meine Familie entfernt einzelne Fotos; die vollständige Löschung entfernt auch Namen, Rekorde und Einstellungen. Originalfotos bleiben unverändert. iOS kann App-Daten je nach Einstellungen in Systembackups aufnehmen; frühere Backups kann die App nicht löschen. Android-Backups sind deaktiviert. Portable Daten verwaltet der Browser. Backups verwaltest du in System-/Browsereinstellungen. Supportnachrichten bleiben so lange wie für die Anfrage nötig; eine Löschung kann angefragt werden.
+Lokale Daten bleiben bis zur Löschung. Meine Liebsten entfernt einzelne Fotos; die vollständige Löschung entfernt auch Namen, Rekorde und Einstellungen. Originalfotos bleiben unverändert. iOS kann App-Daten je nach Einstellungen in Systembackups aufnehmen; frühere Backups kann die App nicht löschen. Android-Backups sind deaktiviert. Portable Daten verwaltet der Browser. Backups verwaltest du in System-/Browsereinstellungen. Supportnachrichten bleiben so lange wie für die Anfrage nötig; eine Löschung kann angefragt werden.
 
 ## Externe Dienste
 

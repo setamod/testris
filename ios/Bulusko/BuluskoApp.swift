@@ -27,8 +27,10 @@ private struct BuluskoScreen: View {
         }
         .sheet(isPresented: $game.showSettings) { BuluskoSettings(game: game) }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in game.pauseForBackground() }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in game.restoreAfterInterruption() }
         .onReceive(NotificationCenter.default.publisher(for: AVAudioSession.interruptionNotification)) { note in
             if (note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt) == AVAudioSession.InterruptionType.began.rawValue { game.pauseForBackground() }
+            else if (note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt) == AVAudioSession.InterruptionType.ended.rawValue { game.restoreAfterInterruption() }
         }
     }
 }
@@ -47,7 +49,7 @@ private struct BuluskoSettings: View {
                 }
                 Section(game.text("Gizlilik", "Privacy")) {
                     Text(game.text("Seçtiğin fotoğraflar cihazda işlenir. Yüzler, isimler, etaplar, rekorlar ve tercihler yalnızca Popzuno’ün bu cihazdaki alanında saklanır.", "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage."))
-                    Text(game.text("Ailem ekranından fotoğrafları silebilirsin. Hesap, reklam, analiz veya sunucuya veri aktarımı yoktur.", "Delete photos in My family. There are no accounts, ads, analytics or uploads."))
+                    Text(game.text("Sevdiklerim ekranından fotoğrafları silebilirsin. Hesap, reklam, analiz veya sunucuya veri aktarımı yoktur.", "Delete photos in Your people. There are no accounts, ads, analytics or uploads."))
                     Text(game.text("İşletim sistemi yedekleri ayarlarına göre uygulama verilerini içerebilir. Silme ayrıntıları gizlilik politikasında açıklanır.", "Operating-system backups may include app data according to your settings. Deletion details are explained in the privacy policy."))
                 }
                 Section(game.text("Kaynaklar", "Credits")) {

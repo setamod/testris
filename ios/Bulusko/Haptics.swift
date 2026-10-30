@@ -20,10 +20,11 @@ struct GatheringFeedback {
 }
 
 enum GameAudioSession {
-    static func restorePlayback() {
+    static func restorePlayback(activate: Bool = false) {
         let session = AVAudioSession.sharedInstance()
         try? session.setCategory(.ambient, mode: .default)
         try? session.setAllowHapticsAndSystemSoundsDuringRecording(true)
+        if activate { try? session.setActive(true) }
     }
 }
 

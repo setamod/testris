@@ -1,12 +1,12 @@
 # Popzuno — Swipe. Match. Unleash.
 
-Popzuno 0.9.8 (build 17) is a publication-preparation candidate, with an 8 × 11 board (88 cells), four-way swaps and earned powers. The honeycomb puzzle and its runtime were removed. Familytris remains a separate project and iPhone app. Version 0.9.8 (17) introduces the Popzuno name, new game logo and platform icons; installation and verification are recorded in ios/BUILD_STATUS.json. This candidate is not published.
+Popzuno 0.9.12 (build 21) is an offline swipe-and-match game with an 8 × 11 board, local photo customization and five selectable modes. It is a beta candidate; the original Familytris app remains separate. Current device and distribution evidence is recorded in publication/VALIDATION.json and publication/TESTFLIGHT-STATUS.json.
 
 ## Publication preparation
 
 See `STORE-READINESS.md` for the ordered, evidence-based task list. `publication/VALIDATION.json` and `publication/OWNER-STEPS-TR.md` distinguish completed local checks from owner/account/legal/test-track gates.
 
-- Six-language privacy policy, bundled third-party notices and confirmed full local data deletion are in the ? menu. Current and legacy prototype data are removed on explicit confirmation; other games' keys and original gallery files are preserved.
+- Six-language privacy policy, bundled third-party notices and confirmed full local data deletion are under Settings → Privacy and licenses. Current and legacy prototype data are removed on explicit confirmation; other games' keys and original gallery files are preserved.
 - Public support/policy site: https://popzuno.frostytang32768.chatgpt.site . Only support/policy content is hosted there; the game and user photos are not uploaded.
 - iOS Release archive and Android test APK/unsigned Release AAB are prepared locally. They are not store submissions. Developer enrollment, production signing, final price/markets/age declarations and professional IP review remain separate gates.
 - Android uses the system image picker, native haptics, audio/background handling and safe system-bar insets. It has no Internet, broad gallery, camera or microphone permission. Backups/transfers are disabled. iOS backups are described in the policy rather than promised absent.
@@ -15,7 +15,7 @@ See `STORE-READINESS.md` for the ordered, evidence-based task list. `publication
 
 ## Menu, fixed announcer clips and pressure cues
 
-The game opens on a main menu. Each of five modes states its goal, increasing pressure and exact ending rule before Play. Settings and How to Play are separate panels; family customization remains local. Returning to the menu pauses a run. Browsing another mode does not erase it; choosing its original mode offers Continue, while starting another mode explicitly says New Run.
+The game always opens on a clean home screen: prominent Play, a real local-record challenge, Your people, Settings and How to play. Play opens the mode picker; only the selected mode's short description is shown. Ascend, Rush, Time Rush, Daily 90 and Relax remain selectable; legacy Blitz keys and engine behavior are retained for old records. Power icons and concise descriptions live in How to play, with separate control and mode tabs. Settings includes privacy/licenses and support contact. Returning home pauses a run; selecting the same mode continues it.
 
 Seven expressive synthetic clips are generated once with Chatterbox (MIT), using a wholly synthetic Kokoro-82M reference (Apache-2.0 weights). Only 415,028 bytes / 8.64 seconds of lossless 24 kHz mono outputs ship, retaining the default PerTh watermark. No speech model or generator is distributed. Normal playback requires no network or on-device inference; an installed offline OS voice is a decoder-unavailable fallback. Provenance and licenses are in `vendor/ANNOUNCER-ASSETS.json` and `vendor/music-NOTICE.txt`.
 
@@ -33,7 +33,7 @@ While playing on phones, the redundant global header, best score, tempo and foot
 
 ## Main game and stage progression
 
-Ascend is the first/default mode on fresh and legacy installs. Later explicit mode choices remain remembered. A 3.6-second stage break announces the next target, gift, tempo and difficulty change with a 3–2–1 countdown. Game clocks, Overdrive and rising freeze until the new stage starts; pausing preserves the countdown. The old tempo holds during the break, then the next tempo and arrangement begin together. All six languages and Reduced Motion are supported.
+Ascend is the first/default mode on fresh and legacy installs. Later explicit mode choices remain remembered; old Blitz preferences map to Daily 90 without deleting legacy scores. A 3.6-second stage break announces the next target, gift, tempo and difficulty change with a 3–2–1 countdown. Game clocks, Overdrive and rising freeze until the new stage starts; pausing preserves the countdown. The old tempo holds during the break, then the next tempo and arrangement begin together. All six languages and Reduced Motion are supported.
 
 ## Play
 
@@ -103,3 +103,15 @@ Previous sources and playable 0.4/0.5/0.6/0.7/0.8 packages are in `backups/`. Th
 ## Popzuno identity · 0.9.8 (17)
 
 Approved name and generated three-face game emblem are in `branding/`. iOS/Android display names, six languages, offline packages and public support pages use Popzuno. Bundle/application ID, native preference stores, local browser keys and daily seed stay unchanged so in-place updates preserve user records. Previous names in historical research are retained as evidence. The name has a preliminary exact-name/store scan only; no formal trademark clearance is claimed.
+
+## 0.9.9 (18) · readability and arcade feedback
+
+Larger menu/HUD type with unchanged cell number badges; five colored power slots with larger icons and visible stock counts; whole-row arrivals after a separate countdown; tappable Overdrive explanation; distinct Cross laser and longer Nova warp (850 ms of grace time); risk-driven music that relaxes after recovery; major announcer calls retry one pending cue without overlapping speech or burning a cooldown on a busy lane. Existing photos, local storage identity and all seven approved voice recordings are retained. Settings now include a separate power-effect preview.
+
+## 0.9.10 (19) · unobstructed play
+
+Warnings, notifications and cheer text share a reserved 28 px status lane above the board. Score deltas stay in the score HUD. Idle power reminders pulse their inventory slot without repeating text. Repeated identical notices are rate limited; gameplay, audio and storage remain byte-identical to 0.9.9.
+
+## Audio interruption recovery (0.9.12)
+
+Backgrounding and audio interruptions pause gameplay and stop active voices. On the next foreground interaction, interrupted/closed or previously backgrounded WebAudio graphs are rebuilt. Preferences and decoded clip/impact buffers survive; pending decodes from old contexts cannot corrupt the replacement. iOS reactivates its ambient audio session on actual resume, retaining silent-switch behavior. Android restores its WebView on resume and reacquires normal game audio focus. Actual carrier-call/device listening remains a physical-device check; the simulator exercises native interruption/activation notifications and a real WKWebView graph. Debug-only simulator probes and emulator-only instrumentation do not ship in Release.

@@ -18,7 +18,7 @@ The game has no account, ads, tracking, analytics, cloud leaderboard or transmis
 
 ## Retention, deletion and backups
 
-Local data remains until you delete it. My family removes individual photos; Delete all game data also removes names, records and preferences. Original gallery images are not changed. Depending on your settings, iOS app data may enter operating-system backups, which the app cannot delete retrospectively. Android app backup is disabled. Portable-version storage is managed by your browser. Manage system/browser backups in their settings. Support emails are retained as needed to handle the request; contact us to request deletion.
+Local data remains until you delete it. Your people removes individual photos; Delete all game data also removes names, records and preferences. Original gallery images are not changed. Depending on your settings, iOS app data may enter operating-system backups, which the app cannot delete retrospectively. Android app backup is disabled. Portable-version storage is managed by your browser. Manage system/browser backups in their settings. Support emails are retained as needed to handle the request; contact us to request deletion.
 
 ## External pages and changes
 

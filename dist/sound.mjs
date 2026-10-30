@@ -21,19 +21,44 @@ const FLOW_HOOK=[
  [[73,3],[76,1],[79,2],[76,2],[74,6],[0,2]]
 ];
 export const FLOW_MELODY=FLOW_HOOK;
+// Quiet Orbit: original, slow pentatonic phrases and suspended pads for Relax.
+export const RELAX_TEMPO=72;
+const RELAX_PHRASES=[[74,0,78,0,81,0,78,0],[71,0,74,0,78,0,0,0],[74,0,79,0,81,0,83,0],[76,0,81,0,78,0,0,0]];
 export function flowTempo(intensity){return 118+60*Math.max(0,Math.min(1,Number.isFinite(intensity)?intensity:0));}
 const frequency=pitch=>440*2**((pitch-69)/12);
 export class FlowAudio{
- constructor({enabled=true,music=true,cheers=true,volume=.5,musicVolume=.3,cheerVolume=.4,announcer=new CheerVoice()}={}){this.enabled=enabled;this.music=music;this.cheers=cheers;this.announcer=announcer;this.volume=volume;this.musicVolume=musicVolume;this.cheerVolume=Number.isFinite(cheerVolume)?Math.max(0,Math.min(1,cheerVolume)):.4;this.context=null;this.playing=false;this.voices=new Set();this.step=0;this.clock=null;this.intensity=.12;this.target=.12;this.tempoPace=0;this.impacts=null;this.voiceClips=null;this.clipLoad=null;this.clipsFailed=false;this.pendingCheer=null;this.cheerRequest=0;this.spokenVoice=null;this.spokenPriority=0;}
+ constructor({enabled=true,music=true,cheers=true,volume=.5,musicVolume=.3,cheerVolume=.4,announcer=new CheerVoice()}={}){this.enabled=enabled;this.music=music;this.cheers=cheers;this.announcer=announcer;this.volume=volume;this.musicVolume=musicVolume;this.cheerVolume=Number.isFinite(cheerVolume)?Math.max(0,Math.min(1,cheerVolume)):.4;this.context=null;this.needsRecovery=false;this.audioGeneration=0;this.resumeContext=null;this.mode='arcade';this.playing=false;this.voices=new Set();this.step=0;this.clock=null;this.intensity=.12;this.target=.12;this.tempoPace=0;this.impacts=null;this.voiceClips=null;this.clipLoad=null;this.clipsFailed=false;this.pendingCheer=null;this.cheerRequest=0;this.spokenVoice=null;this.spokenPriority=0;}
  unlock(){
   if(!this.enabled||!this.volume)return false;
-  try{if(!this.context){
+  try{
+   if(this.needsRecovery||this.context?.state==='closed'||this.context?.state==='interrupted')this.resetContext();
+   if(!this.context){
    const Context=globalThis.AudioContext||globalThis.webkitAudioContext;if(!Context)return false;this.context=new Context();const c=this.context;
+   c.onstatechange=()=>{if(this.context===c&&c.state==='interrupted'){this.interrupt();globalThis.dispatchEvent?.(new Event('kynburst:audio-interrupted'));}};
+   globalThis.webkit?.messageHandlers?.bulusko?.postMessage({type:'audioResume'});
    this.master=c.createGain();this.master.gain.value=this.volume;this.master.connect(c.destination);
    for(const name of ['musicBus','fxBus','voiceBus']){const input=c.createGain(),limiter=c.createDynamicsCompressor();limiter.threshold.value=-13;limiter.knee.value=15;limiter.ratio.value=5;limiter.attack.value=.004;limiter.release.value=.12;input.connect(limiter);limiter.connect(this.master);this[name]=input;}
-   this.musicBus.gain.value=this.musicVolume;this.voiceBus.gain.value=this.cheerVolume;
+   this.musicBus.gain.value=this.musicVolume*(this.mode==='relax'?.8:1);this.fxBus.gain.value=this.mode==='relax'?.65:1;this.voiceBus.gain.value=this.cheerVolume;
    this.noiseBuffer=c.createBuffer(1,c.sampleRate*2,c.sampleRate);const data=this.noiseBuffer.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=Math.random()*2-1;
-  }if(!this.impacts)this.impacts=createImpactBank(this.context);if(this.context.state==='suspended')this.context.resume().catch(()=>{});return true;}catch{return false;}
+  }
+   if(!this.impacts)this.impacts=createImpactBank(this.context);
+   const c=this.context;
+   if(c.state!=='running'&&this.resumeContext!==c){
+    this.resumeContext=c;
+    Promise.resolve(c.resume()).then(()=>{if(this.context===c)this.clock=null;}).catch(()=>{}).finally(()=>{if(this.resumeContext===c)this.resumeContext=null;});
+   }
+   return true;
+  }catch{return false;}
+ }
+ // A fresh graph is created only on the next foreground interaction, never on pause.
+ // This also recovers WebKit's occasional running-but-frozen context after a call.
+ interrupt(){this.stop();if(this.context)this.needsRecovery=true;}
+ foreground(){if(this.context&&this.context.state!=='running')this.needsRecovery=true;this.clock=null;}
+ resetContext(){
+  const old=this.context;this.stop();this.audioGeneration++;this.context=null;this.resumeContext=null;this.needsRecovery=false;this.clock=null;this.step=Math.floor(this.step/16)*16;
+  if(!this.voiceClips){this.clipLoad=null;this.clipsFailed=false;}
+  if(old){old.onstatechange=null;for(const name of ['musicBus','fxBus','voiceBus','master']){try{this[name]?.disconnect?.();}catch{}}try{Promise.resolve(old.close()).catch(()=>{});}catch{}}
+
  }
  voice({pitch=69,hz,duration=.15,gain=.1,time,type='triangle',noise=false,cutoff=3500,to,pan=0,music=false,attack=.006,buffer=null,priority=0,speech=false}){
   const c=this.context;if(!c)return;
@@ -48,6 +73,11 @@ export class FlowAudio{
  }
  effect(kind,strength=1){
   if(!this.unlock())return;const t=this.context.currentTime+.008;
+  if(this.mode==='relax'){this.relaxEffect(kind,t);return;}
+  if(kind.startsWith('arm-')){
+   const pitch={bomb:57,rocket:69,cross:81}[kind.slice(4)]??69;
+   this.voice({pitch,time:t,duration:.17,gain:.07,type:'triangle',priority:2});this.voice({pitch:pitch+12,time:t+.055,duration:.13,gain:.04,type:'sine',priority:2});return;
+  }
   if(kind==='stage'){
    for(const [i,pitch]of [62,69,74,78,81,86].entries())this.voice({pitch,time:t+i*.085,duration:i===5?.65:.32,gain:.065,type:'triangle',pan:i%2?.3:-.3});
    this.voice({hz:125,to:48,time:t,duration:.42,gain:.12,type:'sine'});this.voice({noise:true,time:t+.3,duration:.35,gain:.025,cutoff:4200});return;
@@ -83,12 +113,41 @@ export class FlowAudio{
   const pitches=kind==='win'?[74,78,81,86]:kind==='over'?[74,71,69,62]:[74,81,86];
   pitches.forEach((pitch,i)=>this.voice({pitch,time:t+i*.09,duration:.25,gain:.1}));
  }
+ setMode(mode){
+  const next=mode==='relax'?'relax':'arcade';if(this.mode===next)return;
+  this.stop();this.mode=next;this.step=0;this.intensity=.08;this.tempoPace=0;
+  if(this.context){this.musicBus.gain.setTargetAtTime(this.musicVolume*(next==='relax'?.8:1),this.context.currentTime,.05);this.fxBus.gain.setTargetAtTime(next==='relax'?.65:1,this.context.currentTime,.05);}
+ }
+ relaxEffect(kind,time){
+  // Small tonal confirmations replace impacts, alarms and reward fanfares.
+  const rewards={bomb:[74,81],rocket:[76,83],cross:[78,85],nova:[74,78,81,86],shuffle:[71,78]};
+  const reward=kind.startsWith('earn-')?rewards[kind.slice(5)]:null;
+  const pitches=reward||({start:[74,78,81],clear:[78,81],nova:[74,78,81],bomb:[74,81],rocket:[76,83],cross:[78,85],shuffle:[71,78],rotate:[78],select:[74],win:[78,81]}[kind]);
+  if(!pitches)return;
+  pitches.forEach((pitch,i)=>this.voice({pitch,time:time+i*.11,duration:kind==='rotate'||kind==='select'?.12:.65,gain:kind==='rotate'||kind==='select'?.025:.055,type:'sine',cutoff:2400,attack:.035,pan:i%2?.2:-.2}));
+ }
+ relaxMusic(now){
+  const quarter=60/RELAX_TEMPO,unit=quarter/4;
+  if(this.clock===null||this.clock<now-.3){this.clock=now+.025;this.step%=128;}
+  let scheduled=0;
+  while(this.clock<now+.18&&scheduled++<8){
+   const step=this.step%128,bar=Math.floor(step/16),beat=step%16,time=this.clock,root=[50,47,43,45][bar%4];
+   const play=options=>this.voice({...options,time,music:true});
+   if(beat===0){
+    play({pitch:root-12,duration:quarter*3.6,gain:.055,type:'sine',cutoff:700,attack:.15});
+    for(const [index,interval]of [0,7,bar%4===0||bar%4===2?11:bar%4===1?10:14].entries())play({pitch:root+12+interval,duration:quarter*4.2,gain:.025,type:'triangle',cutoff:1300,attack:.25,pan:(index-1)*.45});
+   }
+   const pitch=beat%2===0?RELAX_PHRASES[bar%4][beat/2]:0;
+   if(pitch)play({pitch,duration:quarter*1.8,gain:.065,type:'sine',cutoff:2200,attack:.045,pan:bar%2?.25:-.25});
+   this.clock+=unit;this.step++;
+  }
+ }
  prepareCheerClips(){
   if(this.voiceClips||this.clipLoad||this.clipsFailed)return this.clipLoad;
-  const c=this.context;if(!c?.decodeAudioData){this.clipsFailed=true;return null;}
+  const c=this.context,generation=this.audioGeneration;if(!c?.decodeAudioData){this.clipsFailed=true;return null;}
   this.clipLoad=Promise.all(Object.entries(VOICE_CLIPS).map(async([kind,clip])=>{
    const bytes=Uint8Array.from(atob(clip.data),ch=>ch.charCodeAt(0));return [kind,await c.decodeAudioData(bytes.buffer)];
-  })).then(entries=>{this.voiceClips=new Map(entries);const request=this.pendingCheer;this.pendingCheer=null;if(request&&request.id===this.cheerRequest&&Date.now()<request.until&&this.enabled&&this.cheers&&this.volume&&this.cheerVolume)this.playCheerClip(request.kind);}).catch(()=>{this.clipsFailed=true;const request=this.pendingCheer;this.pendingCheer=null;if(request&&request.id===this.cheerRequest&&this.enabled&&this.cheers&&this.volume&&this.cheerVolume)this.announcer.play(request.kind,this.volume*this.cheerVolume);});return this.clipLoad;
+  })).then(entries=>{if(generation!==this.audioGeneration)return;this.voiceClips=new Map(entries);const request=this.pendingCheer;this.pendingCheer=null;if(request&&request.id===this.cheerRequest&&Date.now()<request.until&&this.enabled&&this.cheers&&this.volume&&this.cheerVolume)this.playCheerClip(request.kind);}).catch(()=>{if(generation!==this.audioGeneration)return;this.clipsFailed=true;const request=this.pendingCheer;this.pendingCheer=null;if(request&&request.id===this.cheerRequest&&Date.now()<request.until&&this.enabled&&this.cheers&&this.volume&&this.cheerVolume)this.announcer.play(request.kind,this.volume*this.cheerVolume);});return this.clipLoad;
  }
  playCheerClip(kind){
   const buffer=this.voiceClips?.get(kind);if(!buffer)return false;const priority=CHEER_PRIORITY[kind];
@@ -97,19 +156,19 @@ export class FlowAudio{
   this.spokenPriority=priority;this.spokenVoice=this.voice({buffer,speech:true,time:this.context.currentTime+.12,duration:buffer.duration,gain:.95,cutoff:12000,attack:.008,priority});return Boolean(this.spokenVoice);
  }
  stopCheer(){this.cheerRequest++;this.pendingCheer=null;this.announcer.stop();if(this.spokenVoice){try{this.spokenVoice.source.stop();}catch{}this.spokenVoice.clean();}}
- cheer(kind){
-  if(!Object.hasOwn(CHEER_PRIORITY,kind)||!this.enabled||!this.cheers||!this.volume||!this.cheerVolume)return false;
+ cheer(kind,preview=false){
+  if((this.mode==='relax'&&!preview)||!Object.hasOwn(CHEER_PRIORITY,kind)||!this.enabled||!this.cheers||!this.volume||!this.cheerVolume)return false;
   if(!this.unlock())return this.announcer.play(kind,this.volume*this.cheerVolume);
   if(this.voiceClips)return this.playCheerClip(kind);
   if(this.pendingCheer&&CHEER_PRIORITY[this.pendingCheer.kind]>CHEER_PRIORITY[kind])return false;
   if(this.clipsFailed||!this.context.decodeAudioData)return this.announcer.play(kind,this.volume*this.cheerVolume);
   this.pendingCheer={kind,id:++this.cheerRequest,until:Date.now()+3500};this.prepareCheerClips();return true;
  }
- previewCheer(kind){this.stopCheer();return this.cheer(kind);}
- warmCheers(){if(this.enabled&&this.cheers&&this.volume&&this.cheerVolume&&this.unlock())this.prepareCheerClips();}
+ previewCheer(kind){this.stopCheer();return this.cheer(kind,true);}
+ warmCheers(){if(this.mode!=='relax'&&this.enabled&&this.cheers&&this.volume&&this.cheerVolume&&this.unlock())this.prepareCheerClips();}
  setCheerVolume(value){this.cheerVolume=Number.isFinite(value)?Math.max(0,Math.min(1,value)):.4;if(this.voiceBus)this.voiceBus.gain.setTargetAtTime(this.cheerVolume,this.context.currentTime,.03);if(!this.cheerVolume)this.stopCheer();}
  setCheers(value){this.cheers=Boolean(value);if(!value)this.stopCheer();else if(this.playing)this.warmCheers();}
- setPlaying(value){this.playing=value;if(!value)this.stop();else{this.clock=null;this.warmCheers();}}
+ setPlaying(value){this.playing=value;if(!value)this.stop();else{this.clock=null;this.unlock();this.warmCheers();}}
  setEnabled(value){this.enabled=value;if(!value)this.stop();else if(this.playing)this.clock=null;}
  setMusic(value){this.music=value;for(const voice of [...this.voices])if(voice.music){try{voice.source.stop();}catch{}voice.clean();}this.clock=null;}
  setVolume(value){this.volume=Math.max(0,Math.min(1,value));this.stopCheer();if(this.master)this.master.gain.setTargetAtTime(this.volume,this.context.currentTime,.03);if(!this.volume)this.stop();}
@@ -118,9 +177,9 @@ export class FlowAudio{
   this.target=Math.max(0,Math.min(1,Number.isFinite(intensity)?intensity:0));
   const elapsed=Number.isFinite(elapsedMs)?Math.max(0,Math.min(250,elapsedMs)):0;
   this.intensity+=(this.target-this.intensity)*(1-Math.exp(-elapsed/700));
-  const tempoTarget=Math.max(0,Math.min(1,Number.isFinite(pace)?pace:0));this.tempoPace+=(tempoTarget-this.tempoPace)*(1-Math.exp(-elapsed/350));
+  const tempoTarget=Math.max(0,Math.min(1,Number.isFinite(pace)?pace:0));this.tempoPace+=(tempoTarget-this.tempoPace)*(1-Math.exp(-elapsed/(tempoTarget>this.tempoPace?850:1400)));
   if(!this.playing||!this.enabled||!this.music||!this.volume||!this.unlock())return;
-  const c=this.context,now=c.currentTime,bpm=flowTempo(this.tempoPace),quarter=60/bpm,unit=quarter/4;
+  const c=this.context,now=c.currentTime;if(this.mode==='relax'){this.relaxMusic(now);return;}const bpm=flowTempo(this.tempoPace),quarter=60/bpm,unit=quarter/4;
   if(this.clock===null||this.clock<now-.3){this.clock=now+.025;if(this.step>512)this.step%=512;}
   let scheduled=0;
   while(this.clock<now+.18&&scheduled++<8){

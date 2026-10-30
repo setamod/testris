@@ -4,10 +4,11 @@ export const TIDE_SIZE=TIDE_COLS*TIDE_ROWS;
 export const CHAIN_MS=3200;
 export const FEVER_MS=6000;
 export const FEVER_COST=30;
+export const NOVA_HOLD_MS=850;
 export const DAILY_MS=90000;
 export const BLITZ_MS=60000;
 export const DEFAULT_GAME_MODE='ascend';
-export const GAME_MODES=['ascend','survival','blitz','timeRush','daily'];
+export const GAME_MODES=['ascend','survival','blitz','timeRush','daily','relax'];
 export const STAGE_BREAK_MS=3600;
 export const STAGE_COUNTDOWN_MS=2400;
 export const TIME_START_MS=30000;
@@ -161,17 +162,24 @@ export class TideGame{
  makeRow(){const row=[];for(let col=0;col<TIDE_COLS;col++){const choices=Array.from({length:this.familyCount},(_,i)=>i).filter(value=>col<2||row[col-1]!==value||row[col-2]!==value);row.push(choices[Math.floor(this.random()*choices.length)]);}return row;}
  get busy(){return this.phase!==null;}
  get levelPeriod(){return this.mode==='timeRush'?30000:25000;}
- get level(){return this.mode==='ascend'?this.wave:1+Math.floor(this.elapsed/this.levelPeriod);}
+ get level(){return this.mode==='relax'?1:this.mode==='ascend'?this.wave:1+Math.floor(this.elapsed/this.levelPeriod);}
  get interval(){return Math.max(1350,8500-(this.level-1)*600);}
- get renewing(){return this.mode==='blitz'||this.mode==='timeRush';}
+ get renewing(){return this.mode==='blitz'||this.mode==='timeRush'||this.mode==='relax';}
  get timeRate(){return 1+Math.min(.8,Math.floor(this.elapsed/30000)*.1);}
- get timed(){return this.mode==='daily'||this.renewing;}
+ get timed(){return this.mode==='daily'||this.mode==='blitz'||this.mode==='timeRush';}
  get duration(){return this.mode==='blitz'?BLITZ_MS:DAILY_MS;}
  get remaining(){return this.mode==='timeRush'?Math.max(0,this.timeLeft):this.timed?Math.max(0,this.duration-this.elapsed):null;}
  get height(){const at=this.board.findIndex(value=>value!==null);return at<0?0:TIDE_ROWS-Math.floor(at/TIDE_COLS);}
  get danger(){return this.height>=TIDE_ROWS-2;}
- get intensity(){return Math.min(1,Math.max(.12,(this.level-1)*.1,this.mode==='blitz'?.35+this.elapsed/BLITZ_MS*.65:0,this.mode!=='blitz'&&this.danger?.95:this.height/TIDE_ROWS*.7,this.combo*.14,this.feverLeft>0?1:0,this.timed&&this.remaining<=15000?1:0));}
- get musicPace(){return this.phase?.kind==='wave'?this.phase.previousPace:this.mode==='timeRush'?Math.min(1,Math.max((this.timeRate-1)/.8,1-this.remaining/TIME_START_MS)):this.mode==='blitz'?Math.min(1,this.elapsed/BLITZ_MS):Math.min(1,Math.max(0,(8500-this.interval)/(8500-1350)));}
+ get intensity(){if(this.mode==='relax')return .08;return Math.min(1,Math.max(.12,(this.level-1)*.1,this.mode==='blitz'?.35+this.elapsed/BLITZ_MS*.65:0,this.mode!=='blitz'&&this.danger?.95:this.height/TIDE_ROWS*.7,this.combo*.14,this.feverLeft>0?1:0,this.timed&&this.remaining<=15000?1:0));}
+ get musicBasePace(){if(this.mode==='relax')return 0;return this.mode==='timeRush'?Math.min(.5,(this.timeRate-1)*.625):this.mode==='blitz'?Math.min(1,this.elapsed/BLITZ_MS):Math.min(1,Math.max(0,(8500-this.interval)/(8500-1350)));}
+ get musicPace(){
+  if(this.mode==='relax')return 0;
+  if(this.phase?.kind==='wave')return this.phase.previousPace;
+  const base=this.musicBasePace,clock=this.mode==='timeRush'?Math.max(0,1-this.remaining/TIME_START_MS):this.mode==='daily'?Math.max(0,1-this.remaining/20000):0;
+  const stack=this.renewing?0:Math.max(0,Math.min(1,(this.height-6)/5));
+  return Math.min(1,Math.max(this.phase?.kind==='power'?.85:0,base+(1-base)*Math.max(clock,stack)*.88));
+ }
  get stageCountdown(){return this.phase?.kind!=='wave'?null:this.phase.left>STAGE_COUNTDOWN_MS?0:Math.ceil(this.phase.left/(STAGE_COUNTDOWN_MS/3));}
  hint(){return legalSwaps(this.board)[0]??null;}
  start(options){this.reset(options);this.status='playing';this.onEvent({type:'start'});}
@@ -184,7 +192,7 @@ export class TideGame{
   if(!groups.length){this.phase={kind:'reject',left:130};this.onEvent({type:'reject',from,to});return false;}
   [this.board[from],this.board[to]]=[this.board[to],this.board[from]];this.revision++;this.swaps++;
   this.timeCredit=0;
-  this.combo=this.chainLeft>0?Math.min(5,this.combo+1):1;this.chainLeft=CHAIN_MS;this.bestCombo=Math.max(this.bestCombo,this.combo);
+  this.combo=this.mode==='relax'?1:this.chainLeft>0?Math.min(5,this.combo+1):1;this.chainLeft=this.mode==='relax'?0:CHAIN_MS;this.bestCombo=Math.max(this.bestCombo,this.combo);
   this.phase={kind:'swap',left:145,groups,source:'player',stage:1,multiplier:this.combo};this.onEvent({type:'swap',from,to});return true;
  }
  clearMatches(groups,context){
@@ -195,7 +203,7 @@ export class TideGame{
   const timeAdded=this.mode==='timeRush'&&context.source==='player'?Math.max(0,Math.min(timeReward(cells.length,context.stage),TIME_MOVE_CAP_MS-this.timeCredit,TIME_CAP_MS-this.timeLeft)):0;
   this.timeLeft+=timeAdded;this.timeCredit+=timeAdded;this.timeEarned+=timeAdded;
   for(const at of cells)this.board[at]=null;this.revision++;this.score=Math.min(9e12,this.score+points);this.cleared+=cells.length;this.pops++;
-  let feverStarted=false;if(!inFever){this.energy+=cells.length;if(this.energy>=FEVER_COST){this.energy=0;this.feverLeft=FEVER_MS;feverStarted=true;}}
+  let feverStarted=false;if(!inFever&&this.mode!=='relax'){this.energy+=cells.length;if(this.energy>=FEVER_COST){this.energy=0;this.feverLeft=FEVER_MS;feverStarted=true;}}
   this.phase={...context,kind:'fall',left:context.stage>=4?95:context.stage>=2?120:150};
    this.onEvent({type:'clear',cells,family,pattern:reward,source:context.source,count:Math.min(4,Math.ceil(cells.length/3)),points,combo:context.multiplier,stage:context.stage,fever:inFever,timeAdded});
   if(reward)this.onEvent({type:'bonus',power:reward,granted,count:this.powers[reward],cells});
@@ -204,7 +212,7 @@ export class TideGame{
  advancePhase(){
   const phase=this.phase;if(!phase)return;
   if(phase.kind==='swap'){this.clearMatches(phase.groups,phase);return;}
-  if(phase.kind==='fall'){
+  if(phase.kind==='fall'||phase.kind==='power'){
    const gravity=tideGravity(this.board);this.board=gravity.board;this.revision++;this.phase={...phase,kind:'settle',left:phase.stage>=4?110:phase.stage>=2?130:175};this.onEvent({type:'fall',moves:gravity.moves});return;
   }
   if(phase.kind==='settle'){
@@ -250,7 +258,7 @@ export class TideGame{
   if(!cells.length)return false;
   this.powers[power]--;for(const at of cells)this.board[at]=null;this.revision++;
   const points=cells.length*20;this.score=Math.min(9e12,this.score+points);this.cleared+=cells.length;
-  this.phase={kind:'fall',left:160,source:'power',stage:0,multiplier:1};
+  this.phase={kind:power==='nova'?'power':'fall',left:power==='nova'?NOVA_HOLD_MS:power==='cross'?230:160,source:'power',stage:0,multiplier:1};
   this.onEvent({type:'power',power,index,cells,points,count:power==='nova'?4:power==='cross'?3:power==='rocket'?2:1});return true;
  }
  raise(manual=false){
@@ -265,6 +273,12 @@ export class TideGame{
   if(this.status!=='playing'||!Number.isFinite(milliseconds)||milliseconds<=0)return;
   let left=Math.min(milliseconds,3600000);
   while(left>.00001&&this.status==='playing'){
+   // Nova's short warp is a reward, not a penalty on the game clock.
+   if(this.phase?.kind==='power'){
+    const step=Math.min(left,this.phase.left);this.phase.left-=step;left-=step;
+    if(this.phase.left<=.000001)this.advancePhase();
+    continue;
+   }
    // Stage intermissions consume real frame time without consuming play time,
    // Overdrive, chain time or rising progress. Pausing also preserves the countdown.
    if(this.phase?.kind==='wave'){

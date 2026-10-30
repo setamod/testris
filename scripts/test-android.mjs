@@ -22,6 +22,8 @@ let output;try{output=run(['shell','am','instrument','-w','-r','com.mertbekisogl
 await mkdir(join(root,'publication','evidence'),{recursive:true});await writeFile(join(root,'publication','evidence','android-smoke.txt'),output);
 console.log(output);
 if(!output.includes('KYNBURST_SMOKE_PASS'))throw Error('Android smoke test failed; see publication/evidence/android-smoke.txt');
-for(const name of ['android-gameplay-tr.png','android-time-rush-en.png','android-time-critical-en.png','android-time-ended-en.png'])console.log(run(['pull','/sdcard/Android/data/com.mertbekisoglu.bulusko.debug/files/smoke/'+name,join(root,'publication','store','assets',name)]).trim());
+for(const name of ['android-home-tr.png','android-modes-tr.png','android-powers-tr.png','android-gameplay-tr.png','android-relax-tr.png','android-time-rush-en.png','android-time-critical-en.png','android-time-ended-en.png'])console.log(run(['pull','/sdcard/Android/data/com.mertbekisoglu.bulusko.debug/files/smoke/'+name,join(root,'publication','store','assets',name)]).trim());
 
 console.log(run(['pull','/sdcard/Android/data/com.mertbekisoglu.bulusko.debug/files/smoke/android-layout-fit.json',join(root,'publication','evidence','android-layout-fit.json')]).trim());
+
+console.log(run(['pull','/sdcard/Android/data/com.mertbekisoglu.bulusko.debug/files/smoke/android-audio-recovery.json',join(root,'publication','evidence','android-audio-recovery.json')]).trim());

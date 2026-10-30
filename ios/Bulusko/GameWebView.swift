@@ -1,3 +1,4 @@
+import AVFAudio
 import SwiftUI
 import WebKit
 import UIKit
@@ -14,7 +15,7 @@ private let nativeCopy: [String: [String: String]] = [
         "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Abbinamenti grandi, Bomb, Rocket, Cross e Nova producono vibrazioni di diversa intensità.",
         "Privacy": "Privacy",
         "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Le foto scelte vengono elaborate sul dispositivo. Volti, nomi, livelli, record e preferenze restano nella memoria locale dell’app.",
-        "Delete photos in My family. There are no accounts, ads, analytics or uploads.": "Puoi eliminare le foto in La mia famiglia. Non ci sono account, pubblicità, analisi o caricamenti.",
+        "Delete photos in Your people. There are no accounts, ads, analytics or uploads.": "Puoi eliminare le foto in I miei cari. Non ci sono account, pubblicità, analisi o caricamenti.",
         "Credits": "Riconoscimenti",
         "Popzuno settings": "Impostazioni Popzuno",
         "Done": "Fatto",
@@ -32,7 +33,7 @@ private let nativeCopy: [String: [String: String]] = [
         "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Las combinaciones grandes, Bomb, Rocket, Cross y Nova producen vibraciones de distinta intensidad.",
         "Privacy": "Privacidad",
         "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Las fotos elegidas se procesan en tu dispositivo. Las caras, los nombres, las etapas, los récords y las preferencias se guardan localmente en esta app.",
-        "Delete photos in My family. There are no accounts, ads, analytics or uploads.": "Puedes eliminar las fotos en Mi familia. No hay cuentas, anuncios, analítica ni subidas de datos.",
+        "Delete photos in Your people. There are no accounts, ads, analytics or uploads.": "Puedes eliminar las fotos en Mi gente. No hay cuentas, anuncios, analítica ni subidas de datos.",
         "Credits": "Créditos",
         "Popzuno settings": "Ajustes de Popzuno",
         "Done": "Listo",
@@ -50,7 +51,7 @@ private let nativeCopy: [String: [String: String]] = [
         "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Große Kombinationen, Bomb, Rocket, Cross und Nova erzeugen unterschiedlich starke Vibrationen.",
         "Privacy": "Datenschutz",
         "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Ausgewählte Fotos werden auf deinem Gerät verarbeitet. Gesichter, Namen, Stufen, Rekorde und Einstellungen bleiben im lokalen Speicher dieser App.",
-        "Delete photos in My family. There are no accounts, ads, analytics or uploads.": "Lösche Fotos unter Meine Familie. Es gibt keine Konten, Werbung, Analysen oder Uploads.",
+        "Delete photos in Your people. There are no accounts, ads, analytics or uploads.": "Lösche Fotos unter Meine Liebsten. Es gibt keine Konten, Werbung, Analysen oder Uploads.",
         "Credits": "Mitwirkende",
         "Popzuno settings": "Popzuno-Einstellungen",
         "Done": "Fertig",
@@ -68,7 +69,7 @@ private let nativeCopy: [String: [String: String]] = [
         "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Большие комбинации, Bomb, Rocket, Cross и Nova дают вибрацию разной силы.",
         "Privacy": "Конфиденциальность",
         "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Выбранные фото обрабатываются на устройстве. Лица, имена, этапы, рекорды и настройки хранятся только в локальном хранилище приложения.",
-        "Delete photos in My family. There are no accounts, ads, analytics or uploads.": "Фото можно удалить в разделе «Моя семья». Здесь нет аккаунтов, рекламы, аналитики или загрузки данных на сервер.",
+        "Delete photos in Your people. There are no accounts, ads, analytics or uploads.": "Фото можно удалить в разделе «Близкие». Здесь нет аккаунтов, рекламы, аналитики или загрузки данных на сервер.",
         "Credits": "Авторы и ресурсы",
         "Popzuno settings": "Настройки Popzuno",
         "Done": "Готово",
@@ -126,6 +127,9 @@ final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandle
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = .default()
         configuration.allowsInlineMediaPlayback = true
+        #if DEBUG && targetEnvironment(simulator)
+        if ProcessInfo.processInfo.arguments.contains("--audio-lifecycle-check") { configuration.mediaTypesRequiringUserActionForPlayback = [] }
+        #endif
         configuration.ignoresViewportScaleLimits = false
         configuration.preferences.javaScriptCanOpenWindowsAutomatically = false
         configuration.userContentController.add(self, name: "bulusko")
@@ -148,6 +152,12 @@ final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandle
         loadError = nil
         webView?.configuration.userContentController.removeAllUserScripts()
         webView?.configuration.userContentController.addUserScript(WKUserScript(source: bootstrap, injectionTime: .atDocumentStart, forMainFrameOnly: true))
+        #if DEBUG && targetEnvironment(simulator)
+        if ProcessInfo.processInfo.arguments.contains("--audio-lifecycle-check") {
+            let probe = "window.__qaAudioContexts=[];const OriginalAudioContext=window.AudioContext||window.webkitAudioContext;window.AudioContext=class extends OriginalAudioContext{constructor(...args){super(...args);window.__qaAudioContexts.push(this);}};"
+            webView?.configuration.userContentController.addUserScript(WKUserScript(source: probe, injectionTime: .atDocumentStart, forMainFrameOnly: true))
+        }
+        #endif
         webView?.loadFileURL(url, allowingReadAccessTo: url)
     }
 
@@ -156,6 +166,11 @@ final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandle
         haptics.stop()
         UIApplication.shared.isIdleTimerDisabled = false
         webView?.evaluateJavaScript("window.dispatchEvent(new Event('blur'));")
+    }
+
+    func restoreAfterInterruption() {
+        guard UIApplication.shared.applicationState == .active else { return }
+        webView?.evaluateJavaScript("window.dispatchEvent(new Event('kynburst:audio-resume'));" )
     }
 
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -180,8 +195,11 @@ final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandle
             }
         case "state":
             let playing = body["playing"] as? Bool == true
+            if playing && UIApplication.shared.applicationState == .active { GameAudioSession.restorePlayback(activate: true) }
             UIApplication.shared.isIdleTimerDisabled = playing && UIApplication.shared.applicationState == .active
             if !playing { haptics.stop(); announcer?.stop() }
+        case "audioResume":
+            if UIApplication.shared.applicationState == .active { GameAudioSession.restorePlayback(activate: true) }
         case "prepareCheers":
             if UIApplication.shared.applicationState == .active { if announcer == nil { announcer = ArcadeAnnouncer() }; announcer?.prepare() }
         case "cheer":
@@ -194,6 +212,19 @@ final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandle
         case "settings":
             pauseForBackground()
             showSettings = true
+        #if DEBUG && targetEnvironment(simulator)
+        case "qaAudioInterrupt":
+            guard ProcessInfo.processInfo.arguments.contains("--audio-lifecycle-check") else { return }
+            NotificationCenter.default.post(name: UIApplication.willResignActiveNotification, object: nil)
+            NotificationCenter.default.post(name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance(), userInfo: [AVAudioSessionInterruptionTypeKey: AVAudioSession.InterruptionType.began.rawValue])
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                NotificationCenter.default.post(name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance(), userInfo: [AVAudioSessionInterruptionTypeKey: AVAudioSession.InterruptionType.ended.rawValue])
+                NotificationCenter.default.post(name: UIApplication.didBecomeActiveNotification, object: nil)
+            }
+        case "qaAudioResult":
+            guard ProcessInfo.processInfo.arguments.contains("--audio-lifecycle-check"), let result = body["result"] as? [String: Any], let data = try? JSONSerialization.data(withJSONObject: result, options: [.prettyPrinted, .sortedKeys]), let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+            try? data.write(to: directory.appendingPathComponent("audio-recovery.json"), options: .atomic)
+        #endif
         default: break
         }
     }
@@ -225,10 +256,25 @@ final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandle
         #if DEBUG && targetEnvironment(simulator)
         // Deterministic visual fixture for safe-area/layout checks. Excluded from
         // every Release build and every physical-device build; never resets data.
+        if ProcessInfo.processInfo.arguments.contains("--audio-lifecycle-check") {
+            // Native notifications and actual WKWebView audio graph; simulator only.
+            webView.evaluateJavaScript("""
+            (async()=>{const send=(type,extra={})=>webkit.messageHandlers.bulusko.postMessage({type,...extra});const wait=async(test)=>{for(let i=0;i<120;i++){if(test())return;await new Promise(r=>setTimeout(r,50));}throw Error('Audio lifecycle timeout');};try{
+            document.querySelector('#home-play').click();document.querySelector('[data-tide-mode=relax]').click();document.querySelector('#home-start').click();
+            await wait(()=>window.__qaAudioContexts.at(-1)?.state==='running');
+            const before=window.__qaAudioContexts.at(-1),count=window.__qaAudioContexts.length;
+            const foreground=new Promise(r=>window.addEventListener('kynburst:audio-resume',r,{once:true}));send('qaAudioInterrupt');await foreground;
+            const paused=!document.querySelector('#tide-arena').classList.contains('is-playing');document.querySelector('#tide-start').click();
+            await wait(()=>window.__qaAudioContexts.length>count&&window.__qaAudioContexts.at(-1).state==='running');
+            const current=window.__qaAudioContexts.at(-1),time=current.currentTime;await new Promise(r=>setTimeout(r,400));
+            const result={platform:'ios-wkwebview-simulator',nativeNotifications:true,paused,oldState:before.state,state:current.state,clockAdvances:current.currentTime>time,contextsCreated:window.__qaAudioContexts.length};result.passed=paused&&before.state==='closed'&&current.state==='running'&&result.clockAdvances;send('qaAudioResult',{result});
+            }catch(error){send('qaAudioResult',{result:{passed:false,error:String(error)}});}})();true;
+            """)
+        }
         if ProcessInfo.processInfo.arguments.contains("--layout-check") {
             let mode = ProcessInfo.processInfo.arguments.first(where: { $0.hasPrefix("--layout-mode=") })?.replacingOccurrences(of: "--layout-mode=", with: "") ?? "ascend"
-            if ["ascend", "survival", "blitz", "timeRush", "daily"].contains(mode) {
-                webView.evaluateJavaScript("document.querySelector('[data-tide-mode=\(mode)]').click();document.querySelector('#home-play').click();")
+            if ["ascend", "survival", "timeRush", "daily", "relax"].contains(mode) {
+                webView.evaluateJavaScript("document.querySelector('#home-play').click();document.querySelector('[data-tide-mode=\(mode)]').click();document.querySelector('#home-start').click();")
             }
         }
         #endif

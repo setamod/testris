@@ -20,17 +20,24 @@ export class CelebrationDirector{
   if(event.type==='clear'&&(event.stage||1)===1&&event.source!=='row'&&event.source!=='power'){
    const combo=event.combo||1;if(combo<=1||combo<this.lastCombo)this.chainSpoken=0;this.lastCombo=combo;
   }
+  const now=this.clock();if(this.pending&&now>this.pending.until)this.pending=null;
   const cue=celebrationCue(event);if(!cue||cue.comboLevel&&cue.comboLevel<=this.chainSpoken)return null;
+  if(cue.kind==='nova'&&this.lastKind==='nova'&&now-this.lastAt<1100)return null;
+  cue.until=now+(cue.kind==='four'?1800:cue.priority>=50?4000:3200);
   if(!this.pending||cue.priority>=this.pending.priority)this.pending=cue;return cue;
  }
  clear(){this.pending=null;}
- take(){
-  const cue=this.pending;this.pending=null;if(!cue)return null;const now=this.clock(),gap=now-this.lastAt;
+ reset(){this.clear();this.lastAt=-Infinity;this.lastKind=null;this.lastPriority=0;this.lastCombo=0;this.chainSpoken=0;}
+ peek(){
+  const cue=this.pending;if(!cue)return null;const now=this.clock(),gap=now-this.lastAt;
+  if(now>cue.until){this.pending=null;return null;}
   if(cue.kind==='nova'){if(this.lastKind==='nova'&&gap<1100)return null;}
-  else if(cue.kind==='novaReady'){if(gap<1800)return null;}
-  else{const interval=cue.kind==='four'?6500:4500,escalating=cue.priority>=50&&cue.priority>this.lastPriority&&gap>=2500;if(gap<interval&&!escalating)return null;}
-  this.lastAt=now;this.lastKind=cue.kind;this.lastPriority=cue.priority;if(cue.comboLevel)this.chainSpoken=Math.max(this.chainSpoken,cue.comboLevel);return cue;
+  else if(cue.kind==='novaReady'){if(gap<1100)return null;}
+  else{const interval=cue.kind==='four'?4000:cue.priority>=50?1900:2600,escalating=cue.priority>this.lastPriority&&gap>=900;if(gap<interval&&!escalating)return null;}
+  return cue;
  }
+ commit(cue){if(!cue)return;if(this.pending===cue)this.pending=null;this.lastAt=this.clock();this.lastKind=cue.kind;this.lastPriority=cue.priority;if(cue.comboLevel)this.chainSpoken=Math.max(this.chainSpoken,cue.comboLevel);}
+ take(){const cue=this.peek();if(cue)this.commit(cue);return cue;}
 }
 export class CheerVoice{
  constructor({sendNative=message=>{const bridge=globalThis.webkit?.messageHandlers?.bulusko;if(!bridge)return false;bridge.postMessage(message);return true;},speech=globalThis.speechSynthesis,Utterance=globalThis.SpeechSynthesisUtterance}={}){this.sendNative=sendNative;this.speech=speech;this.Utterance=Utterance;this.activePriority=0;}

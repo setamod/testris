@@ -1,24 +1,24 @@
 {
-  "verified_on": "2026-10-29",
+  "verified_on": "2026-10-31",
   "app": "Popzuno",
-  "version": "0.9.8",
-  "build": 17,
-  "status": "local_store_candidate_prepared_not_submitted",
+  "version": "0.9.12",
+  "build": 21,
+  "status": "validated_beta_uploaded_waiting_apple_review",
   "business_model": "paid_upfront_no_ads_no_iap",
   "tests": {
     "javascript": {
-      "passed": 74,
+      "passed": 90,
       "failed": 0,
       "report": "evidence/javascript-tests.txt"
     },
     "swift_native_storage": "passed_preferences_photo_validation_monotonic_records_and_reset",
     "android_native_emulator": {
-      "passed": 138,
+      "passed": 175,
       "failed": 0,
       "api": 36,
       "report": "evidence/android-smoke.txt",
-      "tested_version": "0.9.8 (17)",
-      "current_change_scope": "current full native suite including offline brand/logo checks and 90 viewport/mode/language fit cases"
+      "tested_version": "0.9.12 (21)",
+      "current_change_scope": "Play-first landing, five-mode selection, help icons, local photo/name and preferences retained, real native background/foreground audio recovery"
     },
     "android_release_lint": {
       "errors": 0,
@@ -87,14 +87,16 @@
       "status": "Historical browser checks retained; current responsive layout verified in native Android WebView and iOS simulator."
     },
     "visual_review": {
-      "ios": "actual 0.9.8 iPhone 18 Pro Max simulator main menu and Ascend gameplay verified",
-      "android": "actual 0.9.8 API36 TR gameplay; EN TimeRush menu, final seconds and fullscreen result",
+      "ios": "actual WKWebView on iPhone 17 Pro Max simulator; clean home fits safe areas; physical 0.9.12 installed and launched",
+      "android": "current emulator home, mode picker, concise power guide and gameplay reviewed",
       "android_renderer": "host_GPU_with_Vulkan_disabled; software_emulator_capture_corruption_resolved_in_final_capture",
       "stage_transition": "stage timing/pause engine regression tests passed; earlier visual baseline archived",
       "overflow": "actual browser fullscreen overflow card; native fullscreen timed result validated in all six locales",
-      "current_change_scope": "Popzuno branding and static logo; no gameplay layout/audio/storage changes",
-      "ios_evidence": "evidence/popzuno-ios-gameplay-tr.png",
-      "ios_store_screenshot": "current 0.9.8 main menu, actual 1320x2868 simulator capture"
+      "current_change_scope": "simplified menu and audio interruption recovery",
+      "ios_evidence": "evidence/popzuno-099-ios-gameplay-tr.png",
+      "ios_store_screenshot": "ios-home-tr-0.9.12.png is current candidate; full commercial set still to finalize",
+      "notification_evidence": "evidence/popzuno-0910-status-clear-tr.png",
+      "relax_evidence": "evidence/popzuno-0911-relax-tr.png"
     },
     "swift_native_storage_last_run_version": "0.9.5 (14); storage implementation unchanged",
     "mobile_layout": {
@@ -110,16 +112,16 @@
           640
         ],
         [
-          391,
-          781
+          390,
+          780
         ]
       ],
       "modes": [
         "ascend",
         "survival",
-        "blitz",
         "timeRush",
-        "daily"
+        "daily",
+        "relax"
       ],
       "languages": [
         "tr",
@@ -136,23 +138,23 @@
         "square-cell board takes maximum available width or height"
       ],
       "evidence": "evidence/android-layout-fit.json",
-      "layout_measurements_per_animation_frame": 0
+      "layout_measurements_per_animation_frame": 0,
+      "readable_fonts": {
+        "drive": 12,
+        "power": 14,
+        "powerIcon": 25,
+        "scoreLabel": 13
+      },
+      "all_live_messages_outside_board": true,
+      "additional_home_checks": 18
     },
     "branding": {
-      "date": "2026-10-29",
+      "date": "2026-10-30",
       "product": "Popzuno",
-      "version": "0.9.8",
-      "build": 17,
+      "version": "0.9.12",
+      "build": 21,
       "installed_name_version_verified": true,
       "bundle_id_unchanged": true,
-      "byte_identical_gameplay_storage_and_audio": {
-        "storage.mjs": true,
-        "arcade-engine.mjs": true,
-        "sound.mjs": true,
-        "impact.mjs": true,
-        "cheers.mjs": true,
-        "voice-bank.mjs": true
-      },
       "locales": [
         "tr",
         "en",
@@ -163,18 +165,156 @@
       ],
       "logo_offline_native_verified": true,
       "personal_data_packaged": false,
-      "trademark_clearance": "not_obtained"
+      "trademark_clearance": "not_obtained",
+      "preserved_from_0_9_8": {
+        "storage.mjs": true,
+        "voice-bank.mjs": true,
+        "avatars.mjs": true
+      },
+      "gameplay_and_effects_updated": true
+    },
+    "feedback_revision": {
+      "date": "2026-10-30",
+      "version": "0.9.9",
+      "build": 18,
+      "javascript_tests": 80,
+      "native_android_checks": 141,
+      "viewport_mode_locale_cases": 90,
+      "minimum_observed_font_px": {
+        "drive": 12,
+        "power": 14,
+        "powerIcon": 25,
+        "scoreLabel": 13
+      },
+      "preserved": {
+        "storage.mjs": true,
+        "voice-bank.mjs": true,
+        "avatars.mjs": true
+      },
+      "physical_iphone": "in-place install and launch verified",
+      "same_bundle_id": true,
+      "phone_fps_measurement": "not performed; bounded audio regression and real WebView layout checks passed",
+      "changes": [
+        "larger type and arcade home",
+        "colored power stock, larger icons, visible earned counts",
+        "whole-row arrival with separate countdown",
+        "Bomb arming glow, Cross laser and Nova warp",
+        "Overdrive explanation opens from bar",
+        "risk-responsive music with smoothed recovery",
+        "one pending major call, acknowledged only on accepted playback"
+      ],
+      "nova_hold_ms": 850,
+      "nova_effect_seconds": 2.05,
+      "voice_clips_unchanged": 7
+    },
+    "status_lane": {
+      "date": "2026-10-30",
+      "version": "0.9.10",
+      "build": 19,
+      "javascript_tests": 80,
+      "android_native_checks": 144,
+      "layout_cases": 90,
+      "all_live_text_outside_board": true,
+      "real_notification_test": "same-face invalid move triggers actual notice; bounds and parentage checked",
+      "status_row_px": 28,
+      "pointer_events": "none",
+      "idle_bonus_reminder": "inventory pulse only",
+      "score_delta_location": "score HUD",
+      "preserved_from_0_9_9": {
+        "arcade-engine.mjs": true,
+        "sound.mjs": true,
+        "impact.mjs": true,
+        "storage.mjs": true,
+        "voice-bank.mjs": true,
+        "avatars.mjs": true
+      },
+      "physical_iphone": "in-place install and launch verified",
+      "evidence": "evidence/popzuno-0910-status-clear-tr.png"
+    },
+    "relax": {
+      "version": "0.9.11",
+      "build": 20,
+      "onlineLeaderboard": "deferred_until_store_launch",
+      "existingModesRetained": true,
+      "newMode": "relax",
+      "relaxRules": [
+        "no timer",
+        "no rising rows",
+        "fixed four families",
+        "no speed increase",
+        "refill after matches and powers",
+        "no timed chain/Overdrive",
+        "no automatic loss"
+      ],
+      "relaxAudio": {
+        "composition": "Quiet Orbit",
+        "bpm": 72,
+        "effects": "soft sine confirmations",
+        "announcer": "gameplay off; explicit settings preview remains available",
+        "savedSettingsChanged": false
+      },
+      "distribution": {
+        "android": "debug APK for direct testing",
+        "desktop": "portable single-file HTML ZIP",
+        "iPhone": "not uploaded to TestFlight; drafts prepared"
+      },
+      "additionalPayments": false,
+      "originalFamilytrisFilesUnchanged": 84,
+      "javascript_tests_passed": 84,
+      "android_native_checks_passed": 165,
+      "mobile_layouts_passed": 108,
+      "physical_iphone_installed_and_launched": true,
+      "unchanged_components": {
+        "storage.mjs": true,
+        "voice-bank.mjs": true,
+        "avatars.mjs": true,
+        "impact.mjs": true
+      },
+      "owner_audio_playtest": "pending",
+      "testflight": "not_uploaded"
+    },
+    "audio_interruption_recovery": {
+      "unit_tests_included_in_90": true,
+      "ios_native_notifications_and_wkwebview": {
+        "clockAdvances": true,
+        "contextsCreated": 3,
+        "nativeNotifications": true,
+        "oldState": "closed",
+        "passed": true,
+        "paused": true,
+        "platform": "ios-wkwebview-simulator",
+        "state": "running"
+      },
+      "android_real_activity_background_and_foreground": {
+        "contextsCreated": 2,
+        "currentState": "running",
+        "currentTime": 0.816,
+        "previousState": "closed",
+        "recovered": true
+      },
+      "actual_carrier_call_and_owner_listening": "Owner confirmed music and effects return after Messages → Popzuno → Continue; a carrier-call test was not specifically reported.",
+      "physical_iphone_messages_return": {
+        "confirmed_on": "2026-10-31",
+        "version": "0.9.12",
+        "build": 21,
+        "source": "owner response in chat",
+        "scenario": "Start game, open Messages, return to Popzuno, tap Continue",
+        "music_returns": true,
+        "effects_return": true,
+        "owner_statement": "Müzik ve efektler geri geliyor",
+        "actual_carrier_call": "not specifically reported"
+      }
     }
   },
   "ios": {
     "bundle_identifier": "com.mertbekisoglu.bulusko",
-    "release_archive": "artifacts/Popzuno-0.9.8-unsigned.xcarchive",
+    "release_archive": "artifacts/Popzuno-0.9.12-unsigned.xcarchive",
     "release_archive_built": true,
-    "distribution_signed": false,
-    "simulator_release_build_and_launch": "Debug simulator build and launch passed on 0.9.8; main menu/Ascend visually verified. Unsigned device Release archive passed.",
+    "distribution_signed": true,
+    "simulator_release_build_and_launch": "Debug simulator built/launched; native interruption + actual WebAudio passed. Signed physical Debug + signed/unsigned Release archives passed.",
     "current_revision_installed_on_physical_iphone": true,
-    "last_verified_physical_iphone_version": "0.9.8 (17)",
-    "embedded_game_sha256": "8180380ddfcb121dced39dfd5607ca3f91055a1101ef5ca1d2e469c2ab836839",
+    "last_verified_physical_iphone_version": "0.9.12 (21)",
+    "embedded_game_sha256": "6c3efff1d032a0d5ecd7d7671afd1eb64b1f5156c19dcc8761a709aedc6b6ec9",
     "localized_permission_resources": [
       "de.lproj",
       "en.lproj",
@@ -183,19 +323,21 @@
       "ru.lproj",
       "tr.lproj"
     ],
-    "physical_iphone_install_and_launch": "in_place_install_version_and_launch_verified_by_CoreDevice; owner_playtest_feedback_pending",
+    "physical_iphone_install_and_launch": true,
     "development_profile_ttl_days": 365,
     "development_profile_expires_utc": "2027-10-28T10:37:19Z",
     "development_certificate_expires_on": "2027-10-20",
-    "owner_main_menu_confirmation": false,
-    "owner_app_open_confirmation": false,
-    "installed_display_name": "Popzuno"
+    "owner_main_menu_confirmation": "pending 0.9.12",
+    "owner_app_open_confirmation": "pending 0.9.12",
+    "installed_display_name": "Popzuno",
+    "testflight_distribution_signature_verified": true,
+    "private_signed_archive": "private/testflight/Popzuno-0.9.12-21.xcarchive"
   },
   "android": {
     "minimum_api": 26,
     "target_api": 36,
-    "debug_apk": "artifacts/Popzuno-0.9.8-debug.apk",
-    "release_aab": "artifacts/Popzuno-0.9.8-UNSIGNED.aab",
+    "debug_apk": "artifacts/Popzuno-0.9.12-debug.apk",
+    "release_aab": "artifacts/Popzuno-0.9.12-UNSIGNED.aab",
     "release_signed": false,
     "permissions": [
       "android.permission.VIBRATE"
@@ -204,8 +346,8 @@
     "backups_enabled": false,
     "native_sdk_libraries": 0,
     "actual_bundle_inspection": {
-      "aab_sha256": "f88c19a28853343444a420783401aa8b9cff959c3230a6597212527bd9975a6c",
-      "game_sha256": "baac4773ce1600ff7bb14295a0861e9e010601c03ae6a3d2b95578d9a536f092",
+      "aab_sha256": "96facbec4f63ee8cca20366e18f46bd3801e13b2743f55e3951c7d0d30138e4e",
+      "game_sha256": "3b8453cf38a952f56dffae08078dd61abfcf25832a1785001601eb56a9bb5702",
       "game_matches_current_source": true,
       "legal_files_match": [
         "chakrapetch-OFL.txt",
@@ -247,13 +389,13 @@
     "logo": "OpenAI image generation for this project; no reference image; provenance and hashes in asset inventory"
   },
   "artifacts": {
-    "Popzuno-0.9.8-UNSIGNED.aab": {
-      "bytes": 1940481,
-      "sha256": "f88c19a28853343444a420783401aa8b9cff959c3230a6597212527bd9975a6c"
+    "Popzuno-0.9.12-UNSIGNED.aab": {
+      "bytes": 1953806,
+      "sha256": "96facbec4f63ee8cca20366e18f46bd3801e13b2743f55e3951c7d0d30138e4e"
     },
-    "Popzuno-0.9.8-debug.apk": {
-      "bytes": 2267677,
-      "sha256": "b7871265c714fde2518e5700e36600c5751b3ee434004d4547a887d02f600c2e"
+    "Popzuno-0.9.12-debug.apk": {
+      "bytes": 2285517,
+      "sha256": "021c778e9fb29bd189cb5d0c2749e6be13097e0fb31ce8d03c28b53cf93accd1"
     }
   },
   "owner_external_gates": [
@@ -356,7 +498,10 @@
     ],
     "speech_check_model_shipped": false,
     "new_reward_call": "Nova ready! only on granted Nova acquisition or stage gift; full inventory does not call",
-    "nova_ready_minimum_gap_ms": 1800
+    "nova_ready_minimum_gap_ms": 1100,
+    "all_seven_clip_bytes_preserved": true,
+    "director": "one highest-priority pending cue, expires within 4 seconds, cooldown confirmed only after accepted playback; fresh runs reset director",
+    "ordinary_triples_and_double_chains": "effects only"
   },
   "brand_revision": {
     "previous_name": "Kynburst",
@@ -364,5 +509,163 @@
     "trademark_clearance": "not_obtained",
     "actual_name_scan": "evidence/name-review-2026-10-29/popzuno-quick-store-scan.json",
     "persistent_identifiers_unchanged": true
+  },
+  "feedback_revision": {
+    "date": "2026-10-30",
+    "version": "0.9.9",
+    "build": 18,
+    "javascript_tests": 80,
+    "native_android_checks": 141,
+    "viewport_mode_locale_cases": 90,
+    "minimum_observed_font_px": {
+      "drive": 12,
+      "power": 14,
+      "powerIcon": 25,
+      "scoreLabel": 13
+    },
+    "preserved": {
+      "storage.mjs": true,
+      "voice-bank.mjs": true,
+      "avatars.mjs": true
+    },
+    "physical_iphone": "in-place install and launch verified",
+    "same_bundle_id": true,
+    "phone_fps_measurement": "not performed; bounded audio regression and real WebView layout checks passed",
+    "changes": [
+      "larger type and arcade home",
+      "colored power stock, larger icons, visible earned counts",
+      "whole-row arrival with separate countdown",
+      "Bomb arming glow, Cross laser and Nova warp",
+      "Overdrive explanation opens from bar",
+      "risk-responsive music with smoothed recovery",
+      "one pending major call, acknowledged only on accepted playback"
+    ],
+    "nova_hold_ms": 850,
+    "nova_effect_seconds": 2.05,
+    "voice_clips_unchanged": 7
+  },
+  "status_lane_revision": {
+    "date": "2026-10-30",
+    "version": "0.9.10",
+    "build": 19,
+    "javascript_tests": 80,
+    "android_native_checks": 144,
+    "layout_cases": 90,
+    "all_live_text_outside_board": true,
+    "real_notification_test": "same-face invalid move triggers actual notice; bounds and parentage checked",
+    "status_row_px": 28,
+    "pointer_events": "none",
+    "idle_bonus_reminder": "inventory pulse only",
+    "score_delta_location": "score HUD",
+    "preserved_from_0_9_9": {
+      "arcade-engine.mjs": true,
+      "sound.mjs": true,
+      "impact.mjs": true,
+      "storage.mjs": true,
+      "voice-bank.mjs": true,
+      "avatars.mjs": true
+    },
+    "physical_iphone": "in-place install and launch verified",
+    "evidence": "evidence/popzuno-0910-status-clear-tr.png"
+  },
+  "relax_revision": {
+    "version": "0.9.11",
+    "build": 20,
+    "onlineLeaderboard": "deferred_until_store_launch",
+    "existingModesRetained": true,
+    "newMode": "relax",
+    "relaxRules": [
+      "no timer",
+      "no rising rows",
+      "fixed four families",
+      "no speed increase",
+      "refill after matches and powers",
+      "no timed chain/Overdrive",
+      "no automatic loss"
+    ],
+    "relaxAudio": {
+      "composition": "Quiet Orbit",
+      "bpm": 72,
+      "effects": "soft sine confirmations",
+      "announcer": "gameplay off; explicit settings preview remains available",
+      "savedSettingsChanged": false
+    },
+    "distribution": {
+      "android": "debug APK for direct testing",
+      "desktop": "portable single-file HTML ZIP",
+      "iPhone": "not uploaded to TestFlight; drafts prepared"
+    },
+    "additionalPayments": false,
+    "originalFamilytrisFilesUnchanged": 84,
+    "javascript_tests_passed": 84,
+    "android_native_checks_passed": 165,
+    "mobile_layouts_passed": 108,
+    "physical_iphone_installed_and_launched": true,
+    "unchanged_components": {
+      "storage.mjs": true,
+      "voice-bank.mjs": true,
+      "avatars.mjs": true,
+      "impact.mjs": true
+    },
+    "owner_audio_playtest": "pending",
+    "testflight": "not_uploaded"
+  },
+  "test_distribution": {
+    "guide": "testing/ARKADAS-TESTI-TR.md",
+    "android_apk_ready": true,
+    "desktop_zip_ready": true,
+    "friends_bundle": "../releases/Popzuno-Friends-Beta-0.9.12.zip",
+    "testflight_uploaded": true,
+    "public_browser_game_published": false,
+    "additional_payments": false,
+    "online_leaderboard": "deferred",
+    "testflight_version": "0.9.12 (21)",
+    "testflight_processing": "processed; Waiting for Review",
+    "external_beta_review_submitted": true,
+    "testflight_status_report": "TESTFLIGHT-STATUS.json",
+    "external_test_group": "Family & Friends",
+    "external_group_builds": 2,
+    "public_test_link_created": true,
+    "public_test_link_url": "https://testflight.apple.com/join/GPjU3wzb",
+    "public_test_link_limit": 10,
+    "public_test_link_join_available": false,
+    "testers_invited": false,
+    "current_candidate_version": "0.9.12 (21)",
+    "current_distribution_status": "See TESTFLIGHT-STATUS.json"
+  },
+  "menu_and_audio_revision": {
+    "version": "0.9.12",
+    "build": 21,
+    "date": "2026-10-31",
+    "selectable_modes": [
+      "ascend",
+      "survival",
+      "timeRush",
+      "daily",
+      "relax"
+    ],
+    "legacy_blitz_scores_retained": true,
+    "home": "Play-first with separate mode picker; actual local record; Your people card; Settings and How to play",
+    "help": "controls/powers/modes; same real power icons, short descriptions in six languages",
+    "settings": "audio/language, licenses/privacy, support mailto",
+    "audio": "rebuild interrupted or backgrounded graph on next foreground interaction; reactivate native iOS ambient session; preserve cached buffers and preferences",
+    "preserved": {
+      "storage.mjs": true,
+      "voice-bank.mjs": true,
+      "avatars.mjs": true,
+      "face.mjs": true,
+      "impact.mjs": true,
+      "arcade-engine.mjs": true
+    },
+    "original_game_unchanged_files": 84,
+    "phone_installed_and_launched": true,
+    "phone_call_listening": "Messages background/return confirmed by owner; carrier-call not specifically reported",
+    "javascript_passed": 90,
+    "android_native_passed": 175,
+    "game_layout_cases": 90,
+    "home_layout_cases": 18,
+    "ios_audio_evidence": "evidence/ios-audio-recovery.json",
+    "android_audio_evidence": "evidence/android-audio-recovery.json",
+    "physical_iphone_audio_return_confirmed": true
   }
 }

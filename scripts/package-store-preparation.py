@@ -34,8 +34,8 @@ for name in [
     "publication/README-TR.md", "publication/OWNER-STEPS-TR.md",
     "publication/release-config.json", "publication/VALIDATION.json",
     "publication/PACKAGE-CHECKS.json", "publication/SITE-PUBLICATION.json",
-    "publication/ACCOUNT-STATUS.json",
-    "publication/legal", "publication/store", "publication/site/dist",
+    "publication/ACCOUNT-STATUS.json", "publication/TESTFLIGHT-STATUS.json",
+    "publication/legal", "publication/store", "publication/site/dist", "publication/testing",
 ]:
     include(name)
 
@@ -46,12 +46,12 @@ for item in (root / "publication/artifacts").iterdir():
 
 for name in (root / "publication/evidence").iterdir():
     if name.name.startswith(("wipo", "turkpatent", "privacy")) or name.name in {
-        "android-smoke.txt", "android-release-manifest.xml",
+        "android-smoke.txt", "android-release-manifest.xml", "ios-audio-recovery.json", "android-audio-recovery.json", "release-scope-0.9.12.json", "owner-audio-return-0.9.12.json", "testflight-0.9.12-waiting-review.png",
         "android-bundle-config.json", "android-package-contents.json",
         "javascript-tests.txt", "original-game-check.json", "announcer-speech-check.json", "android-layout-fit.json", "ios-fit-air-tr.png",
         "stage-clear-tr.jpg",
         "overflow-tr.jpg", "audio-settings-tr.jpg",
-        "main-menu-tr.jpg", "popzuno-ios-gameplay-tr.png", "popzuno-support-live.png", "popzuno-brand-check.json",
+        "main-menu-tr.jpg", "popzuno-ios-gameplay-tr.png", "popzuno-support-live.png", "popzuno-brand-check.json", "arcade-refresh-validation.json", "popzuno-099-ios-gameplay-tr.png", "popzuno-099-ios-ending-tr.png", "popzuno-099-phone-preview.png", "status-lane-validation.json", "popzuno-0910-status-clear-tr.png", "popzuno-0910-status-preview.png",
     }:
         include(name.relative_to(root))
 

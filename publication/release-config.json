@@ -1,6 +1,6 @@
 {
   "product": "Popzuno",
-  "build": 17,
+  "build": 21,
   "bundleIdentifier": "com.mertbekisoglu.bulusko",
   "businessModel": "paid_upfront_no_ads_no_iap",
   "price": null,

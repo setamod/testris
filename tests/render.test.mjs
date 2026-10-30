@@ -24,7 +24,7 @@ test('board keeps the same 88 touch targets and decoded images through swaps, cl
 });
 test('procedural impacts have stereo detail, bounded peaks and a decaying tail without external media',()=>{
  for(const kind of ['bomb','rocket','cross','nova']){
-  const {channels,duration}=impactSamples(kind,12000);assert.equal(channels.length,2);assert.ok(duration>.8&&duration<=1.5);assert.notDeepEqual(channels[0],channels[1]);
+  const {channels,duration}=impactSamples(kind,12000);assert.equal(channels.length,2);assert.ok(duration>.8&&duration<=2.1);assert.notDeepEqual(channels[0],channels[1]);
   for(const channel of channels){let peak=0;for(const sample of channel){assert.ok(Number.isFinite(sample));peak=Math.max(peak,Math.abs(sample));}assert.ok(peak>.1&&peak<=.861);const energy=(a,b)=>channel.slice(Math.floor(a*channel.length),Math.floor(b*channel.length)).reduce((sum,v)=>sum+v*v,0)/((b-a)*channel.length);assert.ok(energy(.1,.4)>energy(.8,1));}
  }
 });

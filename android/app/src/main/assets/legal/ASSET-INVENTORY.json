@@ -1,5 +1,5 @@
 {
-  "reviewed": "2026-10-29",
+  "reviewed": "2026-10-31",
   "product": "Popzuno",
   "status": "technical provenance record; not legal clearance",
   "runtime_npm_dependencies": [],
@@ -26,7 +26,8 @@
       "upstream": "https://github.com/nenadmarkus/picojs",
       "upstream_revision_inspected": "afffa50ec4134a47005f2cbf8112eaa69f65f37e",
       "adapted": true,
-      "sha256": "5c72587e002279f4dc46ae7434727cc87a6b331accaa9faa88c7688fc6ba78b6"
+      "sha256": "5c72587e002279f4dc46ae7434727cc87a6b331accaa9faa88c7688fc6ba78b6",
+      "bytes": 328584
     },
     {
       "component": "embedded facefinder model",
@@ -42,30 +43,34 @@
     {
       "file": "dist/sound.mjs",
       "origin": "created for this project",
-      "kind": "programmed composition Circuit Bloom",
-      "sha256": "e4d0cfb6fd0f4540fcc8816a8a40e7757bce74828d93805b29282c37215a9f16",
-      "external_recordings_or_images": false
+      "kind": "original adaptive Circuit Bloom and calm Quiet Orbit procedural music; separate scoped music/effects/voice lanes",
+      "sha256": "70cd1679aa6f9f79f6d487e210d09dd7d6b47fd064827a84d186c69218afc794",
+      "external_recordings_or_images": false,
+      "bytes": 17625
     },
     {
       "file": "dist/impact.mjs",
       "origin": "created for this project",
       "kind": "procedural impact effects",
-      "sha256": "23c07be3dbfcbbe23c5c9b44e7c51c7742ef2e301d66ed98be6d78528e4fdd96",
-      "external_recordings_or_images": false
+      "sha256": "4a0d344810475121ef1c08180a178deca19e9608c6794df147a8c397d42b6de1",
+      "external_recordings_or_images": false,
+      "bytes": 2710
     },
     {
       "file": "dist/avatars.mjs",
       "origin": "created for this project",
       "kind": "code-drawn characters",
       "sha256": "a1add10404be62475a8af71b6552a52282f5592c3e80d00970cbb943b0e51b52",
-      "external_recordings_or_images": false
+      "external_recordings_or_images": false,
+      "bytes": 4729
     },
     {
       "file": "dist/icon.svg",
       "origin": "created with OpenAI image generation for this project",
       "kind": "self-contained favicon derived from Popzuno generated master",
       "sha256": "38a9eff1c2f9df438345738fa77a9bebef55f9201d4e57d4e6dac6fe6e613a88",
-      "external_recordings_or_images": false
+      "external_recordings_or_images": false,
+      "bytes": 20780
     },
     {
       "component": "optional arcade cheers",
@@ -117,6 +122,14 @@
       "sha256": "3b92494c3636a8cd90cd0ba753160b9c9c2fb6cf370da258d69f386bd9f11e68",
       "bytes": 90898,
       "external_recordings_or_images": false
+    },
+    {
+      "file": "dist/arcade-refresh.css",
+      "origin": "created for this project",
+      "kind": "readable arcade UI and bounded CSS laser/warp effects",
+      "sha256": "b5a06d1eeebfd92ed734282422f302c401d2af9feb400b6296a59ac286cd1d3b",
+      "external_recordings_or_images": false,
+      "bytes": 28770
     }
   ]
 }

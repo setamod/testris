@@ -13,8 +13,8 @@ test('six complete catalogs retain the same interpolation fields and localized p
    assert.deepEqual(Object.keys(catalog[language]).sort(),Object.keys(catalog.en).sort());
    for(const [key,value]of Object.entries(catalog.en)){assert.ok(catalog[language][key].trim().length>0);assert.deepEqual(slots(catalog[language][key]),slots(value),language+':'+key);}
   }
-  assert.ok(flowTranslate(language,'helpThree').includes('Blitz 60'));assert.ok(flowTranslate(language,'helpThree').includes('Ascend'));
-  assert.ok(!tideTranslate(language,'cell',{name:'Ada',row:11,col:8}).includes('{'));assert.equal((powerGuideHTML(language).match(/<article>/g)||[]).length,5);
+  assert.ok(!flowTranslate(language,'helpThree').includes('Blitz 60'));assert.ok(flowTranslate(language,'helpThree').includes('Relax'));assert.ok(flowTranslate(language,'helpThree').includes('Ascend'));
+  assert.ok(!tideTranslate(language,'cell',{name:'Ada',row:11,col:8}).includes('{'));assert.equal((powerGuideHTML(language).match(/<article\b/g)||[]).length,5);
  }
  assert.equal(normalizeLanguage('invalid'),'tr');assert.equal(normalizeLanguage(null),'tr');
 });

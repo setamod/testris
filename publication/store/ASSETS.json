@@ -25,36 +25,36 @@
       "file": "ios-ready-tr.png",
       "width": 1320,
       "height": 2868,
-      "bytes": 2214453,
-      "sha256": "68efdd2b03804737f8b85de511a84594956933eb01641aa97ead0574f9bc7446"
+      "bytes": 2274728,
+      "sha256": "449b992de71c07087e58397c6f07a59a18e6758f48afe2c688c5f60128bb70d9"
     },
     {
       "file": "android-gameplay-tr.png",
       "width": 1080,
       "height": 2400,
-      "bytes": 819949,
-      "sha256": "399ad92110c02350884de666816312446b59babb4e92e848d6cb89d76e93aebe"
+      "bytes": 806336,
+      "sha256": "573afd9a731c7e04f03f4d9c5ddb239050d4d575282faa52d4faf1c986901aef"
     },
     {
       "file": "android-time-rush-en.png",
       "width": 1080,
       "height": 2400,
-      "bytes": 685313,
-      "sha256": "ccf0e131befe3f75a487acd90ebbd17998b0af11ca706322c3bc547966925d00"
+      "bytes": 802999,
+      "sha256": "f97cc6606e753588a5690ddcbb034e09090a87c17050aa0671df811281671b63"
     },
     {
       "file": "android-time-critical-en.png",
       "width": 1080,
       "height": 2400,
-      "bytes": 775302,
-      "sha256": "55f8ad1e609436f0be2a6c37765f02068eb994206623ff717117fd344eeb2d97"
+      "bytes": 800715,
+      "sha256": "25e0f6dedd763b7776cee9c4a5318e5ef71f93d61f4854126094e9146537c206"
     },
     {
       "file": "android-time-ended-en.png",
       "width": 1080,
       "height": 2400,
-      "bytes": 463643,
-      "sha256": "8282e8b2cd65583cb693b5317f93db6d973ea479a97491c66c8d26b44b76940e"
+      "bytes": 502773,
+      "sha256": "f456afbc43c0ae9b085436eeda9147401249bf5400487f831c920b52c34aa6f5"
     }
   ],
   "screenshots": "actual simulator/emulator captures with default illustrated characters; no personal photos",

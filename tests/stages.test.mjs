@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {TideGame,GAME_MODES,STAGE_BREAK_MS,STAGE_COUNTDOWN_MS,TIDE_SIZE,TUTORIAL_FROM,TUTORIAL_TO} from '../dist/arcade-engine.mjs';
-import {openingMode,HOME_REVISION} from '../dist/home-mode.mjs';
+import {openingMode,HOME_REVISION,MENU_MODES} from '../dist/home-mode.mjs';
 import {flowTempo} from '../dist/sound.mjs';
 
 test('Ascend opens first on fresh and legacy installs without mutating stored preferences',()=>{
@@ -9,7 +9,7 @@ test('Ascend opens first on fresh and legacy installs without mutating stored pr
  for(const settings of [null,{}, {mode:'survival'}, {mode:'timeRush',volume:.3,language:'de'}]){
   const before=JSON.stringify(settings);assert.equal(openingMode(settings),'ascend');assert.equal(JSON.stringify(settings),before);
  }
- for(const mode of GAME_MODES)assert.equal(openingMode({mode,homeRevision:HOME_REVISION}),mode);
+ for(const mode of MENU_MODES)assert.equal(openingMode({mode,homeRevision:HOME_REVISION}),mode);
  assert.equal(openingMode({mode:'invalid',homeRevision:HOME_REVISION}),'ascend');
 });
 

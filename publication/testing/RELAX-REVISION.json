@@ -1,0 +1,42 @@
+{
+  "version": "0.9.11",
+  "build": 20,
+  "onlineLeaderboard": "deferred_until_store_launch",
+  "existingModesRetained": true,
+  "newMode": "relax",
+  "relaxRules": [
+    "no timer",
+    "no rising rows",
+    "fixed four families",
+    "no speed increase",
+    "refill after matches and powers",
+    "no timed chain/Overdrive",
+    "no automatic loss"
+  ],
+  "relaxAudio": {
+    "composition": "Quiet Orbit",
+    "bpm": 72,
+    "effects": "soft sine confirmations",
+    "announcer": "gameplay off; explicit settings preview remains available",
+    "savedSettingsChanged": false
+  },
+  "distribution": {
+    "android": "debug APK for direct testing",
+    "desktop": "portable single-file HTML ZIP",
+    "iPhone": "0.9.11 (20) uploaded; external review pending; owner-approved 10-person link created, joining not yet available"
+  },
+  "additionalPayments": false,
+  "originalFamilytrisFilesUnchanged": 84,
+  "javascript_tests_passed": 84,
+  "android_native_checks_passed": 165,
+  "mobile_layouts_passed": 108,
+  "physical_iphone_installed_and_launched": true,
+  "unchanged_components": {
+    "storage.mjs": true,
+    "voice-bank.mjs": true,
+    "avatars.mjs": true,
+    "impact.mjs": true
+  },
+  "owner_audio_playtest": "pending",
+  "testflight": "uploaded_and_submitted_waiting_for_review"
+}

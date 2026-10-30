@@ -1,4 +1,14 @@
-# Popzuno 0.9.8 (17) — yayın hazırlık dosyası
+# Popzuno — Güncel beta: 0.9.12 (21)
+
+Ana menü sadeleştirildi: Oyna → beş moddan birini seç → başla. Sevdiklerim kartı yerel fotoğraf stüdyosunu açar. Kontrol, Bonuslar ve Modlar açıklamaları Nasıl oynanır altında; gizlilik/lisanslar ve destek Ayarlar altında. Blitz 60 seçimden kaldırıldı, eski kayıtları korunuyor. Rekor notu cihazdaki gerçek kaydı kullanır; online sıralama yok.
+
+Arka plan/arama kesintisinde oyun duraklar; geri dönüp Devam et'e dokununca WebAudio bağlantısı ve iOS ses oturumu yeniden kurulur. Ses tercihleri ve hazır ses tamponları korunur. 90 JavaScript testi, 175 Android kontrolü, 90 oyun yerleşimi + 18 ana menü yerleşimi ve 231 paket kontrolü geçti. iOS simülatöründe gerçek WKWebView ve yerel kesinti bildirimleriyle ses dönüşü doğrulandı. Fiziksel iPhone'a kurulum ve açılış tamamlandı. Hesap sahibi, gerçek iPhone’da Mesajlar’a geçip oyuna dönerek Devam et’e dokunduğunda müzik ve efektlerin geri geldiğini doğruladı. Gerçek operatör araması ayrıca bildirilmedi.
+
+Güncel TestFlight durumu TESTFLIGHT-STATUS.json dosyasında. Apple beta dağıtımı, ticari mağaza yayını anlamına gelmez. Ek ödeme yapılmadı; Google kaydı ve çevrimiçi sıralama ertelendi. Alttaki sürüm notları tarihseldir.
+
+---
+
+# Popzuno 0.9.10 (19) — yayın hazırlık dosyası
 
 28 Ekim 2026. Teknik aday hazır; uygulama mağazalara gönderilmedi veya satışa açılmadı.
 
@@ -8,9 +18,9 @@
 - `VALIDATION.json` ve `PACKAGE-CHECKS.json`: testler, gerçek paket incelemeleri ve sınırlar.
 - `legal/`: altı dilde gizlilik metni, marka ön araştırması ve profesyonel inceleme dosyası. Bunlar hukuki uygunluk görüşü/tescil değildir.
 - `store/`: altı dilde mağaza açıklamaları, ikonlar, gerçek simülatör/emülatör ekranları, Google tanıtım görseli, inceleme ve test planı.
-- `artifacts/Popzuno-0.9.8-debug.apk`: yalnızca Android denemesi için geliştirme imzalı APK. Mağaza satış paketi değildir.
-- `artifacts/Popzuno-0.9.8-UNSIGNED.aab`: imzasız Google Play adayı; sahibin upload anahtarıyla yeniden derlenmesi gerekir.
-- `artifacts/Popzuno-0.9.8-unsigned.xcarchive`: imzasız iOS Release arşivi; ücretli Team ile dağıtım için yeniden arşivleme/imzalama gerekir. Doğrudan iPhone'a kurulabilir IPA değildir.
+- `artifacts/Popzuno-0.9.10-debug.apk`: yalnızca Android denemesi için geliştirme imzalı APK. Mağaza satış paketi değildir.
+- `artifacts/Popzuno-0.9.10-UNSIGNED.aab`: imzasız Google Play adayı; sahibin upload anahtarıyla yeniden derlenmesi gerekir.
+- `artifacts/Popzuno-0.9.10-unsigned.xcarchive`: imzasız iOS Release arşivi; ücretli Team ile dağıtım için yeniden arşivleme/imzalama gerekir. Doğrudan iPhone'a kurulabilir IPA değildir.
 - `artifacts/SHA256SUMS.txt`: Android paketlerinin bütünlük kayıtları.
 
 ## Sıradaki adım
@@ -29,3 +39,15 @@ Apple bireysel üyeliği hesap sahibi tarafından satın alındı ve sipariş on
 Diğer beş dil bu sayfalardaki dil bağlantılarından açılır. Mert Bekisoglu / mertbek@gmail.com iletişimi kullanıcının açık onayıyla yayımlandı.
 
 **0.9.8 (17) görsel kimlik:** Yeni ad Popzuno; üç neşeli bloktan oluşan oyun logosu, iPhone/Android ikonları, altı dilde metinler, güncel mağaza görselleri ve destek/gizlilik sayfaları. 74 JavaScript ve 138 yerel Android kontrolü geçti. iPhone’a aynı uygulamanın üzerine yüklenip açıldığı doğrulandı. Marka ön araştırması tescil/uygunluk görüşü değildir.
+
+## 0.9.9 (18) · 30 Ekim 2026
+
+Okunabilir arcade arayüzü, renkli bonus stokları, sayaçla bir bütün gelen satırlar, Overdrive yardımı, Cross lazer/Nova warp efektleri, tehlikeye göre hızlanıp rahatlayınca yavaşlayan müzik ve büyük anonsların bekleme düzeltmesi. 80 JavaScript, 141 yerel Android kontrolü ve 90 ekran/mod/dil/font ölçümü geçti. iPhone’a aynı uygulamanın üzerine yüklendi ve açıldı. Fotoğraf/kayıt alanı ve yedi onaylı ses kaydı korundu.
+
+## 0.9.10 (19) · Açık oyun alanı
+
+Bildirimler, uyarılar ve anons yazıları 28 px sabit durum satırına taşındı. Puan artışı üstteki puan alanında; bonus hatırlatmaları yalnızca düğme üzerinde. Gerçek bir hata mesajı görünürken bloklarla çakışmadığı ve 90 ekran/mod/dil düzeni doğrulandı. 80 JavaScript ve 144 yerel Android kontrolü geçti. iPhone’a mevcut uygulamanın üzerine yüklendi ve açıldı. Oyun kuralları, sesler ve kayıt sistemi 0.9.9 ile aynı.
+
+## 0.9.11 (20) · Relax ve yakın çevre testi
+
+Mevcut beş mod korunarak Relax eklendi. Süre, yükseliş, hız artışı, süreli zincir ve Overdrive baskısı yok; alan hamlelerden sonra yenilenir. Quiet Orbit 72 BPM sakin müzik, yumuşak efektler ve hafif titreşim yalnızca bu modda; oyun anonsu kapalıdır. Diğer modların ses tercihleri ve önceki fotoğraf/kayıt anahtarları korunur. 84 JavaScript testi, 165 yerel Android kontrolü, 108 ekran/mod/dil düzeni ve 231 yayın paket kontrolü geçti. iPhone sürüm 0.9.11 (20) yerinde yüklenip açıldı. Test rehberi publication/testing içinde. APK ve bilgisayar ZIP hazır; TestFlight’a yükleme yapılmadı, davet oluşturulmadı. Online sıralama ve ek ödemeler ertelendi. Mağaza ekran görüntüleri satış öncesi güncellenecek.

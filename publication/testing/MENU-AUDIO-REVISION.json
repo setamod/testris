@@ -1,0 +1,35 @@
+{
+  "version": "0.9.12",
+  "build": 21,
+  "date": "2026-10-31",
+  "selectable_modes": [
+    "ascend",
+    "survival",
+    "timeRush",
+    "daily",
+    "relax"
+  ],
+  "legacy_blitz_scores_retained": true,
+  "home": "Play-first with separate mode picker; actual local record; Your people card; Settings and How to play",
+  "help": "controls/powers/modes; same real power icons, short descriptions in six languages",
+  "settings": "audio/language, licenses/privacy, support mailto",
+  "audio": "rebuild interrupted or backgrounded graph on next foreground interaction; reactivate native iOS ambient session; preserve cached buffers and preferences",
+  "preserved": {
+    "storage.mjs": true,
+    "voice-bank.mjs": true,
+    "avatars.mjs": true,
+    "face.mjs": true,
+    "impact.mjs": true,
+    "arcade-engine.mjs": true
+  },
+  "original_game_unchanged_files": 84,
+  "phone_installed_and_launched": true,
+  "phone_call_listening": "Messages background/return confirmed by owner; carrier-call not specifically reported",
+  "javascript_passed": 90,
+  "android_native_passed": 175,
+  "game_layout_cases": 90,
+  "home_layout_cases": 18,
+  "ios_audio_evidence": "evidence/ios-audio-recovery.json",
+  "android_audio_evidence": "evidence/android-audio-recovery.json",
+  "physical_iphone_audio_return_confirmed": true
+}

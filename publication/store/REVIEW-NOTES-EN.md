@@ -1,6 +1,6 @@
 # Popzuno — reviewer notes
 
-Candidate 0.9.8, build 17. Bundle/application ID: com.mertbekisoglu.bulusko. Paid download; no ads or in-app purchases. No login or demo account is required.
+Candidate 0.9.10, build 19. Bundle/application ID: com.mertbekisoglu.bulusko. Paid download; no ads or in-app purchases. No login or demo account is required.
 
 - The complete game is bundled and works offline. Tap Start, then swipe neighboring faces or tap two neighbors to form a line of three or a 2×2 square. The ? menu explains all reward patterns and controls.
 - Five modes: Rush, Blitz 60, Time Rush, Ascend and Daily 90. Daily uses a UTC-day seed and local records; it is not a network leaderboard.

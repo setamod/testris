@@ -93,7 +93,7 @@ test('incoming row matches never mint powers and overflow never awards risk poin
 });
 test('the new daily puzzle is deterministic and row streams stay independent from decisions',()=>{
  const day=dailyKey(new Date('2026-10-26T23:59:59Z'));assert.notEqual(dailySeed(day),dailySeed('2026-10-27'));const a=new TideGame({mode:'daily',day,seed:3}),b=new TideGame({mode:'daily',day,seed:900});a.start();b.start();assert.deepEqual(a.board,b.board);const hint=a.hint();a.swap(hint.from,hint.to);complete(a);for(let n=0;n<10;n++){a.board=empty();b.board=empty();assert.deepEqual(a.nextRow,b.nextRow);a.raise(true);b.raise(true);complete(a);complete(b);}
- assert.equal(new Set(GAME_MODES.map(recordKey)).size,5);assert.notEqual(recordKey('daily'),'swipe-daily');
+ assert.equal(new Set(GAME_MODES.map(recordKey)).size,6);assert.notEqual(recordKey('daily'),'swipe-daily');
 });
 test('frame splitting and fractional level/Overdrive boundaries never create a false timeout',()=>{
  const a=new TideGame({seed:81}),b=new TideGame({seed:81});a.start();b.start();a.tick(25000);for(let n=0;n<250;n++)b.tick(100);assert.deepEqual(a.board,b.board);assert.equal(a.score,b.score);assert.ok(Math.abs(a.riseProgress-b.riseProgress)<1e-8);const game=new TideGame({seed:4});game.start();game.elapsed=25000-.0000001;game.tick(2);assert.equal(game.status,'playing');game.feverLeft=.0000001;game.tick(2);assert.equal(game.status,'playing');assert.equal(game.feverLeft,0);
@@ -113,15 +113,18 @@ test('local match detection equals full-board groups including edges, squares an
   for(let at=0;at<N;at++)assert.equal(matchesAt(board,at),all.has(at));
  }
 });
-test('music pace is tied to rising interval; chains and danger cannot change its tempo',()=>{
- const game=new TideGame({seed:1});game.start();assert.equal(game.musicPace,0);game.combo=5;game.board=Array(N).fill(0);assert.equal(game.musicPace,0);
- let previous=0;for(let level=2;level<=15;level++){game.elapsed=(level-1)*25000;assert.ok(game.musicPace>=previous);assert.ok(Math.abs(game.musicPace-Math.min(1,(8500-game.interval)/7150))<1e-9);previous=game.musicPace;}
+test('music keeps a stage floor, surges near overflow and relaxes after clearing',()=>{
+ const game=new TideGame({seed:1});game.start();assert.equal(game.musicPace,0);game.combo=5;assert.equal(game.musicPace,0);
+ let previous=0;for(let level=2;level<=15;level++){game.elapsed=(level-1)*25000;assert.ok(game.musicBasePace>=previous);assert.ok(Math.abs(game.musicBasePace-Math.min(1,(8500-game.interval)/7150))<1e-9);previous=game.musicBasePace;}
+ game.elapsed=25000;const base=game.musicPace;game.board=Array(N).fill(0);assert.ok(game.musicPace>base+.5);game.board.fill(null);assert.equal(game.musicPace,base);
  const blitz=new TideGame({mode:'blitz'});blitz.elapsed=30000;assert.equal(blitz.musicPace,.5);
  const ascend=new TideGame({mode:'ascend'});ascend.wave=6;assert.equal(ascend.musicPace,(8500-ascend.interval)/7150);
+ const time=new TideGame({mode:'timeRush'});time.start();const calm=time.musicPace;time.timeLeft=3000;const urgent=time.musicPace;assert.ok(urgent>calm+.7);time.timeLeft=20000;assert.ok(time.musicPace<urgent-.4);time.timeLeft=60000;assert.equal(time.musicPace,calm);
+
 });
 
 test('Blitz refills start above the ceiling with a full animation window that pauses exactly',()=>{
- const events=[],game=new TideGame({mode:'blitz',seed:15,onEvent:e=>events.push(e)});game.start();game.powers.nova=1;assert.ok(game.usePower('nova'));game.tick(335);
+ const events=[],game=new TideGame({mode:'blitz',seed:15,onEvent:e=>events.push(e)});game.start();game.powers.nova=1;assert.ok(game.usePower('nova'));game.tick(1025);
  assert.equal(game.phase.kind,'refill');const refill=events.find(e=>e.type==='refill');assert.equal(refill.moves.length,48);
  for(const move of refill.moves){assert.ok(move.from<0);assert.equal((move.from%C+C)%C,move.to%C);}
  const window=refill.duration+(C-1)*refill.stagger;assert.equal(game.phase.left,window);assert.ok(window>=320&&window<=450);

@@ -1,4 +1,4 @@
-POPZUNO — CIRCUIT BLOOM
+POPZUNO — CIRCUIT BLOOM / QUIET ORBIT
 
 A melody, harmony, bass line, percussion and adaptive arrangement programmed for this project.
 The music and impact effects are synthesized locally. There are no downloaded recordings, samples or external audio services, and no Korobeiniki melody.
@@ -6,8 +6,10 @@ The music and impact effects are synthesized locally. There are no downloaded re
 The score moves smoothly between 118 and 178 BPM with gameplay pace, stages, chains and time pressure.
 Effects and music use separate voice pools and dynamics processing.
 
+Quiet Orbit is a new 72 BPM pentatonic Relax composition programmed for this project. Soft sine/triangle pads and tonal confirmations replace drums, impacts and gameplay speech only in Relax. It uses no external recording, samples or melody. Other modes retain their existing soundtrack and saved audio settings.
+
 This production record is not a legal clearance or trademark certificate.
-Last reviewed: 2026-10-29.
+Last reviewed: 2026-10-30.
 
 Five distinct power-pickup signatures are synthesized for this project. Seven fixed announcer clips were generated locally for Popzuno with Chatterbox 0.1.7 (MIT). Expressiveness increases from four-match to Nova; runtime loudness is controlled independently. The default PerTh watermark is retained. A wholly synthetic reference was made with Kokoro-82M v1.0 (Apache-2.0 model weights), using kokoro-onnx 0.6.1 (MIT), with a 70% am_michael / 30% am_fenrir voice blend. No human speaker recording or named performer impersonation was used. Only short lossless 24 kHz mono WAV outputs are embedded. Speech models and generation libraries are not included in the app. No network service or speech generation runs during normal gameplay. The fixed event/call mapping is documented in dist/cheers.mjs. Version 0.9.6 replaces the unclear four/Nova calls and Monster Combo pronunciation. All seven fixed phrases are checked with unprompted local speech recognition; owner listening remains the final subjective review.
 
@@ -272,3 +274,5 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 Version 0.9.7 adds the distinct Nova ready! reward phrase, only on a successful acquisition or actual stage gift. Its default PerTh watermark and provenance are retained; the existing six recordings are unchanged.
+
+2026-10-30 · Popzuno 0.9.9: Cross laser and Nova warp effects remain fully procedural. Buffered once on the device; no external recordings or sample packs added. The seven approved announcer recordings are unchanged.

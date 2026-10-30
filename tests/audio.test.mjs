@@ -43,7 +43,7 @@ test('tempo follows explicit game pace while pressure only changes the arrangeme
  const {audio}=harness();audio.enabled=false;
  for(let i=0;i<120;i++)audio.update(1,1000/60,0);
  assert.equal(flowTempo(audio.tempoPace),118);assert.ok(audio.intensity>.9);
- for(let i=0;i<120;i++)audio.update(.1,1000/60,1);
+ for(let i=0;i<360;i++)audio.update(.1,1000/60,1);
  assert.ok(flowTempo(audio.tempoPace)>177);assert.ok(audio.intensity<.2);
 });
 
@@ -79,4 +79,48 @@ test('announcer defaults lower in its own bus and its volume control never ducks
  const {audio}=harness();assert.equal(audio.cheerVolume,.4);audio.voiceClips=new Map([['nova',{duration:1}]]);audio.setPlaying(true);audio.update(.5);audio.cheer('nova');const music=[...audio.voices].filter(v=>v.music);audio.effect('bomb');const impact=[...audio.voices].find(v=>!v.music&&!v.speech);
  audio.setCheerVolume(.2);assert.equal(audio.voiceBus.gain.lastTarget,.2);assert.equal(audio.musicBus.gain.lastTarget,undefined);assert.equal(audio.fxBus.gain.lastTarget,undefined);assert.ok(music.every(v=>audio.voices.has(v)));
  audio.setCheerVolume(0);assert.equal(audio.spokenVoice,null);assert.ok(audio.voices.has(impact));assert.ok(music.every(v=>audio.voices.has(v)));assert.equal(audio.cheer('nova'),false);
+});
+
+test('Relax scopes calm music/effects and suppresses gameplay speech without changing saved preferences',()=>{
+ const {audio}=harness();audio.voiceClips=new Map([['nova',{duration:1}]]);audio.setPlaying(true);audio.update(.9);const old=[...audio.voices];
+ audio.setMode('relax');assert.ok(old.every(v=>!audio.voices.has(v)));assert.equal(audio.musicBus.gain.lastTarget,.24);assert.equal(audio.fxBus.gain.lastTarget,.65);
+ assert.equal(audio.cheer('nova'),false);assert.equal(audio.previewCheer('nova'),true);audio.stopCheer();
+ const voices=[];const original=audio.voice.bind(audio);audio.voice=options=>{voices.push(options);return original(options);};audio.effect('nova');assert.ok(voices.length);assert.ok(voices.every(v=>!v.buffer&&!v.noise&&v.type==='sine'&&v.gain<=.055));
+ audio.update(1);assert.ok([...audio.voices].some(v=>v.music));assert.ok(voices.filter(v=>v.music).every(v=>!v.noise&&['sine','triangle'].includes(v.type)));
+ assert.equal(audio.musicVolume,.3);assert.equal(audio.cheerVolume,.4);assert.equal(audio.cheers,true);assert.equal(audio.enabled,true);
+ audio.setMode('ascend');assert.equal(audio.musicBus.gain.lastTarget,.3);assert.equal(audio.fxBus.gain.lastTarget,1);assert.equal(audio.cheer('nova'),true);audio.stopCheer();voices.length=0;audio.effect('bomb');assert.ok(voices.some(v=>v.buffer));
+});
+test('Relax scheduler remains bounded over a long session and does not accumulate a background backlog',()=>{
+ const {audio,context}=harness();audio.setMode('relax');audio.setPlaying(true);
+ for(let frame=0;frame<7200;frame++){
+  context.currentTime=frame/60;for(const v of [...audio.voices])if(v.source.stopTime<=context.currentTime)v.source.onended();audio.update(1);
+  if(frame%30===0)audio.effect('clear',4);assert.ok([...audio.voices].filter(v=>v.music).length<=18);assert.ok(audio.voices.size<=32);
+ }
+ audio.stop();context.currentTime+=100;audio.update(1);assert.ok([...audio.voices].every(v=>v.source.startTime>=context.currentTime));
+});
+
+test('interrupted and closed graphs recover on resume while keeping sound preferences and decoded clips',()=>{
+ const saved=globalThis.AudioContext;
+ try{
+  for(const state of ['interrupted','closed']){
+   const {audio,context}=harness();audio.voiceClips=new Map([['nova',{duration:1}]]);audio.setPlaying(true);audio.update(.5);const clips=audio.voiceClips,impacts=audio.impacts,old=[...audio.voices];let closed=0,created=0;
+   context.state=state;context.close=()=>{closed++;return Promise.resolve();};globalThis.AudioContext=function(){created++;return harness().context;};
+   audio.setPlaying(false);audio.interrupt();audio.foreground();assert.equal(created,0);assert.equal(audio.voices.size,0);audio.setPlaying(true);audio.update(.5);
+   assert.notEqual(audio.context,context);assert.equal(closed,1);assert.equal(created,1);assert.ok(old.every(v=>!audio.voices.has(v)));assert.equal(audio.voiceClips,clips);assert.equal(audio.impacts,impacts);assert.equal(audio.volume,.5);assert.equal(audio.musicVolume,.3);assert.equal(audio.cheerVolume,.4);assert.equal(audio.cheer('nova'),true);assert.ok([...audio.voices].some(v=>v.music));
+   for(let i=0;i<20;i++){audio.foreground();audio.update(.5);}assert.equal(created,1);audio.stop();
+  }
+ }finally{globalThis.AudioContext=saved;}
+});
+test('a running but frozen graph is replaced after backgrounding, including quiet Relax, while mute stays muted',()=>{
+ const saved=globalThis.AudioContext;try{
+  const {audio,context}=harness();audio.setMode('relax');audio.setPlaying(true);audio.update(.1);let created=0;globalThis.AudioContext=function(){created++;return harness().context;};context.close=()=>Promise.resolve();
+  audio.setPlaying(false);audio.interrupt();audio.setEnabled(false);audio.foreground();assert.equal(audio.unlock(),false);assert.equal(created,0);assert.equal(audio.music,true);assert.equal(audio.mode,'relax');
+  audio.setEnabled(true);audio.setPlaying(true);audio.update(.1);assert.equal(created,1);assert.equal(audio.mode,'relax');assert.equal(audio.musicBus.gain.value,.24);assert.equal(audio.fxBus.gain.value,.65);assert.equal(audio.cheers,true);assert.equal(audio.cheer('nova'),false);assert.ok([...audio.voices].some(v=>v.music));
+ }finally{globalThis.AudioContext=saved;}
+});
+test('old-context decode failures cannot poison the recovered voice cache or replay an interrupted announcement',async()=>{
+ const saved=globalThis.AudioContext;try{
+  const {audio,context}=harness();let rejectOld;context.decodeAudioData=()=>new Promise((resolve,reject)=>{rejectOld=reject;});context.close=()=>Promise.resolve();audio.cheer('nova');const oldLoad=audio.clipLoad;
+  globalThis.AudioContext=function(){const c=harness().context;c.decodeAudioData=async()=>({duration:1});return c;};audio.interrupt();audio.setPlaying(true);const newLoad=audio.clipLoad;assert.notEqual(newLoad,oldLoad);rejectOld(Error('interrupted decode'));await oldLoad;await newLoad;assert.equal(audio.clipsFailed,false);assert.equal(audio.voiceClips.size,7);assert.equal(audio.spokenVoice,null);assert.equal(audio.cheer('four'),true);
+ }finally{globalThis.AudioContext=saved;}
 });

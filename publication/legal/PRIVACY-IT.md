@@ -18,7 +18,7 @@ Nessun account, pubblicità, tracciamento, analisi, classifica cloud o invio ai 
 
 ## Conservazione e cancellazione
 
-I dati locali restano finché non li elimini. La mia famiglia elimina singole foto; l’opzione di eliminazione totale rimuove anche nomi, record e preferenze. Le foto originali non cambiano. iOS può includere i dati nei backup del sistema secondo le tue impostazioni; l’app non elimina backup precedenti. Il backup Android è disattivato. Nel formato portatile i dati sono gestiti dal browser. Gestisci i backup nelle impostazioni del sistema/browser. Le email di assistenza restano per il tempo necessario alla richiesta; puoi chiederne la cancellazione.
+I dati locali restano finché non li elimini. I miei cari elimina singole foto; l’opzione di eliminazione totale rimuove anche nomi, record e preferenze. Le foto originali non cambiano. iOS può includere i dati nei backup del sistema secondo le tue impostazioni; l’app non elimina backup precedenti. Il backup Android è disattivato. Nel formato portatile i dati sono gestiti dal browser. Gestisci i backup nelle impostazioni del sistema/browser. Le email di assistenza restano per il tempo necessario alla richiesta; puoi chiederne la cancellazione.
 
 ## Servizi esterni
 

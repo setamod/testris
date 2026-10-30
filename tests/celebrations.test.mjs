@@ -16,7 +16,7 @@ test('calls leave breathing room; a higher combo can escalate after a gap and No
  d.offer(four);assert.equal(d.take().kind,'four');now=2000;d.offer(four);assert.equal(d.take(),null);
  now=2600;d.offer({...four,cells:[0,1,2],combo:3});assert.equal(d.take().kind,'combo3');
  now=2700;d.offer({type:'power',power:'nova'});assert.equal(d.take().kind,'nova');now=2800;d.offer({type:'power',power:'nova'});assert.equal(d.take(),null);
- now=9000;d.offer(four);assert.equal(d.take(),null);now=9300;d.offer(four);assert.equal(d.take().kind,'four');
+ now=6500;d.offer(four);assert.equal(d.take(),null);now=6800;assert.equal(d.take().kind,'four');
 });
 test('a sustained chain announces each combo tier once instead of repeating at every match',()=>{
  let now=0;const d=new CelebrationDirector({clock:()=>now});const move=combo=>({type:'clear',source:'player',stage:1,combo,cells:[0,1,2]});

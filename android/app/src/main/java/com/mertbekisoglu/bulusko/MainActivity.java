@@ -156,7 +156,7 @@ public final class MainActivity extends Activity {
         if (audio != null) audio.abandonAudioFocusRequest(audioFocus);
     }
     @Override protected void onPause() { pauseGame(); if (web != null) web.onPause(); super.onPause(); }
-    @Override protected void onResume() { super.onResume(); if (web != null) web.onResume(); }
+    @Override protected void onResume() { super.onResume(); if (web != null) { web.onResume(); web.evaluateJavascript("window.dispatchEvent(new Event('kynburst:foreground'));",null); } }
     @Override protected void onDestroy() {
         if (photoCallback != null) { photoCallback.onReceiveValue(null); photoCallback = null; }
         pauseGame(); if (web != null) { web.removeJavascriptInterface("KynburstNative"); web.destroy(); web = null; }

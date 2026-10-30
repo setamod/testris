@@ -20,11 +20,11 @@ for(const name of names){
 }
 const script=`(()=>{\n'use strict';\nconst __modules={${modules.join(',\n')}};\nconst __cache={};function __load(name){return __cache[name]??=(__modules[name](__load));}\n__load('app');\n})();`;
 new vm.Script(script);
-let css=await readFile(join(root,'dist','style.css'),'utf8');
+let css=(await readFile(join(root,'dist','style.css'),'utf8'))+'\n'+(await readFile(join(root,'dist','arcade-refresh.css'),'utf8'));
 for(const font of ['chakra-petch-600.ttf','ibm-plex-mono-400.ttf']){const data=(await readFile(join(root,'vendor',font))).toString('base64');css=css.replace(`url('./assets/${font}')`,`url(data:font/ttf;base64,${data})`);}
 const icon=(await readFile(join(root,'dist','icon.svg'))).toString('base64');
 let html=await readFile(join(root,'dist','index.html'),'utf8');
-html=html.replaceAll('./assets/popzuno-mark.png',brandMark);
+html=html.replaceAll('./assets/popzuno-mark.png',brandMark).replace('<link rel="stylesheet" href="./arcade-refresh.css">','');
 html=html.replace('<link rel="stylesheet" href="./style.css">',`<style>${css}</style>`).replace('href="./icon.svg"',`href="data:image/svg+xml;base64,${icon}"`).replace('href="./index.html"','href="./OYNA.html"').replace('<script type="module" src="./app.mjs"></script>',()=>`<script>${script.replace(/<\/script/gi,'<\\/script')}</script>`);
 if(/<script[^>]+src=|<link[^>]+stylesheet|type="module"|@import/.test(html))throw Error('External runtime dependency left in the portable package.');
 await writeFile(join(out,'OYNA.html'),html);

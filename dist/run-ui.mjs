@@ -3,6 +3,7 @@ export const MODE_RULES={
  survival:{goal:'modeRushGoal',pressure:'modeRushPressure',end:'modeRiseEnd',badge:'modeEndless'},
  blitz:{goal:'modeBlitzGoal',pressure:'modeBlitzPressure',end:'modeBlitzEnd',badge:'mode60'},
  timeRush:{goal:'modeTimeGoal',pressure:'modeTimePressure',end:'modeTimeEnd',badge:'modeTimeBank'},
+ relax:{goal:'modeRelaxGoal',pressure:'modeRelaxPressure',end:'modeRelaxEnd',badge:'modeCalm'},
  daily:{goal:'modeDailyGoal',pressure:'modeDailyPressure',end:'modeDailyEnd',badge:'mode90'}
 };
 export function runPressure(game){
@@ -13,6 +14,6 @@ export function runPressure(game){
  return {seconds,timeRisk,overflowRisk,nextRowSeconds:Math.max(1,Math.ceil((1-game.riseProgress)*game.interval/1000)),timeFraction:game.timed?Math.min(1,game.remaining/(game.mode==='timeRush'?60000:game.duration)):1};
 }
 export function reminderPower(game,lastAction,lastReminder){
- if(game.status!=='playing'||game.busy||game.elapsed-lastReminder<8000||game.elapsed-lastAction<4000)return null;
+ if(game.mode==='relax'||game.status!=='playing'||game.busy||game.elapsed-lastReminder<8000||game.elapsed-lastAction<4000)return null;
  return ['nova','cross','rocket','bomb','shuffle'].find(power=>game.powers[power]>0&&(game.height>0||!['nova','shuffle'].includes(power)))??null;
 }

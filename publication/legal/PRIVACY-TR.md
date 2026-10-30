@@ -18,7 +18,7 @@ Oyunda hesap, reklam, takip, analiz, bulut liderlik tablosu veya kendi sunucumuz
 
 ## Saklama, silme ve yedekler
 
-Veriler sen silene kadar yerel kayıtta kalır. Ailem ekranı tekil fotoğrafları kaldırır; bu ekrandaki tüm verileri sil seçeneği isimleri, fotoğrafları, rekorları ve tercihleri de kaldırır. Orijinal galeri fotoğrafları değişmez. iOS işletim sistemi ayarlarına göre uygulama verileri sistem yedeklerine girebilir; önceki yedekleri uygulama silemez. Android uygulama yedeklemesi kapalıdır. Taşınabilir sürümün kaydı tarayıcı tarafından yönetilir. Sistem/tarayıcı yedeklerini kendi ayarlarından yönetebilirsin. Destek mesajları yanıt için gerektiği sürece tutulur; silme talepleri için iletişime geçebilirsin.
+Veriler sen silene kadar yerel kayıtta kalır. Sevdiklerim ekranı tekil fotoğrafları kaldırır; bu ekrandaki tüm verileri sil seçeneği isimleri, fotoğrafları, rekorları ve tercihleri de kaldırır. Orijinal galeri fotoğrafları değişmez. iOS işletim sistemi ayarlarına göre uygulama verileri sistem yedeklerine girebilir; önceki yedekleri uygulama silemez. Android uygulama yedeklemesi kapalıdır. Taşınabilir sürümün kaydı tarayıcı tarafından yönetilir. Sistem/tarayıcı yedeklerini kendi ayarlarından yönetebilirsin. Destek mesajları yanıt için gerektiği sürece tutulur; silme talepleri için iletişime geçebilirsin.
 
 ## Dış sayfalar ve değişiklikler
 

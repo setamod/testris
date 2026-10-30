@@ -18,7 +18,7 @@ No hay cuentas, anuncios, seguimiento, analítica, clasificación en la nube ni 
 
 ## Conservación y borrado
 
-Los datos locales permanecen hasta que los elimines. Mi familia borra fotos individuales; el borrado total también elimina nombres, récords y preferencias. Las imágenes originales no se modifican. iOS puede incluir los datos en copias del sistema según tus ajustes; la app no borra copias anteriores. Las copias Android están desactivadas. La versión portátil usa el almacenamiento del navegador. Gestiona las copias en sus ajustes. Los correos de soporte se conservan el tiempo necesario para la solicitud; puedes pedir su eliminación.
+Los datos locales permanecen hasta que los elimines. Mi gente borra fotos individuales; el borrado total también elimina nombres, récords y preferencias. Las imágenes originales no se modifican. iOS puede incluir los datos en copias del sistema según tus ajustes; la app no borra copias anteriores. Las copias Android están desactivadas. La versión portátil usa el almacenamiento del navegador. Gestiona las copias en sus ajustes. Los correos de soporte se conservan el tiempo necesario para la solicitud; puedes pedir su eliminación.
 
 ## Servicios externos
 

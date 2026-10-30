@@ -6,8 +6,8 @@ import {FLOW_MESSAGES,flowTranslate} from '../dist/i18n.mjs';
 test('family photo/name/crop inputs remain bounded after removing the workshop',()=>{
  const people=normalizePeople([{name:'<script>\u0000',photo:'https://example.com/private.jpg',zoom:99}]);assert.equal(people.length,7);assert.equal(people[0].photo,null);assert.equal(people[0].zoom,3);assert.ok(!people[0].name.includes('\u0000'));
 });
-test('shell translations cover the same fields in both languages and describe all four modes',()=>{
- assert.deepEqual(Object.keys(FLOW_MESSAGES.tr).sort(),Object.keys(FLOW_MESSAGES.en).sort());for(const language of ['tr','en']){for(const key of Object.keys(FLOW_MESSAGES.tr))assert.notEqual(flowTranslate(language,key),key);assert.ok(flowTranslate(language,'helpThree').includes('Blitz 60'));assert.ok(flowTranslate(language,'helpThree').includes('Ascend'));}
+test('shell translations cover the same fields in both languages and describe the current five modes',()=>{
+ assert.deepEqual(Object.keys(FLOW_MESSAGES.tr).sort(),Object.keys(FLOW_MESSAGES.en).sort());for(const language of ['tr','en']){for(const key of Object.keys(FLOW_MESSAGES.tr))assert.notEqual(flowTranslate(language,key),key);assert.ok(!flowTranslate(language,'helpThree').includes('Blitz 60'));assert.ok(flowTranslate(language,'helpThree').includes('Relax'));assert.ok(flowTranslate(language,'helpThree').includes('Ascend'));}
 });
 
 test('native preferences work when WebKit localStorage is unavailable',()=>{
