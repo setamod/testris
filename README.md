@@ -1,6 +1,8 @@
 # Popzuno — Swipe. Match. Unleash.
 
-Popzuno 0.9.12 (build 21) is an offline swipe-and-match game with an 8 × 11 board, local photo customization and five selectable modes. It is a beta candidate; the original Familytris app remains separate. Current device and distribution evidence is recorded in publication/VALIDATION.json and publication/TESTFLIGHT-STATUS.json.
+Popzuno 0.9.17 (build 26) is an offline swipe-and-match game with an 8 × 11 board, local photo customization and five selectable modes. It is a beta candidate; the original Familytris app remains separate. Current device and distribution evidence is recorded in publication/VALIDATION.json and publication/TESTFLIGHT-STATUS.json.
+
+Current changes: [CHANGELOG.md](CHANGELOG.md).
 
 ## Publication preparation
 
@@ -115,3 +117,25 @@ Warnings, notifications and cheer text share a reserved 28 px status lane above 
 ## Audio interruption recovery (0.9.12)
 
 Backgrounding and audio interruptions pause gameplay and stop active voices. On the next foreground interaction, interrupted/closed or previously backgrounded WebAudio graphs are rebuilt. Preferences and decoded clip/impact buffers survive; pending decodes from old contexts cannot corrupt the replacement. iOS reactivates its ambient audio session on actual resume, retaining silent-switch behavior. Android restores its WebView on resume and reacquires normal game audio focus. Actual carrier-call/device listening remains a physical-device check; the simulator exercises native interruption/activation notifications and a real WKWebView graph. Debug-only simulator probes and emulator-only instrumentation do not ship in Release.
+
+## Archived experiment: square photo portraits (0.9.13, reverted)
+
+Uploaded photos fill a square tile window in their original colors. Existing stored photo bytes and crop/zoom settings remain unchanged; default drawn characters are retained. Family colors use a 4px frame (3.5px on the smallest phones) and the existing corner number. Removing the lower padding restores a square photo area. Editor previews and selection thumbnails match this shape. Portraits are still decoded and cached once, with no image processing added to the gameplay loop. Native checks cover actual photo import, four-corner pixel colors, reversible zoom, persistence and framing.
+
+## Archived experiment: blended face framing (0.9.14, reverted)
+
+The existing face-centred photo gets a tighter display crop (83% width, 95% height at zoom 1), producing a bounded 14.5% horizontal stretch. The original JPEG and manual controls are preserved. Each cached portrait receives a 36px feather toward a pale family-color edge, leaving its centre untinted. The saturated outer frame is 5px, or 4px on the smallest phones. This replaces 0.9.13's full-photo window without adding any processing to the game loop.
+
+## Current character rendering restored (0.9.15)
+
+The owner preferred the original 0.9.12 visual identity. The photo experiments are reverted: original illustrated bodies, head/photo placement, frame widths, color bands, menu previews and controls are back. The only portrait optimization is high-quality canvas image resampling when a cached portrait is made. Source JPEGs, saved zoom/pan, names and records are unchanged. Runtime equivalence to the pre-experiment backup is verified in publication/evidence/character-restore-check.json.
+
+## Subtle face width (0.9.16)
+
+Only photo heads and their clipping region receive a 1.07 horizontal scale. Original height, colored body, frame, palette, manual crop controls and default drawn faces are unchanged. The existing face-centred import maps into the widened head. No automatic rotation is introduced because this face finder provides a box rather than reliable eye alignment. Portrait generation stays cached.
+
+## Face width and alignment (0.9.17)
+
+Photo heads now use a 1.13 horizontal scale (about 5.6% wider than 0.9.16). Height, illustrated bodies, base frames, music, rules and default drawn characters retain their classic look. iOS Vision measures the eye line locally and applies up to 8 degrees of correction only for one reliably detected face. Uncertain faces retain their original angle. The studio offers a manual +/-12 degree override, with Auto-align on iOS and Reset angle elsewhere. No extra model, network service or dependency is added. Source JPEGs and previous crop coordinates are retained; rendering stays cached.
+
+Tests: 98 JS, 187 native Android checks, 231 package checks, native Vision known-rotation and blank-image checks, native storage angle/null persistence. 0.9.17 was installed in-place on iPhone; launch was blocked by the device lock. No GitHub or TestFlight upload for this version. Test fixtures are NASA public-domain imagery in tests/fixtures only and are absent from application packages.

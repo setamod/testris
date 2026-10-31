@@ -1,3 +1,4 @@
+import {createPhotoAligner} from './alignment.mjs';
 import {LANGUAGES,normalizeLanguage} from './locales.mjs';
 import {readFlow,writeFlow,clearFlow,normalizePeople} from './storage.mjs';
 import {privacyCopy,SUPPORT_EMAIL} from './privacy.mjs';
@@ -14,7 +15,7 @@ const raw=readFlow('settings',{}),settings=raw&&typeof raw==='object'?raw:{};
 let language=normalizeLanguage(settings.language),tide=null,lastTime=0,editingPerson=0,photoBusy=false,photoJob=0,noticeTimer=0,resetting=false;
 const initialMode=openingMode(settings);
 const t=(key,values)=>flowTranslate(language,key,values);
-const people=normalizePeople(readFlow('people',[])),avatars=createAvatars(FAMILY_COLORS),faces=createFaceProcessor();
+const people=normalizePeople(readFlow('people',[])),aligner=createPhotoAligner(),avatars=createAvatars(FAMILY_COLORS,{alignPhoto:aligner.request,onUpdate:()=>{refreshPortraits();if(el('family-dialog').open)renderPeople();}}),faces=createFaceProcessor();
 const audio=new FlowAudio({enabled:settings.sound!==false,music:settings.music!==false,cheers:settings.cheers!==false,cheerVolume:settings.cheerVolume,volume:Number.isFinite(settings.volume)?Math.max(0,Math.min(1,settings.volume)):.5});
 const escapeText=value=>String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const personName=index=>people[index]?.name||(DEFAULT_NAMES[language]??DEFAULT_NAMES.en)[index],avatar=index=>avatars.portrait(index,people[index]);
@@ -47,30 +48,31 @@ el('support-email').addEventListener('click',event=>{const native=globalThis.web
 window.addEventListener('kynburst:privacy',openPrivacy);
 window.addEventListener('kynburst:back',()=>{const dialog=[...document.querySelectorAll('dialog[open]')].at(-1);if(dialog)dialog.close();else if(tide?.back())return;else globalThis.webkit?.messageHandlers?.bulusko?.postMessage({type:'exit'});});
 el('reset-open').addEventListener('click',()=>{el('reset-error').textContent='';el('reset-confirm').disabled=false;openDialog('reset-dialog');});
-el('reset-confirm').addEventListener('click',()=>{pauseGame();audio.stop();photoJob++;faces.cancel();resetting=true;el('reset-confirm').disabled=true;const result=clearFlow();if(result.ok){if(!result.managedByNative)location.reload();}else{resetting=false;el('reset-error').textContent=privacyCopy(language).error;el('reset-confirm').disabled=false;}});
+el('reset-confirm').addEventListener('click',()=>{pauseGame();audio.stop();aligner.clear();avatars.clear();photoJob++;faces.cancel();resetting=true;el('reset-confirm').disabled=true;const result=clearFlow();if(result.ok){if(!result.managedByNative)location.reload();}else{resetting=false;el('reset-error').textContent=privacyCopy(language).error;el('reset-confirm').disabled=false;}});
 if(globalThis.webkit?.messageHandlers?.bulusko)el('native-settings').hidden=false;
 el('native-settings').addEventListener('click',()=>{closeDialog('help-dialog',false);pauseGame();globalThis.webkit?.messageHandlers?.bulusko?.postMessage({type:'settings'});});
 function renderPeople(){
  el('family-tabs').innerHTML=people.map((person,i)=>`<button class="family-tab" data-person="${i}" aria-label="${escapeText(personName(i))}" aria-pressed="${editingPerson===i}" ${photoBusy?'disabled':''}><img src="${avatar(i)}" alt=""></button>`).join('');
  for(const button of el('family-tabs').children)button.addEventListener('click',()=>{editingPerson=Number(button.dataset.person);el('photo-status').textContent='';renderPeople();});
- const p=people[editingPerson];el('person-preview').src=avatar(editingPerson);el('person-preview').alt=personName(editingPerson);el('person-name').value=p.name;el('person-name').placeholder=(DEFAULT_NAMES[language]??DEFAULT_NAMES.en)[editingPerson];el('person-name').disabled=photoBusy;el('person-photo').disabled=photoBusy;el('person-delete').disabled=!p.photo||photoBusy;
- el('crop-zoom').value=p.zoom;el('crop-x').value=p.x;el('crop-y').value=p.y;for(const id of ['crop-zoom','crop-x','crop-y'])el(id).disabled=!p.photo||photoBusy;
+ const p=people[editingPerson];el('person-preview').src=avatar(editingPerson);el('person-preview').alt=personName(editingPerson);el('crop-rotation').value=avatars.rotation(editingPerson,p);el('crop-angle-value').textContent=avatars.rotation(editingPerson,p).toFixed(1)+'°';el('crop-auto').disabled=!p.photo||photoBusy;el('crop-auto').dataset.text=aligner.supported?'autoAlign':'resetAngle';el('crop-auto').textContent=t(aligner.supported?'autoAlign':'resetAngle');el('person-name').value=p.name;el('person-name').placeholder=(DEFAULT_NAMES[language]??DEFAULT_NAMES.en)[editingPerson];el('person-name').disabled=photoBusy;el('person-photo').disabled=photoBusy;el('person-delete').disabled=!p.photo||photoBusy;
+ el('crop-zoom').value=p.zoom;el('crop-x').value=p.x;el('crop-y').value=p.y;for(const id of ['crop-zoom','crop-x','crop-y','crop-rotation'])el(id).disabled=!p.photo||photoBusy;
 }
 function refreshPortraits(){tide?.refresh();}
 function savePeople(){if(resetting)return;if(!writeFlow('people',people))el('photo-status').textContent=t('saveError');}
 el('family-open').addEventListener('click',()=>{renderPeople();openDialog('family-dialog');});
 el('person-name').addEventListener('change',event=>{people[editingPerson].name=event.target.value.trim().slice(0,24);savePeople();renderPeople();tide?.refresh();});
-for(const [id,field]of [['crop-zoom','zoom'],['crop-x','x'],['crop-y','y']]){
- el(id).addEventListener('input',event=>{people[editingPerson][field]=Number(event.target.value);el('person-preview').src=avatar(editingPerson);});
+for(const [id,field]of [['crop-zoom','zoom'],['crop-x','x'],['crop-y','y'],['crop-rotation','rotation']]){
+ el(id).addEventListener('input',event=>{people[editingPerson][field]=Number(event.target.value);el('person-preview').src=avatar(editingPerson);el('crop-angle-value').textContent=avatars.rotation(editingPerson,people[editingPerson]).toFixed(1)+'°';});
  el(id).addEventListener('change',()=>{savePeople();renderPeople();refreshPortraits();});
 }
+el('crop-auto').addEventListener('click',async()=>{if(photoBusy||!people[editingPerson].photo)return;const person=editingPerson,job=++photoJob;photoBusy=true;renderPeople();try{await avatars.realign(people[person].photo);if(job!==photoJob)return;people[person].rotation=null;savePeople();refreshPortraits();el('photo-status').textContent=aligner.supported?t('alignmentReady'):'';}finally{if(job===photoJob){photoBusy=false;renderPeople();}}});
 el('person-photo').addEventListener('change',async event=>{
  const file=event.target.files?.[0];if(!file||photoBusy)return;const person=editingPerson,job=++photoJob;photoBusy=true;el('photo-status').textContent=t('processing');renderPeople();
- try{const result=await faces.prepare(file);if(job!==photoJob)return;people[person]={...people[person],photo:result.data,zoom:1,x:.5,y:.5};await avatars.load(people);el('photo-status').textContent=t(result.detected?'photoReady':'photoFallback');savePeople();refreshPortraits();}
+ try{const result=await faces.prepare(file);if(job!==photoJob)return;people[person]={...people[person],photo:result.data,rotation:null,zoom:1,x:.5,y:.5};await avatars.load(people);el('photo-status').textContent=t(result.detected?'photoReady':'photoFallback');savePeople();refreshPortraits();}
  catch(error){if(job===photoJob)el('photo-status').textContent=t(error.message==='size'?'photoSize':'photoError');}
  finally{if(job===photoJob)photoBusy=false;event.target.value='';renderPeople();}
 });
-el('person-delete').addEventListener('click',async()=>{people[editingPerson].photo=null;people[editingPerson].zoom=1;avatars.clear();await avatars.load(people);savePeople();renderPeople();refreshPortraits();el('photo-status').textContent=t('deleted');});
+el('person-delete').addEventListener('click',async()=>{people[editingPerson].photo=null;people[editingPerson].rotation=null;people[editingPerson].zoom=1;avatars.clear();await avatars.load(people);savePeople();renderPeople();refreshPortraits();el('photo-status').textContent=t('deleted');});
 function updateAudio(){el('sound-toggle').setAttribute('aria-pressed',String(audio.enabled));el('sound-toggle').setAttribute('aria-label',t('sound'));el('sound-toggle').querySelector('use').setAttribute('href',audio.enabled?'#icon-sound':'#icon-mute');el('audio-toggle').checked=audio.enabled;el('music-toggle').checked=audio.music;el('cheers-toggle').checked=audio.cheers;el('cheer-volume').value=Math.round(audio.cheerVolume*100);el('volume').value=Math.round(audio.volume*100);}
 el('sound-toggle').addEventListener('click',()=>{audio.setEnabled(!audio.enabled);if(audio.enabled){audio.unlock();audio.effect('select');}persistSettings();updateAudio();});
 el('cheer-volume').addEventListener('input',event=>audio.setCheerVolume(Number(event.target.value)/100));el('cheer-volume').addEventListener('change',persistSettings);

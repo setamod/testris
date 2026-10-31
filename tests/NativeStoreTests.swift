@@ -80,6 +80,15 @@ struct NativeStoreTests {
         let people: [[String: Any]] = (0..<7).map { _ in ["name": "Ada", "photo": NSNull(), "zoom": 1.0, "x": 0.5, "y": 0.5] }
         let peopleJSON = String(data: try JSONSerialization.data(withJSONObject: people), encoding: .utf8)!
         assert(save("people", peopleJSON))
+        for angle: Any in [8.0, NSNull()] {
+            var adjusted = people
+            adjusted[0]["rotation"] = angle
+            let value = String(data: try JSONSerialization.data(withJSONObject: adjusted), encoding: .utf8)!
+            assert(save("people", value))
+            let stored = try JSONSerialization.jsonObject(with: Data(defaults.string(forKey: NativeStore.prefix + "people")!.utf8)) as! [[String: Any]]
+            if let degrees = angle as? Double { assert(stored[0]["rotation"] as? Double == degrees) }
+            else { assert(stored[0]["rotation"] is NSNull) }
+        }
         var invalid = people
         invalid[0]["photo"] = "https://example.com/photo.jpg"
         let invalidJSON = String(data: try JSONSerialization.data(withJSONObject: invalid), encoding: .utf8)!

@@ -1,0 +1,81 @@
+{
+  "version": "0.9.17",
+  "build": 26,
+  "baseline": "0.9.16 classic bodies and 1.07 photo head width",
+  "photo_head_width_scale": 1.13,
+  "increase_from_previous_percent": 5.61,
+  "height_and_default_illustrations_unchanged": true,
+  "ios_automatic_alignment": {
+    "backend": "Vision eye landmarks, on-device background queue",
+    "maximum_correction_degrees": 8,
+    "manual_override_degrees": 12,
+    "single_face_only": true,
+    "uncertain_measurement": "no rotation",
+    "native_test": "NASA public-domain test-only portrait at known +/-8 degree rotations; verified on macOS Vision",
+    "evidence": "evidence/ios-native-alignment.json"
+  },
+  "android_and_browser": "manual face-angle control and reset; no unverified automatic tilt",
+  "source_photos_unchanged": true,
+  "cached_portraits": true,
+  "additional_runtime_models_or_dependencies": false,
+  "native_pixels": {
+    "classicCharacterRestored": true,
+    "coatPixel": [
+      227,
+      92,
+      117,
+      255
+    ],
+    "facePixels": [
+      [
+        229,
+        70,
+        90,
+        255
+      ],
+      [
+        35,
+        190,
+        146,
+        255
+      ]
+    ],
+    "familyJacketVisible": true,
+    "fixture": "synthetic canvas only; no personal photos",
+    "naturalFaceColors": true,
+    "photoHeadWidthScale": 1.13,
+    "sourcePhotoPreserved": true,
+    "widerHeadPixel": [
+      35,
+      190,
+      146,
+      255
+    ]
+  },
+  "source_proof": {
+    "version": "0.9.17",
+    "android_update_signature_matches_previous": true,
+    "test_photos_in_application": false,
+    "source_photo_data_unchanged_by_alignment": true,
+    "ios_native_alignment": "evidence/ios-native-alignment.json",
+    "photo_head_width_scale": 1.13,
+    "prior_photo_head_width_scale": 1.07,
+    "preserved_files": {
+      "dist/arcade.mjs": true,
+      "dist/arcade-engine.mjs": true,
+      "dist/board.mjs": true,
+      "dist/sound.mjs": true,
+      "dist/voice-bank.mjs": true,
+      "dist/style.css": true,
+      "dist/face.mjs": true
+    }
+  },
+  "javascript_tests_passed": 98,
+  "android_native_checks_passed": 187,
+  "package_checks_passed": 231,
+  "physical_iphone_installed": true,
+  "physical_iphone_launch": "blocked by phone lock; owner can open app",
+  "owner_feedback": "pending",
+  "github_this_version_pushed": false,
+  "testflight_this_version_uploaded": false
+}

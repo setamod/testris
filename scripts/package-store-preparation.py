@@ -46,7 +46,7 @@ for item in (root / "publication/artifacts").iterdir():
 
 for name in (root / "publication/evidence").iterdir():
     if name.name.startswith(("wipo", "turkpatent", "privacy")) or name.name in {
-        "android-smoke.txt", "android-release-manifest.xml", "ios-audio-recovery.json", "android-audio-recovery.json", "release-scope-0.9.12.json", "owner-audio-return-0.9.12.json", "testflight-0.9.12-waiting-review.png",
+        "android-smoke.txt", "android-release-manifest.xml", "ios-audio-recovery.json", "android-audio-recovery.json", "android-portrait-check.json", "character-restore-check.json", "subtle-face-check.json", "face-alignment-check.json", "ios-native-alignment.json", "swift-storage-0.9.17.txt", "release-scope-0.9.12.json", "owner-audio-return-0.9.12.json", "testflight-0.9.12-waiting-review.png",
         "android-bundle-config.json", "android-package-contents.json",
         "javascript-tests.txt", "original-game-check.json", "announcer-speech-check.json", "android-layout-fit.json", "ios-fit-air-tr.png",
         "stage-clear-tr.jpg",

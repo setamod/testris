@@ -1,16 +1,16 @@
 {
   "verified_on": "2026-10-31",
   "app_name": "Popzuno",
-  "version": "0.9.12",
-  "build": 21,
+  "version": "0.9.17",
+  "build": 26,
   "bundle_identifier": "com.mertbekisoglu.bulusko",
-  "release_archive": "artifacts/Popzuno-0.9.12-unsigned.xcarchive",
+  "release_archive": "artifacts/Popzuno-0.9.17-unsigned.xcarchive",
   "release_archive_built": true,
-  "distribution_signed": true,
-  "simulator_release_build_and_launch": "Debug simulator built/launched; native interruption + actual WebAudio passed. Signed physical Debug + signed/unsigned Release archives passed.",
+  "distribution_signed": false,
+  "simulator_release_build_and_launch": "Release archive and signed Debug build passed; installed on physical iPhone; launch blocked by lock; native Vision tested on macOS",
   "current_revision_installed_on_physical_iphone": true,
-  "last_verified_physical_iphone_version": "0.9.12 (21)",
-  "embedded_game_sha256": "6c3efff1d032a0d5ecd7d7671afd1eb64b1f5156c19dcc8761a709aedc6b6ec9",
+  "last_verified_physical_iphone_version": "0.9.17 (26)",
+  "embedded_game_sha256": "b90639bc5740a4ea92f16cc1e40e8648147b681a586e78c575196820aa5123fe",
   "localized_permission_resources": [
     "de.lproj",
     "en.lproj",
@@ -19,19 +19,19 @@
     "ru.lproj",
     "tr.lproj"
   ],
-  "javascript_tests": 90,
+  "javascript_tests": 98,
   "native_storage_tests": "passed on 0.9.5; unchanged storage source",
   "publication_report": "../publication/VALIDATION.json",
   "previous_iphone_build_report": "BUILD_STATUS-0.9.0.json",
   "app_store_submission": "not_performed",
-  "physical_iphone_install_and_launch": true,
+  "physical_iphone_install_and_launch": false,
   "development_profile_ttl_days": 365,
   "development_profile_expires_utc": "2027-10-28T10:37:19Z",
   "development_certificate_expires_on": "2027-10-20",
-  "owner_main_menu_confirmation": "pending 0.9.12",
-  "owner_app_open_confirmation": "pending 0.9.12",
+  "owner_main_menu_confirmation": "pending 0.9.17",
+  "owner_app_open_confirmation": "pending 0.9.17",
   "installed_display_name": "Popzuno",
-  "testflight_distribution_signature_verified": true,
+  "testflight_distribution_signature_verified": "last verified: 0.9.12 (21)",
   "testflight_uploaded_version": "0.9.12 (21)",
   "testflight_status": "Waiting for Review",
   "owner_messages_return_audio_confirmation": {
@@ -44,5 +44,8 @@
     "effects_return": true,
     "owner_statement": "Müzik ve efektler geri geliyor",
     "actual_carrier_call": "not specifically reported"
-  }
+  },
+  "last_private_signed_archive": "private/testflight/Popzuno-0.9.12-21.xcarchive",
+  "owner_visual_feedback": "pending",
+  "physical_iphone_launch": "not completed: device locked"
 }

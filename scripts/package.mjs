@@ -8,7 +8,7 @@ import {LEGAL_FILES} from './generate-legal.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const out=resolve(root,'..','releases','Popzuno-Prototip');
 await mkdir(join(out,'Lisanslar'),{recursive:true});
-const names=['locales','arcade-copy','arcade-engine','home-mode','run-ui','board','arcade','storage','i18n','privacy','legal','impact','cheers','voice-bank','sound','avatars','face','app'];
+const names=['locales','arcade-copy','arcade-engine','home-mode','run-ui','board','arcade','storage','i18n','privacy','legal','impact','cheers','voice-bank','sound','alignment','avatars','face','app'];
 const brandMark='data:image/png;base64,'+(await readFile(join(root,'dist','assets','popzuno-mark.png'))).toString('base64');
 const modules=[];
 for(const name of names){

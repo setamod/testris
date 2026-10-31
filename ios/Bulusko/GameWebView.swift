@@ -106,6 +106,7 @@ final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandle
     private let selection = UISelectionFeedbackGenerator()
     private let notice = UINotificationFeedbackGenerator()
     private var lastFeedback: CFTimeInterval = 0
+    private let photoAlignmentQueue = DispatchQueue(label: "popzuno.photo-alignment", qos: .userInitiated)
     private var resetting = false
     private var url: URL? { Bundle.main.url(forResource: "index", withExtension: "html", subdirectory: "Game") }
 
@@ -121,7 +122,7 @@ final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandle
     }
 
     func text(_ tr: String, _ en: String) -> String { language == "tr" ? tr : nativeCopy[language]?[en] ?? en }
-    private var bootstrap: String { "window.__BULUSKO_STORAGE__ = \(NativeStore.snapshot(preferences));" }
+    private var bootstrap: String { "window.__POPZUNO_PHOTO_ALIGNMENT__ = true; window.__BULUSKO_STORAGE__ = \(NativeStore.snapshot(preferences));" }
 
     func makeWebView() -> WKWebView {
         let configuration = WKWebViewConfiguration()
@@ -178,6 +179,21 @@ final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandle
               message.webView?.url?.standardizedFileURL == url.standardizedFileURL,
               let body = message.body as? [String: Any], let type = body["type"] as? String else { return }
         switch type {
+        case "photoAlign":
+            guard !resetting, let id = body["id"] as? String,
+                  id.range(of: "^[a-zA-Z0-9-]{1,64}$", options: .regularExpression) != nil,
+                  let photo = body["photo"] as? String, photo.count <= 160_000,
+                  photo.hasPrefix("data:image/jpeg;base64,"),
+                  let data = Data(base64Encoded: String(photo.dropFirst(23))) else { return }
+            photoAlignmentQueue.async { [weak self] in
+                var result = PhotoAlignment.analyze(data); result["id"] = id
+                guard let encoded = try? JSONSerialization.data(withJSONObject: result),
+                      let json = String(data: encoded, encoding: .utf8) else { return }
+                DispatchQueue.main.async { [weak self] in
+                    guard let self, !self.resetting, self.webView?.url?.standardizedFileURL == self.url?.standardizedFileURL else { return }
+                    self.webView?.evaluateJavaScript("window.dispatchEvent(new CustomEvent('popzuno:photo-alignment',{detail:" + json + "}));")
+                }
+            }
         case "reset":
             resetting = true
             pauseForBackground()

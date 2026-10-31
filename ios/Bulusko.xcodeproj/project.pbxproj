@@ -72,6 +72,12 @@
 			"path" = "NativeStore.swift";
 			"sourceTree" = "<group>";
 		};
+		"2E54593F9C136E00CA9BF628" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "PhotoAlignment.swift";
+			"sourceTree" = "<group>";
+		};
 		"8360315E538080A33058A725" = {
 			"isa" = "PBXFileReference";
 			"lastKnownFileType" = "text.plist.xml";
@@ -128,6 +134,10 @@
 		"E1E1CB448B0EC3D7F0023023" = {
 			"isa" = "PBXBuildFile";
 			"fileRef" = "EC5CE25765A4A10BB3C140A6";
+		};
+		"222B0D3A8DC2E9E988766245" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "2E54593F9C136E00CA9BF628";
 		};
 		"B2F8856D84404BFB4596493A" = {
 			"isa" = "PBXBuildFile";
@@ -192,6 +202,7 @@
 				"4CFB672C57F99FB4C0FB223E",
 				"1839AA608A06FF3673E15A42",
 				"EC5CE25765A4A10BB3C140A6",
+				"2E54593F9C136E00CA9BF628",
 				"8360315E538080A33058A725",
 				"2D573710F1CF4A362C8279B6",
 				"353DFCE509CD72373A316C8F",
@@ -217,6 +228,7 @@
 				"A9CE9EFCC3C2E39789E622B2",
 				"55392958465E83682509844F",
 				"E1E1CB448B0EC3D7F0023023",
+				"222B0D3A8DC2E9E988766245",
 			);
 			"runOnlyForDeploymentPostprocessing" = 0;
 		};
@@ -294,7 +306,7 @@
 			"buildSettings" = {
 				"ASSETCATALOG_COMPILER_APPICON_NAME" = "AppIcon";
 				"CODE_SIGN_STYLE" = "Automatic";
-				"CURRENT_PROJECT_VERSION" = "21";
+				"CURRENT_PROJECT_VERSION" = "26";
 				"DEVELOPMENT_TEAM" = "S78QDU24NX";
 				"ENABLE_PREVIEWS" = "YES";
 				"GENERATE_INFOPLIST_FILE" = "NO";
@@ -303,7 +315,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"MARKETING_VERSION" = "0.9.12";
+				"MARKETING_VERSION" = "0.9.17";
 				"PRODUCT_BUNDLE_IDENTIFIER" = "com.mertbekisoglu.bulusko";
 				"PRODUCT_NAME" = "$(TARGET_NAME)";
 				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";
@@ -319,7 +331,7 @@
 			"buildSettings" = {
 				"ASSETCATALOG_COMPILER_APPICON_NAME" = "AppIcon";
 				"CODE_SIGN_STYLE" = "Automatic";
-				"CURRENT_PROJECT_VERSION" = "21";
+				"CURRENT_PROJECT_VERSION" = "26";
 				"DEVELOPMENT_TEAM" = "S78QDU24NX";
 				"ENABLE_PREVIEWS" = "YES";
 				"GENERATE_INFOPLIST_FILE" = "NO";
@@ -328,7 +340,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"MARKETING_VERSION" = "0.9.12";
+				"MARKETING_VERSION" = "0.9.17";
 				"PRODUCT_BUNDLE_IDENTIFIER" = "com.mertbekisoglu.bulusko";
 				"PRODUCT_NAME" = "$(TARGET_NAME)";
 				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";

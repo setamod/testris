@@ -58,7 +58,11 @@ export const FLOW_MESSAGES={
   "modesTab": "Modlar",
   "keyboardTitle": "Klavye",
   "audioTests": "Ses denemeleri",
-  "supportLabel": "Yardım ve iletişim"
+  "supportLabel": "Yardım ve iletişim",
+  "rotation": "Yüz açısı",
+  "autoAlign": "Otomatik hizala",
+  "alignmentReady": "Hizalama denendi. İstersen açıyı elle ayarlayabilirsin.",
+  "resetAngle": "Açıyı sıfırla"
  },
  "en": {
   "brand": "Popzuno",
@@ -119,7 +123,11 @@ export const FLOW_MESSAGES={
   "modesTab": "Modes",
   "keyboardTitle": "Keyboard",
   "audioTests": "Sound previews",
-  "supportLabel": "Help & contact"
+  "supportLabel": "Help & contact",
+  "rotation": "Face angle",
+  "autoAlign": "Auto-align",
+  "alignmentReady": "Alignment checked. You can adjust the angle yourself.",
+  "resetAngle": "Reset angle"
  },
  "it": {
   "brand": "Popzuno",
@@ -180,7 +188,11 @@ export const FLOW_MESSAGES={
   "modesTab": "Modalità",
   "keyboardTitle": "Tastiera",
   "audioTests": "Prove audio",
-  "supportLabel": "Aiuto e contatti"
+  "supportLabel": "Aiuto e contatti",
+  "rotation": "Angolo del volto",
+  "autoAlign": "Allinea automaticamente",
+  "alignmentReady": "Allineamento verificato. Puoi regolare l’angolo manualmente.",
+  "resetAngle": "Reimposta angolo"
  },
  "es": {
   "brand": "Popzuno",
@@ -241,7 +253,11 @@ export const FLOW_MESSAGES={
   "modesTab": "Modos",
   "keyboardTitle": "Teclado",
   "audioTests": "Pruebas de sonido",
-  "supportLabel": "Ayuda y contacto"
+  "supportLabel": "Ayuda y contacto",
+  "rotation": "Ángulo del rostro",
+  "autoAlign": "Alinear automáticamente",
+  "alignmentReady": "Alineación comprobada. Puedes ajustar el ángulo manualmente.",
+  "resetAngle": "Restablecer ángulo"
  },
  "de": {
   "brand": "Popzuno",
@@ -302,7 +318,11 @@ export const FLOW_MESSAGES={
   "modesTab": "Modi",
   "keyboardTitle": "Tastatur",
   "audioTests": "Klangproben",
-  "supportLabel": "Hilfe & Kontakt"
+  "supportLabel": "Hilfe & Kontakt",
+  "rotation": "Gesichtswinkel",
+  "autoAlign": "Automatisch ausrichten",
+  "alignmentReady": "Ausrichtung geprüft. Du kannst den Winkel selbst einstellen.",
+  "resetAngle": "Winkel zurücksetzen"
  },
  "ru": {
   "brand": "Popzuno",
@@ -363,7 +383,11 @@ export const FLOW_MESSAGES={
   "modesTab": "Режимы",
   "keyboardTitle": "Клавиатура",
   "audioTests": "Проверка звука",
-  "supportLabel": "Помощь и связь"
+  "supportLabel": "Помощь и связь",
+  "rotation": "Угол лица",
+  "autoAlign": "Выровнять автоматически",
+  "alignmentReady": "Выравнивание проверено. Угол можно изменить вручную.",
+  "resetAngle": "Сбросить угол"
  }
 };
 export function flowTranslate(language,key,values={}){let text=(FLOW_MESSAGES[language]||FLOW_MESSAGES.tr)[key]??FLOW_MESSAGES.tr[key]??key;for(const [name,value]of Object.entries(values))text=text.replaceAll('{'+name+'}',String(value));return text;}

@@ -59,10 +59,10 @@
     {
       "file": "dist/avatars.mjs",
       "origin": "created for this project",
-      "kind": "code-drawn characters",
-      "sha256": "a1add10404be62475a8af71b6552a52282f5592c3e80d00970cbb943b0e51b52",
+      "kind": "classic character bodies and head silhouette; photo head width increased 7%, cached high-quality resampling",
+      "sha256": "8df503ae064e4fc9e360b5fab96bf61691524bf079baa1c26fb9d8598fd173ae",
       "external_recordings_or_images": false,
-      "bytes": 4729
+      "bytes": 6191
     },
     {
       "file": "dist/icon.svg",

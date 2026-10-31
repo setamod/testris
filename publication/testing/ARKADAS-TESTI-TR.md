@@ -1,27 +1,17 @@
-# Popzuno 0.9.12 (21) — Yakın çevre testi
+# Popzuno 0.9.17 (24) — Yakın çevre testi
 
-Oyun açılınca Oyna → mod seçimi → Hadi başla. Sevdiklerim kartından fotoğraflarla blokları kişiselleştirebilirsin. Nasıl oynanır bölümünde Kontrol, Bonuslar ve Modlar ayrı sekmelerdir. Ayarlar içinde ses, dil, gizlilik/lisanslar ve destek bulunur.
+Eski karakterli görünüm geri geldi. Fotoğraflar karakterlerin kafa alanına yerleşir, renkli gövdeler ve alt bant eşleştirmeyi kolaylaştırır. Kare portreler ve açık renkli iç çerçeve kaldırıldı.
 
-Beş mod: Ascend, Rush, Time Rush, Daily 90 ve Relax. Blitz 60 menüden kaldırıldı; önceki kayıtlar silinmedi. Relax sakin müzik ve yumuşak efektlerle süresiz oynanır. Online sıralama etkin değildir.
+Android: Popzuno-0.9.17-debug.apk veya Popzuno-Android-0.9.17.apk dosyasını indirip aç. Önceki test uygulamasının üzerine kur; uygulamayı silmek kayıtları siler.
 
-## iPhone / iPad
+iPhone yerel test sürümü 0.9.17’tir. TestFlight’a son gönderilen yapı 0.9.12 (21); güncel dış beta kaydı TESTFLIGHT-STATUS.json içindedir.
 
-TestFlight bağlantısı: https://testflight.apple.com/join/GPjU3wzb (10 kişi). 0.9.12 (21), 31 Ekim 2026'da aynı Family & Friends grubuna eklenip Apple beta incelemesine gönderildi: Waiting for Review. Güncel durum ../TESTFLIGHT-STATUS.json dosyasında. Yeni sürümün gruba eklenmesi ve Apple onayı tamamlanmadan yeni yapıya erişim sözü verilmez. Önceki 0.9.11 (20) yapısı 30 Ekim 2026'da incelemeye gönderildi. TestFlight uygulamasını kurup bağlantıyı aç; geliştirici hesabı erişimi gerekmez.
+Bilgisayar: Popzuno-Prototip.zip içindeki OYNA.html dosyasını aç.
 
-## Android
+Kontrol: Eski oyun havası geri geldi mi? Sevdiklerim’de kayıtlı fotoğraf ve isimler duruyor mu? Zoom ve kadraj ayarı çalışıyor mu? Ascend, Time Rush ve Relax’ı dene. Mesajlar’dan dönünce Devam et ile müzik/efektler geri gelmeli.
 
-Popzuno-0.9.12-debug.apk test dosyasını indirip aç. Android'in kurulum iznini testçi kendi cihazında yönetir. Aynı test uygulamasının üzerine kurmak kayıtları korur; uygulamayı silmek kayıtları siler. Google Play ödemesi veya üyeliği gerekmez.
+Geri bildirim: cihaz + sürüm + mod + yaptığın adımlar. Özel fotoğraf veya hesap bilgisi göndermene gerek yok.
 
-## Bilgisayar
+Önceki 0.9.16 sürümünde klasik gövde ve renkler korunarak yüzler %7 genişletilmişti.
 
-Popzuno-Prototip.zip arşivini çıkar, OYNA.html dosyasını güncel Safari, Chrome veya Edge ile aç. İnternet ve hesap gerekmez. iPhone'da ZIP içinden HTML açmak TestFlight'ın yerini tutmaz. Mevcut web adresi destek/gizlilik sayfasıdır; oynanabilir oyun burada yayımlanmadı.
-
-## 10 dakikalık test
-
-1. Ana menüden yardım almadan bir mod başlat. Açıklaması yeterli mi?
-2. Sevdiklerim ile bir fotoğraf ekle; eski fotoğraf ve rekorlar duruyor mu?
-3. Nasıl oynanır → Bonuslar: ikon ve açıklamaları karşılaştır, bir bonus kullan.
-4. Time Rush ve Relax'ı dene; ekran kaydırmadan kontroller görünüyor mu?
-5. Oyun sırasında Mesajlar'a geç, dön ve Devam et'e dokun. Müzik/efektler dönüyor mu? Mümkünse gerçek arama kesintisini de dene.
-
-Geri bildirim: cihaz + sürüm + mod + yaptığın adımlar + beklenen/olan. Özel fotoğraf, parola veya hesap bilgisi göndermene gerek yok. Fotoğraflar ve rekorlar yerel kalır.
+0.9.17: Fotoğraflı yüz alanı önceki sürümden yaklaşık %6 genişletildi. iOS otomatik hizalamasını ve tüm platformlarda Yüz açısı kaydırıcısını dene. Tekrar açınca elle verdiğin açı kalmalı; asıl fotoğraf değişmemeli. iPhone’a kuruldu, telefon kilitli olduğu için otomatik açılmadı.

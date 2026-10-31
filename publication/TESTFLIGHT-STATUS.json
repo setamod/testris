@@ -85,5 +85,14 @@
   },
   "apple_build_id": "b857ff8a-fc05-4fc6-9c22-c8acfdae13ae",
   "public_link_enabled": true,
-  "public_link_join_check": "Apple public page says beta is not accepting new testers; no build started for testing yet"
+  "public_link_join_check": "Apple public page says beta is not accepting new testers; no build started for testing yet",
+  "local_candidate": {
+    "version": "0.9.17",
+    "build": 26,
+    "change": "classic style; 1.13 photo head width; bounded on-device iOS alignment; manual angle",
+    "iphone_installed": true,
+    "iphone_launched": false,
+    "launch_status": "device locked",
+    "uploaded": false
+  }
 }

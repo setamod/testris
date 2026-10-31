@@ -1,24 +1,24 @@
 {
   "verified_on": "2026-10-31",
   "app": "Popzuno",
-  "version": "0.9.12",
-  "build": 21,
-  "status": "validated_beta_uploaded_waiting_apple_review",
+  "version": "0.9.17",
+  "build": 26,
+  "status": "wider_faces_and_ios_alignment_installed_phone_locked_at_launch",
   "business_model": "paid_upfront_no_ads_no_iap",
   "tests": {
     "javascript": {
-      "passed": 90,
+      "passed": 98,
       "failed": 0,
       "report": "evidence/javascript-tests.txt"
     },
-    "swift_native_storage": "passed_preferences_photo_validation_monotonic_records_and_reset",
+    "swift_native_storage": "passed on 0.9.17 including manual angle/null persistence",
     "android_native_emulator": {
-      "passed": 175,
+      "passed": 187,
       "failed": 0,
       "api": 36,
       "report": "evidence/android-smoke.txt",
-      "tested_version": "0.9.12 (21)",
-      "current_change_scope": "Play-first landing, five-mode selection, help icons, local photo/name and preferences retained, real native background/foreground audio recovery"
+      "tested_version": "0.9.17 (26)",
+      "current_change_scope": "1.13 width photo head, angle control/reset preserves original JPEG; existing game, layout, localization and audio regression checks"
     },
     "android_release_lint": {
       "errors": 0,
@@ -87,18 +87,18 @@
       "status": "Historical browser checks retained; current responsive layout verified in native Android WebView and iOS simulator."
     },
     "visual_review": {
-      "ios": "actual WKWebView on iPhone 17 Pro Max simulator; clean home fits safe areas; physical 0.9.12 installed and launched",
-      "android": "current emulator home, mode picker, concise power guide and gameplay reviewed",
+      "ios": "0.9.17 signed Debug installed; automatic launch blocked by locked phone",
+      "android": "Current native screenshot reviewed: original characters, wider photo head and angle/reset controls",
       "android_renderer": "host_GPU_with_Vulkan_disabled; software_emulator_capture_corruption_resolved_in_final_capture",
       "stage_transition": "stage timing/pause engine regression tests passed; earlier visual baseline archived",
       "overflow": "actual browser fullscreen overflow card; native fullscreen timed result validated in all six locales",
-      "current_change_scope": "simplified menu and audio interruption recovery",
+      "current_change_scope": "custom photo head width and angle alignment",
       "ios_evidence": "evidence/popzuno-099-ios-gameplay-tr.png",
-      "ios_store_screenshot": "ios-home-tr-0.9.12.png is current candidate; full commercial set still to finalize",
+      "ios_store_screenshot": "0.9.12 home screenshot retained; no current photo screenshot from a personal device",
       "notification_evidence": "evidence/popzuno-0910-status-clear-tr.png",
       "relax_evidence": "evidence/popzuno-0911-relax-tr.png"
     },
-    "swift_native_storage_last_run_version": "0.9.5 (14); storage implementation unchanged",
+    "swift_native_storage_last_run_version": "0.9.17 (26)",
     "mobile_layout": {
       "passed": 90,
       "failed": 0,
@@ -151,8 +151,8 @@
     "branding": {
       "date": "2026-10-30",
       "product": "Popzuno",
-      "version": "0.9.12",
-      "build": 21,
+      "version": "0.9.17",
+      "build": 26,
       "installed_name_version_verified": true,
       "bundle_id_unchanged": true,
       "locales": [
@@ -288,7 +288,7 @@
       "android_real_activity_background_and_foreground": {
         "contextsCreated": 2,
         "currentState": "running",
-        "currentTime": 0.816,
+        "currentTime": 0.9066666666666666,
         "previousState": "closed",
         "recovered": true
       },
@@ -303,18 +303,251 @@
         "effects_return": true,
         "owner_statement": "Müzik ve efektler geri geliyor",
         "actual_carrier_call": "not specifically reported"
-      }
+      },
+      "ios_last_test_version": "0.9.12 (21); native audio and sound.mjs are unchanged in 0.9.13"
+    },
+    "restored_classic_portraits": {
+      "version": "0.9.15",
+      "build": 24,
+      "baseline": "0.9.12 before the two portrait experiments",
+      "rollback": "original character body, original head silhouette and photo placement, original family frames, previews and controls",
+      "experiments_removed": [
+        "square photo panels",
+        "automatic extra zoom",
+        "horizontal stretch",
+        "pale inner edge gradient",
+        "thicker experimental frames"
+      ],
+      "only_photo_optimization": "high-quality canvas resampling during cached portrait creation; no change to dimensions, crop or colors",
+      "exact_restore_proof": {
+        "version": "0.9.15",
+        "build": 24,
+        "baseline": "0.9.12 before square-portrait experiments",
+        "exact_runtime_files": {
+          "dist/app.mjs": true,
+          "dist/arcade-refresh.css": true,
+          "dist/style.css": true,
+          "dist/arcade.mjs": true,
+          "dist/arcade-copy.mjs": true,
+          "dist/arcade-engine.mjs": true,
+          "dist/sound.mjs": true,
+          "dist/storage.mjs": true,
+          "dist/face.mjs": true,
+          "dist/board.mjs": true,
+          "dist/index.html": true
+        },
+        "avatar_difference": "only high-quality image interpolation; original head/body geometry and colors retained",
+        "source_photo_bytes_preserved": true,
+        "android_update_signature_preserved": true
+      },
+      "photo_pixels": {
+        "classicCharacterRestored": true,
+        "coatPixel": [
+          227,
+          92,
+          117,
+          255
+        ],
+        "facePixels": [
+          [
+            229,
+            70,
+            90,
+            255
+          ],
+          [
+            35,
+            190,
+            146,
+            255
+          ]
+        ],
+        "familyJacketVisible": true,
+        "fixture": "synthetic canvas only; no personal photos",
+        "naturalFaceColors": true,
+        "sourcePhotoPreserved": true
+      },
+      "original_photos_crops_records_preserved": true,
+      "javascript_tests_passed": 90,
+      "native_android_checks_passed": 183,
+      "mobile_layouts_passed": 90,
+      "home_layouts_passed": 18,
+      "package_checks_passed": 231,
+      "physical_iphone_installed_and_launched": true,
+      "owner_feedback": "pending",
+      "testflight_this_version_uploaded": false,
+      "github_this_version_pushed": false
+    },
+    "subtle_face_widening": {
+      "version": "0.9.16",
+      "build": 25,
+      "baseline": "0.9.15 classic character style",
+      "change": "photo head silhouette and its photo are 7% wider; height is unchanged",
+      "photo_head_width_scale": 1.07,
+      "photo_head_height_scale": 1,
+      "rotation_added": false,
+      "default_drawn_characters_and_bodies_unchanged": true,
+      "frames_colors_and_UI_unchanged": true,
+      "stored_photo_and_manual_crop_unchanged": true,
+      "portrait_cache_preserved": true,
+      "exact_source_proof": {
+        "version": "0.9.16",
+        "build": 25,
+        "photo_head_width_scale": 1.07,
+        "photo_head_height_scale": 1,
+        "rotation_added": false,
+        "default_drawn_characters_unchanged": true,
+        "exact_style_and_rules_files": {
+          "dist/app.mjs": true,
+          "dist/arcade-refresh.css": true,
+          "dist/style.css": true,
+          "dist/arcade.mjs": true,
+          "dist/arcade-engine.mjs": true,
+          "dist/face.mjs": true,
+          "dist/storage.mjs": true,
+          "dist/sound.mjs": true,
+          "dist/board.mjs": true,
+          "dist/index.html": true
+        },
+        "other_avatar_logic_unchanged": true,
+        "stored_photo_and_crop_unchanged": true,
+        "android_update_signature_preserved": true
+      },
+      "native_pixels": {
+        "classicCharacterRestored": true,
+        "coatPixel": [
+          227,
+          92,
+          117,
+          255
+        ],
+        "facePixels": [
+          [
+            229,
+            70,
+            90,
+            255
+          ],
+          [
+            35,
+            190,
+            146,
+            255
+          ]
+        ],
+        "familyJacketVisible": true,
+        "fixture": "synthetic canvas only; no personal photos",
+        "naturalFaceColors": true,
+        "photoHeadWidthScale": 1.07,
+        "sourcePhotoPreserved": true,
+        "widerHeadPixel": [
+          35,
+          190,
+          146,
+          255
+        ]
+      },
+      "javascript_tests_passed": 90,
+      "native_android_checks_passed": 184,
+      "mobile_layouts_passed": 90,
+      "home_layouts_passed": 18,
+      "package_checks_passed": 231,
+      "physical_iphone_installed_and_launched": true,
+      "owner_feedback": "pending",
+      "testflight_this_version_uploaded": false,
+      "github_this_version_pushed": false
+    },
+    "photo_alignment": {
+      "version": "0.9.17",
+      "build": 26,
+      "baseline": "0.9.16 classic bodies and 1.07 photo head width",
+      "photo_head_width_scale": 1.13,
+      "increase_from_previous_percent": 5.61,
+      "height_and_default_illustrations_unchanged": true,
+      "ios_automatic_alignment": {
+        "backend": "Vision eye landmarks, on-device background queue",
+        "maximum_correction_degrees": 8,
+        "manual_override_degrees": 12,
+        "single_face_only": true,
+        "uncertain_measurement": "no rotation",
+        "native_test": "NASA public-domain test-only portrait at known +/-8 degree rotations; verified on macOS Vision",
+        "evidence": "evidence/ios-native-alignment.json"
+      },
+      "android_and_browser": "manual face-angle control and reset; no unverified automatic tilt",
+      "source_photos_unchanged": true,
+      "cached_portraits": true,
+      "additional_runtime_models_or_dependencies": false,
+      "native_pixels": {
+        "classicCharacterRestored": true,
+        "coatPixel": [
+          227,
+          92,
+          117,
+          255
+        ],
+        "facePixels": [
+          [
+            229,
+            70,
+            90,
+            255
+          ],
+          [
+            35,
+            190,
+            146,
+            255
+          ]
+        ],
+        "familyJacketVisible": true,
+        "fixture": "synthetic canvas only; no personal photos",
+        "naturalFaceColors": true,
+        "photoHeadWidthScale": 1.13,
+        "sourcePhotoPreserved": true,
+        "widerHeadPixel": [
+          35,
+          190,
+          146,
+          255
+        ]
+      },
+      "source_proof": {
+        "version": "0.9.17",
+        "android_update_signature_matches_previous": true,
+        "test_photos_in_application": false,
+        "source_photo_data_unchanged_by_alignment": true,
+        "ios_native_alignment": "evidence/ios-native-alignment.json",
+        "photo_head_width_scale": 1.13,
+        "prior_photo_head_width_scale": 1.07,
+        "preserved_files": {
+          "dist/arcade.mjs": true,
+          "dist/arcade-engine.mjs": true,
+          "dist/board.mjs": true,
+          "dist/sound.mjs": true,
+          "dist/voice-bank.mjs": true,
+          "dist/style.css": true,
+          "dist/face.mjs": true
+        }
+      },
+      "javascript_tests_passed": 98,
+      "android_native_checks_passed": 187,
+      "package_checks_passed": 231,
+      "physical_iphone_installed": true,
+      "physical_iphone_launch": "blocked by phone lock; owner can open app",
+      "owner_feedback": "pending",
+      "github_this_version_pushed": false,
+      "testflight_this_version_uploaded": false
     }
   },
   "ios": {
     "bundle_identifier": "com.mertbekisoglu.bulusko",
-    "release_archive": "artifacts/Popzuno-0.9.12-unsigned.xcarchive",
+    "release_archive": "artifacts/Popzuno-0.9.17-unsigned.xcarchive",
     "release_archive_built": true,
-    "distribution_signed": true,
-    "simulator_release_build_and_launch": "Debug simulator built/launched; native interruption + actual WebAudio passed. Signed physical Debug + signed/unsigned Release archives passed.",
+    "distribution_signed": false,
+    "simulator_release_build_and_launch": "Release archive and signed Debug build passed; installed on physical iPhone; launch blocked by lock; native Vision tested on macOS",
     "current_revision_installed_on_physical_iphone": true,
-    "last_verified_physical_iphone_version": "0.9.12 (21)",
-    "embedded_game_sha256": "6c3efff1d032a0d5ecd7d7671afd1eb64b1f5156c19dcc8761a709aedc6b6ec9",
+    "last_verified_physical_iphone_version": "0.9.17 (26)",
+    "embedded_game_sha256": "b90639bc5740a4ea92f16cc1e40e8648147b681a586e78c575196820aa5123fe",
     "localized_permission_resources": [
       "de.lproj",
       "en.lproj",
@@ -323,21 +556,21 @@
       "ru.lproj",
       "tr.lproj"
     ],
-    "physical_iphone_install_and_launch": true,
+    "physical_iphone_install_and_launch": false,
     "development_profile_ttl_days": 365,
     "development_profile_expires_utc": "2027-10-28T10:37:19Z",
     "development_certificate_expires_on": "2027-10-20",
-    "owner_main_menu_confirmation": "pending 0.9.12",
-    "owner_app_open_confirmation": "pending 0.9.12",
+    "owner_main_menu_confirmation": "pending 0.9.17",
+    "owner_app_open_confirmation": "pending 0.9.17",
     "installed_display_name": "Popzuno",
-    "testflight_distribution_signature_verified": true,
-    "private_signed_archive": "private/testflight/Popzuno-0.9.12-21.xcarchive"
+    "testflight_distribution_signature_verified": "last verified: 0.9.12 (21)",
+    "last_private_signed_archive": "private/testflight/Popzuno-0.9.12-21.xcarchive"
   },
   "android": {
     "minimum_api": 26,
     "target_api": 36,
-    "debug_apk": "artifacts/Popzuno-0.9.12-debug.apk",
-    "release_aab": "artifacts/Popzuno-0.9.12-UNSIGNED.aab",
+    "debug_apk": "artifacts/Popzuno-0.9.17-debug.apk",
+    "release_aab": "artifacts/Popzuno-0.9.17-UNSIGNED.aab",
     "release_signed": false,
     "permissions": [
       "android.permission.VIBRATE"
@@ -346,16 +579,16 @@
     "backups_enabled": false,
     "native_sdk_libraries": 0,
     "actual_bundle_inspection": {
-      "aab_sha256": "96facbec4f63ee8cca20366e18f46bd3801e13b2743f55e3951c7d0d30138e4e",
-      "game_sha256": "3b8453cf38a952f56dffae08078dd61abfcf25832a1785001601eb56a9bb5702",
+      "aab_sha256": "401661d8db1d404ffd933777e212ea49aaf1f3e2a90e7c641dba47743fba08f9",
+      "game_sha256": "ebd1de5054f898ecadc80c0fbcd192cde2c1620496eccc2a0bb417fa9d58ee3a",
       "game_matches_current_source": true,
       "legal_files_match": [
-        "chakrapetch-OFL.txt",
-        "ibmplexmono-OFL.txt",
+        "ASSET-INVENTORY.json",
+        "SOURCES.md",
         "pico-MIT.txt",
         "music-NOTICE.txt",
-        "SOURCES.md",
-        "ASSET-INVENTORY.json"
+        "chakrapetch-OFL.txt",
+        "ibmplexmono-OFL.txt"
       ],
       "signed": false,
       "native_libraries": []
@@ -389,13 +622,13 @@
     "logo": "OpenAI image generation for this project; no reference image; provenance and hashes in asset inventory"
   },
   "artifacts": {
-    "Popzuno-0.9.12-UNSIGNED.aab": {
-      "bytes": 1953806,
-      "sha256": "96facbec4f63ee8cca20366e18f46bd3801e13b2743f55e3951c7d0d30138e4e"
+    "Popzuno-0.9.17-UNSIGNED.aab": {
+      "bytes": 1955859,
+      "sha256": "401661d8db1d404ffd933777e212ea49aaf1f3e2a90e7c641dba47743fba08f9"
     },
-    "Popzuno-0.9.12-debug.apk": {
-      "bytes": 2285517,
-      "sha256": "021c778e9fb29bd189cb5d0c2749e6be13097e0fb31ce8d03c28b53cf93accd1"
+    "Popzuno-0.9.17-debug.apk": {
+      "bytes": 3377805,
+      "sha256": "0a34b000200f2e2c0f32f2d146a9f6b35ab4a9ac76c8bbf02ae9a7f31d65aa5e"
     }
   },
   "owner_external_gates": [
@@ -614,7 +847,7 @@
     "guide": "testing/ARKADAS-TESTI-TR.md",
     "android_apk_ready": true,
     "desktop_zip_ready": true,
-    "friends_bundle": "../releases/Popzuno-Friends-Beta-0.9.12.zip",
+    "friends_bundle": "../releases/Popzuno-Friends-Beta-0.9.17.zip",
     "testflight_uploaded": true,
     "public_browser_game_published": false,
     "additional_payments": false,
@@ -630,8 +863,9 @@
     "public_test_link_limit": 10,
     "public_test_link_join_available": false,
     "testers_invited": false,
-    "current_candidate_version": "0.9.12 (21)",
-    "current_distribution_status": "See TESTFLIGHT-STATUS.json"
+    "current_candidate_version": "0.9.17 (26)",
+    "current_distribution_status": "See TESTFLIGHT-STATUS.json",
+    "current_candidate_testflight_uploaded": false
   },
   "menu_and_audio_revision": {
     "version": "0.9.12",
@@ -667,5 +901,86 @@
     "ios_audio_evidence": "evidence/ios-audio-recovery.json",
     "android_audio_evidence": "evidence/android-audio-recovery.json",
     "physical_iphone_audio_return_confirmed": true
+  },
+  "portrait_revision": {
+    "version": "0.9.17",
+    "build": 26,
+    "baseline": "0.9.16 classic bodies and 1.07 photo head width",
+    "photo_head_width_scale": 1.13,
+    "increase_from_previous_percent": 5.61,
+    "height_and_default_illustrations_unchanged": true,
+    "ios_automatic_alignment": {
+      "backend": "Vision eye landmarks, on-device background queue",
+      "maximum_correction_degrees": 8,
+      "manual_override_degrees": 12,
+      "single_face_only": true,
+      "uncertain_measurement": "no rotation",
+      "native_test": "NASA public-domain test-only portrait at known +/-8 degree rotations; verified on macOS Vision",
+      "evidence": "evidence/ios-native-alignment.json"
+    },
+    "android_and_browser": "manual face-angle control and reset; no unverified automatic tilt",
+    "source_photos_unchanged": true,
+    "cached_portraits": true,
+    "additional_runtime_models_or_dependencies": false,
+    "native_pixels": {
+      "classicCharacterRestored": true,
+      "coatPixel": [
+        227,
+        92,
+        117,
+        255
+      ],
+      "facePixels": [
+        [
+          229,
+          70,
+          90,
+          255
+        ],
+        [
+          35,
+          190,
+          146,
+          255
+        ]
+      ],
+      "familyJacketVisible": true,
+      "fixture": "synthetic canvas only; no personal photos",
+      "naturalFaceColors": true,
+      "photoHeadWidthScale": 1.13,
+      "sourcePhotoPreserved": true,
+      "widerHeadPixel": [
+        35,
+        190,
+        146,
+        255
+      ]
+    },
+    "source_proof": {
+      "version": "0.9.17",
+      "android_update_signature_matches_previous": true,
+      "test_photos_in_application": false,
+      "source_photo_data_unchanged_by_alignment": true,
+      "ios_native_alignment": "evidence/ios-native-alignment.json",
+      "photo_head_width_scale": 1.13,
+      "prior_photo_head_width_scale": 1.07,
+      "preserved_files": {
+        "dist/arcade.mjs": true,
+        "dist/arcade-engine.mjs": true,
+        "dist/board.mjs": true,
+        "dist/sound.mjs": true,
+        "dist/voice-bank.mjs": true,
+        "dist/style.css": true,
+        "dist/face.mjs": true
+      }
+    },
+    "javascript_tests_passed": 98,
+    "android_native_checks_passed": 187,
+    "package_checks_passed": 231,
+    "physical_iphone_installed": true,
+    "physical_iphone_launch": "blocked by phone lock; owner can open app",
+    "owner_feedback": "pending",
+    "github_this_version_pushed": false,
+    "testflight_this_version_uploaded": false
   }
 }

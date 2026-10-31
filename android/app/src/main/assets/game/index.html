@@ -802,6 +802,8 @@ body.playing-screen{height:100svh;height:100dvh;min-height:0;overflow:hidden;ove
 .home-landing[hidden],.home-picker[hidden],[data-help-view][hidden]{display:none!important}
 .help-dialog .dialog-head{gap:12px;margin-bottom:14px}.help-dialog .dialog-head h2,.family-dialog .dialog-head h2{font-size:27px;line-height:1.2;margin:0}.help-topic-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:0 0 20px}.help-topic-tabs button{min-height:46px;font-size:16px;padding:8px 3px;background:#292035;border:1px solid #9272b250;border-radius:11px;color:#d2c5e0}.help-topic-tabs button[aria-pressed=true]{border-color:#c8ee6f;color:#e5ffac;background:#c7f45d13}.help-steps{padding:0;list-style:none;counter-reset:steps;display:grid;gap:14px}.help-steps li{font-size:18px;line-height:1.5;padding:0 0 0 36px;position:relative;counter-increment:steps;color:#ddd3e8}.help-steps li:before{content:counter(steps);position:absolute;left:0;top:1px;width:25px;height:25px;border-radius:50%;background:#c8ee6f18;color:#dcff8f;font:600 15px/25px Chakra;text-align:center}.help-dialog details{border:1px solid #9272b244;border-radius:13px;padding:14px;background:#231b2d;margin:14px 0}.help-dialog summary{font-size:17px;cursor:pointer}.help-dialog details p{font-size:16px;line-height:1.55;margin:12px 0 0;color:#c9bcd7}.help-patterns{display:grid;grid-template-columns:1fr;gap:10px}.power-entry{display:grid;grid-template-columns:42px 1fr;align-items:start;gap:14px;padding:15px;border:1px solid var(--power-color,#a98acc);border-radius:14px;background:var(--power-tint,#211b30)}.power-entry .power-guide-icon{width:38px;height:38px;fill:none;stroke:var(--power-color);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.power-entry strong{display:block;font-size:21px}.power-entry small{display:block;font-size:14px;line-height:1.4;margin-top:4px;color:var(--power-color)}.power-entry p{font-size:16px;line-height:1.5;margin:8px 0 0}.power-entry[data-reward=bomb]{--power-color:#ffc18b;--power-tint:#78532915}.power-entry[data-reward=rocket]{--power-color:#89cdff;--power-tint:#36708e15}.power-entry[data-reward=shuffle]{--power-color:#fbabc5;--power-tint:#85366b15}.power-entry[data-reward=cross]{--power-color:#8de4d7;--power-tint:#316e6815}.power-entry[data-reward=nova]{--power-color:#d7b1ff;--power-tint:#6c409315}.mode-entry{display:grid;grid-template-columns:30px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid #aa8dc728}.mode-entry svg{width:28px;height:28px;fill:none;stroke:#d4ff84;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.mode-entry strong{font-size:21px}.mode-entry p{font-size:17px;line-height:1.5;color:#cbbfd8;margin:6px 0 0}.settings-links{display:grid;gap:9px;margin-top:16px}.settings-links>a{display:flex;flex-direction:column;text-decoration:none;align-items:center;justify-content:center;gap:4px}.settings-links small{font-size:14px;color:#c3b4d2}.settings-links>.secondary-button{min-height:48px;font-size:17px}.dialog-done{width:100%;margin-top:18px;min-height:48px}.settings-diagnostics .audio-previews{margin-top:14px}.settings-diagnostics .audio-previews button{font-size:16px}.settings p{margin:0}
 @media(max-height:650px){.home-landing{gap:10px}.home-hero .home-brand-mark{width:80px}.home-hero h1{font-size:44px;margin:10px 0 6px}.home-hero p{font-size:15px}.home-primary #home-play{min-height:62px;font-size:28px}.home-primary p{font-size:13px;min-height:34px;margin-top:6px}.home-people{min-height:72px;padding:10px}.home-people b{font-size:19px}.home-landing .home-tools button{min-height:44px;font-size:16px}.home-picker{gap:11px}.home-picker-head h2{font-size:26px}.home-picker .home-modes button{min-height:72px;padding:9px 6px;gap:5px}.home-picker .home-modes button[data-tide-mode=ascend]{min-height:58px}.home-picker .home-modes button>span{font-size:21px}.home-picker .home-detail{min-height:54px;padding:3px}.home-picker .home-detail p{font-size:17px}.home-picker>#home-start{min-height:52px}}
+
+.crop-auto{font-size:15px;min-height:44px;padding:9px;margin:4px 0 0}.crop-controls output{font:13px var(--mono);color:var(--mint);white-space:nowrap}
 </style>
  
 </head>
@@ -858,7 +860,7 @@ body.playing-screen{height:100svh;height:100dvh;min-height:0;overflow:hidden;ove
   <div class="dialog-head"><h2 data-text="family"></h2><button class="icon-button" data-close="family-dialog" aria-label="Kapat"><svg><use href="#icon-close"/></svg></button></div>
   <p class="dialog-copy" data-text="familyCopy"></p><div id="family-tabs" class="family-tabs"></div>
   <div class="person-editor"><img id="person-preview" alt=""><div class="person-fields"><input id="person-name" type="text" maxlength="24" aria-label="Karakter adı"><label class="upload-button"><span data-text="addPhoto"></span><input type="file" id="person-photo" accept="image/jpeg,image/png,image/webp,image/heic"></label><button id="person-delete" class="delete-button" data-text="delete"></button></div></div>
-  <div class="crop-controls"><label><span data-text="zoom"></span><input id="crop-zoom" type="range" min="1" max="3" step=".02" value="1"></label><label><span data-text="horizontal"></span><input id="crop-x" type="range" min="0" max="1" step=".01" value=".5"></label><label><span data-text="vertical"></span><input id="crop-y" type="range" min="0" max="1" step=".01" value=".5"></label></div>
+  <div class="crop-controls"><label><span data-text="zoom"></span><input id="crop-zoom" type="range" min="1" max="3" step=".02" value="1"></label><label><span data-text="horizontal"></span><input id="crop-x" type="range" min="0" max="1" step=".01" value=".5"></label><label><span data-text="vertical"></span><input id="crop-y" type="range" min="0" max="1" step=".01" value=".5"></label><label><span><span data-text="rotation"></span> <output id="crop-angle-value">0.0°</output></span><input id="crop-rotation" type="range" min="-12" max="12" step=".5" value="0"></label><button id="crop-auto" class="secondary-button crop-auto" data-text="autoAlign"></button></div>
   <p id="photo-status" class="photo-status" role="status"></p><p class="privacy-note" data-text="privacy"></p><p class="local-note" data-text="onlyLocal"></p><button class="primary-button" data-close="family-dialog" data-text="done"></button>
  </dialog>
  <dialog id="privacy-dialog" class="panel-dialog privacy-dialog" aria-labelledby="privacy-title">
@@ -2837,7 +2839,7 @@ function readFlow(key,fallback=null){try{const fullKey=FLOW_PREFIX+key,native=gl
 function writeFlow(key,value){const fullKey=FLOW_PREFIX+key,serialized=JSON.stringify(value);let saved=false;try{localStorage.setItem(fullKey,serialized);saved=true;}catch{}const handler=globalThis.webkit?.messageHandlers?.bulusko;if(handler){try{handler.postMessage({type:'preference',key:fullKey,value:serialized});if(globalThis.__BULUSKO_STORAGE__)globalThis.__BULUSKO_STORAGE__[fullKey]=serialized;saved=true;}catch{}}return saved;}
 function normalizeProgress(raw){const data=raw&&typeof raw==='object'?raw:{};return Array.from({length:12},(_,i)=>{const n=data.results?.[i];return {stars:Math.max(0,Math.min(3,Math.floor(Number(n?.stars)||0))),score:Math.max(0,Math.min(9e12,Number(n?.score)||0))};});}
 function unlockedStage(results){let i=0;while(i<11&&results[i]?.stars>0)i++;return i+1;}
-function normalizePeople(raw){return Array.from({length:7},(_,i)=>{const p=Array.isArray(raw)?raw[i]:null;return {name:typeof p?.name==='string'?p.name.replace(/[\u0000-\u001f]/g,'').slice(0,24):'',photo:typeof p?.photo==='string'&&p.photo.length<=160000&&/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(p.photo)?p.photo:null,zoom:Math.max(1,Math.min(3,Number(p?.zoom)||1)),x:Math.max(0,Math.min(1,Number.isFinite(p?.x)?p.x:.5)),y:Math.max(0,Math.min(1,Number.isFinite(p?.y)?p.y:.5))};});}
+function normalizePeople(raw){return Array.from({length:7},(_,i)=>{const p=Array.isArray(raw)?raw[i]:null;return {name:typeof p?.name==='string'?p.name.replace(/[\u0000-\u001f]/g,'').slice(0,24):'',photo:typeof p?.photo==='string'&&p.photo.length<=160000&&/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(p.photo)?p.photo:null,rotation:Number.isFinite(p?.rotation)?Math.max(-12,Math.min(12,p.rotation)):null,zoom:Math.max(1,Math.min(3,Number(p?.zoom)||1)),x:Math.max(0,Math.min(1,Number.isFinite(p?.x)?p.x:.5)),y:Math.max(0,Math.min(1,Number.isFinite(p?.y)?p.y:.5))};});}
 
 return {FLOW_PREFIX,clearFlow,readFlow,writeFlow,normalizeProgress,unlockedStage,normalizePeople};
 },
@@ -2902,7 +2904,11 @@ const FLOW_MESSAGES={
   "modesTab": "Modlar",
   "keyboardTitle": "Klavye",
   "audioTests": "Ses denemeleri",
-  "supportLabel": "Yardım ve iletişim"
+  "supportLabel": "Yardım ve iletişim",
+  "rotation": "Yüz açısı",
+  "autoAlign": "Otomatik hizala",
+  "alignmentReady": "Hizalama denendi. İstersen açıyı elle ayarlayabilirsin.",
+  "resetAngle": "Açıyı sıfırla"
  },
  "en": {
   "brand": "Popzuno",
@@ -2963,7 +2969,11 @@ const FLOW_MESSAGES={
   "modesTab": "Modes",
   "keyboardTitle": "Keyboard",
   "audioTests": "Sound previews",
-  "supportLabel": "Help & contact"
+  "supportLabel": "Help & contact",
+  "rotation": "Face angle",
+  "autoAlign": "Auto-align",
+  "alignmentReady": "Alignment checked. You can adjust the angle yourself.",
+  "resetAngle": "Reset angle"
  },
  "it": {
   "brand": "Popzuno",
@@ -3024,7 +3034,11 @@ const FLOW_MESSAGES={
   "modesTab": "Modalità",
   "keyboardTitle": "Tastiera",
   "audioTests": "Prove audio",
-  "supportLabel": "Aiuto e contatti"
+  "supportLabel": "Aiuto e contatti",
+  "rotation": "Angolo del volto",
+  "autoAlign": "Allinea automaticamente",
+  "alignmentReady": "Allineamento verificato. Puoi regolare l’angolo manualmente.",
+  "resetAngle": "Reimposta angolo"
  },
  "es": {
   "brand": "Popzuno",
@@ -3085,7 +3099,11 @@ const FLOW_MESSAGES={
   "modesTab": "Modos",
   "keyboardTitle": "Teclado",
   "audioTests": "Pruebas de sonido",
-  "supportLabel": "Ayuda y contacto"
+  "supportLabel": "Ayuda y contacto",
+  "rotation": "Ángulo del rostro",
+  "autoAlign": "Alinear automáticamente",
+  "alignmentReady": "Alineación comprobada. Puedes ajustar el ángulo manualmente.",
+  "resetAngle": "Restablecer ángulo"
  },
  "de": {
   "brand": "Popzuno",
@@ -3146,7 +3164,11 @@ const FLOW_MESSAGES={
   "modesTab": "Modi",
   "keyboardTitle": "Tastatur",
   "audioTests": "Klangproben",
-  "supportLabel": "Hilfe & Kontakt"
+  "supportLabel": "Hilfe & Kontakt",
+  "rotation": "Gesichtswinkel",
+  "autoAlign": "Automatisch ausrichten",
+  "alignmentReady": "Ausrichtung geprüft. Du kannst den Winkel selbst einstellen.",
+  "resetAngle": "Winkel zurücksetzen"
  },
  "ru": {
   "brand": "Popzuno",
@@ -3207,7 +3229,11 @@ const FLOW_MESSAGES={
   "modesTab": "Режимы",
   "keyboardTitle": "Клавиатура",
   "audioTests": "Проверка звука",
-  "supportLabel": "Помощь и связь"
+  "supportLabel": "Помощь и связь",
+  "rotation": "Угол лица",
+  "autoAlign": "Выровнять автоматически",
+  "alignmentReady": "Выравнивание проверено. Угол можно изменить вручную.",
+  "resetAngle": "Сбросить угол"
  }
 };
 function flowTranslate(language,key,values={}){let text=(FLOW_MESSAGES[language]||FLOW_MESSAGES.tr)[key]??FLOW_MESSAGES.tr[key]??key;for(const [name,value]of Object.entries(values))text=text.replaceAll('{'+name+'}',String(value));return text;}
@@ -3297,7 +3323,7 @@ const LEGAL_NOTICES=[
   },
   {
     "file": "ASSET-INVENTORY.json",
-    "text": "{\n  \"reviewed\": \"2026-10-31\",\n  \"product\": \"Popzuno\",\n  \"status\": \"technical provenance record; not legal clearance\",\n  \"runtime_npm_dependencies\": [],\n  \"user_photos_in_distribution\": false,\n  \"components\": [\n    {\n      \"file\": \"vendor/chakra-petch-600.ttf\",\n      \"license\": \"OFL-1.1\",\n      \"source\": \"https://github.com/google/fonts/tree/main/ofl/chakrapetch\",\n      \"sha256\": \"b27ff10e18f96386894f25a9e53a3b7c0244a70556461d2a9a99acb3465299fa\",\n      \"bytes\": 70240\n    },\n    {\n      \"file\": \"vendor/ibm-plex-mono-400.ttf\",\n      \"license\": \"OFL-1.1\",\n      \"source\": \"https://github.com/google/fonts/tree/main/ofl/ibmplexmono\",\n      \"sha256\": \"a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2\",\n      \"bytes\": 128812\n    },\n    {\n      \"component\": \"pico.js adapted code\",\n      \"file\": \"dist/face.mjs\",\n      \"license\": \"MIT\",\n      \"upstream\": \"https://github.com/nenadmarkus/picojs\",\n      \"upstream_revision_inspected\": \"afffa50ec4134a47005f2cbf8112eaa69f65f37e\",\n      \"adapted\": true,\n      \"sha256\": \"5c72587e002279f4dc46ae7434727cc87a6b331accaa9faa88c7688fc6ba78b6\",\n      \"bytes\": 328584\n    },\n    {\n      \"component\": \"embedded facefinder model\",\n      \"license\": \"MIT\",\n      \"source_revision\": \"7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8\",\n      \"source\": \"https://github.com/nenadmarkus/pico/blob/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/rnt/cascades/facefinder\",\n      \"license_source\": \"https://github.com/nenadmarkus/pico/blob/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/LICENSE\",\n      \"bytes\": 239632,\n      \"sha256\": \"d8014993e7298c7b1865d1f8b855d6dbf4ec5c808bf879e2091ab6837abf90cd\",\n      \"byte_identical_to_current_upstream\": true,\n      \"historical_license_warning\": \"Older c2e81f9d revision had noncommercial terms; use this recorded MIT distribution.\"\n    },\n    {\n      \"file\": \"dist/sound.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"original adaptive Circuit Bloom and calm Quiet Orbit procedural music; separate scoped music/effects/voice lanes\",\n      \"sha256\": \"70cd1679aa6f9f79f6d487e210d09dd7d6b47fd064827a84d186c69218afc794\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 17625\n    },\n    {\n      \"file\": \"dist/impact.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"procedural impact effects\",\n      \"sha256\": \"4a0d344810475121ef1c08180a178deca19e9608c6794df147a8c397d42b6de1\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 2710\n    },\n    {\n      \"file\": \"dist/avatars.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"code-drawn characters\",\n      \"sha256\": \"a1add10404be62475a8af71b6552a52282f5592c3e80d00970cbb943b0e51b52\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 4729\n    },\n    {\n      \"file\": \"dist/icon.svg\",\n      \"origin\": \"created with OpenAI image generation for this project\",\n      \"kind\": \"self-contained favicon derived from Popzuno generated master\",\n      \"sha256\": \"38a9eff1c2f9df438345738fa77a9bebef55f9201d4e57d4e6dac6fe6e613a88\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 20780\n    },\n    {\n      \"component\": \"optional arcade cheers\",\n      \"files\": [\n        \"dist/cheers.mjs\",\n        \"dist/voice-bank.mjs\",\n        \"vendor/ANNOUNCER-ASSETS.json\"\n      ],\n      \"origin\": \"Seven fixed expressive synthetic clips generated locally with Chatterbox (MIT); synthetic-only Kokoro-82M (Apache-2.0) reference; no human reference recording\",\n      \"recorded_voice_assets_shipped\": false,\n      \"network_voice_usage\": false,\n      \"voice_model_redistributed\": false,\n      \"cached_phrase_limit\": 7,\n      \"generated_voice_assets_shipped\": true,\n      \"provenance\": \"vendor/ANNOUNCER-ASSETS.json\",\n      \"license_notice\": \"vendor/music-NOTICE.txt\",\n      \"sha256\": \"5f6d801fe329c5a6f6d8c8fb87e7116b621401ab746306b7e7a0c508b67a8df4\",\n      \"watermark\": \"Default PerTh retained\",\n      \"intelligibility\": \"seven fixed phrases matched unprompted local speech recognition; owner listening remains subjective review\"\n    },\n    {\n      \"file\": \"branding/popzuno-master.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"ad28071802153318e9dc342a5012367292d9041e972c5647fcbd8074f48fdc84\",\n      \"bytes\": 1486876,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"branding/popzuno-icon-1024.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"5fb7802d9e241444f3ffcf28be3f6e41292f8cfa7776f5a08b2afe6af1bad1b7\",\n      \"bytes\": 1103914,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"branding/popzuno-logo.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"35150cfa0d8225b19f2943b510218f6062d6c869fce7a5b866f4da52741ee280\",\n      \"bytes\": 278301,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"dist/assets/popzuno-mark.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"3b92494c3636a8cd90cd0ba753160b9c9c2fb6cf370da258d69f386bd9f11e68\",\n      \"bytes\": 90898,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"dist/arcade-refresh.css\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"readable arcade UI and bounded CSS laser/warp effects\",\n      \"sha256\": \"b5a06d1eeebfd92ed734282422f302c401d2af9feb400b6296a59ac286cd1d3b\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 28770\n    }\n  ]\n}\n"
+    "text": "{\n  \"reviewed\": \"2026-10-31\",\n  \"product\": \"Popzuno\",\n  \"status\": \"technical provenance record; not legal clearance\",\n  \"runtime_npm_dependencies\": [],\n  \"user_photos_in_distribution\": false,\n  \"components\": [\n    {\n      \"file\": \"vendor/chakra-petch-600.ttf\",\n      \"license\": \"OFL-1.1\",\n      \"source\": \"https://github.com/google/fonts/tree/main/ofl/chakrapetch\",\n      \"sha256\": \"b27ff10e18f96386894f25a9e53a3b7c0244a70556461d2a9a99acb3465299fa\",\n      \"bytes\": 70240\n    },\n    {\n      \"file\": \"vendor/ibm-plex-mono-400.ttf\",\n      \"license\": \"OFL-1.1\",\n      \"source\": \"https://github.com/google/fonts/tree/main/ofl/ibmplexmono\",\n      \"sha256\": \"a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2\",\n      \"bytes\": 128812\n    },\n    {\n      \"component\": \"pico.js adapted code\",\n      \"file\": \"dist/face.mjs\",\n      \"license\": \"MIT\",\n      \"upstream\": \"https://github.com/nenadmarkus/picojs\",\n      \"upstream_revision_inspected\": \"afffa50ec4134a47005f2cbf8112eaa69f65f37e\",\n      \"adapted\": true,\n      \"sha256\": \"5c72587e002279f4dc46ae7434727cc87a6b331accaa9faa88c7688fc6ba78b6\",\n      \"bytes\": 328584\n    },\n    {\n      \"component\": \"embedded facefinder model\",\n      \"license\": \"MIT\",\n      \"source_revision\": \"7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8\",\n      \"source\": \"https://github.com/nenadmarkus/pico/blob/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/rnt/cascades/facefinder\",\n      \"license_source\": \"https://github.com/nenadmarkus/pico/blob/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/LICENSE\",\n      \"bytes\": 239632,\n      \"sha256\": \"d8014993e7298c7b1865d1f8b855d6dbf4ec5c808bf879e2091ab6837abf90cd\",\n      \"byte_identical_to_current_upstream\": true,\n      \"historical_license_warning\": \"Older c2e81f9d revision had noncommercial terms; use this recorded MIT distribution.\"\n    },\n    {\n      \"file\": \"dist/sound.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"original adaptive Circuit Bloom and calm Quiet Orbit procedural music; separate scoped music/effects/voice lanes\",\n      \"sha256\": \"70cd1679aa6f9f79f6d487e210d09dd7d6b47fd064827a84d186c69218afc794\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 17625\n    },\n    {\n      \"file\": \"dist/impact.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"procedural impact effects\",\n      \"sha256\": \"4a0d344810475121ef1c08180a178deca19e9608c6794df147a8c397d42b6de1\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 2710\n    },\n    {\n      \"file\": \"dist/avatars.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"classic character bodies and head silhouette; photo head width increased 7%, cached high-quality resampling\",\n      \"sha256\": \"8df503ae064e4fc9e360b5fab96bf61691524bf079baa1c26fb9d8598fd173ae\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 6191\n    },\n    {\n      \"file\": \"dist/icon.svg\",\n      \"origin\": \"created with OpenAI image generation for this project\",\n      \"kind\": \"self-contained favicon derived from Popzuno generated master\",\n      \"sha256\": \"38a9eff1c2f9df438345738fa77a9bebef55f9201d4e57d4e6dac6fe6e613a88\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 20780\n    },\n    {\n      \"component\": \"optional arcade cheers\",\n      \"files\": [\n        \"dist/cheers.mjs\",\n        \"dist/voice-bank.mjs\",\n        \"vendor/ANNOUNCER-ASSETS.json\"\n      ],\n      \"origin\": \"Seven fixed expressive synthetic clips generated locally with Chatterbox (MIT); synthetic-only Kokoro-82M (Apache-2.0) reference; no human reference recording\",\n      \"recorded_voice_assets_shipped\": false,\n      \"network_voice_usage\": false,\n      \"voice_model_redistributed\": false,\n      \"cached_phrase_limit\": 7,\n      \"generated_voice_assets_shipped\": true,\n      \"provenance\": \"vendor/ANNOUNCER-ASSETS.json\",\n      \"license_notice\": \"vendor/music-NOTICE.txt\",\n      \"sha256\": \"5f6d801fe329c5a6f6d8c8fb87e7116b621401ab746306b7e7a0c508b67a8df4\",\n      \"watermark\": \"Default PerTh retained\",\n      \"intelligibility\": \"seven fixed phrases matched unprompted local speech recognition; owner listening remains subjective review\"\n    },\n    {\n      \"file\": \"branding/popzuno-master.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"ad28071802153318e9dc342a5012367292d9041e972c5647fcbd8074f48fdc84\",\n      \"bytes\": 1486876,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"branding/popzuno-icon-1024.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"5fb7802d9e241444f3ffcf28be3f6e41292f8cfa7776f5a08b2afe6af1bad1b7\",\n      \"bytes\": 1103914,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"branding/popzuno-logo.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"35150cfa0d8225b19f2943b510218f6062d6c869fce7a5b866f4da52741ee280\",\n      \"bytes\": 278301,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"dist/assets/popzuno-mark.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"3b92494c3636a8cd90cd0ba753160b9c9c2fb6cf370da258d69f386bd9f11e68\",\n      \"bytes\": 90898,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"dist/arcade-refresh.css\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"readable arcade UI and bounded CSS laser/warp effects\",\n      \"sha256\": \"b5a06d1eeebfd92ed734282422f302c401d2af9feb400b6296a59ac286cd1d3b\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 28770\n    }\n  ]\n}\n"
   }
 ];
 
@@ -3621,15 +3647,38 @@ class FlowAudio{
 
 return {REWARD_SOUNDS,FLOW_MELODY,RELAX_TEMPO,flowTempo,FlowAudio};
 },
+"alignment":function(__load){
+// Image alignment is local to the native app; no photos leave the device.
+function safePhotoAngle(result){
+ if(!result||result.faces!==1||!Number.isFinite(result.confidence)||result.confidence<.7||!Number.isFinite(result.eyeDistance)||result.eyeDistance<.15||result.eyeDistance>.65||!Number.isFinite(result.angle)||Math.abs(result.angle)>14)return 0;
+ if(Math.abs(result.angle)<1.5)return 0;
+ return Math.round(Math.max(-8,Math.min(8,result.angle))*10)/10;
+}
+function createPhotoAligner({target=globalThis,send,timeoutMs=1800}={}){
+ const pending=new Map(),prefix='photo-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);let serial=0;
+ const finish=(id,angle)=>{const item=pending.get(id);if(!item)return;clearTimeout(item.timer);pending.delete(id);item.resolve(angle);};
+ const listener=event=>{const result=event.detail;if(result&&typeof result.id==='string'&&pending.has(result.id))finish(result.id,safePhotoAngle(result));};
+ target.addEventListener?.('popzuno:photo-alignment',listener);
+ function request(photo){
+  const post=send??(value=>{const handler=globalThis.webkit?.messageHandlers?.bulusko;if(!globalThis.__POPZUNO_PHOTO_ALIGNMENT__||!handler?.postMessage)return false;handler.postMessage(value);return true;});
+  if(typeof photo!=='string'||photo.length>160000||!/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(photo))return Promise.resolve(0);
+  return new Promise(resolve=>{const id=prefix+'-'+(++serial),timer=setTimeout(()=>finish(id,0),timeoutMs);pending.set(id,{resolve,timer});try{if(post({type:'photoAlign',id,photo})===false)finish(id,0);}catch{finish(id,0);}});
+ }
+ function clear(){for(const id of [...pending.keys()])finish(id,0);}
+ return {supported:!!globalThis.__POPZUNO_PHOTO_ALIGNMENT__,request,clear,destroy(){clear();target.removeEventListener?.('popzuno:photo-alignment',listener);}};
+}
+
+return {safePhotoAngle,createPhotoAligner};
+},
 "avatars":function(__load){
 const FAMILY_COLORS=['#ff637c','#a488ff','#35d7b3','#ffd346','#4dafff','#ff83da','#a7e543'];
 const DEFAULT_NAMES={tr:['Ada','Arda','Deniz','Lale','Bora','Eda','Can'],en:['Ada','Arda','Deniz','Lale','Bora','Eda','Can']};
-function createAvatars(colors){
- const images=new Map(),cache=new Map();
+function createAvatars(colors,{alignPhoto=()=>Promise.resolve(0),onUpdate}={}){
+ const images=new Map(),angles=new Map(),cache=new Map();let loadVersion=0;
  function decode(data){return new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=reject;image.src=data;});}
  function oval(ctx,x,y,rx,ry,color){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();}
  function portrait(index,person={}){
-  const previous=cache.get(index);if(previous&&previous.photo===person.photo&&previous.zoom===person.zoom&&previous.x===person.x&&previous.y===person.y)return previous.url;
+  const previous=cache.get(index);if(previous&&previous.photo===person.photo&&previous.zoom===person.zoom&&previous.x===person.x&&previous.y===person.y&&previous.rotation===person.rotation&&previous.autoAngle===(angles.get(person.photo)||0))return previous.url;
   const canvas=document.createElement('canvas');canvas.width=256;canvas.height=256;const c=canvas.getContext('2d'),color=colors[index];
   c.translate(128,128);c.scale(128,128);
   const bg=c.createRadialGradient(-.25,-.45,0,0,0,1.4);bg.addColorStop(0,color+'80');bg.addColorStop(1,'#171a2b');c.fillStyle=bg;c.fillRect(-1,-1,2,2);
@@ -3642,17 +3691,27 @@ function createAvatars(colors){
   c.strokeStyle='#ecf3ff45';c.lineWidth=.025;for(const side of [-1,1]){c.beginPath();c.moveTo(side*.4,.4);c.lineTo(side*.53,.92);c.stroke();c.fillStyle='#111d3340';c.fillRect(side<0?-.6:.32,.64,.28,.13);}
   c.strokeStyle='#e8f2ff70';c.beginPath();c.moveTo(0,.6);c.lineTo(0,1);c.stroke();c.fillStyle=color;c.fillRect(.42,.52,.15,.04);
   oval(c,-.43,-.25,.11,.18,skin);oval(c,.43,-.25,.11,.18,skin);
-  c.save();c.beginPath();c.moveTo(0,-.93);c.bezierCurveTo(.65,-.94,.61,-.23,.38,.12);c.quadraticCurveTo(0,.46,-.38,.12);c.bezierCurveTo(-.61,-.23,-.65,-.94,0,-.93);c.closePath();c.clip();c.fillStyle=skin;c.fillRect(-.6,-1,1.2,1.5);
-  if(img){const zoom=person.zoom||1,size=256/zoom,sx=(256-size)*(person.x??.5),sy=(256-size)*(person.y??.5);c.drawImage(img,sx,sy,size,size,-.57,-.98,1.14,1.42);const blend=c.createLinearGradient(0,.04,0,.4);blend.addColorStop(0,'#00000000');blend.addColorStop(1,skin);c.fillStyle=blend;c.fillRect(-.6,.04,1.2,.4);}else{
+  // Photo heads get a small width lift; the original body and drawn faces stay intact.
+  c.save();if(img)c.scale(1.13,1);c.beginPath();c.moveTo(0,-.93);c.bezierCurveTo(.65,-.94,.61,-.23,.38,.12);c.quadraticCurveTo(0,.46,-.38,.12);c.bezierCurveTo(-.61,-.23,-.65,-.94,0,-.93);c.closePath();c.clip();c.fillStyle=skin;c.fillRect(-.6,-1,1.2,1.5);
+  if(img){const zoom=person.zoom||1,size=256/zoom,sx=(256-size)*(person.x??.5),sy=(256-size)*(person.y??.5);c.imageSmoothingQuality='high';const angle=rotation(index,person),radians=angle*Math.PI/180;c.save();c.translate(0,-.27);c.rotate(radians);const cover=1+Math.abs(angle)/300;c.scale(cover,cover);c.translate(0,.27);c.drawImage(img,sx,sy,size,size,-.57,-.98,1.14,1.42);c.restore();const blend=c.createLinearGradient(0,.04,0,.4);blend.addColorStop(0,'#00000000');blend.addColorStop(1,skin);c.fillStyle=blend;c.fillRect(-.6,.04,1.2,.4);}else{
    oval(c,-.22,-.19,.1,.065,'#fff4e4');oval(c,.22,-.19,.1,.065,'#fff4e4');for(const x of [-.22,.22]){oval(c,x,-.18,.042,.055,'#283044');oval(c,x+.015,-.2,.015,.018,'white');}
    c.strokeStyle='#55413c';c.lineWidth=.035;for(const x of [-.22,.22]){c.beginPath();c.moveTo(x-.095,-.34);c.quadraticCurveTo(x,-.39,x+.09,-.34);c.stroke();}
    c.strokeStyle='#975e55';c.lineWidth=.025;c.beginPath();c.moveTo(-.15,.08);c.quadraticCurveTo(0,.2,.16,.07);c.stroke();c.strokeStyle='#a47561';c.beginPath();c.moveTo(0,-.18);c.lineTo(-.04,-.01);c.lineTo(.04,0);c.stroke();
   }c.restore();
   if(!img){c.fillStyle=['#473144','#302f3e','#342b28','#593a35','#253143','#4d3242','#37313b'][index];c.beginPath();c.moveTo(-.5,-.22);c.bezierCurveTo(-.75,-1.15,.35,-1.25,.51,-.7);c.quadraticCurveTo(.62,-.4,.47,-.14);c.lineTo(.34,-.56);c.quadraticCurveTo(-.1,-.39,-.28,-.67);c.closePath();c.fill();c.strokeStyle='#ffffff24';c.lineWidth=.035;c.beginPath();c.moveTo(-.25,-.83);c.quadraticCurveTo(.1,-1,.31,-.75);c.stroke();}
   c.fillStyle='#10182755';c.beginPath();c.moveTo(-.2,.28);c.lineTo(-.35,.38);c.lineTo(-.1,.66);c.lineTo(0,.49);c.closePath();c.fill();c.beginPath();c.moveTo(.2,.28);c.lineTo(.35,.38);c.lineTo(.1,.66);c.lineTo(0,.49);c.closePath();c.fill();
-  const result=canvas.toDataURL('image/png');cache.set(index,{photo:person.photo,zoom:person.zoom,x:person.x,y:person.y,url:result});return result;
+  const result=canvas.toDataURL('image/png');cache.set(index,{photo:person.photo,zoom:person.zoom,x:person.x,y:person.y,rotation:person.rotation,autoAngle:angles.get(person.photo)||0,url:result});return result;
  }
- return {portrait,async load(people){const current=new Set(people.map(p=>p.photo));for(const photo of images.keys())if(!current.has(photo))images.delete(photo);await Promise.all(people.map(async p=>{if(p.photo&&!images.has(p.photo)){try{images.set(p.photo,await decode(p.photo));}catch{p.photo=null;}}}));cache.clear();},clear(){images.clear();cache.clear();}};
+ function rotation(index,person={}){return Number.isFinite(person.rotation)?Math.max(-12,Math.min(12,person.rotation)):angles.get(person.photo)||0;}
+ async function load(people){
+  const job=++loadVersion,current=new Set(people.map(p=>p.photo).filter(Boolean));
+  for(const photo of images.keys())if(!current.has(photo)){images.delete(photo);angles.delete(photo);}
+  await Promise.all([...current].map(async photo=>{if(!images.has(photo)){try{const image=await decode(photo);if(job===loadVersion)images.set(photo,image);}catch{}}}));
+  if(job!==loadVersion)return;cache.clear();onUpdate?.();
+  await Promise.all([...current].map(async photo=>{if(images.has(photo)&&!angles.has(photo)){const angle=await alignPhoto(photo);if(job===loadVersion)angles.set(photo,Number.isFinite(angle)?Math.max(-8,Math.min(8,angle)):0);}}));
+  if(job!==loadVersion)return;cache.clear();onUpdate?.();
+ }
+ return {portrait,rotation,load,async realign(photo){const job=loadVersion;if(!images.has(photo))return 0;const angle=await alignPhoto(photo);if(job!==loadVersion)return 0;angles.set(photo,Number.isFinite(angle)?Math.max(-8,Math.min(8,angle)):0);cache.clear();onUpdate?.();return angles.get(photo);},clear(){loadVersion++;images.clear();angles.clear();cache.clear();}};
 }
 
 return {FAMILY_COLORS,DEFAULT_NAMES,createAvatars};
@@ -3896,6 +3955,7 @@ return {prepare,decode,cancel(){loadVersion++;}};
 return {createFaceProcessor};
 },
 "app":function(__load){
+const {createPhotoAligner}=__load("alignment");
 const {LANGUAGES,normalizeLanguage}=__load("locales");
 const {readFlow,writeFlow,clearFlow,normalizePeople}=__load("storage");
 const {privacyCopy,SUPPORT_EMAIL}=__load("privacy");
@@ -3912,7 +3972,7 @@ const raw=readFlow('settings',{}),settings=raw&&typeof raw==='object'?raw:{};
 let language=normalizeLanguage(settings.language),tide=null,lastTime=0,editingPerson=0,photoBusy=false,photoJob=0,noticeTimer=0,resetting=false;
 const initialMode=openingMode(settings);
 const t=(key,values)=>flowTranslate(language,key,values);
-const people=normalizePeople(readFlow('people',[])),avatars=createAvatars(FAMILY_COLORS),faces=createFaceProcessor();
+const people=normalizePeople(readFlow('people',[])),aligner=createPhotoAligner(),avatars=createAvatars(FAMILY_COLORS,{alignPhoto:aligner.request,onUpdate:()=>{refreshPortraits();if(el('family-dialog').open)renderPeople();}}),faces=createFaceProcessor();
 const audio=new FlowAudio({enabled:settings.sound!==false,music:settings.music!==false,cheers:settings.cheers!==false,cheerVolume:settings.cheerVolume,volume:Number.isFinite(settings.volume)?Math.max(0,Math.min(1,settings.volume)):.5});
 const escapeText=value=>String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const personName=index=>people[index]?.name||(DEFAULT_NAMES[language]??DEFAULT_NAMES.en)[index],avatar=index=>avatars.portrait(index,people[index]);
@@ -3945,30 +4005,31 @@ el('support-email').addEventListener('click',event=>{const native=globalThis.web
 window.addEventListener('kynburst:privacy',openPrivacy);
 window.addEventListener('kynburst:back',()=>{const dialog=[...document.querySelectorAll('dialog[open]')].at(-1);if(dialog)dialog.close();else if(tide?.back())return;else globalThis.webkit?.messageHandlers?.bulusko?.postMessage({type:'exit'});});
 el('reset-open').addEventListener('click',()=>{el('reset-error').textContent='';el('reset-confirm').disabled=false;openDialog('reset-dialog');});
-el('reset-confirm').addEventListener('click',()=>{pauseGame();audio.stop();photoJob++;faces.cancel();resetting=true;el('reset-confirm').disabled=true;const result=clearFlow();if(result.ok){if(!result.managedByNative)location.reload();}else{resetting=false;el('reset-error').textContent=privacyCopy(language).error;el('reset-confirm').disabled=false;}});
+el('reset-confirm').addEventListener('click',()=>{pauseGame();audio.stop();aligner.clear();avatars.clear();photoJob++;faces.cancel();resetting=true;el('reset-confirm').disabled=true;const result=clearFlow();if(result.ok){if(!result.managedByNative)location.reload();}else{resetting=false;el('reset-error').textContent=privacyCopy(language).error;el('reset-confirm').disabled=false;}});
 if(globalThis.webkit?.messageHandlers?.bulusko)el('native-settings').hidden=false;
 el('native-settings').addEventListener('click',()=>{closeDialog('help-dialog',false);pauseGame();globalThis.webkit?.messageHandlers?.bulusko?.postMessage({type:'settings'});});
 function renderPeople(){
  el('family-tabs').innerHTML=people.map((person,i)=>`<button class="family-tab" data-person="${i}" aria-label="${escapeText(personName(i))}" aria-pressed="${editingPerson===i}" ${photoBusy?'disabled':''}><img src="${avatar(i)}" alt=""></button>`).join('');
  for(const button of el('family-tabs').children)button.addEventListener('click',()=>{editingPerson=Number(button.dataset.person);el('photo-status').textContent='';renderPeople();});
- const p=people[editingPerson];el('person-preview').src=avatar(editingPerson);el('person-preview').alt=personName(editingPerson);el('person-name').value=p.name;el('person-name').placeholder=(DEFAULT_NAMES[language]??DEFAULT_NAMES.en)[editingPerson];el('person-name').disabled=photoBusy;el('person-photo').disabled=photoBusy;el('person-delete').disabled=!p.photo||photoBusy;
- el('crop-zoom').value=p.zoom;el('crop-x').value=p.x;el('crop-y').value=p.y;for(const id of ['crop-zoom','crop-x','crop-y'])el(id).disabled=!p.photo||photoBusy;
+ const p=people[editingPerson];el('person-preview').src=avatar(editingPerson);el('person-preview').alt=personName(editingPerson);el('crop-rotation').value=avatars.rotation(editingPerson,p);el('crop-angle-value').textContent=avatars.rotation(editingPerson,p).toFixed(1)+'°';el('crop-auto').disabled=!p.photo||photoBusy;el('crop-auto').dataset.text=aligner.supported?'autoAlign':'resetAngle';el('crop-auto').textContent=t(aligner.supported?'autoAlign':'resetAngle');el('person-name').value=p.name;el('person-name').placeholder=(DEFAULT_NAMES[language]??DEFAULT_NAMES.en)[editingPerson];el('person-name').disabled=photoBusy;el('person-photo').disabled=photoBusy;el('person-delete').disabled=!p.photo||photoBusy;
+ el('crop-zoom').value=p.zoom;el('crop-x').value=p.x;el('crop-y').value=p.y;for(const id of ['crop-zoom','crop-x','crop-y','crop-rotation'])el(id).disabled=!p.photo||photoBusy;
 }
 function refreshPortraits(){tide?.refresh();}
 function savePeople(){if(resetting)return;if(!writeFlow('people',people))el('photo-status').textContent=t('saveError');}
 el('family-open').addEventListener('click',()=>{renderPeople();openDialog('family-dialog');});
 el('person-name').addEventListener('change',event=>{people[editingPerson].name=event.target.value.trim().slice(0,24);savePeople();renderPeople();tide?.refresh();});
-for(const [id,field]of [['crop-zoom','zoom'],['crop-x','x'],['crop-y','y']]){
- el(id).addEventListener('input',event=>{people[editingPerson][field]=Number(event.target.value);el('person-preview').src=avatar(editingPerson);});
+for(const [id,field]of [['crop-zoom','zoom'],['crop-x','x'],['crop-y','y'],['crop-rotation','rotation']]){
+ el(id).addEventListener('input',event=>{people[editingPerson][field]=Number(event.target.value);el('person-preview').src=avatar(editingPerson);el('crop-angle-value').textContent=avatars.rotation(editingPerson,people[editingPerson]).toFixed(1)+'°';});
  el(id).addEventListener('change',()=>{savePeople();renderPeople();refreshPortraits();});
 }
+el('crop-auto').addEventListener('click',async()=>{if(photoBusy||!people[editingPerson].photo)return;const person=editingPerson,job=++photoJob;photoBusy=true;renderPeople();try{await avatars.realign(people[person].photo);if(job!==photoJob)return;people[person].rotation=null;savePeople();refreshPortraits();el('photo-status').textContent=aligner.supported?t('alignmentReady'):'';}finally{if(job===photoJob){photoBusy=false;renderPeople();}}});
 el('person-photo').addEventListener('change',async event=>{
  const file=event.target.files?.[0];if(!file||photoBusy)return;const person=editingPerson,job=++photoJob;photoBusy=true;el('photo-status').textContent=t('processing');renderPeople();
- try{const result=await faces.prepare(file);if(job!==photoJob)return;people[person]={...people[person],photo:result.data,zoom:1,x:.5,y:.5};await avatars.load(people);el('photo-status').textContent=t(result.detected?'photoReady':'photoFallback');savePeople();refreshPortraits();}
+ try{const result=await faces.prepare(file);if(job!==photoJob)return;people[person]={...people[person],photo:result.data,rotation:null,zoom:1,x:.5,y:.5};await avatars.load(people);el('photo-status').textContent=t(result.detected?'photoReady':'photoFallback');savePeople();refreshPortraits();}
  catch(error){if(job===photoJob)el('photo-status').textContent=t(error.message==='size'?'photoSize':'photoError');}
  finally{if(job===photoJob)photoBusy=false;event.target.value='';renderPeople();}
 });
-el('person-delete').addEventListener('click',async()=>{people[editingPerson].photo=null;people[editingPerson].zoom=1;avatars.clear();await avatars.load(people);savePeople();renderPeople();refreshPortraits();el('photo-status').textContent=t('deleted');});
+el('person-delete').addEventListener('click',async()=>{people[editingPerson].photo=null;people[editingPerson].rotation=null;people[editingPerson].zoom=1;avatars.clear();await avatars.load(people);savePeople();renderPeople();refreshPortraits();el('photo-status').textContent=t('deleted');});
 function updateAudio(){el('sound-toggle').setAttribute('aria-pressed',String(audio.enabled));el('sound-toggle').setAttribute('aria-label',t('sound'));el('sound-toggle').querySelector('use').setAttribute('href',audio.enabled?'#icon-sound':'#icon-mute');el('audio-toggle').checked=audio.enabled;el('music-toggle').checked=audio.music;el('cheers-toggle').checked=audio.cheers;el('cheer-volume').value=Math.round(audio.cheerVolume*100);el('volume').value=Math.round(audio.volume*100);}
 el('sound-toggle').addEventListener('click',()=>{audio.setEnabled(!audio.enabled);if(audio.enabled){audio.unlock();audio.effect('select');}persistSettings();updateAudio();});
 el('cheer-volume').addEventListener('input',event=>audio.setCheerVolume(Number(event.target.value)/100));el('cheer-volume').addEventListener('change',persistSettings);

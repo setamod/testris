@@ -39,16 +39,16 @@ for(const [lang,[camera,photo]]of Object.entries(permissionCopy)){
  refs['lang-'+lang]=add('ref-lang-'+lang,{isa:'PBXFileReference',lastKnownFileType:'folder',path:lang+'.lproj',sourceTree:'<group>'});
 }
 for(const [name,path,type] of [
- ['app','BuluskoApp.swift','sourcecode.swift'],['web','GameWebView.swift','sourcecode.swift'],['audio','Haptics.swift','sourcecode.swift'],['announcer','ArcadeAnnouncer.swift','sourcecode.swift'],['profile','NativeStore.swift','sourcecode.swift'],
+ ['app','BuluskoApp.swift','sourcecode.swift'],['web','GameWebView.swift','sourcecode.swift'],['audio','Haptics.swift','sourcecode.swift'],['announcer','ArcadeAnnouncer.swift','sourcecode.swift'],['profile','NativeStore.swift','sourcecode.swift'],['photo','PhotoAlignment.swift','sourcecode.swift'],
  ['info','Info.plist','text.plist.xml'],['privacy','PrivacyInfo.xcprivacy','text.xml'],
  ['assets','Assets.xcassets','folder.assetcatalog'],['game','Resources/Game','folder'],['legal','Resources/Legal','folder']
 ])refs[name]=add(`ref-${name}`,{isa:'PBXFileReference',lastKnownFileType:type,path,sourceTree:'<group>'});
 const product=add('product',{isa:'PBXFileReference',explicitFileType:'wrapper.application',includeInIndex:0,path:'Bulusko.app',sourceTree:'BUILT_PRODUCTS_DIR'});
-for(const name of ['app','web','audio','announcer','profile','privacy','assets','game','legal',...Object.keys(permissionCopy).map(lang=>'lang-'+lang)])add(`build-${name}`,{isa:'PBXBuildFile',fileRef:refs[name]});
+for(const name of ['app','web','audio','announcer','profile','photo','privacy','assets','game','legal',...Object.keys(permissionCopy).map(lang=>'lang-'+lang)])add(`build-${name}`,{isa:'PBXBuildFile',fileRef:refs[name]});
 add('main-group',{isa:'PBXGroup',children:[id('app-group'),id('products-group')],sourceTree:'<group>'});
 add('app-group',{isa:'PBXGroup',path:'Bulusko',children:Object.values(refs),sourceTree:'<group>'});
 add('products-group',{isa:'PBXGroup',name:'Products',children:[product],sourceTree:'<group>'});
-add('sources',{isa:'PBXSourcesBuildPhase',buildActionMask:2147483647,files:['app','web','audio','announcer','profile'].map(n=>id(`build-${n}`)),runOnlyForDeploymentPostprocessing:0});
+add('sources',{isa:'PBXSourcesBuildPhase',buildActionMask:2147483647,files:['app','web','audio','announcer','profile','photo'].map(n=>id(`build-${n}`)),runOnlyForDeploymentPostprocessing:0});
 add('resources',{isa:'PBXResourcesBuildPhase',buildActionMask:2147483647,files:['privacy','assets','game','legal',...Object.keys(permissionCopy).map(lang=>'lang-'+lang)].map(n=>id(`build-${n}`)),runOnlyForDeploymentPostprocessing:0});
 add('frameworks',{isa:'PBXFrameworksBuildPhase',buildActionMask:2147483647,files:[],runOnlyForDeploymentPostprocessing:0});
 const commonProject={CLANG_ENABLE_MODULES:'YES',CLANG_ENABLE_OBJC_ARC:'YES',IPHONEOS_DEPLOYMENT_TARGET:'16.0',SDKROOT:'iphoneos',SWIFT_VERSION:'5.0'};

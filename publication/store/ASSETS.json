@@ -32,8 +32,8 @@
       "file": "android-gameplay-tr.png",
       "width": 1080,
       "height": 2400,
-      "bytes": 806336,
-      "sha256": "573afd9a731c7e04f03f4d9c5ddb239050d4d575282faa52d4faf1c986901aef"
+      "bytes": 829434,
+      "sha256": "58d925d0d289afbcf917827d1f9d4c9e052ad8fdafa890cf566aa3851175ada4"
     },
     {
       "file": "android-time-rush-en.png",
@@ -46,15 +46,15 @@
       "file": "android-time-critical-en.png",
       "width": 1080,
       "height": 2400,
-      "bytes": 800715,
-      "sha256": "25e0f6dedd763b7776cee9c4a5318e5ef71f93d61f4854126094e9146537c206"
+      "bytes": 804202,
+      "sha256": "3ee7693807b7e9da27c24c31bd4afb75eeabf28181879d36937b5f26cfc2b9f2"
     },
     {
       "file": "android-time-ended-en.png",
       "width": 1080,
       "height": 2400,
-      "bytes": 502773,
-      "sha256": "f456afbc43c0ae9b085436eeda9147401249bf5400487f831c920b52c34aa6f5"
+      "bytes": 502701,
+      "sha256": "cf3ce6afa1e10ea08963bc9e39487e25580914a5e5449ec093c3769bbf2f8a83"
     }
   ],
   "screenshots": "actual simulator/emulator captures with default illustrated characters; no personal photos",
