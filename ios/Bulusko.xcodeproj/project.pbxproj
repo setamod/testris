@@ -78,6 +78,30 @@
 			"path" = "PhotoAlignment.swift";
 			"sourceTree" = "<group>";
 		};
+		"8E3C5444F7F08C4853BA0AB1" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "CommerceConfig.swift";
+			"sourceTree" = "<group>";
+		};
+		"02983A7C857360BD0A2A2FF1" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "CommerceLedger.swift";
+			"sourceTree" = "<group>";
+		};
+		"E3BA97986BFA73B6DA3DEE2F" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "CommerceService.swift";
+			"sourceTree" = "<group>";
+		};
+		"590FFC484089A3F2223A2923" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "PremiumStore.swift";
+			"sourceTree" = "<group>";
+		};
 		"8360315E538080A33058A725" = {
 			"isa" = "PBXFileReference";
 			"lastKnownFileType" = "text.plist.xml";
@@ -139,6 +163,22 @@
 			"isa" = "PBXBuildFile";
 			"fileRef" = "2E54593F9C136E00CA9BF628";
 		};
+		"D815375EB6E8C5D51E2272C9" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "8E3C5444F7F08C4853BA0AB1";
+		};
+		"236A9E9653D5FF2A75882E5E" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "02983A7C857360BD0A2A2FF1";
+		};
+		"D4E6BBA7B8A4D5CDC9ED5844" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "E3BA97986BFA73B6DA3DEE2F";
+		};
+		"1D855074566B706B97CEC2D3" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "590FFC484089A3F2223A2923";
+		};
 		"B2F8856D84404BFB4596493A" = {
 			"isa" = "PBXBuildFile";
 			"fileRef" = "2D573710F1CF4A362C8279B6";
@@ -184,6 +224,7 @@
 			"children" = (
 				"A91E77E4CC8FB9C2E726B078",
 				"8F62E8E9D5D1B5F4E71D46A4",
+				"33AA8F898783AEFDE38E5377",
 			);
 			"sourceTree" = "<group>";
 		};
@@ -203,6 +244,10 @@
 				"1839AA608A06FF3673E15A42",
 				"EC5CE25765A4A10BB3C140A6",
 				"2E54593F9C136E00CA9BF628",
+				"8E3C5444F7F08C4853BA0AB1",
+				"02983A7C857360BD0A2A2FF1",
+				"E3BA97986BFA73B6DA3DEE2F",
+				"590FFC484089A3F2223A2923",
 				"8360315E538080A33058A725",
 				"2D573710F1CF4A362C8279B6",
 				"353DFCE509CD72373A316C8F",
@@ -216,6 +261,7 @@
 			"name" = "Products";
 			"children" = (
 				"330E46BF915FB32283A3E9E7",
+				"BBE158FC47D8680FDA4976F1",
 			);
 			"sourceTree" = "<group>";
 		};
@@ -229,6 +275,10 @@
 				"55392958465E83682509844F",
 				"E1E1CB448B0EC3D7F0023023",
 				"222B0D3A8DC2E9E988766245",
+				"D815375EB6E8C5D51E2272C9",
+				"236A9E9653D5FF2A75882E5E",
+				"D4E6BBA7B8A4D5CDC9ED5844",
+				"1D855074566B706B97CEC2D3",
 			);
 			"runOnlyForDeploymentPostprocessing" = 0;
 		};
@@ -253,9 +303,44 @@
 			"isa" = "PBXFrameworksBuildPhase";
 			"buildActionMask" = 2147483647;
 			"files" = (
-
+				"22682CBE80936BFF5688AABF",
+				"B6560C921B0FD4E5922A00FE",
 			);
 			"runOnlyForDeploymentPostprocessing" = 0;
+		};
+		"3D4FC78BC16A3CFD4EB1C796" = {
+			"isa" = "XCRemoteSwiftPackageReference";
+			"repositoryURL" = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			"requirement" = {
+				"kind" = "exactVersion";
+				"version" = "13.11.0";
+			};
+		};
+		"2F3660B35D11EFBB36001F0F" = {
+			"isa" = "XCSwiftPackageProductDependency";
+			"package" = "3D4FC78BC16A3CFD4EB1C796";
+			"productName" = "GoogleMobileAds";
+		};
+		"22682CBE80936BFF5688AABF" = {
+			"isa" = "PBXBuildFile";
+			"productRef" = "2F3660B35D11EFBB36001F0F";
+		};
+		"547A4550B61193B3405C4EE3" = {
+			"isa" = "XCRemoteSwiftPackageReference";
+			"repositoryURL" = "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git";
+			"requirement" = {
+				"kind" = "exactVersion";
+				"version" = "3.1.0";
+			};
+		};
+		"193D3F9E6EEEA8537748E81C" = {
+			"isa" = "XCSwiftPackageProductDependency";
+			"package" = "547A4550B61193B3405C4EE3";
+			"productName" = "GoogleUserMessagingPlatform";
+		};
+		"B6560C921B0FD4E5922A00FE" = {
+			"isa" = "PBXBuildFile";
+			"productRef" = "193D3F9E6EEEA8537748E81C";
 		};
 		"06D9CB248B01AF61D11E4963" = {
 			"isa" = "XCBuildConfiguration";
@@ -306,16 +391,20 @@
 			"buildSettings" = {
 				"ASSETCATALOG_COMPILER_APPICON_NAME" = "AppIcon";
 				"CODE_SIGN_STYLE" = "Automatic";
-				"CURRENT_PROJECT_VERSION" = "26";
+				"CURRENT_PROJECT_VERSION" = "27";
 				"DEVELOPMENT_TEAM" = "S78QDU24NX";
 				"ENABLE_PREVIEWS" = "YES";
 				"GENERATE_INFOPLIST_FILE" = "NO";
 				"INFOPLIST_FILE" = "Bulusko/Info.plist";
+				"OTHER_LDFLAGS" = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				"LD_RUNPATH_SEARCH_PATHS" = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"MARKETING_VERSION" = "0.9.17";
+				"MARKETING_VERSION" = "0.10.0";
 				"PRODUCT_BUNDLE_IDENTIFIER" = "com.mertbekisoglu.bulusko";
 				"PRODUCT_NAME" = "$(TARGET_NAME)";
 				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";
@@ -323,6 +412,7 @@
 				"SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD" = "NO";
 				"SWIFT_EMIT_LOC_STRINGS" = "YES";
 				"TARGETED_DEVICE_FAMILY" = "1";
+				"POPZUNO_ADMOB_APP_ID" = "ca-app-pub-3940256099942544~1458002511";
 			};
 			"name" = "Debug";
 		};
@@ -331,16 +421,20 @@
 			"buildSettings" = {
 				"ASSETCATALOG_COMPILER_APPICON_NAME" = "AppIcon";
 				"CODE_SIGN_STYLE" = "Automatic";
-				"CURRENT_PROJECT_VERSION" = "26";
+				"CURRENT_PROJECT_VERSION" = "27";
 				"DEVELOPMENT_TEAM" = "S78QDU24NX";
 				"ENABLE_PREVIEWS" = "YES";
 				"GENERATE_INFOPLIST_FILE" = "NO";
 				"INFOPLIST_FILE" = "Bulusko/Info.plist";
+				"OTHER_LDFLAGS" = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				"LD_RUNPATH_SEARCH_PATHS" = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				"MARKETING_VERSION" = "0.9.17";
+				"MARKETING_VERSION" = "0.10.0";
 				"PRODUCT_BUNDLE_IDENTIFIER" = "com.mertbekisoglu.bulusko";
 				"PRODUCT_NAME" = "$(TARGET_NAME)";
 				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";
@@ -348,6 +442,7 @@
 				"SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD" = "NO";
 				"SWIFT_EMIT_LOC_STRINGS" = "YES";
 				"TARGETED_DEVICE_FAMILY" = "1";
+				"POPZUNO_ADMOB_APP_ID" = "ca-app-pub-0000000000000000~0000000000";
 			};
 			"name" = "Release";
 		};
@@ -373,6 +468,10 @@
 			);
 			"dependencies" = (
 
+			);
+			"packageProductDependencies" = (
+				"2F3660B35D11EFBB36001F0F",
+				"193D3F9E6EEEA8537748E81C",
 			);
 			"name" = "Bulusko";
 			"productName" = "Bulusko";
@@ -409,9 +508,147 @@
 			"productRefGroup" = "8F62E8E9D5D1B5F4E71D46A4";
 			"projectDirPath" = "";
 			"projectRoot" = "";
+			"packageReferences" = (
+				"3D4FC78BC16A3CFD4EB1C796",
+				"547A4550B61193B3405C4EE3",
+			);
 			"targets" = (
 				"AAB396445E4CE2C2C58E8FFC",
+				"AD83C1B1FE4E1C6C5B753CEE",
 			);
+		};
+		"88F7EA761ADC9F9C5FDBCE0B" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "PremiumStoreTests.swift";
+			"sourceTree" = "<group>";
+		};
+		"CF0CB32755377D43D8A2058A" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "text.json";
+			"path" = "PopzunoPremium.storekit";
+			"sourceTree" = "<group>";
+		};
+		"BBE158FC47D8680FDA4976F1" = {
+			"isa" = "PBXFileReference";
+			"explicitFileType" = "wrapper.cfbundle";
+			"path" = "CommerceTests.xctest";
+			"sourceTree" = "BUILT_PRODUCTS_DIR";
+		};
+		"33AA8F898783AEFDE38E5377" = {
+			"isa" = "PBXGroup";
+			"path" = "../tests";
+			"children" = (
+				"88F7EA761ADC9F9C5FDBCE0B",
+				"CF0CB32755377D43D8A2058A",
+			);
+			"sourceTree" = "<group>";
+		};
+		"51287B1E17640151000BC6DA" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "88F7EA761ADC9F9C5FDBCE0B";
+		};
+		"802E683D9F33288CEF24200B" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "CF0CB32755377D43D8A2058A";
+		};
+		"3948E68DA9125584A54BF0B5" = {
+			"isa" = "PBXSourcesBuildPhase";
+			"buildActionMask" = 2147483647;
+			"files" = (
+				"51287B1E17640151000BC6DA",
+			);
+			"runOnlyForDeploymentPostprocessing" = 0;
+		};
+		"AC59D56EACEFA20AD7808DF5" = {
+			"isa" = "PBXResourcesBuildPhase";
+			"buildActionMask" = 2147483647;
+			"files" = (
+				"802E683D9F33288CEF24200B",
+			);
+			"runOnlyForDeploymentPostprocessing" = 0;
+		};
+		"AA4C1A930C29C312F8BB0AFD" = {
+			"isa" = "PBXFrameworksBuildPhase";
+			"buildActionMask" = 2147483647;
+			"files" = (
+
+			);
+			"runOnlyForDeploymentPostprocessing" = 0;
+		};
+		"194499B7C5FF2F10A191B8B7" = {
+			"isa" = "PBXTargetDependency";
+			"target" = "AAB396445E4CE2C2C58E8FFC";
+		};
+		"3F872AF28FDDD119903E76D5" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Debug";
+			"buildSettings" = {
+				"PRODUCT_NAME" = "CommerceTests";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.mertbekisoglu.bulusko.commerce-tests";
+				"SWIFT_VERSION" = "5.0";
+				"GENERATE_INFOPLIST_FILE" = "YES";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"SDKROOT" = "iphoneos";
+				"TARGETED_DEVICE_FAMILY" = "1";
+				"TEST_HOST" = "$(BUILT_PRODUCTS_DIR)/Bulusko.app/Bulusko";
+				"BUNDLE_LOADER" = "$(TEST_HOST)";
+				"ENABLE_TESTING_SEARCH_PATHS" = "YES";
+				"FRAMEWORK_SEARCH_PATHS" = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+					"$(SDKROOT)/Developer/Library/Frameworks",
+				);
+			};
+		};
+		"52A871D093811ACE5FF6994F" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Release";
+			"buildSettings" = {
+				"PRODUCT_NAME" = "CommerceTests";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.mertbekisoglu.bulusko.commerce-tests";
+				"SWIFT_VERSION" = "5.0";
+				"GENERATE_INFOPLIST_FILE" = "YES";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"SDKROOT" = "iphoneos";
+				"TARGETED_DEVICE_FAMILY" = "1";
+				"TEST_HOST" = "$(BUILT_PRODUCTS_DIR)/Bulusko.app/Bulusko";
+				"BUNDLE_LOADER" = "$(TEST_HOST)";
+				"ENABLE_TESTING_SEARCH_PATHS" = "YES";
+				"FRAMEWORK_SEARCH_PATHS" = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+					"$(SDKROOT)/Developer/Library/Frameworks",
+				);
+			};
+		};
+		"FE4B3C66F56A44D96A11BCA0" = {
+			"isa" = "XCConfigurationList";
+			"buildConfigurations" = (
+				"3F872AF28FDDD119903E76D5",
+				"52A871D093811ACE5FF6994F",
+			);
+			"defaultConfigurationIsVisible" = 0;
+			"defaultConfigurationName" = "Release";
+		};
+		"AD83C1B1FE4E1C6C5B753CEE" = {
+			"isa" = "PBXNativeTarget";
+			"buildConfigurationList" = "FE4B3C66F56A44D96A11BCA0";
+			"buildPhases" = (
+				"3948E68DA9125584A54BF0B5",
+				"AA4C1A930C29C312F8BB0AFD",
+				"AC59D56EACEFA20AD7808DF5",
+			);
+			"buildRules" = (
+
+			);
+			"dependencies" = (
+				"194499B7C5FF2F10A191B8B7",
+			);
+			"name" = "CommerceTests";
+			"productName" = "CommerceTests";
+			"productReference" = "BBE158FC47D8680FDA4976F1";
+			"productType" = "com.apple.product-type.bundle.unit-test";
 		};
 	};
 	"rootObject" = "CFEE63CFBA0EDB120E6C5188";

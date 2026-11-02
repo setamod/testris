@@ -5,7 +5,7 @@ import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 test('six privacy catalogs include full sections and deletion confirmation rather than missing-key fallbacks',()=>{
  const keys=Object.keys(PRIVACY_COPY.en).sort();assert.match(POLICY_DATE,/^\d{4}-\d{2}-\d{2}$/);
- for(const [language,copy]of Object.entries(PRIVACY_COPY)){assert.deepEqual(Object.keys(copy).sort(),keys,language);assert.equal(copy.sections.length,6);assert.ok(copy.confirm.length>90,language);assert.ok(copy.sections[0][1].includes(SUPPORT_EMAIL));for(const [heading,text]of copy.sections){assert.ok(heading.length>3);assert.ok(text.length>100);}}
+ for(const [language,copy]of Object.entries(PRIVACY_COPY)){assert.deepEqual(Object.keys(copy).sort(),keys,language);assert.equal(copy.sections.length,8);assert.ok(copy.confirm.length>90,language);assert.ok(copy.sections[0][1].includes(SUPPORT_EMAIL));for(const [heading,text]of copy.sections){assert.ok(heading.length>3);assert.ok(text.length>100);}}
 });
 test('bundled facefinder exactly matches the recorded MIT-distributed upstream model',async()=>{
  const code=await readFile(new URL('../dist/face.mjs',import.meta.url),'utf8'),data=code.match(/[A-Za-z0-9+/=]{100000,}/)[0];

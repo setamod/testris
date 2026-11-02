@@ -1,5 +1,5 @@
 {
-  "reviewed": "2026-10-31",
+  "reviewed": "2026-11-02",
   "product": "Popzuno",
   "status": "technical provenance record; not legal clearance",
   "runtime_npm_dependencies": [],
@@ -44,9 +44,9 @@
       "file": "dist/sound.mjs",
       "origin": "created for this project",
       "kind": "original adaptive Circuit Bloom and calm Quiet Orbit procedural music; separate scoped music/effects/voice lanes",
-      "sha256": "70cd1679aa6f9f79f6d487e210d09dd7d6b47fd064827a84d186c69218afc794",
+      "sha256": "fdb5ff18494e5f0130a2acce03b7ae318a15ac73062b68f24c6f418639215ebe",
       "external_recordings_or_images": false,
-      "bytes": 17625
+      "bytes": 17830
     },
     {
       "file": "dist/impact.mjs",
@@ -131,5 +131,19 @@
       "external_recordings_or_images": false,
       "bytes": 28770
     }
-  ]
+  ],
+  "native_runtime_dependencies": {
+    "ios": {
+      "GoogleMobileAds": "13.11.0",
+      "GoogleUserMessagingPlatform": "3.1.0",
+      "StoreKit": "OS framework"
+    },
+    "android": {
+      "play-services-ads": "25.5.0",
+      "user-messaging-platform": "4.0.0",
+      "billing": "9.1.0"
+    },
+    "live_commerce_enabled": false,
+    "mediation_adapters": []
+  }
 }

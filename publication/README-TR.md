@@ -1,3 +1,16 @@
+# Popzuno 0.10.0 (27) — Reklam ve kozmetik Premium adayı
+
+Bu yeni geliştirme dalının güncel sonucu [gelir sistemi raporundadır](monetization/REPORT-TR.md).
+Ücretsiz oyun, yalnızca yetişkinlerin isteğiyle ödüllü kurtarma ve tek seferlik kozmetik Premium hazırlanmıştır.
+Canlı reklamlar ve gerçek mağaza satışları kapalıdır. AdMob hesabı, gerçek ürünler, rıza/beyan onayları ve
+fiziksel cihaz/mağaza testleri tamamlanmadı. Bu sürüm telefona kurulmadı, TestFlight'a yüklenmedi,
+canlı site yayımlanmadı. Orijinal 0.9.17 ve `popzuno` dalı korunur.
+
+[Hesap sahibi adımları](monetization/OWNER-STEPS-TR.md), [aşama durumu](monetization/STATUS.json).
+Aşağıdaki notlar eski sürümlere aittir; eski yayın modeli bu dal için geçerli değildir.
+
+---
+
 # Popzuno 0.9.17 (26) — Yüz alanı ve hizalama
 
 Klasik görünüm korunur. Fotoğraflı yüz alanı önceki sürümden yaklaşık %6 daha geniştir (temel görünüme göre %13). iPhone’da yüzün göz hizası cihaz içinde ölçülür; güvenilir tek yüz bulunduğunda en çok 8 derece düzeltme uygulanır. Belirsiz ölçümde açı aynı kalır. Sevdiklerim ekranında elle ±12 derece ayar vardır. iOS’ta Otomatik hizala, Android/tarayıcıda Açıyı sıfırla kullanılabilir. Fotoğrafın aslı ve önceki kadraj bilgileri değişmez.

@@ -87,12 +87,15 @@
   "public_link_enabled": true,
   "public_link_join_check": "Apple public page says beta is not accepting new testers; no build started for testing yet",
   "local_candidate": {
-    "version": "0.9.17",
-    "build": 26,
-    "change": "classic style; 1.13 photo head width; bounded on-device iOS alignment; manual angle",
-    "iphone_installed": true,
-    "iphone_launched": false,
-    "launch_status": "device locked",
-    "uploaded": false
-  }
+    "checked_on": "2026-11-02",
+    "version": "0.10.0",
+    "build": 27,
+    "branch": "codex/popzuno-rewarded-premium",
+    "change": "optional rewarded rescues and one-time cosmetic Premium; disabled live defaults",
+    "unsigned_archive_built": true,
+    "iphone_installed": false,
+    "uploaded": false,
+    "store_products_created": false
+  },
+  "remote_status_note": "Historical observation from checked_on; not queried or changed in monetization task."
 }

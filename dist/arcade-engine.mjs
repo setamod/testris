@@ -144,8 +144,19 @@ export class TideGame{
  random(){this.rowRng=randomStep(this.rowRng);return this.rowRng/4294967296;}
  reset({seed=this.seed,mode=this.mode,day=this.day}={}){
   this.mode=GAME_MODES.includes(mode)?mode:'survival';this.day=day;this.seed=this.mode==='daily'?dailySeed(day):(Number(seed)>>>0)||0x9e3779b9;this.rowRng=this.seed;this.refillRng=this.seed^0x7f4a7c15;this.shuffleRng=this.seed^0x125f3a19;
-  this.status='ready';this.reason=null;this.endDetails=null;this.elapsed=0;this.score=0;this.cleared=0;this.pops=0;this.swaps=0;this.rows=0;this.combo=0;this.bestCombo=0;this.chainLeft=0;this.feverLeft=0;this.energy=0;this.riseProgress=0;this.phase=null;this.powers={bomb:0,rocket:0,cross:0,nova:0,shuffle:this.mode==='timeRush'?1:0};this.timeLeft=TIME_START_MS;this.timeCredit=0;this.timeEarned=0;this.revision++;
-  this.wave=1;this.waveStart=0;this.makeOpening();this.nextRow=this.makeRow();
+  this.runId=globalThis.crypto?.randomUUID?.()??('run-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2));this.rescueUsed=false;this.assisted=false;this.status='ready';this.reason=null;this.endDetails=null;this.elapsed=0;this.score=0;this.cleared=0;this.pops=0;this.swaps=0;this.rows=0;this.combo=0;this.bestCombo=0;this.chainLeft=0;this.feverLeft=0;this.energy=0;this.riseProgress=0;this.phase=null;this.powers={bomb:0,rocket:0,cross:0,nova:0,shuffle:this.mode==='timeRush'?1:0};this.timeLeft=TIME_START_MS;this.timeCredit=0;this.timeEarned=0;this.revision++;
+  this.wave=1;this.waveStart=0;this.makeOpening();this.nextRow=this.makeRow();this.captureStage();
+ }
+ captureStage(){this.stageCheckpoint=JSON.parse(JSON.stringify(Object.fromEntries(['board','nextRow','powers','score','cleared','pops','swaps','rows','waveStart','rowRng','refillRng','shuffleRng','energy'].map(k=>[k,this[k]]))));}
+ rescue(){
+  if(this.status!=='over'||this.rescueUsed)return false;
+  const timed=this.mode==='timeRush'&&this.reason==='time',rush=this.mode==='survival'&&this.reason==='overflow',stage=this.mode==='ascend'&&this.reason==='overflow';
+  if(!timed&&!rush&&!stage)return false;
+  if(timed)this.timeLeft=15000;
+  if(rush){this.board=[...Array(TIDE_COLS*3).fill(null),...this.board.slice(0,TIDE_SIZE-TIDE_COLS*3)];this.phase=null;this.riseProgress=0;}
+  if(stage){Object.assign(this,JSON.parse(JSON.stringify(this.stageCheckpoint)));this.phase=null;this.riseProgress=0;}
+  this.rescueUsed=true;this.assisted=true;this.reason=null;this.endDetails=null;this.status='paused';this.combo=0;this.chainLeft=0;this.feverLeft=0;this.revision++;
+  this.onEvent({type:'rescue',kind:timed?'time':rush?'rows':'stage'});return true;
  }
  get familyCount(){return this.mode==='ascend'?Math.min(7,4+Math.floor((this.wave-1)/3)):this.mode==='timeRush'?Math.min(7,4+Math.floor(this.elapsed/60000)):4;}
  get waveTarget(){return Math.min(120,24+(this.wave-1)*8);}
@@ -244,6 +255,7 @@ export class TideGame{
   this.wave=Math.min(9999,this.wave+1);this.waveStart=this.cleared;this.combo=0;this.chainLeft=0;this.riseProgress=0;
   const reward=this.wave%5===0?'nova':this.wave%3===0?'cross':this.wave%2===0?'bomb':'rocket',granted=this.powers[reward]<POWER_CAPS[reward];this.powers[reward]=Math.min(POWER_CAPS[reward],this.powers[reward]+1);
   this.makeOpening();this.nextRow=this.makeRow();this.revision++;
+  this.captureStage();
   this.phase={kind:'wave',left:STAGE_BREAK_MS,previousWave,previousPace,previousInterval,previousFamilyCount,wave:this.wave,power:reward,granted,target:this.waveTarget,nextPace:this.musicPace};
   this.onEvent({type:'wave',...this.phase});
  }

@@ -112,3 +112,23 @@ body.playing-screen{height:100svh;height:100dvh;min-height:0;overflow:hidden;ove
 @media(max-height:650px){.home-landing{gap:10px}.home-hero .home-brand-mark{width:80px}.home-hero h1{font-size:44px;margin:10px 0 6px}.home-hero p{font-size:15px}.home-primary #home-play{min-height:62px;font-size:28px}.home-primary p{font-size:13px;min-height:34px;margin-top:6px}.home-people{min-height:72px;padding:10px}.home-people b{font-size:19px}.home-landing .home-tools button{min-height:44px;font-size:16px}.home-picker{gap:11px}.home-picker-head h2{font-size:26px}.home-picker .home-modes button{min-height:72px;padding:9px 6px;gap:5px}.home-picker .home-modes button[data-tide-mode=ascend]{min-height:58px}.home-picker .home-modes button>span{font-size:21px}.home-picker .home-detail{min-height:54px;padding:3px}.home-picker .home-detail p{font-size:17px}.home-picker>#home-start{min-height:52px}}
 
 .crop-auto{font-size:15px;min-height:44px;padding:9px;margin:4px 0 0}.crop-controls output{font:13px var(--mono);color:var(--mint);white-space:nowrap}
+
+/* Optional commerce lives in Settings and loss results, never over the board. */
+.commerce-settings,.premium-actions{display:grid;gap:10px;width:100%}.commerce-settings p,.premium-dialog #premium-store-status{font:16px/1.5 system-ui;overflow-wrap:anywhere}.premium-dialog{max-width:520px}.premium-dialog .settings label{flex-wrap:wrap}.premium-dialog select{max-width:58%;font:16px system-ui;min-height:44px}.rescue-button{max-width:100%;white-space:normal;font-size:16px;line-height:1.4;min-height:48px}.rescue-note{max-width:38em;font:13px/1.45 system-ui;color:#c3d4ec}
+:root[data-cosmetic-theme=prism] .tide-tile{box-shadow:inset 0 0 0 2px #fff9,0 0 5px var(--face)}
+:root[data-cosmetic-theme=chrome] .tide-tile{border-color:#ecf3ff;box-shadow:inset 0 0 0 2px #a8b6cc}
+:root[data-cosmetic-effects=aurora] .tide-burst{border-radius:50%;filter:hue-rotate(35deg)}
+:root[data-cosmetic-motion=orbit] [data-power].just-earned{animation:premium-orbit .65s ease-out}
+@keyframes premium-orbit{0%,100%{transform:rotate(0)}30%{transform:rotate(-8deg) scale(1.08)}65%{transform:rotate(6deg)}}
+@media(prefers-reduced-motion:reduce){:root[data-cosmetic-motion=orbit] [data-power].just-earned{animation:none}}
+.commerce-age-label{display:grid;gap:8px;font:17px/1.4 system-ui}.commerce-age-label select{width:100%;min-height:46px;font:16px system-ui;background:#211f36;color:#fff;border:1px solid #ffffff44;border-radius:10px;padding:8px}.commerce-settings #commerce-age-copy{font-size:14px;line-height:1.5;color:#c5c5d7}
+
+/* Keep the rescue offer and limits visible on short screens; retain the explicit loss reason. */
+.tide-overlay.has-rescue .end-emblem,.tide-overlay.has-rescue>#tide-overlay-copy,.tide-overlay.has-rescue>#tide-overlay-foot{display:none}
+.tide-overlay.has-rescue .rescue-note{display:block;margin:8px 0;font:13px/1.4 system-ui;max-width:100%;color:#d5deef}
+.tide-result-layer>.tide-overlay.has-rescue[data-ending=true]{padding:16px}
+.tide-result-layer>.tide-overlay.has-rescue h2{font-size:28px;margin:6px 0 9px}
+.tide-result-layer>.tide-overlay.has-rescue .tide-end-reason{margin-bottom:8px}
+.tide-result-layer>.tide-overlay.has-rescue>strong{font-size:40px;margin-bottom:8px}
+.tide-result-layer>.tide-overlay.has-rescue .tide-result-details{margin-bottom:8px}
+.tide-overlay.has-rescue .rescue-button{margin:8px 0 0;padding:10px}

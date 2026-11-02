@@ -42,7 +42,7 @@ struct NativeStoreTests {
         assert(save("swipe-daily", "{\"day\":\"2026-10-26\",\"score\":900}"))
         assert(save("swipe-daily", "{\"day\":\"2026-10-26\",\"score\":200}"))
         assert(defaults.string(forKey: NativeStore.prefix + "swipe-daily")!.contains("900"))
-        for mode in ["survival", "blitz", "ascend", "daily"] {
+        for mode in ["survival", "blitz", "ascend", "daily", "timeRush", "relax"] {
             assert(save("settings", "{\"language\":\"tr\",\"mode\":\"\(mode)\",\"sound\":true,\"music\":true,\"volume\":0.5}"))
         }
         for mode in ["survival", "blitz", "ascend"] {
@@ -89,6 +89,8 @@ struct NativeStoreTests {
             if let degrees = angle as? Double { assert(stored[0]["rotation"] as? Double == degrees) }
             else { assert(stored[0]["rotation"] is NSNull) }
         }
+        assert(save("cosmetics", "{\"theme\":\"prism\",\"effects\":\"aurora\",\"motion\":\"orbit\",\"sound\":\"crystal\"}"))
+        assert(!save("cosmetics", "{\"theme\":\"hack\"}"))
         var invalid = people
         invalid[0]["photo"] = "https://example.com/photo.jpg"
         let invalidJSON = String(data: try JSONSerialization.data(withJSONObject: invalid), encoding: .utf8)!

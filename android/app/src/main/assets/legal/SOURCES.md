@@ -30,3 +30,12 @@ MIT ve OFL bildirimleri oyunun taşınabilir paketinde, iOS kaynaklarında ve An
 - Popzuno adı ve ikonunun hedef pazarlardaki aynı/benzer marka ve tasarımlarla karşılaştırılması gerekir. Ön araştırma tescil veya kesin hak uygunluğu anlamına gelmez.
 - Üçüncü taraf kodlarının ticari kullanıma izin vermesi; patent, marka, kişilik hakları veya tüm görsel/işitsel benzerliklerin araştırıldığı anlamına gelmez.
 - Kaynaklarda gerçek kişilerin fotoğrafları bulunmaz; fotoğraf kullanıcının seçimiyle cihazda işlenir. İşletim sistemi yedekleri ve kullanıcının başlattığı destek/paylaşım işlemleri gizlilik metninde ayrı açıklanır.
+
+## Native commerce SDKs — experimental 0.10 branch
+
+- Google Mobile Ads iOS 13.11.0, Google User Messaging Platform iOS 3.1.0: official Swift Package Manager distributions. Wrapper packages use Apache-2.0; binary SDKs are supplied under Google's applicable SDK terms, not relicensed as project code. https://developers.google.com/admob/ios/quick-start
+- Google Mobile Ads Android 25.5.0 (`play-services-ads`), UMP Android 4.0.0: official Google Maven distributions. This SDK family is listed in Google's Families Self-Certified Ads SDK program; verify the exact version's status before release. https://support.google.com/googleplay/android-developer/answer/12955712
+- Google Play Billing 9.1.0: official Google Maven distribution and applicable Google Play Billing terms. https://developer.android.com/google/play/billing/release-notes
+- Apple StoreKit 2 and Vision: operating-system frameworks. StoreKitTest catalog and test code run locally; no purchase simulator is included in the application.
+
+No Firebase, analytics SDK, mediation adapters, third-party speech models or commerce backend are added. Store account agreements, live SDK configuration and final privacy declarations require owner completion. SDK privacy manifests and applicable transitive notices must be included in each store build.

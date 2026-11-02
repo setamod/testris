@@ -2,7 +2,7 @@
 
 ## Ambito e contatti
 
-Versioni mobili e portatili offline di Popzuno. Sviluppatore: Mert Bekisoglu. Privacy e assistenza: mertbek@gmail.com. Aggiornamento: 29 ottobre 2026.
+Versioni mobili e portatili offline di Popzuno. Sviluppatore: Mert Bekisoglu. Privacy e assistenza: mertbek@gmail.com. Aggiornamento: 2 novembre 2026.
 
 ## Dati locali
 
@@ -12,9 +12,9 @@ Nomi facoltativi, copie ridimensionate/ritagliate delle foto selezionate, inquad
 
 Si elabora solo la foto scelta. Rilevamento della posizione del volto e ritaglio avvengono sul dispositivo: nessun modello identificativo personale, account di riconoscimento o caricamento. Usa foto autorizzate, con i permessi necessari per altre persone e minori. La fotocamera si usa solo se scelta nel selettore iOS; Android usa il selettore di immagini senza accesso generale alla galleria.
 
-## Trasferimenti e condivisione
+## Pubblicità facoltativa
 
-Nessun account, pubblicità, tracciamento, analisi, classifica cloud o invio ai nostri server. Apple/Google gestiscono gli acquisti del negozio. La condivisione dei risultati o gli appunti si attivano solo su tua richiesta, senza foto o nomi. Un’email all’assistenza trasmette messaggio e indirizzo tramite il provider email: evita foto private non necessarie.
+Il gioco base funziona offline. AdMob e UMP si collegano solo quando un adulto richiede annunci facoltativi nelle Impostazioni. Nessun annuncio obbligatorio; personalizzazione e identificatore pubblicitario disattivati. Il fornitore può trattare IP, dati di dispositivo/app/rete, diagnostica e interazioni. Foto, misure del volto e nomi non vengono passati agli SDK pubblicitari. Le scelte privacy sono nelle Impostazioni.
 
 ## Conservazione e cancellazione
 
@@ -23,3 +23,11 @@ I dati locali restano finché non li elimini. I miei cari elimina singole foto; 
 ## Servizi esterni
 
 Pagine di supporto/privacy e app email applicano le proprie regole di connessione, sicurezza e privacy. Le foto non vengono inviate automaticamente. Eventuali cambiamenti richiedono l’aggiornamento dell’informativa e delle dichiarazioni dei negozi prima della pubblicazione.
+
+## Premium con acquisto unico
+
+Download, cinque modalità, foto standard e poteri sono gratuiti. Premium contiene solo elementi estetici: nessun abbonamento o vantaggio. Apple/Google gestiscono i pagamenti, non riceviamo dati della carta. Diritti da transazioni verificate, con ripristino. Rimborsi/revoche rimuovono l’accesso quando il negozio aggiorna i dati. Le transazioni possono essere conservate localmente.
+
+## Bambini e limiti locali
+
+Pubblico misto, inclusi bambini. Si memorizza solo una fascia d’età locale, non la data di nascita. Bambini, ragazzi ed età sconosciuta non avviano annunci o acquisti. Massimo tre salvataggi ogni 24 ore sul dispositivo, con tempo monotono. Cancellare i dati di gioco non cancella la quota né gli acquisti. Nessuna garanzia contro reinstallazioni o più dispositivi.

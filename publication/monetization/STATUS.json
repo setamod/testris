@@ -1,0 +1,148 @@
+{
+  "checked_on": "2026-11-02",
+  "product": "Popzuno",
+  "version": "0.10.0",
+  "build": 27,
+  "branch": "codex/popzuno-rewarded-premium",
+  "base_branch": "popzuno",
+  "base_commit": "b21be94a143a2b0f1c63bd4022f4128d95dd48b9",
+  "overall": "implemented_and_locally_validated_with_owner_and_real_store_gates_pending",
+  "production_ready": false,
+  "phases": {
+    "A": {
+      "status": "verified",
+      "proof": [
+        "baseline JS 98 passed",
+        "baseline Android 187 checks",
+        "baseline iOS and Android builds passed",
+        "independent clone and feature branch"
+      ]
+    },
+    "B": {
+      "status": "implementation_and_android_test_sdk_verified_real_publisher_pending",
+      "proof": [
+        "official native rewarded SDKs compiled",
+        "real Android Google test ad loaded, earned and dismissed",
+        "offline Google SDK load failed without crash or reward"
+      ],
+      "pending": [
+        "owner AdMob account and production IDs",
+        "real UMP messages and regional/device tests",
+        "real iOS rewarded ad presentation"
+      ]
+    },
+    "C": {
+      "status": "local_engine_native_ui_verified",
+      "proof": [
+        "Rush 3-row no-score rescue",
+        "Time Rush +15 paused game seconds",
+        "Ascend actual stage checkpoint rollback",
+        "no Daily/Blitz/Relax rescue",
+        "once/run and 3/rolling24h device quota",
+        "assisted runs excluded from normal records"
+      ]
+    },
+    "D": {
+      "status": "local_implementation_validated_real_store_pending",
+      "proof": [
+        "StoreKit 2 verification/entitlements/updates",
+        "Play Billing PURCHASED, RSA, acknowledge and current purchases",
+        "cosmetic UI and entitlement/revocation tests",
+        "8 actual local native StoreKit/SDK tests passed, including purchase/reopen/restore/refund and fail-closed error paths"
+      ],
+      "pending": [
+        "real store products and storefront prices",
+        "App Store sandbox and Play license test purchase/restore/refund/cancel"
+      ]
+    },
+    "E": {
+      "status": "drafts_and_release_guards_verified_owner_compliance_pending",
+      "proof": [
+        "six localized disclosures",
+        "neutral age band, no commerce for under18/unknown",
+        "no photo/name/board commerce payload",
+        "Android advertising/AdServices identifiers removed",
+        "no ATT request",
+        "disabled live defaults and production guard rejection"
+      ],
+      "pending": [
+        "audience/Kids/Families final review",
+        "App Privacy/Data Safety submission",
+        "AdMob consent configuration",
+        "updated live privacy/support pages",
+        "legal and trademark review"
+      ]
+    },
+    "F": {
+      "status": "local_checks_verified_real_device_and_store_tests_pending",
+      "proof": [
+        "110 JS tests",
+        "206 Android native offline assertions",
+        "90 game layouts +18 home layouts within native run",
+        "Java/Swift quota suites",
+        "Swift native storage",
+        "236 actual package checks",
+        "8 iOS native local tests",
+        "latest unsigned iOS Release archive passed"
+      ],
+      "pending": [
+        "physical device ad/audio/background performance",
+        "actual store and consent tests"
+      ]
+    }
+  },
+  "sdk_versions": {
+    "ios_google_mobile_ads": "13.11.0",
+    "ios_ump": "3.1.0",
+    "android_google_mobile_ads": "25.5.0",
+    "android_ump": "4.0.0",
+    "android_billing": "9.1.0"
+  },
+  "release": {
+    "live_ads_enabled": false,
+    "store_sales_enabled": false,
+    "test_ids_in_release_configuration": false,
+    "ios_distribution_signed": false,
+    "android_aab_signed": false,
+    "uploaded": false,
+    "live_site_deployed": false,
+    "physical_phone_modified": false
+  },
+  "tests": {
+    "javascript": {
+      "passed": 110,
+      "failed": 0
+    },
+    "android_native_offline": {
+      "passed": 206,
+      "failed": 0,
+      "api": 36
+    },
+    "package_checks": 236,
+    "android_lint": {
+      "errors": 0,
+      "warnings": 3
+    },
+    "storekit_local": {
+      "passed": 8,
+      "failed": 0,
+      "configuration": "local .storekit catalog; no real storefront transaction",
+      "simulator": "iOS 27.0, iPhone 18 Pro Max",
+      "cancellation_injection": "returns generic error on this test daemon; fail-closed and official cancellation classification separately verified",
+      "real_store_sheet_cancellation": "not tested"
+    }
+  },
+  "admob_account": "not_created",
+  "google_play_registration": "payment_deferred_by_owner",
+  "price_target_usd": "2.99",
+  "evidence_note": "Raw logs and xcresult are local ignored evidence; this tracked summary and artifact hashes describe their scope.",
+  "limits": [
+    "Quota is device-local, not a secure person-wide or multi-device limit.",
+    "Reinstallation/rooting can bypass Android local storage; reboot/off time can lengthen waiting.",
+    "No server SSV, Play Developer API, RTDN or App Store Server Notifications.",
+    "Offline refunds become known on the next successful store query.",
+    "Force-killing the process can lose the active game and a consumed reward.",
+    "No cross-store purchase portability without an account/backend.",
+    "Simulated iOS cancellation can surface as undocumented ASD error 907; real device cancellation remains pending."
+  ]
+}

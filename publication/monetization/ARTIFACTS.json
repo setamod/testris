@@ -1,0 +1,26 @@
+{
+  "version": "0.10.0",
+  "build": "27",
+  "ios_unsigned_archive_game_matches_source": true,
+  "ios_no_test_catalog_or_provisioning_profile": true,
+  "ios_no_tracking_permission": true,
+  "android_debug_apk_sha256": "31104a5300957c0e5bb32ce5c7d8e0143437bdff990bed036a85a11216775106",
+  "android_unsigned_aab_sha256": "3d55709df12dd91c76c36e7c1184ce25ebd7a99e729e2a67c45e06c4d2d9875b",
+  "android_unsigned_aab_bytes": 7426999,
+  "release_commerce": "disabled; no production IDs, products or store publication",
+  "ios_release_executable_sha256": "ef304d42536350da278068f4d5193c9f86c8f2d961c46b8929c5b1dca666cc7d",
+  "game_sha256": "e57c735024fefff016b885de03f0196dc1e28b66f0c329718c47bf863f65e2bb",
+  "files": [
+    {
+      "file": "Popzuno-0.10.0-debug.apk",
+      "bytes": 10331840,
+      "sha256": "31104a5300957c0e5bb32ce5c7d8e0143437bdff990bed036a85a11216775106"
+    },
+    {
+      "file": "Popzuno-0.10.0-UNSIGNED.aab",
+      "bytes": 7426999,
+      "sha256": "3d55709df12dd91c76c36e7c1184ce25ebd7a99e729e2a67c45e06c4d2d9875b"
+    }
+  ],
+  "android_debug_signature_matches_original_0_9_17": true
+}

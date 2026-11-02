@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.Collections;
 import java.util.Arrays;
 
-/** Offline shell. No INTERNET, gallery, camera, microphone or advertising-ID permissions. */
+/** Offline game shell with optional native commerce; no broad gallery, camera, microphone or advertising-ID access. */
 public final class MainActivity extends Activity {
     private static final String ORIGIN = "https://appassets.androidplatform.net";
     private static final String GAME_URL = ORIGIN + "/game/index.html";
@@ -53,6 +53,7 @@ public final class MainActivity extends Activity {
     private Vibrator vibrator;
     private long lastHaptic = 0;
     private ArcadeAnnouncer announcer;
+    private CommerceService commerce;
     private boolean resetting = false;
 
     // Only signed, bundled code is served; no network permission, frames or navigation to third-party pages.
@@ -131,6 +132,9 @@ public final class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT >= 33) getOnBackInvokedDispatcher().registerOnBackInvokedCallback(android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT, this::handleBack);
         setContentView(container);
         container.requestApplyInsets();
+        commerce = new CommerceService(this,payload -> {
+            if (web != null && GAME_URL.equals(web.getUrl()) && !resetting) web.evaluateJavascript("window.dispatchEvent(new CustomEvent('popzuno:commerce',{detail:"+payload+"}));",null);
+        });
         web.loadUrl(GAME_URL);
     }
 
@@ -156,11 +160,12 @@ public final class MainActivity extends Activity {
         if (audio != null) audio.abandonAudioFocusRequest(audioFocus);
     }
     @Override protected void onPause() { pauseGame(); if (web != null) web.onPause(); super.onPause(); }
-    @Override protected void onResume() { super.onResume(); if (web != null) { web.onResume(); web.evaluateJavascript("window.dispatchEvent(new Event('kynburst:foreground'));",null); } }
+    @Override protected void onResume() { super.onResume(); if (web != null) { web.onResume(); if (commerce != null) commerce.foreground(); web.evaluateJavascript("window.dispatchEvent(new Event('kynburst:foreground'));",null); } }
     @Override protected void onDestroy() {
         if (photoCallback != null) { photoCallback.onReceiveValue(null); photoCallback = null; }
         pauseGame(); if (web != null) { web.removeJavascriptInterface("KynburstNative"); web.destroy(); web = null; }
         if (announcer != null) announcer.close();
+        if (commerce != null) commerce.close();
         super.onDestroy();
     }
     private void handleBack() { if (web != null) { web.evaluateJavascript("window.dispatchEvent(new Event('kynburst:back'));",null); } }
@@ -198,6 +203,7 @@ public final class MainActivity extends Activity {
                 runOnUiThread(()->{
                     if (web == null || !GAME_URL.equals(web.getUrl()) || resetting) return;
                     switch (message.optString("type")) {
+                        case "commerce": commerce.handle(message); break;
                         case "state":
                             if (message.optBoolean("playing") && hasWindowFocus()) { getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); audio.requestAudioFocus(audioFocus); }
                             else { getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); audio.abandonAudioFocusRequest(audioFocus); }

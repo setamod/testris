@@ -1,0 +1,13 @@
+{
+  "productId": "com.mertbekisoglu.bulusko.premium",
+  "targetPriceUSD": "2.99",
+  "liveAdsEnabled": false,
+  "storeProductsEnabled": false,
+  "audienceApproved": false,
+  "privacyDeclarationsApproved": false,
+  "androidAdMobAppId": "",
+  "androidRewardedAdUnitId": "",
+  "iosAdMobAppId": "",
+  "iosRewardedAdUnitId": "",
+  "androidBillingPublicKey": ""
+}

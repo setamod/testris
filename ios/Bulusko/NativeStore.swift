@@ -5,7 +5,7 @@ enum NativeStore {
     static func reset(_ preferences: UserDefaults) {
         for key in preferences.dictionaryRepresentation().keys where key.hasPrefix(prefix) || key.hasPrefix("aile-akisi-v1:") || key == "bulusko.haptics" { preferences.removeObject(forKey: key) }
     }
-    static let keys = ["settings", "people", "progress", "stage", "best-journey", "best-free", "best-rush", "best-tide", "tide-daily", "best-swipe", "swipe-daily", "best-grid2-survival", "best-grid2-blitz", "best-grid2-ascend", "grid2-daily", "ascend-top-stage", "best-shapes1-survival", "best-shapes1-blitz", "best-shapes1-ascend", "best-shapes1-timeRush", "shapes1-daily", "shapes1-top-stage"].map { prefix + $0 }
+    static let keys = ["settings", "cosmetics", "people", "progress", "stage", "best-journey", "best-free", "best-rush", "best-tide", "tide-daily", "best-swipe", "swipe-daily", "best-grid2-survival", "best-grid2-blitz", "best-grid2-ascend", "grid2-daily", "ascend-top-stage", "best-shapes1-survival", "best-shapes1-blitz", "best-shapes1-ascend", "best-shapes1-timeRush", "shapes1-daily", "shapes1-top-stage"].map { prefix + $0 }
 
     static func snapshot(_ preferences: UserDefaults) -> String {
         let values = Dictionary(uniqueKeysWithValues: keys.compactMap { key in preferences.string(forKey: key).map { (key, $0) } })
@@ -22,9 +22,15 @@ enum NativeStore {
         case "settings":
             guard let settings = object as? [String: Any],
                   let language = settings["language"] as? String, ["tr", "en", "it", "es", "de", "ru"].contains(language),
-                  let mode = settings["mode"] as? String, ["journey", "free", "rush", "survival", "blitz", "timeRush", "ascend", "daily"].contains(mode),
+                  let mode = settings["mode"] as? String, ["journey", "free", "rush", "survival", "blitz", "timeRush", "ascend", "daily", "relax"].contains(mode),
                   settings["sound"] is Bool, settings["music"] is Bool,
                   let volume = settings["volume"] as? Double, volume.isFinite, (0...1).contains(volume) else { return false }
+        case "cosmetics":
+            guard let cosmetic = object as? [String:String],
+                  ["classic","prism","chrome"].contains(cosmetic["theme"] ?? ""),
+                  ["classic","aurora"].contains(cosmetic["effects"] ?? ""),
+                  ["classic","orbit"].contains(cosmetic["motion"] ?? ""),
+                  ["classic","crystal"].contains(cosmetic["sound"] ?? "") else { return false }
         case "people":
             guard let people = object as? [[String: Any]], people.count == 7 else { return false }
             for person in people {

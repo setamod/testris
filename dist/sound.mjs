@@ -74,6 +74,7 @@ export class FlowAudio{
  effect(kind,strength=1){
   if(!this.unlock())return;const t=this.context.currentTime+.008;
   if(this.mode==='relax'){this.relaxEffect(kind,t);return;}
+  if(this.cosmeticSound==='crystal'&&kind.startsWith('earn-')){[81,88,93,100].forEach((pitch,i)=>this.voice({pitch,time:t+i*.045,duration:.24,gain:.045,type:'sine',cutoff:8000,pan:i%2?.15:-.15}));return;}
   if(kind.startsWith('arm-')){
    const pitch={bomb:57,rocket:69,cross:81}[kind.slice(4)]??69;
    this.voice({pitch,time:t,duration:.17,gain:.07,type:'triangle',priority:2});this.voice({pitch:pitch+12,time:t+.055,duration:.13,gain:.04,type:'sine',priority:2});return;

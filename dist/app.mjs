@@ -1,3 +1,5 @@
+import {createCommerce} from './commerce.mjs';
+import {setupCommerceUI} from './commerce-ui.mjs';
 import {createPhotoAligner} from './alignment.mjs';
 import {LANGUAGES,normalizeLanguage} from './locales.mjs';
 import {readFlow,writeFlow,clearFlow,normalizePeople} from './storage.mjs';
@@ -12,7 +14,9 @@ import {HOME_REVISION,openingMode} from './home-mode.mjs';
 import {createTide} from './arcade.mjs';
 const el=id=>document.getElementById(id);
 const raw=readFlow('settings',{}),settings=raw&&typeof raw==='object'?raw:{};
+let commerceUI=null;
 let language=normalizeLanguage(settings.language),tide=null,lastTime=0,editingPerson=0,photoBusy=false,photoJob=0,noticeTimer=0,resetting=false;
+const commerce=createCommerce({onChange:()=>{tide?.refreshCommerce();commerceUI?.refresh();}});
 const initialMode=openingMode(settings);
 const t=(key,values)=>flowTranslate(language,key,values);
 const people=normalizePeople(readFlow('people',[])),aligner=createPhotoAligner(),avatars=createAvatars(FAMILY_COLORS,{alignPhoto:aligner.request,onUpdate:()=>{refreshPortraits();if(el('family-dialog').open)renderPeople();}}),faces=createFaceProcessor();
@@ -85,16 +89,17 @@ el('music-toggle').addEventListener('change',event=>{audio.setMusic(event.target
 el('volume').addEventListener('input',event=>audio.setVolume(Number(event.target.value)/100));el('volume').addEventListener('change',persistSettings);
 el('language').innerHTML=Object.entries(LANGUAGES).map(([key,value])=>`<option value="${key}">${value.name}</option>`).join('');
 function applyLanguage(){document.documentElement.lang=language;document.querySelector('.top-actions').setAttribute('aria-label',t('menu'));document.title='Popzuno';for(const element of document.querySelectorAll('[data-text]'))element.textContent=t(element.dataset.text);el('language').value=language;el('help-open').setAttribute('aria-label',t('help'));el('family-open').setAttribute('aria-label',t('family'));el('person-name').setAttribute('aria-label',t('photoName'));for(const button of document.querySelectorAll('[data-close]'))button.setAttribute('aria-label',t('close'));updateAudio();setHelpPanel(el('help-dialog').dataset.panel||'help');refreshPortraits();if(el('family-dialog').open)renderPeople();}
-el('language').addEventListener('change',event=>{language=normalizeLanguage(event.target.value);persistSettings();applyLanguage();renderPrivacy();});
+el('language').addEventListener('change',event=>{language=normalizeLanguage(event.target.value);persistSettings();applyLanguage();renderPrivacy();commerceUI?.refresh();});
 function background(){lastTime=0;if(photoBusy){photoJob++;faces.cancel();photoBusy=false;}pauseGame();audio.interrupt();}
-function foreground(){lastTime=0;audio.foreground();}
+function foreground(){lastTime=0;audio.foreground();commerce.refresh();}
 document.addEventListener('visibilitychange',()=>document.hidden?background():foreground());
 window.addEventListener('blur',background);window.addEventListener('pagehide',background);window.addEventListener('focus',foreground);window.addEventListener('pageshow',foreground);
 window.addEventListener('kynburst:audio-interrupted',background);window.addEventListener('kynburst:audio-resume',foreground);window.addEventListener('kynburst:foreground',foreground);
 function unlockAfterInterruption(){if(!document.hidden&&audio.needsRecovery)audio.unlock();}
 document.addEventListener('pointerdown',unlockAfterInterruption,{capture:true,passive:true});document.addEventListener('keydown',unlockAfterInterruption,{capture:true});
 function frame(time){const dt=lastTime?Math.max(0,Math.min(250,time-lastTime)):0;lastTime=time;tide?.frame(dt);requestAnimationFrame(frame);}
-tide=createTide({root:el('tide-root'),audio,avatar,personName,colors:FAMILY_COLORS,getLanguage:()=>language,read:readFlow,write:writeFlow,initialMode,onModeChange:persistSettings,onMenuAction:action=>action==='family'?el('family-open').click():showHelp(action)});
+tide=createTide({commerce,root:el('tide-root'),audio,avatar,personName,colors:FAMILY_COLORS,getLanguage:()=>language,read:readFlow,write:writeFlow,initialMode,onModeChange:persistSettings,onMenuAction:action=>action==='family'?el('family-open').click():showHelp(action)});
+commerceUI=setupCommerceUI({commerce,getLanguage:()=>language,read:readFlow,write:writeFlow,pause:pauseGame,audio});commerce.refresh();
 tide.setActive(true);applyLanguage();renderPrivacy();avatars.load(people).then(refreshPortraits);requestAnimationFrame(frame);
 
 document.querySelector('.brand').addEventListener('click',event=>{event.preventDefault();tide.openHome();});

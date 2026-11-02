@@ -5,8 +5,9 @@ import {execFileSync} from 'node:child_process';
 import {LEGAL_FILES} from './generate-legal.mjs';
 import {PRIVACY_COPY} from '../dist/privacy.mjs';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),main=join(root,'android','app','src','main');
+execFileSync(process.execPath,[join(root,'scripts','check-monetization-release.mjs')],{stdio:'pipe'});
 execFileSync(process.execPath,[join(root,'scripts','package.mjs')],{stdio:'pipe'});
-let html=await readFile(join(root,'..','releases','Popzuno-Prototip','OYNA.html'),'utf8');
+let html=await readFile(join(root,'releases','Popzuno-Prototip','OYNA.html'),'utf8');
 html=html.replace('width=device-width, initial-scale=1, viewport-fit=cover','width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
 html=html.replace('href="./OYNA.html"','href="./index.html"');
 const bridge=`<script>
@@ -31,4 +32,4 @@ await writeFile(join(main,'res','mipmap-anydpi-v33','ic_launcher.xml'),'<adaptiv
 await writeFile(join(main,'res','values','colors.xml'),'<resources><color name="launcher_background">#151226</color></resources>');
 for(const density of ['mdpi','hdpi','xhdpi','xxhdpi','xxxhdpi'])for(const file of ['ic_launcher.png','ic_launcher_art.png'])await unlink(join(main,'res','mipmap-'+density,file)).catch(error=>{if(error.code!=='ENOENT')throw error;});
 await unlink(join(main,'res','mipmap-anydpi','ic_launcher.xml')).catch(error=>{if(error.code!=='ENOENT')throw error;});
-console.log(JSON.stringify({platform:'android',targetSdk:36,minSdk:26,assets:'offline',internetPermission:false,photoAccess:'system_picker',backup:false,game:join(main,'assets','game','index.html')}));
+console.log(JSON.stringify({platform:'android',targetSdk:36,minSdk:26,assets:'offline_game_optional_native_commerce',internetPermission:true,photoAccess:'system_picker',backup:false,game:join(main,'assets','game','index.html')}));

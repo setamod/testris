@@ -49,7 +49,7 @@ private struct BuluskoSettings: View {
                 }
                 Section(game.text("Gizlilik", "Privacy")) {
                     Text(game.text("Seçtiğin fotoğraflar cihazda işlenir. Yüzler, isimler, etaplar, rekorlar ve tercihler yalnızca Popzuno’ün bu cihazdaki alanında saklanır.", "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage."))
-                    Text(game.text("Sevdiklerim ekranından fotoğrafları silebilirsin. Hesap, reklam, analiz veya sunucuya veri aktarımı yoktur.", "Delete photos in Your people. There are no accounts, ads, analytics or uploads."))
+                    Text(game.text("Fotoğrafları Sevdiklerim’den silebilirsin. Fotoğraflar yüklenmez. İsteğe bağlı reklamlar ve Premium için Gizlilik bölümünü incele.", "Delete photos in Your people. Photos are not uploaded. Optional ads and Premium are explained in Privacy."))
                     Text(game.text("İşletim sistemi yedekleri ayarlarına göre uygulama verilerini içerebilir. Silme ayrıntıları gizlilik politikasında açıklanır.", "Operating-system backups may include app data according to your settings. Deletion details are explained in the privacy policy."))
                 }
                 Section(game.text("Kaynaklar", "Credits")) {

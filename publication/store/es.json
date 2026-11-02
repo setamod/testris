@@ -7,7 +7,7 @@
   "name": "Popzuno",
   "subtitle": "Desliza. Combina. Desata.",
   "shortDescription": "Combina caras y supera récords en cinco modos sin conexión. Fotos opcionales.",
-  "description": "Intercambia bloques vecinos, crea combinaciones y usa los poderes en el momento justo. Cinco modos para superar tu mejor marca.\n\nResiste el campo ascendente en Rush. Gana segundos combinando en Time Rush. Completa objetivos en Ascend. Juega la misma apertura del día UTC en Daily 90. Relax: sin reloj ni subida; el tablero se rellena tras cada jugada. Juega a tu ritmo con música tranquila.\n\nUn cuadrado da Bomb; cuatro horizontales Rocket; cuatro verticales Shuffle; un cruce L/T Cross; cinco en línea Nova. Encadena jugadas y activa Overdrive.\n\nJuega con caras ilustradas o personaliza siete personajes con fotos autorizadas, procesadas en tu dispositivo. Sin cuentas, anuncios, analítica ni compras integradas. Una descarga de pago, juego sin conexión. Récords locales; Daily no es una clasificación online.\n\nCircuit Bloom adapta la música a la velocidad, con efectos separados y vibración en dispositivos compatibles. Turco, inglés, italiano, español, alemán y ruso.",
+  "description": "Intercambia bloques vecinos, crea combinaciones y usa los poderes en el momento justo. Cinco modos para superar tu mejor marca.\n\nResiste el campo ascendente en Rush. Gana segundos combinando en Time Rush. Completa objetivos en Ascend. Juega la misma apertura del día UTC en Daily 90. Relax: sin reloj ni subida; el tablero se rellena tras cada jugada. Juega a tu ritmo con música tranquila.\n\nUn cuadrado da Bomb; cuatro horizontales Rocket; cuatro verticales Shuffle; un cruce L/T Cross; cinco en línea Nova. Encadena jugadas y activa Overdrive.\n\nDescarga, cinco modos, fotos estándar y poderes gratis. Premium es solo cosmético, sin suscripción ni ventaja. Apple/Google gestionan pagos; no recibimos datos de tarjeta. Los derechos provienen de transacciones verificadas y se pueden restaurar. Reembolsos o revocaciones quitan acceso al recibir datos actualizados de la tienda. Se pueden guardar transacciones localmente. El juego base funciona sin conexión. AdMob y UMP se conectan solo cuando un adulto prepara anuncios opcionales en Ajustes. Nunca son obligatorios; personalización e identificador publicitario desactivados. El proveedor puede tratar IP, datos de dispositivo/app/red, diagnósticos e interacciones. No se pasan fotos, medidas faciales ni nombres a SDK publicitarios. Gestiona las opciones de privacidad en Ajustes.\n\nCircuit Bloom adapta la música a la velocidad, con efectos separados y vibración en dispositivos compatibles. Turco, inglés, italiano, español, alemán y ruso.",
   "keywords": "combinar,puzle,arcade,sin conexión,caras,deslizar,combo,récord",
   "categories": [
     "Games/Puzzle",
@@ -15,6 +15,6 @@
   ],
   "privacyUrl": "https://popzuno.frostytang32768.chatgpt.site/privacy/es.html",
   "supportUrl": "https://popzuno.frostytang32768.chatgpt.site/support/es.html",
-  "pricing": "paid_upfront_price_pending",
+  "pricing": "free_with_optional_rewarded_and_one_time_cosmetic_premium",
   "releaseNotes": "Privacy policy, local data deletion and platform publication preparation."
 }

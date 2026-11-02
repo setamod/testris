@@ -6,7 +6,7 @@ import zipfile
 
 root = Path(__file__).resolve().parents[1]
 version = json.loads((root / "package.json").read_text())["version"]
-target = root.parent / "releases" / ("Popzuno-Store-Preparation-" + version + ".zip")
+target = root / "releases" / ("Popzuno-Store-Preparation-" + version + ".zip")
 target.parent.mkdir(parents=True, exist_ok=True)
 files = set()
 
@@ -26,7 +26,7 @@ def include(path):
 
 for name in [
     "README.md", "STORE-READINESS.md", "VALIDATION.json", "package.json", ".gitignore",
-    "dist", "vendor", "scripts", "tests", "branding",
+    "dist", "vendor", "scripts", "tests", "branding", "config",
     "ios/Bulusko", "ios/Bulusko.xcodeproj", "ios/BUILD_STATUS.json", "ios/README-TR.md",
     "android/app/src", "android/app/build.gradle", "android/build.gradle",
     "android/settings.gradle", "android/gradle.properties", "android/gradle", "android/gradlew",
@@ -35,7 +35,7 @@ for name in [
     "publication/release-config.json", "publication/VALIDATION.json",
     "publication/PACKAGE-CHECKS.json", "publication/SITE-PUBLICATION.json",
     "publication/ACCOUNT-STATUS.json", "publication/TESTFLIGHT-STATUS.json",
-    "publication/legal", "publication/store", "publication/site/dist", "publication/testing",
+    "publication/legal", "publication/store", "publication/site/dist", "publication/testing", "publication/monetization",
 ]:
     include(name)
 

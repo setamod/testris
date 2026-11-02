@@ -1,9 +1,9 @@
 {
   "product": "Popzuno",
-  "build": 26,
+  "build": 27,
   "bundleIdentifier": "com.mertbekisoglu.bulusko",
-  "businessModel": "paid_upfront_no_ads_no_iap",
-  "price": null,
+  "businessModel": "free_optional_rewarded_one_time_cosmetic_premium",
+  "price": "free",
   "salesCountries": null,
   "developerAccounts": {
     "apple": "active_verified",
@@ -25,5 +25,8 @@
     "additionalPaymentsAuthorized": false,
     "googleRegistrationPayment": "deferred_until_game_polished_and_owner_approval"
   },
-  "previousProductName": "Kynburst"
+  "previousProductName": "Kynburst",
+  "premiumPriceTargetUSD": "2.99",
+  "audience": "mixed_including_children",
+  "adMobAccount": "not_created"
 }

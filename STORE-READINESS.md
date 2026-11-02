@@ -1,32 +1,29 @@
-# Popzuno — yayın hazırlığı görev sırası
+# Popzuno 0.10.0 — yayın hazırlığı
 
-Başlangıç: 27 Ekim 2026. Kapsam: mevcut Popzuno; eski Familytris ayrı kalır.
+2 Kasım 2026. Yeni dal: `codex/popzuno-rewarded-premium`; güvenli taban `popzuno` / `b21be94`.
 
-Bu dosya tamamlanan işleri kanıtlarıyla, dış hesap/insan kararı gerektiren işleri ise açık durumlarıyla izler. Bir taslak, test edilmemiş paket veya ön araştırma tamamlanmış yayın/onay olarak gösterilmez.
+Uygulama ücretsizdir. Beş mod, standart fotoğraflar ve güçlendirmeler ücretsiz kalır.
+Yalnızca isteğe bağlı rewarded kurtarma ve 2,99 USD hedefli tek seferlik kozmetik Premium vardır.
+Abonelik veya zorunlu reklam yoktur. Sonuçlar [ayrıntılı raporda](publication/monetization/REPORT-TR.md)
+ve [aşama durumunda](publication/monetization/STATUS.json) tutulur.
 
-| Sıra | Görev | Durum | Çıktı / tamamlanma ölçütü |
-|---|---|---|---|
-| 1 | Mevcut sürümü yedekle, kapsamı sabitle | Tamamlandı | `backups/Popzuno-0.9-before-store-readiness.zip`; eski Familytris için 84 dosyanın hash kontrolü |
-| 2 | Kod, model, font ve ses hak envanterini tamamla | Tamamlandı | `vendor/ASSET-INVENTORY.json`, kaynaklar ve altı lisans/bildirim dosyası; pico modelinin resmî MIT dağıtımı doğrulandı |
-| 3 | Popzuno isim/marka ön araştırması | Ön araştırma tamamlandı | `publication/legal/TRADEMARK-SEARCH.md`; WIPO/TÜRKPATENT sorguları ve kapsam sınırları. Benzerlik incelemesi/tescil değildir |
-| 4 | Ticari fikrî hak incelemesi için dosya hazırla | Dosya tamamlandı | `publication/legal/IP-REVIEW-TR.md`; profesyonel görüş alınmadı |
-| 5 | Veri akışını denetle; gizlilik ve destek metinlerini hazırla | Tamamlandı | Altı dilde gerçek yerel saklama/silme davranışı ve iOS yedekleme açıklaması; `publication/legal/PRIVACY-TR.md` |
-| 6 | Uygulama içi gizlilik/lisans erişimini ve tam veri silmeyi tamamla | Tamamlandı | Altı dil; web/native kayıt silme ve iptal testleri geçti; eski kayıt anahtarları da temizleniyor |
-| 7 | iOS mağaza adayını hazırla ve doğrula | Teknik aday tamamlandı | 0.9.8 (17) Release arşivi, altı dilde izinler ve simülatör kontrolü. Dağıtım imzası, TestFlight ve son gerçek cihaz testi bekliyor |
-| 8 | Android uygulamasını hazırla ve doğrula | Teknik aday tamamlandı | API 26–36 çevrimdışı native kabuk; debug APK ve imzasız AAB; emülatörde 43 kontrol. Sahip imzası ve gerçek cihaz testi bekliyor |
-| 9 | Mağaza metinleri ve görsellerini hazırla | Hazırlık tamamlandı | `publication/store/`: altı dilde metin, gerçek TR iOS/TR–EN Android ekranları, ikonlar, Google görseli; konsol formları henüz gönderilmedi |
-| 10 | Yayın öncesi otomatik ve elle kontroller | Yerel kapsam tamamlandı | `publication/VALIDATION.json`, `publication/PACKAGE-CHECKS.json`; gerçek cihaz/mağaza testleri 14. adımda |
-| 11 | Gizlilik/destek sayfalarını yayımla | Tamamlandı | [Gizlilik](https://popzuno.frostytang32768.chatgpt.site/privacy/tr.html), [destek](https://popzuno.frostytang32768.chatgpt.site/support/tr.html); halka açık erişim doğrulandı |
-| 12 | Apple/Google hesap, vergi/banka ve sözleşme işlemleri | Apple aktif; Google kullanıcı isteğiyle bekletiliyor | Google kayıt bilgileri ve iletişim telefonu tamamlandı; son sözleşme/25 USD kayıt ücreti aşamasında kullanıcı ek ödeme yapmamayı ve oyunu önce olgunlaştırmayı istedi. Kayıt sekmesi açık tutuluyor. Kimlik/cihaz doğrulamaları ve mağaza satıcı banka/vergi adımları bekliyor. `publication/ACCOUNT-STATUS.json` |
-| 13 | Fiyat, ülkeler, yaş/hedef kitle ve hukuki son kontrol | Karar / dış inceleme bekliyor | Tek seferlik ücretli model onaylı; tutar, ülkeler ve formların nihai yanıtları seçilmedi; ticari hak görüşü alınmadı. Google Play'de seçilen profildeki tam yasal adresin ücretli satışta kamuya açılması kullanıcı tarafından açıkça onaylandı; özel adres kaynak dosyalara kopyalanmadı |
-| 14 | TestFlight / Google Play test kanalı | Hesap ve imzaya bağlı | Plan ve boş testçi şablonu hazır; henüz yükleme/davet yok. Yeni bireysel Play hesabında 12 kişi/14 gün kapalı test, sonra üretim erişimi başvurusu |
-| 15 | Son kontrol ve mağaza incelemesine gönderim | 12–14. adımlara bağlı | Henüz mağazaya gönderilmedi veya satışa açılmadı; hesap, imza, test ve ticari seçimler tamamlanınca yapılır |
+| İş | Gerçek durum |
+|---|---|
+| Güvenli dal ve gerçek kod analizi | Tamamlandı; orijinal kaynak ve telefon korunur |
+| Rewarded altyapısı / mod kurtarmaları | Kod, otomatik motor/native/UI testleri ve Android gerçek Google test reklamı doğrulandı |
+| Kota / tekrar ödül / skor bütünlüğü | Native monoton sayaç; tek oyun, kayan 24 saat ve assisted rekor ayrımı test edildi |
+| StoreKit / Play Billing | Derlendi; yerel StoreKit ve Android imza/UI testleri var; gerçek mağaza testleri bekliyor |
+| Kozmetik içerik | Prizma/Krom çerçeveler, Aurora efekt, Yörünge animasyonu, Kristal bonus sesi |
+| Çocuklar dahil karma kitle | Nötr yaş aralığı; çocuk/genç/belirsiz yaşta reklam/yeni satın alma yok; son mağaza incelemesi bekliyor |
+| Gizlilik, veri güvenliği, hukuk | Altı dilde taslak güncellendi; mağaza beyanı ve hukuki onay tamamlanmadı |
+| AdMob / UMP | Hesap henüz yok; gerçek uygulama/birim kimlikleri ve bölgesel mesajlar bekliyor |
+| Mağaza ürünleri / vergi / banka | Gerçek ürünler oluşturulmadı; gerekli işlemler sahibi tarafından tamamlanmalı |
+| Android yayın | Google kayıt ödemesi sahibinin isteğiyle ertelendi; imzalı dağıtım yok |
+| iOS / TestFlight | Bu dalda yalnızca imzasız aday; bu sürüm yüklenmedi veya telefona kurulmadı |
+| Canlı destek sitesi | Bu dala ait metinler yerel taslak; eski canlı sayfa yeni SDK'ları henüz açıklamıyor |
+| Canlıya geçiş | Kapalı; yayın kontrolü eksik hesap/ürün/beyan kapılarını reddeder |
 
-## Çalışma varsayımları
-
-- Geliştirici/iletişim: Mert Bekisoglu / mertbek@gmail.com. Kullanıcı kamuya açılmasını açıkça onayladı; sayfalar yayımlandı.
-- Onaylanan model: tek seferlik ücretli, reklam/analitik/IAP yok. Henüz fiyat veya satış ülkesi seçilmedi.
-- Popzuno çalışma adıdır; veri tabanı sorgusu tescil veya hukuki uygunluk garantisi değildir.
-- Ücretli üyelik, ödeme, banka/vergi kimliği, bağlayıcı sözleşme ve mağazaya nihai gönderim otomatik tamamlanmış sayılmaz.
-- 0.9.8 (17) telefon güncellemesinin son doğrulaması ios/BUILD_STATUS.json dosyasında tutulur; uzun oturum, gerçek ses/titreşim ve oyun dengesi için oyuncu geri bildirimi sürüyor.
-- Harcama kararı: Kullanıcı oyun tamamen hazır olmadan ek ödeme istemiyor. Google kayıt ücreti ve diğer ücretli hizmetler bekletiliyor; açık sekmede işlem yapılmayacak. Mevcut Apple üyeliğiyle ücretsiz geliştirme/test ve oyun iyileştirme çalışmaları sürdürülebilir.
+[Hesap sahibi rehberi](publication/monetization/OWNER-STEPS-TR.md) gerekli resmî sayfa ve menüleri içerir.
+Marka/ticari hak incelemesi sonuçlandırılmış sayılmaz. Ücretli hizmet, ödeme, sözleşme kabulü veya canlı yayın yapılmadı.
+Kesin kişi başına kota ve güçlü mağaza/ödül sunucu doğrulaması için ayrıca backend gerekir;
+bu sürüm cihaz başına sınır uygular. Test ayrıntıları raporda açıkça ayrılır.

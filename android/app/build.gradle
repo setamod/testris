@@ -6,6 +6,11 @@ def signingFile = rootProject.file('keystore.properties')
 def signingValues = new Properties()
 if (signingFile.exists()) signingFile.withInputStream { signingValues.load(it) }
 
+def monetization = new groovy.json.JsonSlurper().parse(file('../../config/monetization.json'))
+def localConfig = file('../../monetization.local.json')
+if (localConfig.exists()) monetization.putAll(new groovy.json.JsonSlurper().parse(localConfig))
+def safeString = { value -> groovy.json.JsonOutput.toJson(value ?: '') }
+
 android {
     namespace 'com.mertbekisoglu.bulusko'
     compileSdk 36
@@ -15,6 +20,10 @@ android {
         targetSdk 36
         versionCode releaseInfo.build as int
         versionName appInfo.version
+        buildConfigField 'String', 'PREMIUM_PRODUCT', safeString(monetization.productId)
+        buildConfigField 'boolean', 'STORE_ENABLED', String.valueOf(monetization.storeProductsEnabled == true)
+        buildConfigField 'String', 'BILLING_PUBLIC_KEY', safeString(monetization.androidBillingPublicKey)
+        buildConfigField 'boolean', 'LIVE_ADS_ENABLED', String.valueOf(monetization.liveAdsEnabled == true && monetization.audienceApproved == true && monetization.privacyDeclarationsApproved == true)
         testInstrumentationRunner 'com.mertbekisoglu.bulusko.SmokeInstrumentation'
     }
     buildFeatures { buildConfig true }
@@ -32,8 +41,14 @@ android {
         }
     }
     buildTypes {
-        debug { applicationIdSuffix '.debug'; versionNameSuffix '-debug' }
+        debug {
+            applicationIdSuffix '.debug'; versionNameSuffix '-debug'
+            buildConfigField 'String', 'REWARDED_ID', '"ca-app-pub-3940256099942544/5224354917"'
+            manifestPlaceholders = [adMobAppId:'ca-app-pub-3940256099942544~3347511713']
+        }
         release {
+            buildConfigField 'String', 'REWARDED_ID', safeString(monetization.liveAdsEnabled == true ? monetization.androidRewardedAdUnitId : '')
+            manifestPlaceholders = [adMobAppId:monetization.androidAdMobAppId ?: 'ca-app-pub-0000000000000000~0000000000']
             minifyEnabled false
             debuggable false
             if (signingFile.exists()) signingConfig signingConfigs.release
@@ -51,3 +66,18 @@ tasks.register('verifyReleaseSigning') {
 }
 tasks.register('storeBundle') { dependsOn 'verifyReleaseSigning'; dependsOn 'bundleRelease' }
 tasks.configureEach { if (name == 'bundleRelease') mustRunAfter 'verifyReleaseSigning' }
+
+dependencies {
+    implementation 'com.google.android.gms:play-services-ads:25.5.0'
+    implementation 'com.google.android.ump:user-messaging-platform:4.0.0'
+    implementation 'com.android.billingclient:billing:9.1.0'
+}
+
+tasks.register('verifyMonetizationRelease') {
+    doLast {
+        if (!monetization.audienceApproved || !monetization.privacyDeclarationsApproved || !monetization.storeProductsEnabled) throw new GradleException('Complete owner audience/privacy/store gates before publication.')
+        if (monetization.liveAdsEnabled && (!monetization.androidAdMobAppId || !monetization.androidRewardedAdUnitId || monetization.androidRewardedAdUnitId.contains('3940256099942544'))) throw new GradleException('Production ad IDs required; test IDs forbidden.')
+        if (!monetization.androidBillingPublicKey) throw new GradleException('Play Billing purchase-verification public key required.')
+    }
+}
+tasks.named('storeBundle') { dependsOn 'verifyMonetizationRelease' }

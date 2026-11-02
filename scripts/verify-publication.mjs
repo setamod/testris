@@ -11,15 +11,15 @@ const sha=bytes=>createHash('sha256').update(bytes).digest('hex'),checks=[];
 function check(value,name){if(!value)throw Error('Publication check failed: '+name);checks.push(name);}
 const config=JSON.parse(await readFile(join(pub,'release-config.json'),'utf8'));
 check(config.contact.publicUseConfirmed,'owner confirmed public contact');
-check(config.businessModel==='paid_upfront_no_ads_no_iap','approved paid-upfront model');
+check(config.businessModel==='free_optional_rewarded_one_time_cosmetic_premium','approved free game and cosmetic Premium model');
 check(config.publicPrivacyUrl?.startsWith('https://')&&config.publicSupportUrl?.startsWith('https://'),'public HTTPS policy/support URLs');
 for(const [lang,copy]of Object.entries(PRIVACY_COPY)){
  const metadata=JSON.parse(await readFile(join(pub,'store',lang+'.json'),'utf8'));
  check(metadata.name.length<=30&&metadata.subtitle.length<=30&&metadata.shortDescription.length<=80&&metadata.description.length<=4000&&metadata.keywords.length<=100,'metadata bounds / '+lang);
- check(metadata.privacyUrl===new URL('privacy/'+lang+'.html',new URL('.',config.publicPrivacyUrl)).href&&metadata.supportUrl===new URL('support/'+lang+'.html',new URL('.',config.publicSupportUrl)).href,'localized live URLs in metadata / '+lang);
+ check(metadata.privacyUrl===new URL('privacy/'+lang+'.html',new URL('.',config.publicPrivacyUrl)).href&&metadata.supportUrl===new URL('support/'+lang+'.html',new URL('.',config.publicSupportUrl)).href,'localized intended publication URLs in metadata / '+lang);
  for(const kind of ['privacy','support']){
   const path=join(pub,'site','dist',kind,lang+'.html'),html=await readFile(path,'utf8');
-  check(html.includes('lang="'+lang+'"')&&!html.includes('PREVIEW —'),'confirmed localized '+kind+' / '+lang);
+  check(html.includes('lang="'+lang+'"')&&!html.includes('PREVIEW —'),'generated localized '+kind+' / '+lang+' (deployment checked separately)');
   for(const match of html.matchAll(/(?:href|src)="([^"]+)"/g)){
    const link=match[1];if(/^(https?:|mailto:|data:|#)/.test(link))continue;
    check((await stat(resolve(dirname(path),link))).isFile(),'local Site link / '+lang+' / '+link);
@@ -48,12 +48,18 @@ const aab=await readFile(join(root,'android','app','build','outputs','bundle','r
 const aabContents=JSON.parse(await readFile(join(pub,'evidence','android-package-contents.json'),'utf8'));
 check(aabContents.aab_sha256===sha(aab),'AAB inspection belongs to current artifact');
 check(aabContents.game_matches_current_source&&aabContents.game_sha256===sha(Buffer.from(androidHTML)),'actual AAB game matches current source');
-check(aabContents.legal_files_match.length===LEGAL_NOTICES.length&&!aabContents.signed&&!aabContents.native_libraries.length,'actual AAB notices, unsigned state and no native SDK libraries');
+check(aabContents.legal_files_match.length===LEGAL_NOTICES.length&&!aabContents.signed,'actual AAB notices and unsigned state; SDK contents inventoried');
 const manifest=await readFile(join(pub,'evidence','android-release-manifest.xml'),'utf8');
 check(manifest.includes('android:targetSdkVersion="36"')&&manifest.includes('android:minSdkVersion="26"'),'actual AAB target/min API levels');
 check(manifest.includes('android:allowBackup="false"')&&!manifest.includes('android:debuggable="true"'),'actual AAB backup/debug flags');
 const permissions=[...manifest.matchAll(/<uses-permission[^>]*android:name="([^"]+)"/g)].map(match=>match[1]);
-check(permissions.length===1&&permissions[0]==='android.permission.VIBRATE','actual AAB has only VIBRATE permission');
+check(['android.permission.VIBRATE','android.permission.INTERNET','android.permission.ACCESS_NETWORK_STATE','com.android.vending.BILLING'].every(p=>permissions.includes(p)),'actual AAB has required game/network/billing permissions');
+check(!permissions.some(p=>/AD_ID|AD_SERVICES|READ_MEDIA|CAMERA|RECORD_AUDIO|LOCATION|CONTACTS/.test(p)),'actual AAB excludes advertising identifiers and broad personal-data permissions');
+const commerce=JSON.parse(await readFile(join(root,'config/monetization.json'),'utf8'));
+check(!commerce.liveAdsEnabled&&!commerce.storeProductsEnabled,'committed release configuration leaves live ads and sales disabled');
+check(commerce.productId==='com.mertbekisoglu.bulusko.premium'&&commerce.targetPriceUSD==='2.99','single non-consumable cosmetic product and owner price target');
+check(androidHTML.includes('rescueKind')&&androidHTML.includes('premium-dialog'),'current packaged commerce UI and eligibility policy included');
+check((await readFile(join(archive,'Info.plist'))).length>0,'iOS archive Info.plist exists');
 const bundleConfig=JSON.parse(await readFile(join(pub,'evidence','android-bundle-config.json'),'utf8'));
 check(bundleConfig.optimizations.splitsConfig.splitDimension.some(item=>item.value==='LANGUAGE'&&item.negate),'actual AAB keeps all languages offline');
 check((await readFile(join(pub,'evidence','android-smoke.txt'),'utf8')).includes('KYNBURST_SMOKE_PASS'),'native Android smoke run passed');
@@ -72,5 +78,5 @@ for(const [name,[width,height]]of Object.entries(assets)){
  assetEvidence.push({file:name,width,height:actualHeight,bytes:bytes.length,sha256:sha(bytes)});
 }
 await writeFile(join(pub,'store','ASSETS.json'),JSON.stringify({assets:assetEvidence,screenshots:'actual simulator/emulator captures with default illustrated characters; no personal photos',feature:'Popzuno generated emblem and native typography; source scripts/prepare-brand.swift',iosScreenshotLocale:'tr'},null,2)+'\n');
-await writeFile(join(pub,'PACKAGE-CHECKS.json'),JSON.stringify({status:'passed',checks:checks.length,details:checks,storeSubmissionReady:false,reason:'Owner enrollment/signing, legal review, commercial choices and required test tracks remain.'},null,2)+'\n');
+await writeFile(join(pub,'PACKAGE-CHECKS.json'),JSON.stringify({status:'passed',checks:checks.length,details:checks,storeSubmissionReady:false,reason:'Live AdMob/UMP configuration, real store products and sandbox/license tests, audience/privacy declarations, signing and owner publication approval remain.'},null,2)+'\n');
 console.log(JSON.stringify({checksPassed:checks.length,assets:assetEvidence.length,storeSubmissionReady:false}));

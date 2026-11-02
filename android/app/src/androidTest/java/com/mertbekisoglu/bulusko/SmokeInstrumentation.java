@@ -23,10 +23,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /** Self-contained smoke test. Deliberately refuses release apps and physical devices. */
 public final class SmokeInstrumentation extends Instrumentation {
+    private Bundle arguments;
     private Activity activity;
     private WebView web;
     private final StringBuilder passed = new StringBuilder();
-    @Override public void onCreate(Bundle arguments) { super.onCreate(arguments); start(); }
+    @Override public void onCreate(Bundle arguments) { super.onCreate(arguments); this.arguments=arguments; start(); }
     @Override public void onStart() {
         Bundle result = new Bundle();
         try {
@@ -37,11 +38,17 @@ public final class SmokeInstrumentation extends Instrumentation {
             getTargetContext().startActivity(new Intent(Intent.ACTION_MAIN).setClassName(getTargetContext().getPackageName(),MainActivity.class.getName()).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             activity=monitor.waitForActivityWithTimeout(15000);removeMonitor(monitor);check(activity!=null,"activity resumed");
             runOnMainSync(()->web=(WebView)((ViewGroup)((ViewGroup)activity.findViewById(android.R.id.content)).getChildAt(0)).getChildAt(0));
+            if("true".equals(arguments.getString("sdkProbe"))){
+                JSONObject probe=AdMobSDKProbe.run(this,activity);File folder=new File(getTargetContext().getExternalFilesDir(null),"smoke");folder.mkdirs();
+                try(FileOutputStream out=new FileOutputStream(new File(folder,"admob-sdk-probe.json"))){out.write(probe.toString(2).getBytes(java.nio.charset.StandardCharsets.UTF_8));}
+                result.putString("stream","ADMOB_SDK_PROBE\n"+probe);finish(Activity.RESULT_OK,result);return;
+            }
             await("document.querySelectorAll('#tide-grid button').length===88","offline game boot / 88 cells");
             check(js("document.title==='Popzuno' && document.querySelector('.home-wordmark').textContent==='Popzuno'").equals("true"),"Popzuno title and home wordmark");
             await("Array.from(document.querySelectorAll('.brand-mark,.home-brand-mark')).length===2 && Array.from(document.querySelectorAll('.brand-mark,.home-brand-mark')).every(i=>i.complete && i.naturalWidth===256)","both Popzuno logos load fully offline");
             check(js("document.querySelector('[data-tide-mode]').dataset.tideMode==='ascend' && document.querySelector('[data-tide-mode=ascend]').getAttribute('aria-pressed')==='true'").equals("true"),"Ascend is the first and default mode");
             check(js("typeof window.KynburstNative.postMessage==='function'").equals("true"),"native bridge");
+            checkCommerce();
             check(js("document.querySelector('#cheer-volume').value==='40' && document.querySelector('#cheers-toggle').checked && document.querySelectorAll('.audio-previews button').length===3").equals("true"),"celebration controls and previews");
             instrumentAudio();
             check(js("!document.querySelector('#home-landing').hidden && document.querySelector('#home-picker').hidden && document.querySelectorAll('[data-tide-mode]').length===5 && !document.querySelector('[data-tide-mode=blitz]') && !document.querySelector('.home-power-showcase')").equals("true"),"clean landing opens first; five modes and no power showcase");
@@ -57,7 +64,7 @@ public final class SmokeInstrumentation extends Instrumentation {
             check(js("!document.querySelector('#settings-content').hidden && document.querySelector('#settings-content').contains(document.querySelector('#privacy-open')) && document.querySelector('#support-email').getAttribute('href').startsWith('mailto:mertbek@gmail.com')").equals("true"),"settings owns privacy/licenses and support contact");
             for(String lang:new String[]{"tr","en","it","es","de","ru"}){
                 js("if(document.querySelector('#tide-home').hidden)document.querySelector('#tide-menu').click();(()=>{const e=document.querySelector('#language');e.value='"+lang+"';e.dispatchEvent(new Event('change',{bubbles:true}));document.querySelector('#privacy-open').click();return true;})()");
-                await("document.querySelector('#privacy-dialog').open && document.querySelectorAll('#privacy-content h3').length===6 && document.querySelectorAll('#license-content details').length===6","policy and licenses / "+lang);
+                await("document.querySelector('#privacy-dialog').open && document.querySelectorAll('#privacy-content h3').length===8 && document.querySelectorAll('#license-content details').length===6","policy and licenses / "+lang);
                 check(getTargetContext().getSharedPreferences("kynburst",0).getString("language","").equals(lang),"native language preference / "+lang);
                 js("document.querySelector('#privacy-done').click();document.querySelector('[data-home-action=settings]').click();true");
             }
@@ -90,11 +97,19 @@ public final class SmokeInstrumentation extends Instrumentation {
             js("document.querySelector('[data-home-action=family]').click();true");check(js("document.querySelector('#person-name').value==='Popzuno QA' && !!JSON.parse(localStorage.getItem('bulusko-v1:people'))[0].photo").equals("true"),"name and character photo survive reload");js("document.querySelector('[data-close=family-dialog]').click();document.querySelector('#home-play').click();document.querySelector('[data-tide-mode=timeRush]').click();true");capture("android-time-rush-en.png");tap("#home-start");
             await("document.querySelector('#tide-arena').classList.contains('is-playing')","Time Rush touch start");check(js("getComputedStyle(document.querySelector('.tide-ceiling')).display==='none' && getComputedStyle(document.querySelector('#tide-tempo')).display==='none'").equals("true"),"clock has no false overflow ceiling");
             awaitLong("document.querySelector('.tide-cabinet').dataset.timeRisk==='critical'","Time Rush final seconds are urgent",45000);capture("android-time-critical-en.png");await("!document.querySelector('#tide-end-reason').hidden && document.querySelector('#tide-clock').textContent==='0:00'","timed ending explains zero clock");
+            js("window.dispatchEvent(new CustomEvent('popzuno:commerce',{detail:{kind:'state',supported:true,age:'adult',ready:true,remaining:2,premium:false,canPurchase:false}}));true");
             for(String lang:new String[]{"tr","en","it","es","de","ru"}){
                 js("(()=>{const e=document.querySelector('#language');e.value='"+lang+"';e.dispatchEvent(new Event('change',{bubbles:true}));return true;})()");
                 check(js("(()=>{const o=document.querySelector('#tide-overlay'),r=o.getBoundingClientRect();return o.getAttribute('aria-modal')==='true'&&document.querySelector('.app-shell').hasAttribute('inert')&&r.top>=0&&r.bottom<=innerHeight+1&&o.scrollHeight<=o.clientHeight+1;})()").equals("true"),"result fits / "+lang);
             }
-            js("(()=>{const e=document.querySelector('#language');e.value='en';e.dispatchEvent(new Event('change',{bubbles:true}));return true;})()");capture("android-time-ended-en.png");tap("#tide-start");await("document.querySelector('#tide-arena').classList.contains('is-playing')","restart");
+            js("(()=>{const e=document.querySelector('#language');e.value='en';e.dispatchEvent(new Event('change',{bubbles:true}));return true;})()");capture("android-time-ended-en.png");
+            check(js("!document.querySelector('#tide-rescue').hidden && /15/.test(document.querySelector('#tide-rescue').textContent)").equals("true"),"only loaded and eligible Time Rush rescue appears on loss");
+            js("window.__oldPost=window.webkit.messageHandlers.bulusko.postMessage;window.webkit.messageHandlers.bulusko.postMessage=m=>{if(m.type==='commerce'&&m.op==='show')window.__rescueRequest=m;else window.__oldPost(m);};document.querySelector('#tide-rescue').click();true");
+            check(js("document.querySelector('#tide-start').disabled && !!window.__rescueRequest").equals("true"),"ad transaction locks restart without advancing ended game");
+            js("window.dispatchEvent(new CustomEvent('popzuno:commerce',{detail:{kind:'result',id:window.__rescueRequest.id,code:'earned'}}));window.webkit.messageHandlers.bulusko.postMessage=window.__oldPost;true");
+            await("document.querySelector('#tide-start').textContent==='Keep going' && document.querySelector('#tide-clock').textContent==='0:15'","earned native-provider result resumes the same run paused with exactly 15 seconds");
+            check(js("document.querySelector('#tide-rescue').hidden && document.querySelector('.rescue-note').textContent.includes('excluded')").equals("true"),"rescued run is labelled and cannot offer a second rescue");
+            capture("android-rescue-paused-en.png");tap("#tide-start");await("document.querySelector('#tide-arena').classList.contains('is-playing')","restart");
             js("window.__beforeAudioCount=window.__qaAudioContexts.length;window.__beforeAudio=window.__qaAudioContexts.at(-1);true");
             runOnMainSync(()->activity.moveTaskToBack(true));SystemClock.sleep(700);
             getTargetContext().startActivity(new Intent(Intent.ACTION_MAIN).setClassName(getTargetContext().getPackageName(),MainActivity.class.getName()).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
@@ -107,11 +122,45 @@ public final class SmokeInstrumentation extends Instrumentation {
             js("document.querySelector('#tide-menu').click();document.querySelector('[data-home-action=settings]').click();document.querySelector('#privacy-open').click();document.querySelector('#reset-open').click();document.querySelector('#reset-cancel').click();true");
             check(js("JSON.parse(localStorage.getItem('bulusko-v1:people'))[0].name==='Popzuno QA'").equals("true"),"cancel preserves photos/names");js("document.querySelector('#reset-open').click();document.querySelector('#reset-confirm').click();true");
             await("document.querySelectorAll('#tide-grid button').length===88 && localStorage.getItem('bulusko-v1:people')===null && localStorage.getItem('bulusko-v1:settings')===null","native full reset");check(getTargetContext().getSharedPreferences("kynburst",0).getAll().isEmpty(),"native preferences erased");
+            check(!getTargetContext().getSharedPreferences("popzuno-commerce",0).getString("quota","").isEmpty(),"game-data deletion cannot reset rescue quota or cancel store rights");
             result.putString("stream","KYNBURST_SMOKE_PASS\n"+passed);
             result.putBoolean("success",true);finish(Activity.RESULT_OK,result);
         } catch (Throwable error) {
             result.putString("stream","KYNBURST_SMOKE_FAIL\n"+passed+"\n"+error);result.putBoolean("success",false);finish(Activity.RESULT_CANCELED,result);
         }
+    }
+
+    private void checkCommerce() throws Exception {
+        await("document.querySelector('#commerce-age') && !document.querySelector('#commerce-age').disabled","commerce status arrives from native code");
+        check(js("document.querySelector('#ads-prepare').disabled && document.querySelector('#commerce-age').value==='unknown' && document.querySelector('#tide-rescue').hidden").equals("true"),"unknown age starts no ads and exposes no unavailable rescue");
+        java.security.KeyPairGenerator generator=java.security.KeyPairGenerator.getInstance("RSA");generator.initialize(2048);java.security.KeyPair pair=generator.generateKeyPair();
+        String data="synthetic signed purchase test only";java.security.Signature signer=java.security.Signature.getInstance("SHA1withRSA");signer.initSign(pair.getPrivate());signer.update(data.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        String signature=android.util.Base64.encodeToString(signer.sign(),android.util.Base64.NO_WRAP),publicKey=android.util.Base64.encodeToString(pair.getPublic().getEncoded(),android.util.Base64.NO_WRAP);
+        check(PremiumBilling.verify(data,signature,publicKey),"native Billing signature check accepts authentic signed fixture");
+        check(!PremiumBilling.verify(data+"tampered",signature,publicKey)&&!PremiumBilling.verify(data,signature,"")&&!PremiumBilling.verify(data,"bad",publicKey),"native Billing signature check rejects tampering, malformed signature and missing key");
+        java.lang.reflect.Field field=MainActivity.class.getDeclaredField("commerce");field.setAccessible(true);CommerceService service=(CommerceService)field.get(activity);
+        java.lang.reflect.Field init=CommerceService.class.getDeclaredField("initialized");init.setAccessible(true);check(!init.getBoolean(service),"ad SDK remains uninitialized on first launch");
+        js("(()=>{const s=document.querySelector('#commerce-age');s.value='child';s.dispatchEvent(new Event('change'));return true;})()");
+        await("document.querySelector('#commerce-age').value==='child' && !document.querySelector('#commerce-age').disabled && document.querySelector('#ads-prepare').disabled","child age band keeps advertising unavailable");
+        check(getTargetContext().getSharedPreferences("popzuno-commerce",0).getString("audience","").equals("child"),"coarse age band stored natively without a birth date");
+        js("document.querySelector('#premium-open').click();true");await("document.querySelector('#premium-dialog').open","Premium opens only on explicit settings action");
+        check(js("document.querySelector('#premium-buy').disabled && [...document.querySelectorAll('#premium-dialog select')].every(e=>e.disabled)").equals("true"),"unconfigured store does not offer fake purchases or free Premium rights");
+        js("window.dispatchEvent(new CustomEvent('popzuno:commerce',{detail:{kind:'state',supported:true,age:'child',premium:true,remaining:3}}));(()=>{const s=document.querySelector('[data-cosmetic=theme]');s.value='prism';s.dispatchEvent(new Event('change'));return true;})()");
+        check(js("document.documentElement.dataset.cosmeticTheme==='prism' && JSON.parse(localStorage.getItem('bulusko-v1:cosmetics')).theme==='prism'").equals("true"),"verified-entitlement UI enables cosmetic choice and preserves preference");
+        js("window.dispatchEvent(new CustomEvent('popzuno:commerce',{detail:{kind:'state',supported:true,age:'child',premium:false,remaining:3}}));true");
+        check(js("document.documentElement.dataset.cosmeticTheme==='classic' && document.querySelector('[data-cosmetic=theme]').disabled").equals("true"),"entitlement revocation restores classic cosmetics without touching gameplay");
+        js("document.querySelector('#premium-close').click();window.__commerceQA=[];window.addEventListener('popzuno:commerce',e=>{if(e.detail.kind==='result')window.__commerceQA.push(e.detail);});true");
+        java.lang.reflect.Method complete=CommerceService.class.getDeclaredMethod("complete",boolean.class);complete.setAccessible(true);
+        for(String[] sample:new String[][]{{"qa-earned","qa-run1","true","false"},{"qa-close","qa-run2","false","false"},{"qa-failed","qa-run3","true","true"},{"qa-duplicate-run","qa-run1","true","false"}}){
+            runOnMainSync(()->{try{
+                for(String key:new String[]{"activeID","activeRun","earned","busy"}){java.lang.reflect.Field f=CommerceService.class.getDeclaredField(key);f.setAccessible(true);f.set(service,key.equals("activeID")?sample[0]:key.equals("activeRun")?sample[1]:key.equals("earned")?Boolean.parseBoolean(sample[2]):true);}
+                complete.invoke(service,Boolean.parseBoolean(sample[3]));complete.invoke(service,false);
+            }catch(Exception e){throw new RuntimeException(e);}});
+        }
+        check(js("JSON.stringify(window.__commerceQA.map(e=>e.code))===JSON.stringify(['earned','closed','error','closed'])").equals("true"),"native reward finalization grants only earned-and-dismissed once; close/failure/replay get no reward");
+        check(js("window.__commerceQA.length===4").equals("true"),"duplicate dismissal callbacks cannot grant a second reward");
+        check(!init.getBoolean(service),"synthetic callback tests make no ad requests");
+        js("(()=>{const s=document.querySelector('#commerce-age');s.value='unknown';s.dispatchEvent(new Event('change'));return true;})()");
     }
 
     private void checkPortraits() throws Exception {

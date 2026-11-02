@@ -15,7 +15,7 @@ private let nativeCopy: [String: [String: String]] = [
         "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Abbinamenti grandi, Bomb, Rocket, Cross e Nova producono vibrazioni di diversa intensità.",
         "Privacy": "Privacy",
         "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Le foto scelte vengono elaborate sul dispositivo. Volti, nomi, livelli, record e preferenze restano nella memoria locale dell’app.",
-        "Delete photos in Your people. There are no accounts, ads, analytics or uploads.": "Puoi eliminare le foto in I miei cari. Non ci sono account, pubblicità, analisi o caricamenti.",
+        "Delete photos in Your people. Photos are not uploaded. Optional ads and Premium are explained in Privacy.": "Elimina le foto in I miei cari. Non vengono caricate. Pubblicità facoltativa e Premium sono spiegati in Privacy.",
         "Credits": "Riconoscimenti",
         "Popzuno settings": "Impostazioni Popzuno",
         "Done": "Fatto",
@@ -33,7 +33,7 @@ private let nativeCopy: [String: [String: String]] = [
         "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Las combinaciones grandes, Bomb, Rocket, Cross y Nova producen vibraciones de distinta intensidad.",
         "Privacy": "Privacidad",
         "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Las fotos elegidas se procesan en tu dispositivo. Las caras, los nombres, las etapas, los récords y las preferencias se guardan localmente en esta app.",
-        "Delete photos in Your people. There are no accounts, ads, analytics or uploads.": "Puedes eliminar las fotos en Mi gente. No hay cuentas, anuncios, analítica ni subidas de datos.",
+        "Delete photos in Your people. Photos are not uploaded. Optional ads and Premium are explained in Privacy.": "Elimina las fotos en Mi gente. No se suben. Consulta los anuncios opcionales y Premium en Privacidad.",
         "Credits": "Créditos",
         "Popzuno settings": "Ajustes de Popzuno",
         "Done": "Listo",
@@ -51,7 +51,7 @@ private let nativeCopy: [String: [String: String]] = [
         "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Große Kombinationen, Bomb, Rocket, Cross und Nova erzeugen unterschiedlich starke Vibrationen.",
         "Privacy": "Datenschutz",
         "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Ausgewählte Fotos werden auf deinem Gerät verarbeitet. Gesichter, Namen, Stufen, Rekorde und Einstellungen bleiben im lokalen Speicher dieser App.",
-        "Delete photos in Your people. There are no accounts, ads, analytics or uploads.": "Lösche Fotos unter Meine Liebsten. Es gibt keine Konten, Werbung, Analysen oder Uploads.",
+        "Delete photos in Your people. Photos are not uploaded. Optional ads and Premium are explained in Privacy.": "Lösche Fotos unter Meine Liebsten. Fotos werden nicht hochgeladen. Freiwillige Werbung und Premium stehen unter Datenschutz.",
         "Credits": "Mitwirkende",
         "Popzuno settings": "Popzuno-Einstellungen",
         "Done": "Fertig",
@@ -69,7 +69,7 @@ private let nativeCopy: [String: [String: String]] = [
         "Larger matches, Bomb, Rocket, Cross and Nova produce different strengths of haptic feedback.": "Большие комбинации, Bomb, Rocket, Cross и Nova дают вибрацию разной силы.",
         "Privacy": "Конфиденциальность",
         "Selected photos are processed on your device. Faces, names, stages, records and preferences stay in this app's local storage.": "Выбранные фото обрабатываются на устройстве. Лица, имена, этапы, рекорды и настройки хранятся только в локальном хранилище приложения.",
-        "Delete photos in Your people. There are no accounts, ads, analytics or uploads.": "Фото можно удалить в разделе «Близкие». Здесь нет аккаунтов, рекламы, аналитики или загрузки данных на сервер.",
+        "Delete photos in Your people. Photos are not uploaded. Optional ads and Premium are explained in Privacy.": "Удаляй фото в разделе «Близкие». Фото не загружаются. О добровольной рекламе и Premium читай в Политике.",
         "Credits": "Авторы и ресурсы",
         "Popzuno settings": "Настройки Popzuno",
         "Done": "Готово",
@@ -107,6 +107,7 @@ final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandle
     private let notice = UINotificationFeedbackGenerator()
     private var lastFeedback: CFTimeInterval = 0
     private let photoAlignmentQueue = DispatchQueue(label: "popzuno.photo-alignment", qos: .userInitiated)
+    private lazy var commerce = CommerceService()
     private var resetting = false
     private var url: URL? { Bundle.main.url(forResource: "index", withExtension: "html", subdirectory: "Game") }
 
@@ -179,6 +180,19 @@ final class BuluskoController: NSObject, ObservableObject, WKScriptMessageHandle
               message.webView?.url?.standardizedFileURL == url.standardizedFileURL,
               let body = message.body as? [String: Any], let type = body["type"] as? String else { return }
         switch type {
+        case "commerce":
+            guard !resetting else { return }
+            commerce.presenter = { [weak self] in
+                guard let window = self?.webView?.window else { return nil }
+                var controller = window.rootViewController
+                while let presented = controller?.presentedViewController { controller = presented }
+                return controller
+            }
+            commerce.emit = { [weak self] payload in
+                guard let data = try? JSONSerialization.data(withJSONObject:payload),let json=String(data:data,encoding:.utf8) else { return }
+                self?.webView?.evaluateJavaScript("window.dispatchEvent(new CustomEvent('popzuno:commerce',{detail:"+json+"}));")
+            }
+            commerce.handle(body)
         case "photoAlign":
             guard !resetting, let id = body["id"] as? String,
                   id.range(of: "^[a-zA-Z0-9-]{1,64}$", options: .regularExpression) != nil,

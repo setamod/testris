@@ -37,3 +37,9 @@ publication/site/*
 !publication/site/.openai/
 publication/site/.openai/*
 !publication/site/.openai/hosting.json
+
+releases/
+monetization.local.json
+publication/monetization/evidence/
+
+.tooling

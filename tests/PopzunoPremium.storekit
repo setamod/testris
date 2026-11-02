@@ -1,0 +1,8 @@
+{
+ "identifier":"PopzunoCommerceLocalTest",
+ "nonRenewingSubscriptions":[],
+ "products":[{"displayPrice":"2.99","familyShareable":false,"internalID":"premium-1","localizations":[{"description":"Cosmetics only. No extra rescues or gameplay advantage.","displayName":"Popzuno Premium","locale":"en_US"}],"productID":"com.mertbekisoglu.bulusko.premium","referenceName":"Premium Cosmetics","type":"NonConsumable"}],
+ "settings":{"_failTransactionsEnabled":false,"_locale":"en_US","_storefront":"USA"},
+ "subscriptionGroups":[],
+ "version":{"major":3,"minor":0}
+}

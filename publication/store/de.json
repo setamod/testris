@@ -7,7 +7,7 @@
   "name": "Popzuno",
   "subtitle": "Wischen. Kombinieren. Los!",
   "shortDescription": "Kombiniere Gesichter in fünf Offline-Modi. Eigene Fotos sind optional.",
-  "description": "Tausche benachbarte Blöcke, bilde Kombinationen und nutze deine Kräfte im richtigen Moment. Fünf Modi für deinen nächsten persönlichen Rekord.\n\nHalte das steigende Feld in Rush auf. Gewinne Sekunden durch Treffer in Time Rush. Erreiche Stufenziele in Ascend. Spiele den gleichen UTC-Tagesstart in Daily 90. Relax: keine Zeitgrenze, kein Aufstieg; das Feld füllt sich nach Zügen. Spiele mit ruhiger Musik in deinem Tempo.\n\nEin Quadrat gibt Bomb, vier waagerecht Rocket, vier senkrecht Shuffle, eine L/T-Kreuzung Cross und fünf in einer Linie Nova. Baue Ketten auf und aktiviere Overdrive.\n\nSpiele mit gezeichneten Gesichtern oder passe sieben Figuren mit erlaubten Fotos an. Fotos werden auf dem Gerät verarbeitet. Keine Konten, Werbung, Analyse oder In-App-Käufe. Einmaliger Kauf, offline spielen. Rekorde bleiben lokal; Daily hat keine Online-Rangliste.\n\nCircuit Bloom passt sich dem Spieltempo an, mit getrennten Effekten und Vibration auf unterstützten Geräten. Türkisch, Englisch, Italienisch, Spanisch, Deutsch und Russisch.",
+  "description": "Tausche benachbarte Blöcke, bilde Kombinationen und nutze deine Kräfte im richtigen Moment. Fünf Modi für deinen nächsten persönlichen Rekord.\n\nHalte das steigende Feld in Rush auf. Gewinne Sekunden durch Treffer in Time Rush. Erreiche Stufenziele in Ascend. Spiele den gleichen UTC-Tagesstart in Daily 90. Relax: keine Zeitgrenze, kein Aufstieg; das Feld füllt sich nach Zügen. Spiele mit ruhiger Musik in deinem Tempo.\n\nEin Quadrat gibt Bomb, vier waagerecht Rocket, vier senkrecht Shuffle, eine L/T-Kreuzung Cross und fünf in einer Linie Nova. Baue Ketten auf und aktiviere Overdrive.\n\nDownload, fünf Modi, Standardfotos und Kräfte sind kostenlos. Premium ist rein kosmetisch: kein Abo oder Spielvorteil. Apple/Google verwalten Zahlungen; wir erhalten keine Kartendaten. Rechte stammen aus geprüften Transaktionen und sind wiederherstellbar. Erstattungen/Widerrufe entziehen den Zugriff bei aktuellen Shopdaten. Transaktionen können lokal gespeichert werden. Das Basisspiel funktioniert offline. AdMob und UMP verbinden sich nur, wenn Erwachsene freiwillige Werbung in Einstellungen vorbereiten. Keine Pflichtwerbung; Personalisierung und Werbe-ID-Zugriff deaktiviert. Der Anbieter kann IP, Geräte-/App-/Netzinformationen, Diagnosen und Werbeinteraktionen verarbeiten. Fotos, Gesichtsmaße und Namen gehen nicht an Werbe-SDKs. Datenschutzoptionen stehen in Einstellungen.\n\nCircuit Bloom passt sich dem Spieltempo an, mit getrennten Effekten und Vibration auf unterstützten Geräten. Türkisch, Englisch, Italienisch, Spanisch, Deutsch und Russisch.",
   "keywords": "kombinieren,puzzle,arcade,offline,gesichter,wischen,kombo,rekord",
   "categories": [
     "Games/Puzzle",
@@ -15,6 +15,6 @@
   ],
   "privacyUrl": "https://popzuno.frostytang32768.chatgpt.site/privacy/de.html",
   "supportUrl": "https://popzuno.frostytang32768.chatgpt.site/support/de.html",
-  "pricing": "paid_upfront_price_pending",
+  "pricing": "free_with_optional_rewarded_and_one_time_cosmetic_premium",
   "releaseNotes": "Privacy policy, local data deletion and platform publication preparation."
 }

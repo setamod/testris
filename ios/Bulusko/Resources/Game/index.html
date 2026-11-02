@@ -801,6 +801,26 @@ body.playing-screen{height:100svh;height:100dvh;min-height:0;overflow:hidden;ove
 @media(max-height:650px){.home-landing{gap:10px}.home-hero .home-brand-mark{width:80px}.home-hero h1{font-size:44px;margin:10px 0 6px}.home-hero p{font-size:15px}.home-primary #home-play{min-height:62px;font-size:28px}.home-primary p{font-size:13px;min-height:34px;margin-top:6px}.home-people{min-height:72px;padding:10px}.home-people b{font-size:19px}.home-landing .home-tools button{min-height:44px;font-size:16px}.home-picker{gap:11px}.home-picker-head h2{font-size:26px}.home-picker .home-modes button{min-height:72px;padding:9px 6px;gap:5px}.home-picker .home-modes button[data-tide-mode=ascend]{min-height:58px}.home-picker .home-modes button>span{font-size:21px}.home-picker .home-detail{min-height:54px;padding:3px}.home-picker .home-detail p{font-size:17px}.home-picker>#home-start{min-height:52px}}
 
 .crop-auto{font-size:15px;min-height:44px;padding:9px;margin:4px 0 0}.crop-controls output{font:13px var(--mono);color:var(--mint);white-space:nowrap}
+
+/* Optional commerce lives in Settings and loss results, never over the board. */
+.commerce-settings,.premium-actions{display:grid;gap:10px;width:100%}.commerce-settings p,.premium-dialog #premium-store-status{font:16px/1.5 system-ui;overflow-wrap:anywhere}.premium-dialog{max-width:520px}.premium-dialog .settings label{flex-wrap:wrap}.premium-dialog select{max-width:58%;font:16px system-ui;min-height:44px}.rescue-button{max-width:100%;white-space:normal;font-size:16px;line-height:1.4;min-height:48px}.rescue-note{max-width:38em;font:13px/1.45 system-ui;color:#c3d4ec}
+:root[data-cosmetic-theme=prism] .tide-tile{box-shadow:inset 0 0 0 2px #fff9,0 0 5px var(--face)}
+:root[data-cosmetic-theme=chrome] .tide-tile{border-color:#ecf3ff;box-shadow:inset 0 0 0 2px #a8b6cc}
+:root[data-cosmetic-effects=aurora] .tide-burst{border-radius:50%;filter:hue-rotate(35deg)}
+:root[data-cosmetic-motion=orbit] [data-power].just-earned{animation:premium-orbit .65s ease-out}
+@keyframes premium-orbit{0%,100%{transform:rotate(0)}30%{transform:rotate(-8deg) scale(1.08)}65%{transform:rotate(6deg)}}
+@media(prefers-reduced-motion:reduce){:root[data-cosmetic-motion=orbit] [data-power].just-earned{animation:none}}
+.commerce-age-label{display:grid;gap:8px;font:17px/1.4 system-ui}.commerce-age-label select{width:100%;min-height:46px;font:16px system-ui;background:#211f36;color:#fff;border:1px solid #ffffff44;border-radius:10px;padding:8px}.commerce-settings #commerce-age-copy{font-size:14px;line-height:1.5;color:#c5c5d7}
+
+/* Keep the rescue offer and limits visible on short screens; retain the explicit loss reason. */
+.tide-overlay.has-rescue .end-emblem,.tide-overlay.has-rescue>#tide-overlay-copy,.tide-overlay.has-rescue>#tide-overlay-foot{display:none}
+.tide-overlay.has-rescue .rescue-note{display:block;margin:8px 0;font:13px/1.4 system-ui;max-width:100%;color:#d5deef}
+.tide-result-layer>.tide-overlay.has-rescue[data-ending=true]{padding:16px}
+.tide-result-layer>.tide-overlay.has-rescue h2{font-size:28px;margin:6px 0 9px}
+.tide-result-layer>.tide-overlay.has-rescue .tide-end-reason{margin-bottom:8px}
+.tide-result-layer>.tide-overlay.has-rescue>strong{font-size:40px;margin-bottom:8px}
+.tide-result-layer>.tide-overlay.has-rescue .tide-result-details{margin-bottom:8px}
+.tide-overlay.has-rescue .rescue-button{margin:8px 0 0;padding:10px}
 </style>
  
 </head>
@@ -2304,8 +2324,19 @@ class TideGame{
  random(){this.rowRng=randomStep(this.rowRng);return this.rowRng/4294967296;}
  reset({seed=this.seed,mode=this.mode,day=this.day}={}){
   this.mode=GAME_MODES.includes(mode)?mode:'survival';this.day=day;this.seed=this.mode==='daily'?dailySeed(day):(Number(seed)>>>0)||0x9e3779b9;this.rowRng=this.seed;this.refillRng=this.seed^0x7f4a7c15;this.shuffleRng=this.seed^0x125f3a19;
-  this.status='ready';this.reason=null;this.endDetails=null;this.elapsed=0;this.score=0;this.cleared=0;this.pops=0;this.swaps=0;this.rows=0;this.combo=0;this.bestCombo=0;this.chainLeft=0;this.feverLeft=0;this.energy=0;this.riseProgress=0;this.phase=null;this.powers={bomb:0,rocket:0,cross:0,nova:0,shuffle:this.mode==='timeRush'?1:0};this.timeLeft=TIME_START_MS;this.timeCredit=0;this.timeEarned=0;this.revision++;
-  this.wave=1;this.waveStart=0;this.makeOpening();this.nextRow=this.makeRow();
+  this.runId=globalThis.crypto?.randomUUID?.()??('run-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2));this.rescueUsed=false;this.assisted=false;this.status='ready';this.reason=null;this.endDetails=null;this.elapsed=0;this.score=0;this.cleared=0;this.pops=0;this.swaps=0;this.rows=0;this.combo=0;this.bestCombo=0;this.chainLeft=0;this.feverLeft=0;this.energy=0;this.riseProgress=0;this.phase=null;this.powers={bomb:0,rocket:0,cross:0,nova:0,shuffle:this.mode==='timeRush'?1:0};this.timeLeft=TIME_START_MS;this.timeCredit=0;this.timeEarned=0;this.revision++;
+  this.wave=1;this.waveStart=0;this.makeOpening();this.nextRow=this.makeRow();this.captureStage();
+ }
+ captureStage(){this.stageCheckpoint=JSON.parse(JSON.stringify(Object.fromEntries(['board','nextRow','powers','score','cleared','pops','swaps','rows','waveStart','rowRng','refillRng','shuffleRng','energy'].map(k=>[k,this[k]]))));}
+ rescue(){
+  if(this.status!=='over'||this.rescueUsed)return false;
+  const timed=this.mode==='timeRush'&&this.reason==='time',rush=this.mode==='survival'&&this.reason==='overflow',stage=this.mode==='ascend'&&this.reason==='overflow';
+  if(!timed&&!rush&&!stage)return false;
+  if(timed)this.timeLeft=15000;
+  if(rush){this.board=[...Array(TIDE_COLS*3).fill(null),...this.board.slice(0,TIDE_SIZE-TIDE_COLS*3)];this.phase=null;this.riseProgress=0;}
+  if(stage){Object.assign(this,JSON.parse(JSON.stringify(this.stageCheckpoint)));this.phase=null;this.riseProgress=0;}
+  this.rescueUsed=true;this.assisted=true;this.reason=null;this.endDetails=null;this.status='paused';this.combo=0;this.chainLeft=0;this.feverLeft=0;this.revision++;
+  this.onEvent({type:'rescue',kind:timed?'time':rush?'rows':'stage'});return true;
  }
  get familyCount(){return this.mode==='ascend'?Math.min(7,4+Math.floor((this.wave-1)/3)):this.mode==='timeRush'?Math.min(7,4+Math.floor(this.elapsed/60000)):4;}
  get waveTarget(){return Math.min(120,24+(this.wave-1)*8);}
@@ -2404,6 +2435,7 @@ class TideGame{
   this.wave=Math.min(9999,this.wave+1);this.waveStart=this.cleared;this.combo=0;this.chainLeft=0;this.riseProgress=0;
   const reward=this.wave%5===0?'nova':this.wave%3===0?'cross':this.wave%2===0?'bomb':'rocket',granted=this.powers[reward]<POWER_CAPS[reward];this.powers[reward]=Math.min(POWER_CAPS[reward],this.powers[reward]+1);
   this.makeOpening();this.nextRow=this.makeRow();this.revision++;
+  this.captureStage();
   this.phase={kind:'wave',left:STAGE_BREAK_MS,previousWave,previousPace,previousInterval,previousFamilyCount,wave:this.wave,power:reward,granted,target:this.waveTarget,nextPace:this.musicPace};
   this.onEvent({type:'wave',...this.phase});
  }
@@ -2557,7 +2589,318 @@ function createBoardRenderer({grid,next,columns,rows,colors,reducedMotion=false}
 
 return {createBoardRenderer};
 },
+"commerce":function(__load){
+// The bridge accepts no photos, names or board data. Native code owns ads, quota and entitlements.
+const PREMIUM_PRODUCT='com.mertbekisoglu.bulusko.premium';
+function rescueKind(game){if(game.status!=='over'||game.rescueUsed)return null;return game.mode==='timeRush'&&game.reason==='time'?'time':game.reason==='overflow'&&game.mode==='survival'?'rows':game.reason==='overflow'&&game.mode==='ascend'?'stage':null;}
+function createCommerce({target=globalThis,send,timeoutMs=300000,onChange=()=>{}}={}){
+ let state={age:'unknown',supported:false,ready:false,remaining:0,premium:false,canPurchase:false,price:'',privacyRequired:false},pending=null,serial=0;
+ const notify=()=>onChange({...state,busy:!!pending});
+ const finish=(result)=>{const p=pending;if(!p||result.id!==p.id)return;pending=null;clearTimeout(p.timer);notify();p.resolve(result);};
+ const receive=event=>{const d=event.detail;if(!d||typeof d!=='object')return;if(d.kind==='state'){
+  state={age:['child','teen','adult'].includes(d.age)?d.age:'unknown',supported:d.supported===true,ready:d.ready===true,remaining:Math.max(0,Math.min(3,Math.floor(Number(d.remaining)||0))),premium:d.premium===true,canPurchase:d.canPurchase===true,price:typeof d.price==='string'?d.price.slice(0,60):'',privacyRequired:d.privacyRequired===true};notify();
+ }else if(d.kind==='result'&&['earned','closed','unavailable','error','purchased','restored','cancelled','pending','limited'].includes(d.code))finish(d);};
+ target.addEventListener?.('popzuno:commerce',receive);
+ function post(payload){try{if(send)return send(payload)!==false;const handler=globalThis.webkit?.messageHandlers?.bulusko;if(!handler?.postMessage)return false;handler.postMessage({type:'commerce',...payload});return true;}catch{return false;}}
+ function request(op,extra={}){
+  if(pending)return Promise.resolve({code:'unavailable'});
+  if(!['audience','prepare','show','buy','restore','privacy'].includes(op))return Promise.resolve({code:'error'});
+  if(op==='show'&&(!state.ready||state.remaining<1||!['rows','time','stage'].includes(extra.placement)))return Promise.resolve({code:'unavailable'});
+  return new Promise(resolve=>{const id='c-'+(globalThis.crypto?.randomUUID?.()??(Date.now().toString(36)+'-'+(++serial)+'-'+Math.random().toString(36).slice(2,10)));pending={id,resolve,timer:op==='show'||op==='buy'?null:setTimeout(()=>finish({id,code:'error'}),timeoutMs)};notify();if(!post({op,id,run:typeof extra.run==='string'?extra.run.slice(0,96):'',placement:extra.placement??'',age:['child','teen','adult'].includes(extra.age)?extra.age:'unknown'}))finish({id,code:'unavailable'});});
+ }
+ return {get state(){return {...state,busy:!!pending};},request,refresh(){post({op:'status'});},destroy(){if(pending)finish({id:pending.id,code:'error'});target.removeEventListener?.('popzuno:commerce',receive);}};
+}
+
+return {PREMIUM_PRODUCT,rescueKind,createCommerce};
+},
+"commerce-copy":function(__load){
+const COMMERCE_COPY={
+ "tr": {
+  "title": "Popzuno Premium",
+  "details": "Tek seferlik kozmetik paket: özel blok çerçeveleri, efektler, animasyon ve bonus sesleri. Abonelik yok. Beş mod, fotoğraflar ve standart bonuslar ücretsizdir. Kurtarma hakkı içermez.",
+  "buy": "Satın al",
+  "restore": "Satın alımları geri yükle",
+  "prepare": "İsteğe bağlı reklamları hazırla",
+  "privacy": "Reklam gizliliği seçenekleri",
+  "nativeOnly": "Satın alma ve reklamlar mobil uygulamada kullanılabilir.",
+  "unavailable": "Şu anda kullanılamıyor. Oynamaya devam edebilirsin.",
+  "error": "İşlem doğrulanamadı. Daha sonra tekrar dene veya satın alımını geri yükle.",
+  "cancelled": "İşlem iptal edildi.",
+  "pending": "Mağaza onayı bekleniyor; henüz Premium açılmadı.",
+  "purchased": "Premium açıldı.",
+  "restored": "Satın alımın geri yüklendi.",
+  "closed": "Hazırlık tamamlandı.",
+  "limited": "24 saatlik kurtarma sınırına ulaştın.",
+  "rows": "Reklam izle, 3 satır temizle ve devam et",
+  "time": "Reklam izle, 15 saniye daha kazan",
+  "stage": "Reklam izle, bu etabı baştan dene",
+  "assisted": "Kurtarmalı oyun · normal rekorlara dahil değil",
+  "limit": "Oyun başına 1; bu cihazda kayan 24 saatte en fazla 3 kurtarma. Ödül reklam tamamlanınca verilir.",
+  "theme": "Blok teması",
+  "effects": "Efekt",
+  "motion": "Animasyon",
+  "sound": "Bonus sesi",
+  "classic": "Klasik",
+  "prism": "Prizma",
+  "chrome": "Krom",
+  "aurora": "Kutup ışığı",
+  "orbit": "Yörünge",
+  "crystal": "Kristal",
+  "done": "Bitti",
+  "notForSale": "Henüz satışa açılmadı",
+  "age": "Yaş aralığı",
+  "ageCopy": "Yaş aralığını yalnızca bu cihazdaki gizlilik tercihleri için soruyoruz. Tam doğum tarihi gerekmez; oyun her yaşta ücretsizdir.",
+  "unknown": "Yanıtlamak istemiyorum",
+  "child": "13 yaş altı",
+  "teen": "13–17 yaş",
+  "adult": "18 yaş ve üzeri",
+  "adError": "Reklam tamamlanamadı. Kurtarma uygulanmadı.",
+  "adClosed": "Ödül kazanılmadan reklam kapandı. Kurtarma uygulanmadı."
+ },
+ "en": {
+  "title": "Popzuno Premium",
+  "details": "One-time cosmetic pack: special block frames, effects, animations and reward sounds. No subscription. All five modes, photos and standard powers stay free. No extra rescues.",
+  "buy": "Buy",
+  "restore": "Restore purchases",
+  "prepare": "Prepare optional ads",
+  "privacy": "Ad privacy choices",
+  "nativeOnly": "Purchases and ads are available in the mobile app.",
+  "unavailable": "Unavailable right now. You can keep playing.",
+  "error": "Could not verify the operation. Try later or restore your purchase.",
+  "cancelled": "Cancelled.",
+  "pending": "Waiting for store approval; Premium is not unlocked yet.",
+  "purchased": "Premium unlocked.",
+  "restored": "Purchase restored.",
+  "closed": "Preparation finished.",
+  "limited": "You reached the rolling 24-hour rescue limit.",
+  "rows": "Watch an ad, clear 3 rows and continue",
+  "time": "Watch an ad for 15 more seconds",
+  "stage": "Watch an ad to retry this stage",
+  "assisted": "Rescued run · excluded from normal records",
+  "limit": "One rescue per run; up to three per rolling 24 hours on this device. Reward requires ad completion.",
+  "theme": "Block theme",
+  "effects": "Effect",
+  "motion": "Animation",
+  "sound": "Reward sound",
+  "classic": "Classic",
+  "prism": "Prism",
+  "chrome": "Chrome",
+  "aurora": "Aurora",
+  "orbit": "Orbit",
+  "crystal": "Crystal",
+  "done": "Done",
+  "notForSale": "Not on sale yet",
+  "age": "Age range",
+  "ageCopy": "We ask your age range only for privacy choices on this device. No full birth date is needed; the game is free at every age.",
+  "unknown": "Prefer not to say",
+  "child": "Under 13",
+  "teen": "13–17",
+  "adult": "18 or older",
+  "adError": "The ad could not finish. No rescue was applied.",
+  "adClosed": "The ad closed before a reward. No rescue was applied."
+ },
+ "it": {
+  "title": "Popzuno Premium",
+  "details": "Pacchetto estetico con acquisto unico: cornici, effetti, animazioni e suoni bonus. Nessun abbonamento. Cinque modalità, foto e poteri standard gratuiti. Nessun salvataggio extra.",
+  "buy": "Acquista",
+  "restore": "Ripristina acquisti",
+  "prepare": "Prepara annunci facoltativi",
+  "privacy": "Privacy degli annunci",
+  "nativeOnly": "Acquisti e annunci disponibili nell’app mobile.",
+  "unavailable": "Non disponibile ora. Puoi continuare a giocare.",
+  "error": "Verifica non riuscita. Riprova più tardi o ripristina l’acquisto.",
+  "cancelled": "Annullato.",
+  "pending": "In attesa di approvazione: Premium non ancora attivo.",
+  "purchased": "Premium sbloccato.",
+  "restored": "Acquisto ripristinato.",
+  "closed": "Preparazione completata.",
+  "limited": "Limite di salvataggi nelle 24 ore raggiunto.",
+  "rows": "Guarda un annuncio, elimina 3 righe e continua",
+  "time": "Guarda un annuncio per altri 15 secondi",
+  "stage": "Guarda un annuncio per riprovare questa tappa",
+  "assisted": "Partita salvata · esclusa dai record normali",
+  "limit": "Un salvataggio per partita, massimo tre in 24 ore su questo dispositivo. Completa l’annuncio per riceverlo.",
+  "theme": "Tema dei blocchi",
+  "effects": "Effetto",
+  "motion": "Animazione",
+  "sound": "Suono bonus",
+  "classic": "Classico",
+  "prism": "Prisma",
+  "chrome": "Cromo",
+  "aurora": "Aurora",
+  "orbit": "Orbita",
+  "crystal": "Cristallo",
+  "done": "Fatto",
+  "notForSale": "Non ancora in vendita",
+  "age": "Fascia d’età",
+  "ageCopy": "La fascia d’età serve solo alle scelte privacy sul dispositivo. Non serve la data di nascita; il gioco è gratuito a ogni età.",
+  "unknown": "Preferisco non rispondere",
+  "child": "Meno di 13",
+  "teen": "13–17",
+  "adult": "18 o più",
+  "adError": "Annuncio non completato. Nessun salvataggio.",
+  "adClosed": "Annuncio chiuso prima del premio. Nessun salvataggio."
+ },
+ "es": {
+  "title": "Popzuno Premium",
+  "details": "Paquete cosmético de pago único: marcos, efectos, animaciones y sonidos extra. Sin suscripción. Los cinco modos, fotos y poderes básicos siguen gratis. Sin rescates extra.",
+  "buy": "Comprar",
+  "restore": "Restaurar compras",
+  "prepare": "Preparar anuncios opcionales",
+  "privacy": "Privacidad de anuncios",
+  "nativeOnly": "Compras y anuncios disponibles en la app móvil.",
+  "unavailable": "No disponible ahora. Puedes seguir jugando.",
+  "error": "No se pudo verificar. Inténtalo luego o restaura la compra.",
+  "cancelled": "Cancelado.",
+  "pending": "Esperando aprobación: Premium aún no está activo.",
+  "purchased": "Premium desbloqueado.",
+  "restored": "Compra restaurada.",
+  "closed": "Preparación terminada.",
+  "limited": "Alcanzaste el límite de rescates de 24 horas.",
+  "rows": "Mira un anuncio, elimina 3 filas y continúa",
+  "time": "Mira un anuncio para ganar 15 segundos",
+  "stage": "Mira un anuncio para repetir esta etapa",
+  "assisted": "Partida rescatada · excluida de récords normales",
+  "limit": "Un rescate por partida; hasta tres en 24 horas en este dispositivo. Completa el anuncio para recibirlo.",
+  "theme": "Tema de bloques",
+  "effects": "Efecto",
+  "motion": "Animación",
+  "sound": "Sonido extra",
+  "classic": "Clásico",
+  "prism": "Prisma",
+  "chrome": "Cromo",
+  "aurora": "Aurora",
+  "orbit": "Órbita",
+  "crystal": "Cristal",
+  "done": "Listo",
+  "notForSale": "Todavía no está a la venta",
+  "age": "Rango de edad",
+  "ageCopy": "Pedimos el rango de edad solo para la privacidad en este dispositivo. No hace falta fecha de nacimiento; el juego es gratis a cualquier edad.",
+  "unknown": "Prefiero no responder",
+  "child": "Menos de 13",
+  "teen": "13–17",
+  "adult": "18 o más",
+  "adError": "El anuncio no terminó. No se aplicó rescate.",
+  "adClosed": "El anuncio se cerró antes del premio. Sin rescate."
+ },
+ "de": {
+  "title": "Popzuno Premium",
+  "details": "Einmaliges Kosmetikpaket: besondere Rahmen, Effekte, Animationen und Bonustöne. Kein Abo. Alle fünf Modi, Fotos und Standardkräfte bleiben kostenlos. Keine zusätzlichen Rettungen.",
+  "buy": "Kaufen",
+  "restore": "Käufe wiederherstellen",
+  "prepare": "Freiwillige Werbung vorbereiten",
+  "privacy": "Werbedatenschutz",
+  "nativeOnly": "Käufe und Werbung sind in der mobilen App verfügbar.",
+  "unavailable": "Derzeit nicht verfügbar. Du kannst weiterspielen.",
+  "error": "Prüfung fehlgeschlagen. Versuche es später oder stelle den Kauf wieder her.",
+  "cancelled": "Abgebrochen.",
+  "pending": "Warte auf Shop-Bestätigung. Premium ist noch nicht aktiv.",
+  "purchased": "Premium freigeschaltet.",
+  "restored": "Kauf wiederhergestellt.",
+  "closed": "Vorbereitung abgeschlossen.",
+  "limited": "Rettungslimit für 24 Stunden erreicht.",
+  "rows": "Werbung ansehen, 3 Reihen löschen und weiterspielen",
+  "time": "Werbung ansehen für weitere 15 Sekunden",
+  "stage": "Werbung ansehen und diese Etappe neu versuchen",
+  "assisted": "Gerettete Runde · zählt nicht für normale Rekorde",
+  "limit": "Eine Rettung pro Runde; bis zu drei in 24 Stunden auf diesem Gerät. Belohnung nach Abschluss der Werbung.",
+  "theme": "Blockdesign",
+  "effects": "Effekt",
+  "motion": "Animation",
+  "sound": "Bonuston",
+  "classic": "Klassisch",
+  "prism": "Prisma",
+  "chrome": "Chrom",
+  "aurora": "Polarlicht",
+  "orbit": "Umlaufbahn",
+  "crystal": "Kristall",
+  "done": "Fertig",
+  "notForSale": "Noch nicht erhältlich",
+  "age": "Altersgruppe",
+  "ageCopy": "Die Altersgruppe dient nur den Datenschutzoptionen auf diesem Gerät. Kein Geburtsdatum nötig; das Spiel ist für jedes Alter kostenlos.",
+  "unknown": "Keine Angabe",
+  "child": "Unter 13",
+  "teen": "13–17",
+  "adult": "18 oder älter",
+  "adError": "Werbung nicht abgeschlossen. Keine Rettung angewendet.",
+  "adClosed": "Werbung vor der Belohnung geschlossen. Keine Rettung."
+ },
+ "ru": {
+  "title": "Popzuno Premium",
+  "details": "Разовый косметический набор: рамки, эффекты, анимации и звуки бонусов. Без подписки. Пять режимов, фото и обычные бонусы бесплатны. Дополнительных спасений нет.",
+  "buy": "Купить",
+  "restore": "Восстановить покупки",
+  "prepare": "Подготовить рекламу по желанию",
+  "privacy": "Настройки рекламы",
+  "nativeOnly": "Покупки и реклама доступны в мобильном приложении.",
+  "unavailable": "Сейчас недоступно. Можно продолжать играть.",
+  "error": "Не удалось проверить. Повтори позже или восстанови покупку.",
+  "cancelled": "Отменено.",
+  "pending": "Ожидается одобрение магазина. Premium ещё не открыт.",
+  "purchased": "Premium открыт.",
+  "restored": "Покупка восстановлена.",
+  "closed": "Подготовка завершена.",
+  "limited": "Достигнут лимит спасений за 24 часа.",
+  "rows": "Посмотри рекламу, убери 3 ряда и продолжи",
+  "time": "Посмотри рекламу и получи ещё 15 секунд",
+  "stage": "Посмотри рекламу и повтори этот этап",
+  "assisted": "Спасённая игра · не входит в обычные рекорды",
+  "limit": "Одно спасение за игру; до трёх за 24 часа на этом устройстве. Награда после завершения рекламы.",
+  "theme": "Тема блоков",
+  "effects": "Эффект",
+  "motion": "Анимация",
+  "sound": "Звук бонуса",
+  "classic": "Классика",
+  "prism": "Призма",
+  "chrome": "Хром",
+  "aurora": "Северное сияние",
+  "orbit": "Орбита",
+  "crystal": "Кристалл",
+  "done": "Готово",
+  "notForSale": "Пока не продаётся",
+  "age": "Возрастная группа",
+  "ageCopy": "Возрастная группа нужна только для приватности на устройстве. Дата рождения не нужна; игра бесплатна в любом возрасте.",
+  "unknown": "Не хочу отвечать",
+  "child": "Младше 13",
+  "teen": "13–17",
+  "adult": "18 и старше",
+  "adError": "Реклама не завершилась. Спасение не применено.",
+  "adClosed": "Реклама закрылась до награды. Спасения нет."
+ }
+};
+function commerceText(lang,key){return (COMMERCE_COPY[lang]??COMMERCE_COPY.en)[key]??key;}
+
+return {COMMERCE_COPY,commerceText};
+},
+"commerce-ui":function(__load){
+const {commerceText}=__load("commerce-copy");
+const COSMETICS={theme:['classic','prism','chrome'],effects:['classic','aurora'],motion:['classic','orbit'],sound:['classic','crystal']};
+function normalizeCosmetics(raw={}){return Object.fromEntries(Object.entries(COSMETICS).map(([key,values])=>[key,values.includes(raw?.[key])?raw[key]:'classic']));}
+function setupCommerceUI({commerce,getLanguage,read,write,pause,audio}){
+ const dialog=document.createElement('dialog');dialog.id='premium-dialog';dialog.className='panel-dialog premium-dialog';dialog.setAttribute('aria-labelledby','premium-title');
+ dialog.innerHTML='<div class="dialog-head"><h2 id="premium-title"></h2></div><p id="premium-details" class="dialog-copy"></p><p id="premium-store-status" role="status" aria-live="polite"></p><div class="premium-actions"><button id="premium-buy" class="primary-button"></button><button id="premium-restore" class="secondary-button"></button></div><div class="premium-cosmetics settings"></div><button id="premium-close" class="primary-button dialog-done"></button>';
+ document.body.append(dialog);
+ const controls=document.createElement('div');controls.className='commerce-settings';controls.innerHTML='<label class="commerce-age-label"><span id="commerce-age-title"></span><select id="commerce-age"></select></label><p id="commerce-age-copy"></p><button id="premium-open" class="secondary-button"></button><button id="ads-prepare" class="secondary-button"></button><button id="ads-privacy" class="secondary-button" hidden></button><p id="commerce-status" role="status" aria-live="polite"></p>';
+ document.querySelector('.settings-links').prepend(controls);
+ const $=id=>document.getElementById(id),t=key=>commerceText(getLanguage(),key);let message='',selected=normalizeCosmetics(read('cosmetics',{}));
+ for(const value of ['unknown','child','teen','adult']){const option=document.createElement('option');option.value=value;$('commerce-age').append(option);}
+ $('commerce-age').addEventListener('change',async()=>{await commerce.request('audience',{age:$('commerce-age').value});message='';refresh();});
+ for(const [key,values]of Object.entries(COSMETICS)){const label=document.createElement('label'),span=document.createElement('span'),select=document.createElement('select');span.dataset.cosmeticLabel=key;select.dataset.cosmetic=key;for(const value of values){const option=document.createElement('option');option.value=value;select.append(option);}label.append(span,select);dialog.querySelector('.premium-cosmetics').append(label);select.addEventListener('change',()=>{if(!commerce.state.premium)return;selected[key]=select.value;write('cosmetics',selected);apply();if(key==='sound')audio.effect('earn-bomb');});}
+ function apply(){const active=commerce.state.premium?selected:normalizeCosmetics();for(const [key,value]of Object.entries(active))document.documentElement.dataset['cosmetic'+key[0].toUpperCase()+key.slice(1)]=value;audio.cosmeticSound=active.sound;}
+ function refresh(){const s=commerce.state;$('commerce-age-title').textContent=t('age');$('commerce-age-copy').textContent=t('ageCopy');$('commerce-age').value=s.age;$('commerce-age').disabled=s.busy||!s.supported;for(const option of $('commerce-age').options)option.textContent=t(option.value);for(const [id,key]of [['premium-title','title'],['premium-details','details'],['premium-restore','restore'],['premium-close','done'],['premium-open','title'],['ads-prepare','prepare'],['ads-privacy','privacy']])$(id).textContent=t(key);$('premium-buy').textContent=s.premium?t('purchased'):s.canPurchase&&s.price?t('buy')+' · '+s.price:t('notForSale');$('premium-buy').disabled=s.busy||s.premium||!s.canPurchase||!s.price;$('premium-restore').disabled=s.busy||!s.supported;$('ads-prepare').disabled=s.busy||!s.supported||s.age!=='adult';$('ads-privacy').hidden=!s.privacyRequired;$('ads-privacy').disabled=s.busy;$('commerce-status').textContent=message?t(message):s.supported?'':t('nativeOnly');$('premium-store-status').textContent=message?t(message):s.premium?t('purchased'):!s.supported?t('nativeOnly'):'';
+  for(const select of dialog.querySelectorAll('select')){const key=select.dataset.cosmetic;select.previousElementSibling.textContent=t(key);select.value=selected[key];select.disabled=!s.premium||s.busy;for(const option of select.options)option.textContent=t(option.value);}apply();
+ }
+ async function action(op){pause();audio.interrupt();message='';refresh();const result=await commerce.request(op);message=result.code==='earned'?'closed':(op==='prepare'||op==='privacy')&&result.code==='error'?'adError':result.code;refresh();}
+ $('premium-open').addEventListener('click',()=>{pause();message='';refresh();dialog.showModal();commerce.refresh();});$('premium-close').addEventListener('click',()=>dialog.close());
+ for(const [id,op]of [['premium-buy','buy'],['premium-restore','restore'],['ads-prepare','prepare'],['ads-privacy','privacy']])$(id).addEventListener('click',()=>action(op));
+ refresh();return {refresh};
+}
+
+return {COSMETICS,normalizeCosmetics,setupCommerceUI};
+},
 "arcade":function(__load){
+const {rescueKind}=__load("commerce");
+const {commerceText}=__load("commerce-copy");
 const {TideGame,TIDE_COLS,TIDE_ROWS,TIDE_SIZE,TIME_CAP_MS,CHAIN_MS,FEVER_MS,FEVER_COST,POWER_CAPS,GAME_MODES,DEFAULT_GAME_MODE,STAGE_BREAK_MS,TUTORIAL_FROM,dailyKey,tideNeighbors,swipeTarget,powerCells}=__load("arcade-engine");
 const {createBoardRenderer}=__load("board");
 const {ARCADE_MESSAGES}=__load("arcade-copy");
@@ -2581,7 +2924,7 @@ const MODE_ICONS={ascend:'<path d="M3 20h6v-6h6V8h6M16 3h5v5"/>',survival:'<path
 function powerGuideHTML(language){return Object.keys(POWER_CAPS).map(power=>`<article class="power-entry" data-reward="${power}"><svg class="power-guide-icon" viewBox="0 0 24 24" aria-hidden="true">${ICONS[power]}</svg><div><strong>${tideTranslate(language,power)}</strong><small>${tideTranslate(language,PATTERNS[power].key)}</small><p>${tideTranslate(language,power+'Help')}</p></div></article>`).join('');}
 function modeGuideHTML(language){return MENU_MODES.map(mode=>`<article class="mode-entry"><svg viewBox="0 0 24 24" aria-hidden="true">${MODE_ICONS[mode]}</svg><div><strong>${tideTranslate(language,mode)}</strong><p>${tideTranslate(language,'modeShort'+mode)}</p></div></article>`).join('');}
 
-function createTide({root,audio,avatar,personName,colors,getLanguage,read,write,initialMode=DEFAULT_GAME_MODE,onModeChange,onPlaying,onMenuAction}){
+function createTide({commerce,root,audio,avatar,personName,colors,getLanguage,read,write,initialMode=DEFAULT_GAME_MODE,onModeChange,onPlaying,onMenuAction}){
  const nodes=new Map(),$=id=>{if(!nodes.has(id))nodes.set(id,root.querySelector('#'+id));return nodes.get(id);},t=(key,values)=>tideTranslate(getLanguage(),key,values),escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const formatters=Object.fromEntries(Object.entries(LANGUAGES).map(([key,value])=>[key,new Intl.NumberFormat(value.locale)])),number=value=>formatters[normalizeLanguage(getLanguage())].format(Math.floor(value));
  const clock=value=>{const seconds=Math.ceil(Math.max(0,value)/1000);return Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');};
@@ -2633,6 +2976,7 @@ function createTide({root,audio,avatar,personName,colors,getLanguage,read,write,
  function best(){return storedBest;}
  function topStage(){return storedStage;}
  function saveRecord(){
+  if(game.assisted)return;
   if(game.score>best()){
    const old=selectedMode==='daily'?read(recordKey('daily'),{}):null;
    if(selectedMode!=='daily'||!old?.day||old.day<=game.day){const saved=write(recordKey(selectedMode),selectedMode==='daily'?{day:game.day,score:game.score}:game.score);if(!saved)toast(t('saveError'));else storedBest=game.score;}
@@ -2674,9 +3018,10 @@ function createTide({root,audio,avatar,personName,colors,getLanguage,read,write,
   if(event.type==='wave-ready'){lastAction=game.elapsed;audio.effect('stage-ready');native('feedback',{event:'start',count:1});renderBoard();$('tide-stage-announcement').textContent=t('stageStarted',{stage:event.wave});return;}
   if(event.type==='settled'){renderBoard();celebrate();return;}
   if(event.type==='rise'){selected=null;gesture=null;powerMode=null;if(event.manual)audio.effect('place');renderBoard();if(!reducedMotion)addEffect('row-arrival','', '',360);return;}
+  if(event.type==='rescue'){clearInput();newRecord=false;resetCelebration();boardView.cancelMotion();audio.effect('shuffle');renderBoard();renderOverlay();signalPlaying();return;}
   if(event.type==='over'){
    resetCelebration();
-   newRecord=game.score>runBest;saveRecord();
+   newRecord=!game.assisted&&game.score>runBest;saveRecord();
    gesture=null;selected=null;powerMode=null;audio.setPlaying(false);audio.effect(event.reason==='time'?'win':'over');native('feedback',{event:'over',reason:event.reason==='time'?'complete':'overflow',count:1});renderBoard();renderOverlay();$('tide-stage-announcement').textContent=t(endingKeys(game).reason)+'. '+t(endingKeys(game).copy);signalPlaying();$('tide-start').focus({preventScroll:true});
   }
  }
@@ -2757,11 +3102,24 @@ function createTide({root,audio,avatar,personName,colors,getLanguage,read,write,
   setText('tide-rule',powerMode?t(powerMode+'Aim'):game.swaps===0&&game.status==='playing'?t('first'):t('rule'));
   const base=Math.max(1000,best()),milestones=[1000,2500,5000,10000,25000,50000,100000,250000,500000,1000000],target=milestones.find(n=>n>Math.max(game.score,base-1))??Math.ceil((Math.max(game.score,base)+1)/1000000)*1000000;setText('tide-target',number(target));$('tide-target-fill').style.width=Math.min(100,game.score/target*100)+'%';
   if(selectedMode!=='ascend'&&active&&game.status==='playing'&&game.score>=lastTarget&&lastTarget>0){toast(t('goalDone'));lastTarget=target;}
-  if(active&&game.status==='playing'&&runBest>0&&game.score>runBest&&!bestCelebrated){bestCelebrated=true;toast(t('record'));audio.effect('win');}
+  if(active&&!game.assisted&&game.status==='playing'&&runBest>0&&game.score>runBest&&!bestCelebrated){bestCelebrated=true;toast(t('record'));audio.effect('win');}
   setText('tide-tempo',selectedMode==='relax'?'':Math.round(flowTempo(game.musicPace))+' BPM');setText('tide-date',selectedMode==='daily'?game.day+' · UTC · Shapes 1':selectedMode==='ascend'?t('bestStage')+' '+topStage():'');if(game.level>lastLevel&&game.status==='playing'){lastLevel=game.level;if(selectedMode!=='ascend'){audio.effect('speed');toast(t('level')+' '+String(game.level).padStart(2,'0')+' · '+Math.round(flowTempo(game.musicPace))+' BPM');}}if(game.danger&&!lastDanger&&game.status==='playing'&&!game.renewing){audio.effect('danger');native('feedback',{event:'place',count:1});$('tide-stage-announcement').textContent=t('dangerHeld');}lastDanger=game.danger;
  }
+ let rescueMessage='';
+ const rescueButton=document.createElement('button');rescueButton.type='button';rescueButton.id='tide-rescue';rescueButton.className='secondary-button rescue-button';rescueButton.hidden=true;
+ const rescueNote=document.createElement('small');rescueNote.className='rescue-note';rescueNote.hidden=true;rescueNote.setAttribute('role','status');
+ $('tide-start').after(rescueButton,rescueNote);
+ rescueButton.addEventListener('click',async()=>{
+  const kind=rescueKind(game);if(!kind||!commerce?.state.ready||commerce.state.busy)return;
+  const run=game.runId;audio.interrupt();const response=await commerce.request('show',{run,placement:kind});
+  if(game.runId!==run)return;
+  if(response.code==='earned'){rescueMessage='';game.rescue();}
+  else rescueMessage=response.code==='closed'?'adClosed':response.code==='error'?'adError':response.code;
+  renderOverlay();
+ });
+ function refreshCommerce(){const s=commerce?.state,kind=rescueKind(game);rescueButton.hidden=!(kind&&s?.ready&&s.remaining>0);$('tide-overlay').classList.toggle('has-rescue',!rescueButton.hidden||game.assisted||!!rescueMessage);rescueButton.disabled=!!s?.busy;rescueButton.textContent=kind?commerceText(getLanguage(),kind):'';rescueNote.hidden=!rescueMessage&&!game.assisted&&rescueButton.hidden;rescueNote.textContent=commerceText(getLanguage(),rescueMessage||(game.assisted?'assisted':'limit'));for(const id of ['tide-start','tide-result-menu','tide-share'])$(id).disabled=!!s?.busy;}
  function renderOverlay(){
-  const over=game.status==='over',paused=game.status==='paused';syncResultLayer();$('tide-overlay').dataset.ending=String(over);$('tide-overlay').hidden=game.status==='playing';if(game.status==='playing')return;
+  refreshCommerce();const over=game.status==='over',paused=game.status==='paused';syncResultLayer();$('tide-overlay').dataset.ending=String(over);$('tide-overlay').hidden=game.status==='playing';if(game.status==='playing')return;
   const modeKey=selectedMode==='survival'?'survival':selectedMode,titleKey=selectedMode==='relax'?'relaxTitle':selectedMode==='daily'?'dailyTitle':selectedMode==='blitz'?'blitzTitle':selectedMode==='timeRush'?'timeRushTitle':selectedMode==='ascend'?'ascendTitle':'readyTitle',copyKey=selectedMode==='relax'?'relaxCopy':selectedMode==='daily'?'dailyCopy':selectedMode==='blitz'?'blitzCopy':selectedMode==='timeRush'?'timeRushCopy':selectedMode==='ascend'?'ascendCopy':'readyCopy';
   const ending=endingKeys(game);$('tide-overlay').dataset.reason=game.reason||'';$('tide-overlay').dataset.endKind=game.reason==='time'&&selectedMode!=='timeRush'?'complete':'loss';$('tide-end-emblem').hidden=!over;setText('tide-end-emblem',game.reason==='overflow'?'↑':selectedMode==='timeRush'?'⌛':'✓');$('tide-result-menu').hidden=!over;setText('tide-result-menu',t('homeMenu'));$('tide-end-reason').hidden=!over;$('tide-end-reason').textContent=over?t(ending.reason):'';$('tide-loss-rule').hidden=over||paused||selectedMode!=='ascend';$('tide-loss-rule').textContent=t('risingRule');
   $('tide-overlay-tag').textContent=paused?'POPZUNO':over?(newRecord?t('record'):t('finish')):selectedMode===DEFAULT_GAME_MODE?t('mainMode')+' · '+t(modeKey):t(modeKey);$('tide-overlay-title').textContent=paused?t('paused'):over?t(ending.title):t(titleKey);$('tide-overlay-copy').textContent=paused?t('pausedCopy'):over?t(ending.copy):t(copyKey);
@@ -2770,7 +3128,7 @@ function createTide({root,audio,avatar,personName,colors,getLanguage,read,write,
   $('tide-reward-legend').hidden=over||paused;$('tide-reward-legend').innerHTML=Object.keys(POWER_CAPS).map((power,i)=>`<span data-reward="${power}">${patternGlyph(power)}${t(power)}</span>`).join('');$('tide-overlay-foot').textContent=paused?t('keys'):over?t(ending.hint):t(selectedMode==='relax'?'relaxFoot':selectedMode==='daily'?'dailyFoot':selectedMode==='blitz'?'blitzFoot':selectedMode==='timeRush'?'timeRushFoot':selectedMode==='ascend'?'ascendFoot':over?'normalRestart':'tutorial');
  }
  function clearInput(){gesture=null;selected=null;powerMode=null;markTargets();}
- function start(){lastNoticeText='';lastNoticeAt=-Infinity;celebrations.reset();lastTimeSecond=null;lastReminder=0;resetCelebration();boardView.cancelMotion();clearInput();lastLevel=1;lastDanger=false;newRecord=false;bestCelebrated=false;idleHint=false;lastAction=0;clearTimeout(toastTimer);clearTimeout(floatTimer);$('tide-wave-banner').classList.remove('show');$('tide-float').classList.remove('show');$('tide-notice').classList.remove('show');$('tide-effects').replaceChildren();root.querySelectorAll('.tide-reward-flight').forEach(node=>node.remove());audio.stop();audio.setMode(selectedMode);game.start({mode:selectedMode,day:dailyKey(),seed:Date.now()});loadRecords();runBest=best();lastTarget=Math.max(1000,runBest);audio.setPlaying(true);renderBoard();renderOverlay();signalPlaying();}
+ function start(){if(commerce?.state.busy)return;rescueMessage='';lastNoticeText='';lastNoticeAt=-Infinity;celebrations.reset();lastTimeSecond=null;lastReminder=0;resetCelebration();boardView.cancelMotion();clearInput();lastLevel=1;lastDanger=false;newRecord=false;bestCelebrated=false;idleHint=false;lastAction=0;clearTimeout(toastTimer);clearTimeout(floatTimer);$('tide-wave-banner').classList.remove('show');$('tide-float').classList.remove('show');$('tide-notice').classList.remove('show');$('tide-effects').replaceChildren();root.querySelectorAll('.tide-reward-flight').forEach(node=>node.remove());audio.stop();audio.setMode(selectedMode);game.start({mode:selectedMode,day:dailyKey(),seed:Date.now()});loadRecords();runBest=best();lastTarget=Math.max(1000,runBest);audio.setPlaying(true);renderBoard();renderOverlay();signalPlaying();}
  function pause(){resetCelebration();clearInput();if(game.pause()){saveRecord();audio.setPlaying(false);renderBoard();renderOverlay();signalPlaying();return true;}return false;}
  function resume(){if(homeOpen)return false;if(game.resume()){audio.setPlaying(true);renderBoard();renderOverlay();signalPlaying();return true;}return false;}
  function refresh(){portraits=Array.from({length:7},(_,i)=>avatar(i));const guide=document.getElementById('help-patterns');if(guide)guide.innerHTML=powerGuideHTML(getLanguage());const modes=document.getElementById('help-modes');if(modes)modes.innerHTML=modeGuideHTML(getLanguage());for(const node of root.querySelectorAll('[data-tide]'))node.textContent=t(node.dataset.tide);for(const button of root.querySelectorAll('[data-tide-mode]')){button.setAttribute('aria-pressed',String(button.dataset.tideMode===previewMode));if(button.dataset.tideMode===DEFAULT_GAME_MODE)button.setAttribute('aria-label',t('ascend')+' · '+t('mainMode'));}root.querySelector('.tide-story-portraits').innerHTML=[0,1,2,3].map(family=>`<img src="${avatar(family)}" alt="">`).join('');renderBoard();renderOverlay();renderHome();for(const img of root.querySelectorAll('[data-home-portrait]')){const src=avatar(Number(img.dataset.homePortrait));if(img.getAttribute('src')!==src)img.src=src;}}
@@ -2784,7 +3142,7 @@ function createTide({root,audio,avatar,personName,colors,getLanguage,read,write,
  }
  function showPicker(){homeView='modes';renderHome();root.querySelector(`[data-tide-mode="${previewMode}"]`)?.focus({preventScroll:true});}
  function showLanding(){homeView='landing';renderHome();$('home-play').focus({preventScroll:true});}
- function openHome(){pause();homeOpen=true;homeView='landing';previewMode=selectedMode;renderHome();signalPlaying();$('home-play').focus({preventScroll:true});}
+ function openHome(){if(commerce?.state.busy)return;pause();homeOpen=true;homeView='landing';previewMode=selectedMode;renderHome();signalPlaying();$('home-play').focus({preventScroll:true});}
  function playHome(){
   const continuing=game.status==='paused'&&previewMode===selectedMode;selectedMode=previewMode;homeOpen=false;renderHome();onModeChange?.();
   window.scrollTo(0,0);if(continuing)resume();else start();
@@ -2809,15 +3167,15 @@ function createTide({root,audio,avatar,personName,colors,getLanguage,read,write,
  grid.addEventListener('pointerup',event=>{const press=gesture;gesture=null;if(!press||press.pointer!==event.pointerId||press.moved||press.revision!==game.revision)return;tapCell(press.from);});
  grid.addEventListener('pointercancel',()=>{gesture=null;});grid.addEventListener('lostpointercapture',()=>{gesture=null;});grid.addEventListener('click',event=>{if(event.detail!==0)return;const node=event.target.closest('[data-tide-cell]');if(node)tapCell(Number(node.dataset.tideCell));});grid.addEventListener('pointerleave',()=>{if(powerMode)markTargets();});
  root.addEventListener('contextmenu',event=>{if(event.target.closest('.tide-arena'))event.preventDefault();});root.addEventListener('dblclick',event=>{if(!event.target.closest('textarea,input'))event.preventDefault();});
- document.addEventListener('keydown',event=>{
+ document.addEventListener('keydown',event=>{if(commerce?.state.busy)return;
   if(active&&homeOpen&&homeView==='modes'&&event.key==='Escape'){event.preventDefault();showLanding();return;}if(!active||homeOpen||event.ctrlKey||event.metaKey||event.altKey||event.target.matches('input,select,textarea')||document.querySelector('dialog[open]'))return;
   if(event.key.toLowerCase()==='p'||event.key==='Escape'){event.preventDefault();game.status==='playing'?pause():resume();return;}if(game.status!=='playing'||game.busy)return;
   if(['1','2','3','4','5'].includes(event.key)){event.preventDefault();choosePower({1:'bomb',2:'rocket',3:'cross',4:'nova',5:'shuffle'}[event.key]);return;}
   if(event.key.startsWith('Arrow')){event.preventDefault();const delta={ArrowLeft:[-20,0],ArrowRight:[20,0],ArrowUp:[0,-20],ArrowDown:[0,20]}[event.key];if(!delta)return;const target=swipeTarget(aim,...delta);if(target===null)return;if(event.shiftKey)game.swap(aim,target);else{aim=target;selected=aim;markTargets();grid.focus({preventScroll:true});}return;}
   if(event.key==='Enter'&&!event.target.closest('button')){event.preventDefault();tapCell(aim);}if(event.key===' '&&!event.target.closest('button,a')){event.preventDefault();clearInput();game.raise(true);}
  });
- $('tide-share').addEventListener('click',async()=>{const title='Popzuno · '+t(selectedMode==='survival'?'survival':selectedMode),text=title+'\n'+t('shareIntro',{score:number(game.score)})+'\n'+t(selectedMode==='daily'?'shareDaily':selectedMode==='blitz'?'shareBlitz':selectedMode==='timeRush'?'shareTimeRush':selectedMode==='ascend'?'shareAscend':'shareSurvival',{day:game.day,combo:game.bestCombo,stage:game.wave,seconds:Math.floor(game.elapsed/1000)});try{if(navigator.share){await navigator.share({title,text});return;}if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);toast(t('copied'));return;}}catch(error){if(error.name==='AbortError')return;}root.querySelector('#tide-share-dialog h2').textContent=title;$('tide-share-text').value=text;$('tide-share-dialog').showModal();$('tide-share-text').select();});$('tide-share-close').addEventListener('click',()=>$('tide-share-dialog').close());
- refresh();return {get status(){return game.status;},get mode(){return homeOpen?previewMode:selectedMode;},pause,resume,refresh,openHome,back(){if(homeOpen&&homeView==='modes'){showLanding();return true;}if(!homeOpen){openHome();return true;}return false;},get isHome(){return homeOpen;},setActive(value){active=value;if(!value)pause();root.hidden=!value;syncResultLayer();signalPlaying();},frame(dt){if(!active||homeOpen||game.status!=='playing')return;game.tick(dt);if(!game.busy&&!gesture&&selected===null&&!powerMode&&!idleHint&&game.elapsed-lastAction>=6500){idleHint=true;renderBoard();}paintMotion();if(game.elapsed-hudAt>=100)updateHUD();const voiceNow=performance.now();if(voiceNow-cheerTickAt>=100&&(!game.busy||game.phase?.kind==='wave')){cheerTickAt=voiceNow;celebrate();}audio.update(game.phase?.kind==='wave'?.16:game.intensity,dt,game.musicPace);}};
+ $('tide-share').addEventListener('click',async()=>{const title='Popzuno · '+t(selectedMode==='survival'?'survival':selectedMode),text=title+(game.assisted?' · '+commerceText(getLanguage(),'assisted'):'')+'\n'+t('shareIntro',{score:number(game.score)})+'\n'+t(selectedMode==='daily'?'shareDaily':selectedMode==='blitz'?'shareBlitz':selectedMode==='timeRush'?'shareTimeRush':selectedMode==='ascend'?'shareAscend':'shareSurvival',{day:game.day,combo:game.bestCombo,stage:game.wave,seconds:Math.floor(game.elapsed/1000)});try{if(navigator.share){await navigator.share({title,text});return;}if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(text);toast(t('copied'));return;}}catch(error){if(error.name==='AbortError')return;}root.querySelector('#tide-share-dialog h2').textContent=title;$('tide-share-text').value=text;$('tide-share-dialog').showModal();$('tide-share-text').select();});$('tide-share-close').addEventListener('click',()=>$('tide-share-dialog').close());
+ refresh();return {get status(){return game.status;},get mode(){return homeOpen?previewMode:selectedMode;},pause,resume,refresh,refreshCommerce,openHome,back(){if(homeOpen&&homeView==='modes'){showLanding();return true;}if(!homeOpen){openHome();return true;}return false;},get isHome(){return homeOpen;},setActive(value){active=value;if(!value)pause();root.hidden=!value;syncResultLayer();signalPlaying();},frame(dt){if(!active||homeOpen||game.status!=='playing')return;game.tick(dt);if(!game.busy&&!gesture&&selected===null&&!powerMode&&!idleHint&&game.elapsed-lastAction>=6500){idleHint=true;renderBoard();}paintMotion();if(game.elapsed-hudAt>=100)updateHUD();const voiceNow=performance.now();if(voiceNow-cheerTickAt>=100&&(!game.busy||game.phase?.kind==='wave')){cheerTickAt=voiceNow;celebrate();}audio.update(game.phase?.kind==='wave'?.16:game.intensity,dt,game.musicPace);}};
 }
 
 return {endingKeys,recordKey,tideTranslate,powerGuideHTML,modeGuideHTML,createTide};
@@ -3238,58 +3596,286 @@ function flowTranslate(language,key,values={}){let text=(FLOW_MESSAGES[language]
 return {FLOW_MESSAGES,flowTranslate};
 },
 "privacy":function(__load){
-const POLICY_DATE='2026-10-29';
+const POLICY_DATE='2026-11-02';
 const SUPPORT_EMAIL='mertbek@gmail.com';
 const DEVELOPER_NAME='Mert Bekisoglu';
 const PRIVACY_COPY={
- tr:{title:'Gizlilik ve lisanslar',policy:'Gizlilik politikası',support:'Destek',credits:'Lisanslar ve kaynaklar',reset:'Tüm oyun verilerini sil',confirm:'Fotoğraflar, karakter isimleri, rekorlar ve tercihler bu uygulamadan silinecek. Bu işlem geri alınamaz. İşletim sistemi yedeklerini silmez.',erase:'Evet, verileri sil',cancel:'Vazgeç',error:'Veriler silinemedi. Tekrar dene.',close:'Kapat',sections:[
-  ['Kapsam ve iletişim','Popzuno’ün çevrimdışı mobil ve taşınabilir oyun sürümleri. Geliştirici: Mert Bekisoglu. Gizlilik ve destek: mertbek@gmail.com. Son güncelleme: 29 Ekim 2026.'],
-  ['Cihazda işlenen veriler','İsteğe bağlı karakter isimleri, seçilen fotoğrafların küçültülmüş/kadrajlanmış kopyaları, kadraj ayarları, oyun rekorları, etaplar, dil ve ses/titreşim tercihleri yerel uygulama alanında tutulur. Fotoğraf seçmezsen varsayılan çizimlerle oynayabilirsin.'],
-  ['Fotoğraf ve yüz bulma','Yalnızca seçtiğin fotoğraf işlenir. Yüzün konumunu bulma ve kırpma cihazda yapılır; kişiyi tanımlayan yüz şablonu, yüz tanıma hesabı veya sunucuya fotoğraf yükleme yoktur. Kullanma iznin olan fotoğrafları seç; başkalarının ve çocukların fotoğraflarında gerekli izinleri al. Kamera yalnızca iOS sistem seçicisinden kendin seçersen kullanılır. Android sistem seçicisiyle tekil fotoğraf erişimi kullanır; tüm galeri izni istenmez.'],
-  ['Sunucuya aktarım ve paylaşım','Oyunda hesap, reklam, takip, analiz, bulut liderlik tablosu veya kendi sunucumuza veri gönderimi yoktur. Satın alma ve mağazanın kendi işlemleri Apple/Google tarafından yönetilir. Sonuç paylaşımı sistem/tarayıcı paylaşımı veya panosuyla yalnızca sen başlatırsan yapılır; fotoğraf ve isim eklenmez. Destek e-postası gönderirsen mesajın ve adresin e-posta sağlayıcısı üzerinden bize ulaşır; istemediğin özel fotoğrafları gönderme.'],
-  ['Saklama, silme ve yedekler','Veriler sen silene kadar yerel kayıtta kalır. Sevdiklerim ekranı tekil fotoğrafları kaldırır; bu ekrandaki tüm verileri sil seçeneği isimleri, fotoğrafları, rekorları ve tercihleri de kaldırır. Orijinal galeri fotoğrafları değişmez. iOS işletim sistemi ayarlarına göre uygulama verileri sistem yedeklerine girebilir; önceki yedekleri uygulama silemez. Android uygulama yedeklemesi kapalıdır. Taşınabilir sürümün kaydı tarayıcı tarafından yönetilir. Sistem/tarayıcı yedeklerini kendi ayarlarından yönetebilirsin. Destek mesajları yanıt için gerektiği sürece tutulur; silme talepleri için iletişime geçebilirsin.'],
-  ['Dış sayfalar ve değişiklikler','Destek/gizlilik web sayfasını veya e-posta uygulamasını açarsan bu hizmetlerin kendi bağlantı, güvenlik ve gizlilik işlemleri geçerlidir. Oyun fotoğrafları bu sayfalara otomatik gönderilmez. Veri davranışı değişirse politika ve mağaza beyanları yeni sürümden önce güncellenir.']
- ]},
- en:{title:'Privacy and licenses',policy:'Privacy policy',support:'Support',credits:'Licenses and sources',reset:'Delete all game data',confirm:'Photos, character names, records and preferences will be deleted from this app. This cannot be undone. Operating-system backups are not deleted.',erase:'Yes, delete data',cancel:'Cancel',error:'Could not delete data. Please try again.',close:'Close',sections:[
-  ['Scope and contact','Offline mobile and portable versions of Popzuno. Developer: Mert Bekisoglu. Privacy and support: mertbek@gmail.com. Updated 29 October 2026.'],
-  ['Data processed on your device','Optional character names, resized/cropped copies of selected photos, framing settings, records, stages, language and audio/haptic preferences are stored in the app’s local storage. Photos are optional; default illustrated characters are available.'],
-  ['Photos and face detection','Only the photo you select is processed. Face location and cropping run on your device; there is no identifying face template, face-recognition account or photo upload. Use photos you have permission to use, including the necessary permission for other people and children. The camera is used only if you choose it through the iOS system picker. Android uses a system picker for individual images without broad gallery permission.'],
-  ['Transfers and sharing','The game has no account, ads, tracking, analytics, cloud leaderboard or transmission to our own servers. Apple/Google handle their store and purchase transactions. Result sharing uses the system/browser share interface or clipboard only when you initiate it; no photos or names are attached. If you email support, your message and email address reach us through the email provider; do not send private photos unnecessarily.'],
-  ['Retention, deletion and backups','Local data remains until you delete it. Your people removes individual photos; Delete all game data also removes names, records and preferences. Original gallery images are not changed. Depending on your settings, iOS app data may enter operating-system backups, which the app cannot delete retrospectively. Android app backup is disabled. Portable-version storage is managed by your browser. Manage system/browser backups in their settings. Support emails are retained as needed to handle the request; contact us to request deletion.'],
-  ['External pages and changes','Opening support/privacy pages or an email app involves those services’ own connection, security and privacy practices. Game photos are not automatically sent to those pages. Changes to data handling require updated policy and store disclosures before release.']
- ]},
- it:{title:'Privacy e licenze',policy:'Informativa sulla privacy',support:'Assistenza',credits:'Licenze e fonti',reset:'Elimina tutti i dati di gioco',confirm:'Foto, nomi, record e preferenze saranno eliminati dall’app. L’operazione è irreversibile e non elimina i backup del sistema.',erase:'Sì, elimina i dati',cancel:'Annulla',error:'Impossibile eliminare i dati. Riprova.',close:'Chiudi',sections:[
-  ['Ambito e contatti','Versioni mobili e portatili offline di Popzuno. Sviluppatore: Mert Bekisoglu. Privacy e assistenza: mertbek@gmail.com. Aggiornamento: 29 ottobre 2026.'],
-  ['Dati locali','Nomi facoltativi, copie ridimensionate/ritagliate delle foto selezionate, inquadratura, record, livelli, lingua e preferenze audio/aptiche restano nella memoria locale dell’app. Puoi giocare senza foto usando i personaggi illustrati.'],
-  ['Foto e volti','Si elabora solo la foto scelta. Rilevamento della posizione del volto e ritaglio avvengono sul dispositivo: nessun modello identificativo personale, account di riconoscimento o caricamento. Usa foto autorizzate, con i permessi necessari per altre persone e minori. La fotocamera si usa solo se scelta nel selettore iOS; Android usa il selettore di immagini senza accesso generale alla galleria.'],
-  ['Trasferimenti e condivisione','Nessun account, pubblicità, tracciamento, analisi, classifica cloud o invio ai nostri server. Apple/Google gestiscono gli acquisti del negozio. La condivisione dei risultati o gli appunti si attivano solo su tua richiesta, senza foto o nomi. Un’email all’assistenza trasmette messaggio e indirizzo tramite il provider email: evita foto private non necessarie.'],
-  ['Conservazione e cancellazione','I dati locali restano finché non li elimini. I miei cari elimina singole foto; l’opzione di eliminazione totale rimuove anche nomi, record e preferenze. Le foto originali non cambiano. iOS può includere i dati nei backup del sistema secondo le tue impostazioni; l’app non elimina backup precedenti. Il backup Android è disattivato. Nel formato portatile i dati sono gestiti dal browser. Gestisci i backup nelle impostazioni del sistema/browser. Le email di assistenza restano per il tempo necessario alla richiesta; puoi chiederne la cancellazione.'],
-  ['Servizi esterni','Pagine di supporto/privacy e app email applicano le proprie regole di connessione, sicurezza e privacy. Le foto non vengono inviate automaticamente. Eventuali cambiamenti richiedono l’aggiornamento dell’informativa e delle dichiarazioni dei negozi prima della pubblicazione.']
- ]},
- es:{title:'Privacidad y licencias',policy:'Política de privacidad',support:'Soporte',credits:'Licencias y fuentes',reset:'Eliminar todos los datos',confirm:'Se eliminarán fotos, nombres, récords y preferencias de esta app. No se puede deshacer y no elimina las copias del sistema.',erase:'Sí, eliminar los datos',cancel:'Cancelar',error:'No se pudieron eliminar los datos. Inténtalo de nuevo.',close:'Cerrar',sections:[
-  ['Ámbito y contacto','Versiones móviles y portátiles sin conexión de Popzuno. Desarrollador: Mert Bekisoglu. Privacidad y soporte: mertbek@gmail.com. Actualizado: 29 de octubre de 2026.'],
-  ['Datos locales','Nombres opcionales, copias reducidas/recortadas de las fotos elegidas, encuadre, récords, etapas, idioma y preferencias de sonido/vibración se guardan localmente. Puedes jugar sin fotos con los personajes ilustrados.'],
-  ['Fotos y rostros','Solo se procesa la foto elegida. La localización del rostro y el recorte se realizan en el dispositivo; no hay plantilla identificativa personal, cuenta de reconocimiento ni subida de fotos. Usa imágenes autorizadas y obtén los permisos necesarios para otras personas y menores. La cámara solo se usa si la eliges en el selector de iOS. Android utiliza el selector del sistema sin acceso general a la galería.'],
-  ['Transferencias y compartir','No hay cuentas, anuncios, seguimiento, analítica, clasificación en la nube ni envío a nuestros servidores. Apple/Google gestionan las compras de la tienda. Compartir resultados o copiarlos al portapapeles solo ocurre si lo solicitas, sin fotos ni nombres. Los correos al soporte envían el mensaje y tu dirección mediante el proveedor de correo; evita adjuntar fotos privadas innecesarias.'],
-  ['Conservación y borrado','Los datos locales permanecen hasta que los elimines. Mi gente borra fotos individuales; el borrado total también elimina nombres, récords y preferencias. Las imágenes originales no se modifican. iOS puede incluir los datos en copias del sistema según tus ajustes; la app no borra copias anteriores. Las copias Android están desactivadas. La versión portátil usa el almacenamiento del navegador. Gestiona las copias en sus ajustes. Los correos de soporte se conservan el tiempo necesario para la solicitud; puedes pedir su eliminación.'],
-  ['Servicios externos','Las páginas de soporte/privacidad y las apps de correo aplican sus propias prácticas de conexión, seguridad y privacidad. No reciben automáticamente las fotos del juego. Los cambios en el tratamiento de datos requieren actualizar la política y las declaraciones de las tiendas antes de publicar.']
- ]},
- de:{title:'Datenschutz und Lizenzen',policy:'Datenschutzerklärung',support:'Support',credits:'Lizenzen und Quellen',reset:'Alle Spieldaten löschen',confirm:'Fotos, Namen, Rekorde und Einstellungen werden aus dieser App gelöscht. Dies ist nicht rückgängig zu machen und löscht keine Systembackups.',erase:'Ja, Daten löschen',cancel:'Abbrechen',error:'Daten konnten nicht gelöscht werden. Bitte erneut versuchen.',close:'Schließen',sections:[
-  ['Geltungsbereich und Kontakt','Offline-Mobil- und portable Versionen von Popzuno. Entwickler: Mert Bekisoglu. Datenschutz und Support: mertbek@gmail.com. Stand: 29. Oktober 2026.'],
-  ['Lokale Daten','Optionale Namen, verkleinerte/zugeschnittene Kopien gewählter Fotos, Bildausschnitte, Rekorde, Stufen, Sprache und Ton-/Vibrationseinstellungen werden lokal gespeichert. Ohne Fotos kannst du mit gezeichneten Figuren spielen.'],
-  ['Fotos und Gesichter','Nur das ausgewählte Foto wird verarbeitet. Gesichtslokalisierung und Zuschnitt erfolgen auf dem Gerät; keine personenbezogene Gesichtsvorlage, kein Erkennungskonto und kein Foto-Upload. Verwende erlaubte Fotos und hole nötige Einwilligungen für andere Personen und Kinder ein. Die Kamera wird nur auf deine Auswahl im iOS-Systemdialog genutzt. Android verwendet die Systembildauswahl ohne allgemeinen Galeriezugriff.'],
-  ['Übertragung und Teilen','Keine Konten, Werbung, Nachverfolgung, Analyse, Cloud-Rangliste oder Übertragung an unsere Server. Apple/Google verwalten Storekäufe. Ergebnisse werden nur auf deinen Wunsch über System-/Browserfreigabe oder Zwischenablage geteilt, ohne Fotos und Namen. Support-E-Mails übertragen Nachricht und Adresse über den E-Mail-Anbieter; sende keine unnötigen privaten Fotos.'],
-  ['Speicherung und Löschung','Lokale Daten bleiben bis zur Löschung. Meine Liebsten entfernt einzelne Fotos; die vollständige Löschung entfernt auch Namen, Rekorde und Einstellungen. Originalfotos bleiben unverändert. iOS kann App-Daten je nach Einstellungen in Systembackups aufnehmen; frühere Backups kann die App nicht löschen. Android-Backups sind deaktiviert. Portable Daten verwaltet der Browser. Backups verwaltest du in System-/Browsereinstellungen. Supportnachrichten bleiben so lange wie für die Anfrage nötig; eine Löschung kann angefragt werden.'],
-  ['Externe Dienste','Für Support-/Datenschutzseiten und E-Mail-Apps gelten deren Verbindungs-, Sicherheits- und Datenschutzverfahren. Spielfotos werden nicht automatisch übertragen. Vor Änderungen der Datenverarbeitung werden Erklärung und Storeangaben aktualisiert.']
- ]},
- ru:{title:'Конфиденциальность и лицензии',policy:'Политика конфиденциальности',support:'Поддержка',credits:'Лицензии и источники',reset:'Удалить все данные игры',confirm:'Фото, имена, рекорды и настройки будут удалены из приложения. Отменить это нельзя. Резервные копии системы не удаляются.',erase:'Да, удалить данные',cancel:'Отмена',error:'Не удалось удалить данные. Попробуй ещё раз.',close:'Закрыть',sections:[
-  ['Область действия и контакты','Офлайн-версии Popzuno для мобильных устройств и браузера. Разработчик: Mert Bekisoglu. Конфиденциальность и поддержка: mertbek@gmail.com. Обновлено 29 октября 2026 года.'],
-  ['Локальные данные','Необязательные имена, уменьшенные/обрезанные копии выбранных фото, кадрирование, рекорды, этапы, язык и настройки звука/вибрации сохраняются локально. Можно играть без фотографий с рисованными персонажами.'],
-  ['Фото и лица','Обрабатывается только выбранное фото. Поиск положения лица и обрезка выполняются на устройстве; нет идентифицирующего шаблона лица, аккаунта распознавания или загрузки фото на сервер. Используй разрешённые снимки и получай необходимые согласия для других людей и детей. Камера используется только при её выборе в системном диалоге iOS. Android использует системный выбор отдельных изображений без общего доступа к галерее.'],
-  ['Передача и обмен','Нет аккаунтов, рекламы, отслеживания, аналитики, облачной таблицы или передачи на наши серверы. Покупки в магазинах обрабатывают Apple/Google. Результат передаётся через системное/браузерное меню или буфер обмена только по твоему действию, без фото и имён. Письмо поддержке передаёт сообщение и адрес через почтового провайдера; не отправляй лишние личные фото.'],
-  ['Хранение и удаление','Локальные данные остаются до удаления. Близкие удаляет отдельные фото; полное удаление также стирает имена, рекорды и настройки. Исходные фото не меняются. В зависимости от настроек iOS данные могут попасть в резервную копию системы; приложение не удаляет прежние копии. Резервное копирование Android отключено. Данные переносной версии управляются браузером. Копиями управляй в настройках системы/браузера. Письма поддержке хранятся по необходимости для запроса; можно запросить удаление.'],
-  ['Внешние службы','Для страниц поддержки/политики и почтовых приложений действуют их правила соединения, безопасности и конфиденциальности. Фото игры автоматически туда не отправляются. Изменения обработки данных требуют обновления политики и сведений магазинов до выпуска.']
- ]}
+ "tr": {
+  "title": "Gizlilik ve lisanslar",
+  "policy": "Gizlilik politikası",
+  "support": "Destek",
+  "credits": "Lisanslar ve kaynaklar",
+  "reset": "Tüm oyun verilerini sil",
+  "confirm": "Fotoğraflar, karakter isimleri, rekorlar ve tercihler bu uygulamadan silinecek. Bu işlem geri alınamaz. İşletim sistemi yedeklerini silmez.",
+  "erase": "Evet, verileri sil",
+  "cancel": "Vazgeç",
+  "error": "Veriler silinemedi. Tekrar dene.",
+  "close": "Kapat",
+  "sections": [
+   [
+    "Kapsam ve iletişim",
+    "Popzuno’ün çevrimdışı mobil ve taşınabilir oyun sürümleri. Geliştirici: Mert Bekisoglu. Gizlilik ve destek: mertbek@gmail.com. Son güncelleme: 2 Kasım 2026."
+   ],
+   [
+    "Cihazda işlenen veriler",
+    "İsteğe bağlı karakter isimleri, seçilen fotoğrafların küçültülmüş/kadrajlanmış kopyaları, kadraj ayarları, oyun rekorları, etaplar, dil ve ses/titreşim tercihleri yerel uygulama alanında tutulur. Fotoğraf seçmezsen varsayılan çizimlerle oynayabilirsin."
+   ],
+   [
+    "Fotoğraf ve yüz bulma",
+    "Yalnızca seçtiğin fotoğraf işlenir. Yüzün konumunu bulma ve kırpma cihazda yapılır; kişiyi tanımlayan yüz şablonu, yüz tanıma hesabı veya sunucuya fotoğraf yükleme yoktur. Kullanma iznin olan fotoğrafları seç; başkalarının ve çocukların fotoğraflarında gerekli izinleri al. Kamera yalnızca iOS sistem seçicisinden kendin seçersen kullanılır. Android sistem seçicisiyle tekil fotoğraf erişimi kullanır; tüm galeri izni istenmez."
+   ],
+   [
+    "İsteğe bağlı reklamlar",
+    "Temel oyun çevrimdışı çalışır. Yalnızca yetişkin yaş aralığı seçen oyuncu Ayarlar’dan reklam hazırlamayı isterse Google AdMob ve UMP ile bağlantı kurulur. Reklamlar zorunlu değildir. Kişiselleştirme ve reklam kimliği erişimi kapalı tutulur. Reklam sağlayıcısı IP adresi, cihaz/uygulama ve ağ bilgileri, hata/performans verileri ve reklam etkileşimlerini işleyebilir. Fotoğraflar, yüz ölçümleri ve karakter isimleri reklam SDK’sına verilmez. Gizlilik seçeneklerini Ayarlar’dan yönetebilirsin."
+   ],
+   [
+    "Saklama, silme ve yedekler",
+    "Veriler sen silene kadar yerel kayıtta kalır. Sevdiklerim ekranı tekil fotoğrafları kaldırır; bu ekrandaki tüm verileri sil seçeneği isimleri, fotoğrafları, rekorları ve tercihleri de kaldırır. Orijinal galeri fotoğrafları değişmez. iOS işletim sistemi ayarlarına göre uygulama verileri sistem yedeklerine girebilir; önceki yedekleri uygulama silemez. Android uygulama yedeklemesi kapalıdır. Taşınabilir sürümün kaydı tarayıcı tarafından yönetilir. Sistem/tarayıcı yedeklerini kendi ayarlarından yönetebilirsin. Destek mesajları yanıt için gerektiği sürece tutulur; silme talepleri için iletişime geçebilirsin."
+   ],
+   [
+    "Dış sayfalar ve değişiklikler",
+    "Destek/gizlilik web sayfasını veya e-posta uygulamasını açarsan bu hizmetlerin kendi bağlantı, güvenlik ve gizlilik işlemleri geçerlidir. Oyun fotoğrafları bu sayfalara otomatik gönderilmez. Veri davranışı değişirse politika ve mağaza beyanları yeni sürümden önce güncellenir."
+   ],
+   [
+    "Tek seferlik Premium",
+    "İndirme, beş mod, standart fotoğraflar ve güçlendirmeler ücretsizdir. Premium yalnızca kozmetik seçenekler içindir; abonelik veya kazanma avantajı içermez. Ödeme bilgilerini Apple/Google işler; kart verilerini almayız. Haklar doğrulanmış mağaza işlemlerinden okunur. Geri yükleme vardır; iade/iptaller güncel mağaza bilgisi alındığında hakkı kaldırır. İşlem kayıtları cihazda tutulabilir."
+   ],
+   [
+    "Çocuklar ve yerel sınırlar",
+    "Oyun çocuklar dahil karma kitle içindir. Yalnızca kaba yaş aralığı cihazda saklanır; tam doğum tarihi istenmez. Çocuk, genç veya belirsiz yaş seçildiğinde reklam ve yeni satın alma başlatılmaz. Kurtarmalar bu cihazda monoton zamana dayalı kayan 24 saatte üç ile sınırlıdır. Kota ve mağaza hakları oyun verisi silme işleminden ayrı tutulur; bu işlem mağaza satın alımını iptal etmez. Yeniden kurulum/çoklu cihaz için kesin oyuncu sınırı garantisi yoktur."
+   ]
+  ]
+ },
+ "en": {
+  "title": "Privacy and licenses",
+  "policy": "Privacy policy",
+  "support": "Support",
+  "credits": "Licenses and sources",
+  "reset": "Delete all game data",
+  "confirm": "Photos, character names, records and preferences will be deleted from this app. This cannot be undone. Operating-system backups are not deleted.",
+  "erase": "Yes, delete data",
+  "cancel": "Cancel",
+  "error": "Could not delete data. Please try again.",
+  "close": "Close",
+  "sections": [
+   [
+    "Scope and contact",
+    "Offline mobile and portable versions of Popzuno. Developer: Mert Bekisoglu. Privacy and support: mertbek@gmail.com. Updated 2 November 2026."
+   ],
+   [
+    "Data processed on your device",
+    "Optional character names, resized/cropped copies of selected photos, framing settings, records, stages, language and audio/haptic preferences are stored in the app’s local storage. Photos are optional; default illustrated characters are available."
+   ],
+   [
+    "Photos and face detection",
+    "Only the photo you select is processed. Face location and cropping run on your device; there is no identifying face template, face-recognition account or photo upload. Use photos you have permission to use, including the necessary permission for other people and children. The camera is used only if you choose it through the iOS system picker. Android uses a system picker for individual images without broad gallery permission."
+   ],
+   [
+    "Optional advertising",
+    "The base game works offline. Google AdMob and UMP are contacted only when a player in the adult age band asks to prepare optional ads in Settings. Ads are never compulsory. Personalization and advertising-ID access are disabled. The ad provider may process IP address, device/app/network information, diagnostics, performance and ad interactions. Photos, face measurements and character names are not passed to ad SDKs. Manage ad privacy choices in Settings."
+   ],
+   [
+    "Retention, deletion and backups",
+    "Local data remains until you delete it. Your people removes individual photos; Delete all game data also removes names, records and preferences. Original gallery images are not changed. Depending on your settings, iOS app data may enter operating-system backups, which the app cannot delete retrospectively. Android app backup is disabled. Portable-version storage is managed by your browser. Manage system/browser backups in their settings. Support emails are retained as needed to handle the request; contact us to request deletion."
+   ],
+   [
+    "External pages and changes",
+    "Opening support/privacy pages or an email app involves those services’ own connection, security and privacy practices. Game photos are not automatically sent to those pages. Changes to data handling require updated policy and store disclosures before release."
+   ],
+   [
+    "One-time Premium",
+    "Download, all five modes, standard photos and powers are free. Premium contains cosmetics only, with no subscription or winning advantage. Apple/Google handle payment details; we do not receive card data. Entitlements come from verified store transactions. Restore is available; refunds/revocations remove access when updated store information arrives. Transaction records may be stored locally."
+   ],
+   [
+    "Children and local limits",
+    "The game serves a mixed audience including children. Only a coarse age band is stored on-device, not a full birth date. Children, teens and unknown ages do not start ads or new purchases. Rescues are limited to three per rolling 24 hours on this device using uptime. Quota and store rights are separate from game-data deletion, which does not cancel store purchases. Reinstall/multiple-device player limits cannot be guaranteed."
+   ]
+  ]
+ },
+ "it": {
+  "title": "Privacy e licenze",
+  "policy": "Informativa sulla privacy",
+  "support": "Assistenza",
+  "credits": "Licenze e fonti",
+  "reset": "Elimina tutti i dati di gioco",
+  "confirm": "Foto, nomi, record e preferenze saranno eliminati dall’app. L’operazione è irreversibile e non elimina i backup del sistema.",
+  "erase": "Sì, elimina i dati",
+  "cancel": "Annulla",
+  "error": "Impossibile eliminare i dati. Riprova.",
+  "close": "Chiudi",
+  "sections": [
+   [
+    "Ambito e contatti",
+    "Versioni mobili e portatili offline di Popzuno. Sviluppatore: Mert Bekisoglu. Privacy e assistenza: mertbek@gmail.com. Aggiornamento: 2 novembre 2026."
+   ],
+   [
+    "Dati locali",
+    "Nomi facoltativi, copie ridimensionate/ritagliate delle foto selezionate, inquadratura, record, livelli, lingua e preferenze audio/aptiche restano nella memoria locale dell’app. Puoi giocare senza foto usando i personaggi illustrati."
+   ],
+   [
+    "Foto e volti",
+    "Si elabora solo la foto scelta. Rilevamento della posizione del volto e ritaglio avvengono sul dispositivo: nessun modello identificativo personale, account di riconoscimento o caricamento. Usa foto autorizzate, con i permessi necessari per altre persone e minori. La fotocamera si usa solo se scelta nel selettore iOS; Android usa il selettore di immagini senza accesso generale alla galleria."
+   ],
+   [
+    "Pubblicità facoltativa",
+    "Il gioco base funziona offline. AdMob e UMP si collegano solo quando un adulto richiede annunci facoltativi nelle Impostazioni. Nessun annuncio obbligatorio; personalizzazione e identificatore pubblicitario disattivati. Il fornitore può trattare IP, dati di dispositivo/app/rete, diagnostica e interazioni. Foto, misure del volto e nomi non vengono passati agli SDK pubblicitari. Le scelte privacy sono nelle Impostazioni."
+   ],
+   [
+    "Conservazione e cancellazione",
+    "I dati locali restano finché non li elimini. I miei cari elimina singole foto; l’opzione di eliminazione totale rimuove anche nomi, record e preferenze. Le foto originali non cambiano. iOS può includere i dati nei backup del sistema secondo le tue impostazioni; l’app non elimina backup precedenti. Il backup Android è disattivato. Nel formato portatile i dati sono gestiti dal browser. Gestisci i backup nelle impostazioni del sistema/browser. Le email di assistenza restano per il tempo necessario alla richiesta; puoi chiederne la cancellazione."
+   ],
+   [
+    "Servizi esterni",
+    "Pagine di supporto/privacy e app email applicano le proprie regole di connessione, sicurezza e privacy. Le foto non vengono inviate automaticamente. Eventuali cambiamenti richiedono l’aggiornamento dell’informativa e delle dichiarazioni dei negozi prima della pubblicazione."
+   ],
+   [
+    "Premium con acquisto unico",
+    "Download, cinque modalità, foto standard e poteri sono gratuiti. Premium contiene solo elementi estetici: nessun abbonamento o vantaggio. Apple/Google gestiscono i pagamenti, non riceviamo dati della carta. Diritti da transazioni verificate, con ripristino. Rimborsi/revoche rimuovono l’accesso quando il negozio aggiorna i dati. Le transazioni possono essere conservate localmente."
+   ],
+   [
+    "Bambini e limiti locali",
+    "Pubblico misto, inclusi bambini. Si memorizza solo una fascia d’età locale, non la data di nascita. Bambini, ragazzi ed età sconosciuta non avviano annunci o acquisti. Massimo tre salvataggi ogni 24 ore sul dispositivo, con tempo monotono. Cancellare i dati di gioco non cancella la quota né gli acquisti. Nessuna garanzia contro reinstallazioni o più dispositivi."
+   ]
+  ]
+ },
+ "es": {
+  "title": "Privacidad y licencias",
+  "policy": "Política de privacidad",
+  "support": "Soporte",
+  "credits": "Licencias y fuentes",
+  "reset": "Eliminar todos los datos",
+  "confirm": "Se eliminarán fotos, nombres, récords y preferencias de esta app. No se puede deshacer y no elimina las copias del sistema.",
+  "erase": "Sí, eliminar los datos",
+  "cancel": "Cancelar",
+  "error": "No se pudieron eliminar los datos. Inténtalo de nuevo.",
+  "close": "Cerrar",
+  "sections": [
+   [
+    "Ámbito y contacto",
+    "Versiones móviles y portátiles sin conexión de Popzuno. Desarrollador: Mert Bekisoglu. Privacidad y soporte: mertbek@gmail.com. Actualizado: 2 de noviembre de 2026."
+   ],
+   [
+    "Datos locales",
+    "Nombres opcionales, copias reducidas/recortadas de las fotos elegidas, encuadre, récords, etapas, idioma y preferencias de sonido/vibración se guardan localmente. Puedes jugar sin fotos con los personajes ilustrados."
+   ],
+   [
+    "Fotos y rostros",
+    "Solo se procesa la foto elegida. La localización del rostro y el recorte se realizan en el dispositivo; no hay plantilla identificativa personal, cuenta de reconocimiento ni subida de fotos. Usa imágenes autorizadas y obtén los permisos necesarios para otras personas y menores. La cámara solo se usa si la eliges en el selector de iOS. Android utiliza el selector del sistema sin acceso general a la galería."
+   ],
+   [
+    "Anuncios opcionales",
+    "El juego base funciona sin conexión. AdMob y UMP se conectan solo cuando un adulto prepara anuncios opcionales en Ajustes. Nunca son obligatorios; personalización e identificador publicitario desactivados. El proveedor puede tratar IP, datos de dispositivo/app/red, diagnósticos e interacciones. No se pasan fotos, medidas faciales ni nombres a SDK publicitarios. Gestiona las opciones de privacidad en Ajustes."
+   ],
+   [
+    "Conservación y borrado",
+    "Los datos locales permanecen hasta que los elimines. Mi gente borra fotos individuales; el borrado total también elimina nombres, récords y preferencias. Las imágenes originales no se modifican. iOS puede incluir los datos en copias del sistema según tus ajustes; la app no borra copias anteriores. Las copias Android están desactivadas. La versión portátil usa el almacenamiento del navegador. Gestiona las copias en sus ajustes. Los correos de soporte se conservan el tiempo necesario para la solicitud; puedes pedir su eliminación."
+   ],
+   [
+    "Servicios externos",
+    "Las páginas de soporte/privacidad y las apps de correo aplican sus propias prácticas de conexión, seguridad y privacidad. No reciben automáticamente las fotos del juego. Los cambios en el tratamiento de datos requieren actualizar la política y las declaraciones de las tiendas antes de publicar."
+   ],
+   [
+    "Premium de pago único",
+    "Descarga, cinco modos, fotos estándar y poderes gratis. Premium es solo cosmético, sin suscripción ni ventaja. Apple/Google gestionan pagos; no recibimos datos de tarjeta. Los derechos provienen de transacciones verificadas y se pueden restaurar. Reembolsos o revocaciones quitan acceso al recibir datos actualizados de la tienda. Se pueden guardar transacciones localmente."
+   ],
+   [
+    "Menores y límites locales",
+    "Público mixto con menores. Solo se guarda el rango de edad local, no la fecha de nacimiento. Niños, adolescentes y edad desconocida no inician anuncios ni compras nuevas. Hasta tres rescates por 24 horas en este dispositivo con reloj monotónico. Borrar datos del juego no borra cuotas ni cancela compras. Sin garantía contra reinstalación o uso de varios dispositivos."
+   ]
+  ]
+ },
+ "de": {
+  "title": "Datenschutz und Lizenzen",
+  "policy": "Datenschutzerklärung",
+  "support": "Support",
+  "credits": "Lizenzen und Quellen",
+  "reset": "Alle Spieldaten löschen",
+  "confirm": "Fotos, Namen, Rekorde und Einstellungen werden aus dieser App gelöscht. Dies ist nicht rückgängig zu machen und löscht keine Systembackups.",
+  "erase": "Ja, Daten löschen",
+  "cancel": "Abbrechen",
+  "error": "Daten konnten nicht gelöscht werden. Bitte erneut versuchen.",
+  "close": "Schließen",
+  "sections": [
+   [
+    "Geltungsbereich und Kontakt",
+    "Offline-Mobil- und portable Versionen von Popzuno. Entwickler: Mert Bekisoglu. Datenschutz und Support: mertbek@gmail.com. Stand: 2. November 2026."
+   ],
+   [
+    "Lokale Daten",
+    "Optionale Namen, verkleinerte/zugeschnittene Kopien gewählter Fotos, Bildausschnitte, Rekorde, Stufen, Sprache und Ton-/Vibrationseinstellungen werden lokal gespeichert. Ohne Fotos kannst du mit gezeichneten Figuren spielen."
+   ],
+   [
+    "Fotos und Gesichter",
+    "Nur das ausgewählte Foto wird verarbeitet. Gesichtslokalisierung und Zuschnitt erfolgen auf dem Gerät; keine personenbezogene Gesichtsvorlage, kein Erkennungskonto und kein Foto-Upload. Verwende erlaubte Fotos und hole nötige Einwilligungen für andere Personen und Kinder ein. Die Kamera wird nur auf deine Auswahl im iOS-Systemdialog genutzt. Android verwendet die Systembildauswahl ohne allgemeinen Galeriezugriff."
+   ],
+   [
+    "Freiwillige Werbung",
+    "Das Basisspiel funktioniert offline. AdMob und UMP verbinden sich nur, wenn Erwachsene freiwillige Werbung in Einstellungen vorbereiten. Keine Pflichtwerbung; Personalisierung und Werbe-ID-Zugriff deaktiviert. Der Anbieter kann IP, Geräte-/App-/Netzinformationen, Diagnosen und Werbeinteraktionen verarbeiten. Fotos, Gesichtsmaße und Namen gehen nicht an Werbe-SDKs. Datenschutzoptionen stehen in Einstellungen."
+   ],
+   [
+    "Speicherung und Löschung",
+    "Lokale Daten bleiben bis zur Löschung. Meine Liebsten entfernt einzelne Fotos; die vollständige Löschung entfernt auch Namen, Rekorde und Einstellungen. Originalfotos bleiben unverändert. iOS kann App-Daten je nach Einstellungen in Systembackups aufnehmen; frühere Backups kann die App nicht löschen. Android-Backups sind deaktiviert. Portable Daten verwaltet der Browser. Backups verwaltest du in System-/Browsereinstellungen. Supportnachrichten bleiben so lange wie für die Anfrage nötig; eine Löschung kann angefragt werden."
+   ],
+   [
+    "Externe Dienste",
+    "Für Support-/Datenschutzseiten und E-Mail-Apps gelten deren Verbindungs-, Sicherheits- und Datenschutzverfahren. Spielfotos werden nicht automatisch übertragen. Vor Änderungen der Datenverarbeitung werden Erklärung und Storeangaben aktualisiert."
+   ],
+   [
+    "Einmaliges Premium",
+    "Download, fünf Modi, Standardfotos und Kräfte sind kostenlos. Premium ist rein kosmetisch: kein Abo oder Spielvorteil. Apple/Google verwalten Zahlungen; wir erhalten keine Kartendaten. Rechte stammen aus geprüften Transaktionen und sind wiederherstellbar. Erstattungen/Widerrufe entziehen den Zugriff bei aktuellen Shopdaten. Transaktionen können lokal gespeichert werden."
+   ],
+   [
+    "Kinder und lokale Grenzen",
+    "Gemischte Zielgruppe einschließlich Kindern. Nur eine grobe Altersgruppe wird lokal gespeichert, kein Geburtsdatum. Minderjährige oder unbekanntes Alter starten weder Werbung noch Neukäufe. Drei Rettungen pro gleitenden 24 Stunden auf diesem Gerät mittels Laufzeit. Spieldatenlöschung löscht weder Quote noch Storekäufe. Keine Garantie gegen Neuinstallation oder mehrere Geräte."
+   ]
+  ]
+ },
+ "ru": {
+  "title": "Конфиденциальность и лицензии",
+  "policy": "Политика конфиденциальности",
+  "support": "Поддержка",
+  "credits": "Лицензии и источники",
+  "reset": "Удалить все данные игры",
+  "confirm": "Фото, имена, рекорды и настройки будут удалены из приложения. Отменить это нельзя. Резервные копии системы не удаляются.",
+  "erase": "Да, удалить данные",
+  "cancel": "Отмена",
+  "error": "Не удалось удалить данные. Попробуй ещё раз.",
+  "close": "Закрыть",
+  "sections": [
+   [
+    "Область действия и контакты",
+    "Офлайн-версии Popzuno для мобильных устройств и браузера. Разработчик: Mert Bekisoglu. Конфиденциальность и поддержка: mertbek@gmail.com. Обновлено 2 ноября 2026 года."
+   ],
+   [
+    "Локальные данные",
+    "Необязательные имена, уменьшенные/обрезанные копии выбранных фото, кадрирование, рекорды, этапы, язык и настройки звука/вибрации сохраняются локально. Можно играть без фотографий с рисованными персонажами."
+   ],
+   [
+    "Фото и лица",
+    "Обрабатывается только выбранное фото. Поиск положения лица и обрезка выполняются на устройстве; нет идентифицирующего шаблона лица, аккаунта распознавания или загрузки фото на сервер. Используй разрешённые снимки и получай необходимые согласия для других людей и детей. Камера используется только при её выборе в системном диалоге iOS. Android использует системный выбор отдельных изображений без общего доступа к галерее."
+   ],
+   [
+    "Добровольная реклама",
+    "Базовая игра работает без сети. AdMob и UMP подключаются, только если взрослый запрашивает подготовку рекламы в Настройках. Реклама не обязательна; персонализация и доступ к рекламному ID отключены. Провайдер может обрабатывать IP, данные устройства/приложения/сети, диагностику и взаимодействия. Фото, измерения лица и имена не передаются рекламным SDK. Выбор приватности доступен в Настройках."
+   ],
+   [
+    "Хранение и удаление",
+    "Локальные данные остаются до удаления. Близкие удаляет отдельные фото; полное удаление также стирает имена, рекорды и настройки. Исходные фото не меняются. В зависимости от настроек iOS данные могут попасть в резервную копию системы; приложение не удаляет прежние копии. Резервное копирование Android отключено. Данные переносной версии управляются браузером. Копиями управляй в настройках системы/браузера. Письма поддержке хранятся по необходимости для запроса; можно запросить удаление."
+   ],
+   [
+    "Внешние службы",
+    "Для страниц поддержки/политики и почтовых приложений действуют их правила соединения, безопасности и конфиденциальности. Фото игры автоматически туда не отправляются. Изменения обработки данных требуют обновления политики и сведений магазинов до выпуска."
+   ],
+   [
+    "Разовый Premium",
+    "Загрузка, пять режимов, обычные фото и бонусы бесплатны. Premium только косметический, без подписки и преимущества. Платежи обрабатывают Apple/Google; мы не получаем данные карты. Права основаны на проверенных транзакциях, есть восстановление. Возврат/отзыв снимает доступ при получении актуальных данных магазина. Транзакции могут храниться локально."
+   ],
+   [
+    "Дети и локальные ограничения",
+    "Смешанная аудитория, включая детей. На устройстве хранится только возрастная группа, не дата рождения. Для детей, подростков и неизвестного возраста реклама и новые покупки не запускаются. До трёх спасений за 24 часа на устройстве по монотонному времени. Удаление игровых данных не отменяет покупки и квоту. Нет гарантии против переустановок и нескольких устройств."
+   ]
+  ]
+ }
 };
 function privacyCopy(language){return PRIVACY_COPY[language]??PRIVACY_COPY.en;}
 
@@ -3316,11 +3902,11 @@ const LEGAL_NOTICES=[
   },
   {
     "file": "SOURCES.md",
-    "text": "# Popzuno — kaynak ve üretim kaydı\n\nGözden geçirme: 2026-10-29. Bu kayıt mevcut 8×11 eşleştirme oyununu kapsar; eski Familytris ve kaldırılan altıgen prototip bu ürüne dahil değildir. Hukuki uygunluk veya marka tescili belgesi değildir.\n\n## Bu proje için oluşturulan içerik\n\n- `dist/arcade-engine.mjs`, `arcade.mjs`, `board.mjs`: dört yönlü komşu değişimi, çizgi/kare eşleştirme, şekle göre güçler ve beş oyun modu. Yaygın oyun fikirleri üzerinde bağımsız uygulama; tüm mekaniklerin ilk kez icat edildiği iddia edilmez.\n- iOS Swift ve Android Java kabukları ile Android uyarlanabilir/tek renk ikon çizimleri bu proje için oluşturuldu; işletim sistemi API’leri kullanılır, uygulamaya üçüncü taraf native SDK paketlenmez. Derleme araçları oyun içine dahil edilmez.\n- `dist/avatars.mjs`, `style.css`: kodla çizilmiş karakterler ve arayüz. Başka bir ticari oyunun parça seti, karakterleri veya arayüz varlıkları taşınmadı.\n- `dist/sound.mjs`, `impact.mjs`: Circuit Bloom ve Quiet Orbit besteleri ile prosedürel efektler bu proje için programlandı. Ticari kayıt, örnek ses paketi, film/oyun repliği, Korobeiniki melodisi veya uzaktan ses servisi kullanılmaz. Arcade tempo 118–178 BPM; yalnızca Relax’ta sakin Quiet Orbit 72 BPM.\n- Kullanıcı fotoğrafları ve isimleri isteğe bağlı yerel içeriktir; paketleme bunları okumaz veya dağıtmaz. Mağaza görsellerinde yalnızca varsayılan çizimler veya ayrıca kullanım izni bulunan görseller kullanılmalıdır.\n\n- Popzuno logosu ve uygulama ikonu: 29 Ekim 2026 tarihinde OpenAI image generation aracıyla bu proje için, referans görsel olmadan üretildi. Ana dosya `branding/popzuno-master.png`; platform boyutları `scripts/prepare-brand.swift` ile türetilir. Gerçek kişi, üçüncü taraf karakter veya kullanıcı fotoğrafı içermez. Üretim, marka tescili veya münhasırlık garantisi değildir. Önceki Kynburst adı yalnızca geçmiş kayıtlarda ve veri uyumluluğu için iç kimliklerde korunur.\n\n## Üçüncü taraf bileşenler\n\n| Bileşen | Kaynak | Lisans / kullanım |\n|---|---|---|\n| pico.js işleme kodu | https://github.com/nenadmarkus/picojs | Upstream MIT beyanı; uygulamaya uyarlanmış kod. Kaynak ve bildirim `dist/face.mjs` içinde korunur. |\n| facefinder eğitilmiş modeli | https://github.com/nenadmarkus/pico/tree/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/rnt/cascades | Bu revizyondaki depo MIT lisanslıdır. Gömülü model, resmî güncel modelle bayt düzeyinde aynıdır: 239632 bayt; SHA-256 `d8014993e7298c7b1865d1f8b855d6dbf4ec5c808bf879e2091ab6837abf90cd`. |\n| Chakra Petch SemiBold | https://github.com/google/fonts/tree/main/ofl/chakrapetch | SIL OFL 1.1. Font ve telif/lisans bildirimi birlikte paketlenir. |\n| IBM Plex Mono Regular | https://github.com/google/fonts/tree/main/ofl/ibmplexmono | SIL OFL 1.1. Font ve telif/lisans bildirimi birlikte paketlenir. |\n\nÖnemli sürüm ayrımı: pico'nun eski `c2e81f9d...` revizyonundaki LICENSE ticari kullanımı izne bağlar. Bu nedenle yalnızca eski demo bağlantısına dayanılmaz; aynı modelin yukarıda sabitlenen MIT lisanslı dağıtımı esas alınır. Güncel kaynak lisansı: https://github.com/nenadmarkus/pico/blob/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/LICENSE . Model eşleşmesi ve yerel dosya özetleri `ASSET-INVENTORY.json` içinde kayıtlıdır. Kendi bildirimimizi MIT olarak yazmak tek başına bir bileşeni yeniden lisanslamaz.\n\nMIT ve OFL bildirimleri oyunun taşınabilir paketinde, iOS kaynaklarında ve Android varlıklarında korunmalıdır. OFL fontlarının lisansı oyunun tamamını açık kaynak yapmayı gerektirmez. Fontlar tek başına satılmaz; değiştirilmiş fontlarda ayrılmış ad kuralları ayrıca geçerlidir.\n\n## Ticari yayın sınırları\n\n- Popzuno adı ve ikonunun hedef pazarlardaki aynı/benzer marka ve tasarımlarla karşılaştırılması gerekir. Ön araştırma tescil veya kesin hak uygunluğu anlamına gelmez.\n- Üçüncü taraf kodlarının ticari kullanıma izin vermesi; patent, marka, kişilik hakları veya tüm görsel/işitsel benzerliklerin araştırıldığı anlamına gelmez.\n- Kaynaklarda gerçek kişilerin fotoğrafları bulunmaz; fotoğraf kullanıcının seçimiyle cihazda işlenir. İşletim sistemi yedekleri ve kullanıcının başlattığı destek/paylaşım işlemleri gizlilik metninde ayrı açıklanır.\n"
+    "text": "# Popzuno — kaynak ve üretim kaydı\n\nGözden geçirme: 2026-10-29. Bu kayıt mevcut 8×11 eşleştirme oyununu kapsar; eski Familytris ve kaldırılan altıgen prototip bu ürüne dahil değildir. Hukuki uygunluk veya marka tescili belgesi değildir.\n\n## Bu proje için oluşturulan içerik\n\n- `dist/arcade-engine.mjs`, `arcade.mjs`, `board.mjs`: dört yönlü komşu değişimi, çizgi/kare eşleştirme, şekle göre güçler ve beş oyun modu. Yaygın oyun fikirleri üzerinde bağımsız uygulama; tüm mekaniklerin ilk kez icat edildiği iddia edilmez.\n- iOS Swift ve Android Java kabukları ile Android uyarlanabilir/tek renk ikon çizimleri bu proje için oluşturuldu; işletim sistemi API’leri kullanılır, uygulamaya üçüncü taraf native SDK paketlenmez. Derleme araçları oyun içine dahil edilmez.\n- `dist/avatars.mjs`, `style.css`: kodla çizilmiş karakterler ve arayüz. Başka bir ticari oyunun parça seti, karakterleri veya arayüz varlıkları taşınmadı.\n- `dist/sound.mjs`, `impact.mjs`: Circuit Bloom ve Quiet Orbit besteleri ile prosedürel efektler bu proje için programlandı. Ticari kayıt, örnek ses paketi, film/oyun repliği, Korobeiniki melodisi veya uzaktan ses servisi kullanılmaz. Arcade tempo 118–178 BPM; yalnızca Relax’ta sakin Quiet Orbit 72 BPM.\n- Kullanıcı fotoğrafları ve isimleri isteğe bağlı yerel içeriktir; paketleme bunları okumaz veya dağıtmaz. Mağaza görsellerinde yalnızca varsayılan çizimler veya ayrıca kullanım izni bulunan görseller kullanılmalıdır.\n\n- Popzuno logosu ve uygulama ikonu: 29 Ekim 2026 tarihinde OpenAI image generation aracıyla bu proje için, referans görsel olmadan üretildi. Ana dosya `branding/popzuno-master.png`; platform boyutları `scripts/prepare-brand.swift` ile türetilir. Gerçek kişi, üçüncü taraf karakter veya kullanıcı fotoğrafı içermez. Üretim, marka tescili veya münhasırlık garantisi değildir. Önceki Kynburst adı yalnızca geçmiş kayıtlarda ve veri uyumluluğu için iç kimliklerde korunur.\n\n## Üçüncü taraf bileşenler\n\n| Bileşen | Kaynak | Lisans / kullanım |\n|---|---|---|\n| pico.js işleme kodu | https://github.com/nenadmarkus/picojs | Upstream MIT beyanı; uygulamaya uyarlanmış kod. Kaynak ve bildirim `dist/face.mjs` içinde korunur. |\n| facefinder eğitilmiş modeli | https://github.com/nenadmarkus/pico/tree/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/rnt/cascades | Bu revizyondaki depo MIT lisanslıdır. Gömülü model, resmî güncel modelle bayt düzeyinde aynıdır: 239632 bayt; SHA-256 `d8014993e7298c7b1865d1f8b855d6dbf4ec5c808bf879e2091ab6837abf90cd`. |\n| Chakra Petch SemiBold | https://github.com/google/fonts/tree/main/ofl/chakrapetch | SIL OFL 1.1. Font ve telif/lisans bildirimi birlikte paketlenir. |\n| IBM Plex Mono Regular | https://github.com/google/fonts/tree/main/ofl/ibmplexmono | SIL OFL 1.1. Font ve telif/lisans bildirimi birlikte paketlenir. |\n\nÖnemli sürüm ayrımı: pico'nun eski `c2e81f9d...` revizyonundaki LICENSE ticari kullanımı izne bağlar. Bu nedenle yalnızca eski demo bağlantısına dayanılmaz; aynı modelin yukarıda sabitlenen MIT lisanslı dağıtımı esas alınır. Güncel kaynak lisansı: https://github.com/nenadmarkus/pico/blob/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/LICENSE . Model eşleşmesi ve yerel dosya özetleri `ASSET-INVENTORY.json` içinde kayıtlıdır. Kendi bildirimimizi MIT olarak yazmak tek başına bir bileşeni yeniden lisanslamaz.\n\nMIT ve OFL bildirimleri oyunun taşınabilir paketinde, iOS kaynaklarında ve Android varlıklarında korunmalıdır. OFL fontlarının lisansı oyunun tamamını açık kaynak yapmayı gerektirmez. Fontlar tek başına satılmaz; değiştirilmiş fontlarda ayrılmış ad kuralları ayrıca geçerlidir.\n\n## Ticari yayın sınırları\n\n- Popzuno adı ve ikonunun hedef pazarlardaki aynı/benzer marka ve tasarımlarla karşılaştırılması gerekir. Ön araştırma tescil veya kesin hak uygunluğu anlamına gelmez.\n- Üçüncü taraf kodlarının ticari kullanıma izin vermesi; patent, marka, kişilik hakları veya tüm görsel/işitsel benzerliklerin araştırıldığı anlamına gelmez.\n- Kaynaklarda gerçek kişilerin fotoğrafları bulunmaz; fotoğraf kullanıcının seçimiyle cihazda işlenir. İşletim sistemi yedekleri ve kullanıcının başlattığı destek/paylaşım işlemleri gizlilik metninde ayrı açıklanır.\n\n## Native commerce SDKs — experimental 0.10 branch\n\n- Google Mobile Ads iOS 13.11.0, Google User Messaging Platform iOS 3.1.0: official Swift Package Manager distributions. Wrapper packages use Apache-2.0; binary SDKs are supplied under Google's applicable SDK terms, not relicensed as project code. https://developers.google.com/admob/ios/quick-start\n- Google Mobile Ads Android 25.5.0 (`play-services-ads`), UMP Android 4.0.0: official Google Maven distributions. This SDK family is listed in Google's Families Self-Certified Ads SDK program; verify the exact version's status before release. https://support.google.com/googleplay/android-developer/answer/12955712\n- Google Play Billing 9.1.0: official Google Maven distribution and applicable Google Play Billing terms. https://developer.android.com/google/play/billing/release-notes\n- Apple StoreKit 2 and Vision: operating-system frameworks. StoreKitTest catalog and test code run locally; no purchase simulator is included in the application.\n\nNo Firebase, analytics SDK, mediation adapters, third-party speech models or commerce backend are added. Store account agreements, live SDK configuration and final privacy declarations require owner completion. SDK privacy manifests and applicable transitive notices must be included in each store build.\n"
   },
   {
     "file": "ASSET-INVENTORY.json",
-    "text": "{\n  \"reviewed\": \"2026-10-31\",\n  \"product\": \"Popzuno\",\n  \"status\": \"technical provenance record; not legal clearance\",\n  \"runtime_npm_dependencies\": [],\n  \"user_photos_in_distribution\": false,\n  \"components\": [\n    {\n      \"file\": \"vendor/chakra-petch-600.ttf\",\n      \"license\": \"OFL-1.1\",\n      \"source\": \"https://github.com/google/fonts/tree/main/ofl/chakrapetch\",\n      \"sha256\": \"b27ff10e18f96386894f25a9e53a3b7c0244a70556461d2a9a99acb3465299fa\",\n      \"bytes\": 70240\n    },\n    {\n      \"file\": \"vendor/ibm-plex-mono-400.ttf\",\n      \"license\": \"OFL-1.1\",\n      \"source\": \"https://github.com/google/fonts/tree/main/ofl/ibmplexmono\",\n      \"sha256\": \"a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2\",\n      \"bytes\": 128812\n    },\n    {\n      \"component\": \"pico.js adapted code\",\n      \"file\": \"dist/face.mjs\",\n      \"license\": \"MIT\",\n      \"upstream\": \"https://github.com/nenadmarkus/picojs\",\n      \"upstream_revision_inspected\": \"afffa50ec4134a47005f2cbf8112eaa69f65f37e\",\n      \"adapted\": true,\n      \"sha256\": \"5c72587e002279f4dc46ae7434727cc87a6b331accaa9faa88c7688fc6ba78b6\",\n      \"bytes\": 328584\n    },\n    {\n      \"component\": \"embedded facefinder model\",\n      \"license\": \"MIT\",\n      \"source_revision\": \"7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8\",\n      \"source\": \"https://github.com/nenadmarkus/pico/blob/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/rnt/cascades/facefinder\",\n      \"license_source\": \"https://github.com/nenadmarkus/pico/blob/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/LICENSE\",\n      \"bytes\": 239632,\n      \"sha256\": \"d8014993e7298c7b1865d1f8b855d6dbf4ec5c808bf879e2091ab6837abf90cd\",\n      \"byte_identical_to_current_upstream\": true,\n      \"historical_license_warning\": \"Older c2e81f9d revision had noncommercial terms; use this recorded MIT distribution.\"\n    },\n    {\n      \"file\": \"dist/sound.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"original adaptive Circuit Bloom and calm Quiet Orbit procedural music; separate scoped music/effects/voice lanes\",\n      \"sha256\": \"70cd1679aa6f9f79f6d487e210d09dd7d6b47fd064827a84d186c69218afc794\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 17625\n    },\n    {\n      \"file\": \"dist/impact.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"procedural impact effects\",\n      \"sha256\": \"4a0d344810475121ef1c08180a178deca19e9608c6794df147a8c397d42b6de1\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 2710\n    },\n    {\n      \"file\": \"dist/avatars.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"classic character bodies and head silhouette; photo head width increased 7%, cached high-quality resampling\",\n      \"sha256\": \"8df503ae064e4fc9e360b5fab96bf61691524bf079baa1c26fb9d8598fd173ae\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 6191\n    },\n    {\n      \"file\": \"dist/icon.svg\",\n      \"origin\": \"created with OpenAI image generation for this project\",\n      \"kind\": \"self-contained favicon derived from Popzuno generated master\",\n      \"sha256\": \"38a9eff1c2f9df438345738fa77a9bebef55f9201d4e57d4e6dac6fe6e613a88\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 20780\n    },\n    {\n      \"component\": \"optional arcade cheers\",\n      \"files\": [\n        \"dist/cheers.mjs\",\n        \"dist/voice-bank.mjs\",\n        \"vendor/ANNOUNCER-ASSETS.json\"\n      ],\n      \"origin\": \"Seven fixed expressive synthetic clips generated locally with Chatterbox (MIT); synthetic-only Kokoro-82M (Apache-2.0) reference; no human reference recording\",\n      \"recorded_voice_assets_shipped\": false,\n      \"network_voice_usage\": false,\n      \"voice_model_redistributed\": false,\n      \"cached_phrase_limit\": 7,\n      \"generated_voice_assets_shipped\": true,\n      \"provenance\": \"vendor/ANNOUNCER-ASSETS.json\",\n      \"license_notice\": \"vendor/music-NOTICE.txt\",\n      \"sha256\": \"5f6d801fe329c5a6f6d8c8fb87e7116b621401ab746306b7e7a0c508b67a8df4\",\n      \"watermark\": \"Default PerTh retained\",\n      \"intelligibility\": \"seven fixed phrases matched unprompted local speech recognition; owner listening remains subjective review\"\n    },\n    {\n      \"file\": \"branding/popzuno-master.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"ad28071802153318e9dc342a5012367292d9041e972c5647fcbd8074f48fdc84\",\n      \"bytes\": 1486876,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"branding/popzuno-icon-1024.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"5fb7802d9e241444f3ffcf28be3f6e41292f8cfa7776f5a08b2afe6af1bad1b7\",\n      \"bytes\": 1103914,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"branding/popzuno-logo.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"35150cfa0d8225b19f2943b510218f6062d6c869fce7a5b866f4da52741ee280\",\n      \"bytes\": 278301,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"dist/assets/popzuno-mark.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"3b92494c3636a8cd90cd0ba753160b9c9c2fb6cf370da258d69f386bd9f11e68\",\n      \"bytes\": 90898,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"dist/arcade-refresh.css\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"readable arcade UI and bounded CSS laser/warp effects\",\n      \"sha256\": \"b5a06d1eeebfd92ed734282422f302c401d2af9feb400b6296a59ac286cd1d3b\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 28770\n    }\n  ]\n}\n"
+    "text": "{\n  \"reviewed\": \"2026-11-02\",\n  \"product\": \"Popzuno\",\n  \"status\": \"technical provenance record; not legal clearance\",\n  \"runtime_npm_dependencies\": [],\n  \"user_photos_in_distribution\": false,\n  \"components\": [\n    {\n      \"file\": \"vendor/chakra-petch-600.ttf\",\n      \"license\": \"OFL-1.1\",\n      \"source\": \"https://github.com/google/fonts/tree/main/ofl/chakrapetch\",\n      \"sha256\": \"b27ff10e18f96386894f25a9e53a3b7c0244a70556461d2a9a99acb3465299fa\",\n      \"bytes\": 70240\n    },\n    {\n      \"file\": \"vendor/ibm-plex-mono-400.ttf\",\n      \"license\": \"OFL-1.1\",\n      \"source\": \"https://github.com/google/fonts/tree/main/ofl/ibmplexmono\",\n      \"sha256\": \"a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2\",\n      \"bytes\": 128812\n    },\n    {\n      \"component\": \"pico.js adapted code\",\n      \"file\": \"dist/face.mjs\",\n      \"license\": \"MIT\",\n      \"upstream\": \"https://github.com/nenadmarkus/picojs\",\n      \"upstream_revision_inspected\": \"afffa50ec4134a47005f2cbf8112eaa69f65f37e\",\n      \"adapted\": true,\n      \"sha256\": \"5c72587e002279f4dc46ae7434727cc87a6b331accaa9faa88c7688fc6ba78b6\",\n      \"bytes\": 328584\n    },\n    {\n      \"component\": \"embedded facefinder model\",\n      \"license\": \"MIT\",\n      \"source_revision\": \"7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8\",\n      \"source\": \"https://github.com/nenadmarkus/pico/blob/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/rnt/cascades/facefinder\",\n      \"license_source\": \"https://github.com/nenadmarkus/pico/blob/7d550c78b2c31a4e1dfc5bcdfe9da013297b5cc8/LICENSE\",\n      \"bytes\": 239632,\n      \"sha256\": \"d8014993e7298c7b1865d1f8b855d6dbf4ec5c808bf879e2091ab6837abf90cd\",\n      \"byte_identical_to_current_upstream\": true,\n      \"historical_license_warning\": \"Older c2e81f9d revision had noncommercial terms; use this recorded MIT distribution.\"\n    },\n    {\n      \"file\": \"dist/sound.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"original adaptive Circuit Bloom and calm Quiet Orbit procedural music; separate scoped music/effects/voice lanes\",\n      \"sha256\": \"fdb5ff18494e5f0130a2acce03b7ae318a15ac73062b68f24c6f418639215ebe\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 17830\n    },\n    {\n      \"file\": \"dist/impact.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"procedural impact effects\",\n      \"sha256\": \"4a0d344810475121ef1c08180a178deca19e9608c6794df147a8c397d42b6de1\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 2710\n    },\n    {\n      \"file\": \"dist/avatars.mjs\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"classic character bodies and head silhouette; photo head width increased 7%, cached high-quality resampling\",\n      \"sha256\": \"8df503ae064e4fc9e360b5fab96bf61691524bf079baa1c26fb9d8598fd173ae\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 6191\n    },\n    {\n      \"file\": \"dist/icon.svg\",\n      \"origin\": \"created with OpenAI image generation for this project\",\n      \"kind\": \"self-contained favicon derived from Popzuno generated master\",\n      \"sha256\": \"38a9eff1c2f9df438345738fa77a9bebef55f9201d4e57d4e6dac6fe6e613a88\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 20780\n    },\n    {\n      \"component\": \"optional arcade cheers\",\n      \"files\": [\n        \"dist/cheers.mjs\",\n        \"dist/voice-bank.mjs\",\n        \"vendor/ANNOUNCER-ASSETS.json\"\n      ],\n      \"origin\": \"Seven fixed expressive synthetic clips generated locally with Chatterbox (MIT); synthetic-only Kokoro-82M (Apache-2.0) reference; no human reference recording\",\n      \"recorded_voice_assets_shipped\": false,\n      \"network_voice_usage\": false,\n      \"voice_model_redistributed\": false,\n      \"cached_phrase_limit\": 7,\n      \"generated_voice_assets_shipped\": true,\n      \"provenance\": \"vendor/ANNOUNCER-ASSETS.json\",\n      \"license_notice\": \"vendor/music-NOTICE.txt\",\n      \"sha256\": \"5f6d801fe329c5a6f6d8c8fb87e7116b621401ab746306b7e7a0c508b67a8df4\",\n      \"watermark\": \"Default PerTh retained\",\n      \"intelligibility\": \"seven fixed phrases matched unprompted local speech recognition; owner listening remains subjective review\"\n    },\n    {\n      \"file\": \"branding/popzuno-master.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"ad28071802153318e9dc342a5012367292d9041e972c5647fcbd8074f48fdc84\",\n      \"bytes\": 1486876,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"branding/popzuno-icon-1024.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"5fb7802d9e241444f3ffcf28be3f6e41292f8cfa7776f5a08b2afe6af1bad1b7\",\n      \"bytes\": 1103914,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"branding/popzuno-logo.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"35150cfa0d8225b19f2943b510218f6062d6c869fce7a5b866f4da52741ee280\",\n      \"bytes\": 278301,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"dist/assets/popzuno-mark.png\",\n      \"origin\": \"OpenAI image generation for Popzuno, 2026-10-29; platform sizes and typography rendered locally\",\n      \"kind\": \"original game brand artwork; no input/reference image or real person\",\n      \"sha256\": \"3b92494c3636a8cd90cd0ba753160b9c9c2fb6cf370da258d69f386bd9f11e68\",\n      \"bytes\": 90898,\n      \"external_recordings_or_images\": false\n    },\n    {\n      \"file\": \"dist/arcade-refresh.css\",\n      \"origin\": \"created for this project\",\n      \"kind\": \"readable arcade UI and bounded CSS laser/warp effects\",\n      \"sha256\": \"b5a06d1eeebfd92ed734282422f302c401d2af9feb400b6296a59ac286cd1d3b\",\n      \"external_recordings_or_images\": false,\n      \"bytes\": 28770\n    }\n  ],\n  \"native_runtime_dependencies\": {\n    \"ios\": {\n      \"GoogleMobileAds\": \"13.11.0\",\n      \"GoogleUserMessagingPlatform\": \"3.1.0\",\n      \"StoreKit\": \"OS framework\"\n    },\n    \"android\": {\n      \"play-services-ads\": \"25.5.0\",\n      \"user-messaging-platform\": \"4.0.0\",\n      \"billing\": \"9.1.0\"\n    },\n    \"live_commerce_enabled\": false,\n    \"mediation_adapters\": []\n  }\n}\n"
   }
 ];
 
@@ -3519,6 +4105,7 @@ class FlowAudio{
  effect(kind,strength=1){
   if(!this.unlock())return;const t=this.context.currentTime+.008;
   if(this.mode==='relax'){this.relaxEffect(kind,t);return;}
+  if(this.cosmeticSound==='crystal'&&kind.startsWith('earn-')){[81,88,93,100].forEach((pitch,i)=>this.voice({pitch,time:t+i*.045,duration:.24,gain:.045,type:'sine',cutoff:8000,pan:i%2?.15:-.15}));return;}
   if(kind.startsWith('arm-')){
    const pitch={bomb:57,rocket:69,cross:81}[kind.slice(4)]??69;
    this.voice({pitch,time:t,duration:.17,gain:.07,type:'triangle',priority:2});this.voice({pitch:pitch+12,time:t+.055,duration:.13,gain:.04,type:'sine',priority:2});return;
@@ -3952,6 +4539,8 @@ return {prepare,decode,cancel(){loadVersion++;}};
 return {createFaceProcessor};
 },
 "app":function(__load){
+const {createCommerce}=__load("commerce");
+const {setupCommerceUI}=__load("commerce-ui");
 const {createPhotoAligner}=__load("alignment");
 const {LANGUAGES,normalizeLanguage}=__load("locales");
 const {readFlow,writeFlow,clearFlow,normalizePeople}=__load("storage");
@@ -3966,7 +4555,9 @@ const {HOME_REVISION,openingMode}=__load("home-mode");
 const {createTide}=__load("arcade");
 const el=id=>document.getElementById(id);
 const raw=readFlow('settings',{}),settings=raw&&typeof raw==='object'?raw:{};
+let commerceUI=null;
 let language=normalizeLanguage(settings.language),tide=null,lastTime=0,editingPerson=0,photoBusy=false,photoJob=0,noticeTimer=0,resetting=false;
+const commerce=createCommerce({onChange:()=>{tide?.refreshCommerce();commerceUI?.refresh();}});
 const initialMode=openingMode(settings);
 const t=(key,values)=>flowTranslate(language,key,values);
 const people=normalizePeople(readFlow('people',[])),aligner=createPhotoAligner(),avatars=createAvatars(FAMILY_COLORS,{alignPhoto:aligner.request,onUpdate:()=>{refreshPortraits();if(el('family-dialog').open)renderPeople();}}),faces=createFaceProcessor();
@@ -4039,16 +4630,17 @@ el('music-toggle').addEventListener('change',event=>{audio.setMusic(event.target
 el('volume').addEventListener('input',event=>audio.setVolume(Number(event.target.value)/100));el('volume').addEventListener('change',persistSettings);
 el('language').innerHTML=Object.entries(LANGUAGES).map(([key,value])=>`<option value="${key}">${value.name}</option>`).join('');
 function applyLanguage(){document.documentElement.lang=language;document.querySelector('.top-actions').setAttribute('aria-label',t('menu'));document.title='Popzuno';for(const element of document.querySelectorAll('[data-text]'))element.textContent=t(element.dataset.text);el('language').value=language;el('help-open').setAttribute('aria-label',t('help'));el('family-open').setAttribute('aria-label',t('family'));el('person-name').setAttribute('aria-label',t('photoName'));for(const button of document.querySelectorAll('[data-close]'))button.setAttribute('aria-label',t('close'));updateAudio();setHelpPanel(el('help-dialog').dataset.panel||'help');refreshPortraits();if(el('family-dialog').open)renderPeople();}
-el('language').addEventListener('change',event=>{language=normalizeLanguage(event.target.value);persistSettings();applyLanguage();renderPrivacy();});
+el('language').addEventListener('change',event=>{language=normalizeLanguage(event.target.value);persistSettings();applyLanguage();renderPrivacy();commerceUI?.refresh();});
 function background(){lastTime=0;if(photoBusy){photoJob++;faces.cancel();photoBusy=false;}pauseGame();audio.interrupt();}
-function foreground(){lastTime=0;audio.foreground();}
+function foreground(){lastTime=0;audio.foreground();commerce.refresh();}
 document.addEventListener('visibilitychange',()=>document.hidden?background():foreground());
 window.addEventListener('blur',background);window.addEventListener('pagehide',background);window.addEventListener('focus',foreground);window.addEventListener('pageshow',foreground);
 window.addEventListener('kynburst:audio-interrupted',background);window.addEventListener('kynburst:audio-resume',foreground);window.addEventListener('kynburst:foreground',foreground);
 function unlockAfterInterruption(){if(!document.hidden&&audio.needsRecovery)audio.unlock();}
 document.addEventListener('pointerdown',unlockAfterInterruption,{capture:true,passive:true});document.addEventListener('keydown',unlockAfterInterruption,{capture:true});
 function frame(time){const dt=lastTime?Math.max(0,Math.min(250,time-lastTime)):0;lastTime=time;tide?.frame(dt);requestAnimationFrame(frame);}
-tide=createTide({root:el('tide-root'),audio,avatar,personName,colors:FAMILY_COLORS,getLanguage:()=>language,read:readFlow,write:writeFlow,initialMode,onModeChange:persistSettings,onMenuAction:action=>action==='family'?el('family-open').click():showHelp(action)});
+tide=createTide({commerce,root:el('tide-root'),audio,avatar,personName,colors:FAMILY_COLORS,getLanguage:()=>language,read:readFlow,write:writeFlow,initialMode,onModeChange:persistSettings,onMenuAction:action=>action==='family'?el('family-open').click():showHelp(action)});
+commerceUI=setupCommerceUI({commerce,getLanguage:()=>language,read:readFlow,write:writeFlow,pause:pauseGame,audio});commerce.refresh();
 tide.setActive(true);applyLanguage();renderPrivacy();avatars.load(people).then(refreshPortraits);requestAnimationFrame(frame);
 
 document.querySelector('.brand').addEventListener('click',event=>{event.preventDefault();tide.openHome();});
