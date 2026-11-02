@@ -49,10 +49,12 @@
         "StoreKit 2 verification/entitlements/updates",
         "Play Billing PURCHASED, RSA, acknowledge and current purchases",
         "cosmetic UI and entitlement/revocation tests",
-        "8 actual local native StoreKit/SDK tests passed, including purchase/reopen/restore/refund and fail-closed error paths"
+        "8 actual local native StoreKit/SDK tests passed, including purchase/reopen/restore/refund and fail-closed error paths",
+        "real App Store Connect non-consumable draft, US base USD 2.99, six localized names/descriptions and review notes saved; not submitted"
       ],
       "pending": [
-        "real store products and storefront prices",
+        "Apple updated Developer License Agreement, Legal Entity, Paid Apps Agreement, tax and banking owner actions",
+        "Apple review screenshot, availability and submission; real Google Play product and prices",
         "App Store sandbox and Play license test purchase/restore/refund/cancel"
       ]
     },
@@ -183,7 +185,36 @@
         "published": false
       }
     },
-    "live_privacy_policy": "previous 2026-10-29 offline/no-ads version; update required before activation",
-    "apple_product_setup": "App Store Connect sign-in required; owner asked to renew session"
+    "live_privacy_policy": "previous 2026-10-29 offline/no-ads version; update required before activation"
+  },
+  "apple_premium_setup": {
+    "product_id": "com.mertbekisoglu.bulusko.premium",
+    "apple_product_record": "6829742617",
+    "reference_name": "Popzuno Premium Cosmetics",
+    "product_type": "non_consumable",
+    "status": "prepare_for_submission",
+    "base_storefront": "US",
+    "base_price_usd": "2.99",
+    "price_schedule_saved": true,
+    "localizations_saved": [
+      "en-US",
+      "tr",
+      "it",
+      "es-ES",
+      "de-DE",
+      "ru"
+    ],
+    "review_notes_saved": true,
+    "review_screenshot_uploaded": false,
+    "availability_selected": false,
+    "family_sharing_enabled": false,
+    "submitted_for_review": false,
+    "paid_agreement_active": false,
+    "real_storefront_tests_completed": false,
+    "owner_action_pending": [
+      "updated_developer_license_agreement",
+      "legal_entity_address_confirmation"
+    ],
+    "native_binaries_changed": false
   }
 }

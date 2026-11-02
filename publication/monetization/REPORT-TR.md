@@ -4,7 +4,7 @@
 Güvenli taban: `popzuno` / `b21be94` / 0.9.17 (26).
 
 Kod ve yerel doğrulamalar hazırlanmıştır. **Gerçek reklam geliri veya mağaza satışı henüz açık değildir.**
-AdMob hesabı açıldı; iOS/Android kayıtları ve birer Rewarded birimi oluşturuldu. Ödeme profili tamamlandı ve Google hesap doğrulaması sürüyor. Avrupa/ABD rıza taslakları kaydedildi; yayın ve gerçek cihaz doğrulaması bekliyor. Mağaza Premium ürünleri oluşturulmadı. Gerçek mağaza, rıza ve cihaz testleri
+AdMob hesabı açıldı; iOS/Android kayıtları ve birer Rewarded birimi oluşturuldu. Ödeme profili tamamlandı ve Google hesap doğrulaması sürüyor. Avrupa/ABD rıza taslakları kaydedildi; yayın ve gerçek cihaz doğrulaması bekliyor. Apple Premium non-consumable ürün taslağı, ABD 2,99 USD fiyatı ve altı dilde açıklamaları kaydedildi; satış ülkeleri seçilmedi, incelemeye gönderilmedi. Play ürünü henüz oluşturulmadı. Gerçek mağaza, rıza ve cihaz testleri
 tamamlanmadan bu sürüm canlıya hazır sayılmaz. Ayrıntılı aşama durumu [STATUS.json](STATUS.json) içindedir.
 
 ## Tamamlanan geliştirmeler
@@ -53,6 +53,7 @@ tamamlanmadan bu sürüm canlıya hazır sayılmaz. Ayrıntılı aşama durumu [
 | Doğrulama | `tests/commerce.test.mjs`, iki native ledger testi, `tests/PremiumStoreTests.swift`, Android instrumentation |
 | Gerçek paket denetimi | `scripts/inspect-native-artifacts.py`, `scripts/verify-publication.mjs` |
 | Gizlilik ve mağaza taslakları | `dist/privacy.mjs`, `publication/legal/PRIVACY-*.md`, `publication/store/` |
+| Gerçek Apple ürün kaydı | `publication/monetization/APPLE-PREMIUM-SETUP-TR.md`, `PREMIUM-STORE-COPY.json` |
 
 SDK'lar resmî kaynaklardan sabit sürümlerle çözülür: iOS Google Mobile Ads 13.11.0 / UMP 3.1.0;
 Android Google Mobile Ads 25.5.0 / UMP 4.0.0 / Play Billing 9.1.0. Android'de Families listesi
@@ -101,7 +102,7 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
    Aynı mağaza hesabında geri yükleme vardır; mağazalar arası satın alma taşınmaz.
 3. Reklam sırasında normal arka plana geçişte oyun durur. İşlemi zorla öldürmek aktif oyunu
    kaybettirebilir; kota yazılmışsa hak tüketilmiş olabilir. Mevcut oyun tam disk oturum kurtarmasına sahip değildir.
-4. AdMob hesabı ve iki platformun üretim kimlikleri hazır; kimlikler yalnızca yerel yapılandırmada tutuluyor. Ödeme profili tamamlandı ve hesap incelemesi sürüyor; uygulama incelemesi için mağaza bağlantıları bekleniyor. Avrupa ve ABD mesajları yalnızca Draft durumunda; yayımlanmadı veya cihazda doğrulanmadı. Mağaza ürünleri, gerçek fiyatlar ve satın alma
+4. AdMob hesabı ve iki platformun üretim kimlikleri hazır; kimlikler yalnızca yerel yapılandırmada tutuluyor. Ödeme profili tamamlandı ve hesap incelemesi sürüyor; uygulama incelemesi için mağaza bağlantıları bekleniyor. Avrupa ve ABD mesajları yalnızca Draft durumunda; yayımlanmadı veya cihazda doğrulanmadı. Apple'ın gerçek ürün taslağı ve fiyatı kaydedildi; sözleşme/yasal bilgi/vergi/banka, inceleme görseli ve gerçek sandbox testleri bekliyor. Play ürünü/fiyatı ve gerçek satın alma
    testleri yok. Çocuk/yaş beyanları, App Privacy/Data Safety ve hukuki/marka incelemesi sonuçlandırılmadı.
 5. Yeni politika/destek metinleri yerel taslaktır; canlı site hâlâ önceki sürüm açıklamasını içerebilir.
    Bu SDK'lı aday yayımlanmadan önce gerçek sayfalar ve konsol beyanları birlikte güncellenmelidir.
@@ -115,8 +116,9 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
 
 1. AdMob hesabı, iki platformun uygulaması ve birer Rewarded birimi oluşturuldu. Ödeme profili tamamlandı; Google hesap doğrulaması sürüyor. Mağaza bağlantıları ve uygulama incelemesi,
    [rıza taslaklarının son kontrolü](CONSENT-DRAFTS-TR.md), canlı gizlilik sayfası güncellemesi ve gerçek cihaz testleri gerekir.
-2. App Store Connect'te non-consumable Premium ürününü ve hedef fiyatını oluştur; gerekli
-   Agreements/Tax/Banking alanlarını tamamla. Gerçek cihazda sandbox satın alma/iptal/restore/iade dene.
+2. Apple non-consumable Premium ürün taslağı, ABD temel fiyatı 2,99 USD ve altı dil oluşturuldu.
+   Güncellenen Developer License Agreement, Legal Entity ve sonrasında erişilen Agreements/Tax/Banking
+   adımlarını tamamla. [Apple kayıt ayrıntıları](APPLE-PREMIUM-SETUP-TR.md). Gerçek cihazda sandbox satın alma/iptal/restore/iade dene.
 3. Google Play kaydı ödemesi daha önce ertelendi. Ayrı onay gelmeden ödeme yapılmaz. Hazır olunca
    aynı ürün, açık lisans doğrulama anahtarı ve internal/license test kullanıcılarıyla test yapılır.
 4. Karma kitle/Kids/Families, gizlilik beyanları ve gerçek cihaz testleri tamamlanınca yerel yapılandırma
@@ -124,7 +126,8 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
 
 Orijinal `aile-akisi`, `popzuno` dalı ve telefondaki çalışan sürüm korunur. Fotoğraf işleme,
 portre çizimi, mevcut depolama anahtarları ve anons klipleri taban sürümle birebir aynı tutuldu.
-App Store Connect oturumu bu hesap kurulumu sırasında yenileme istedi; hesap sahibinden giriş bekleniyor.
+App Store Connect girişi yenilendi. Hesap sahibinden Apple'ın güncellenen geliştirici sözleşmesi ve
+yasal adres doğrulaması bekleniyor. Bu turda yalnızca konsol/metin kayıtları değişti; native kod veya ikililer yeniden derlenmedi.
 
 Geri dönmek için orijinal çalışma klasörü kullanılabilir veya temiz checkout'ta `git switch popzuno` yapılabilir;
 bu yeni daldaki değişiklikleri silmek gerekmez.

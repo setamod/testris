@@ -29,12 +29,19 @@ Ad kimlikleri parola değildir; şifre/kart/gizli anahtarlarını sohbete yazma.
 
 ## 2. Apple Premium ürünü
 
-[App Store Connect](https://appstoreconnect.apple.com/) → Apps → Popzuno → Monetization → In-App Purchases → +.
-Tür: **Non-Consumable**. Ürün: `com.mertbekisoglu.bulusko.premium`. Referans adı: Premium Cosmetics.
-Açıklamada çerçeve/efekt/animasyon/bonus sesi paketini açıkça belirt. Ek kurtarma veya oyun avantajı vaat etme.
-ABD temel fiyatını 2,99 USD olarak seç; yerel fiyat ve vergileri kontrol et. İstenen ürün inceleme ekranını ekle.
-Business / Agreements, Tax and Banking kısmında ücretli içerik için gerekli sözleşme/vergi/banka işlemlerini
-hesap sahibi tamamlar. Apple üyeliğine yeniden ödeme yapılmadı.
+[App Store Connect](https://appstoreconnect.apple.com/) → Apps → Popzuno → Monetization → In-App Purchases.
+**Ürünü yeniden oluşturma:** `com.mertbekisoglu.bulusko.premium` / Non-Consumable / Popzuno Premium Cosmetics
+kaydı oluşturuldu. ABD temel fiyatı 2,99 USD, altı dilde kısa açıklamalar ve inceleme notları kaydedildi.
+Durum Prepare for Submission; Availability seçilmedi, incelemeye gönderilmedi. Ayrıntılar
+[Apple kurulum kaydında](APPLE-PREMIUM-SETUP-TR.md).
+
+Şu an Apple'ın istediği iki hesap sahibi adımı var: Apple Developer Account'taki güncellenen
+License Agreement'ı inceleyip kabul etmek ve Business → Edit Legal Entity formunda yasal adresi
+doğrulayarak boş State or Province alanını gerçek bilgiyle tamamlamak. Form açıldı, kişisel bilgiler
+agent tarafından değiştirilmedi. Ardından erişilebilen Paid Apps Agreement/vergi/banka adımları
+hesap sahibi tarafından tamamlanır; bunlar henüz tamamlanmış değildir. Apple üyeliğine yeniden ödeme yapılmadı.
+Yeni build'in satın alma ekranından istenen ürün inceleme görseli hazırlanmalı; satış ülkeleri ve yerel
+fiyatlar son onayda kontrol edilmelidir. Eski yüklenmiş build'ler bu satın alma ekranını içermez.
 Sandbox test hesabını oluştur; geliştirici imzalı cihazda satın al, iptal et, geri yükle, tekrar aç ve iadeyi dene.
 Yerel StoreKitTest başarıları App Store sandbox/gerçek ürün onayı yerine geçmez.
 

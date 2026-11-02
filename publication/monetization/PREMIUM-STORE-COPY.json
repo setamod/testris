@@ -1,0 +1,31 @@
+{
+  "productId": "com.mertbekisoglu.bulusko.premium",
+  "type": "non_consumable",
+  "priceTargetUSD": "2.99",
+  "localizations": {
+    "en-US": {
+      "displayName": "Popzuno Premium",
+      "description": "Cosmetic frames, effects, motion and sounds."
+    },
+    "tr": {
+      "displayName": "Popzuno Premium",
+      "description": "Kozmetik çerçeveler, efektler ve sesler."
+    },
+    "it": {
+      "displayName": "Popzuno Premium",
+      "description": "Cornici, effetti, animazioni e suoni."
+    },
+    "es-ES": {
+      "displayName": "Popzuno Premium",
+      "description": "Marcos, efectos, animaciones y sonidos."
+    },
+    "de-DE": {
+      "displayName": "Popzuno Premium",
+      "description": "Kosmetische Rahmen, Effekte und Sounds."
+    },
+    "ru": {
+      "displayName": "Popzuno Premium",
+      "description": "Оформление, эффекты, анимация и звуки."
+    }
+  }
+}
