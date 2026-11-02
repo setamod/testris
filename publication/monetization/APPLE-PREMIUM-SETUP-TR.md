@@ -31,12 +31,11 @@ ve Git'teki [altı dilde kısa ürün metni](PREMIUM-STORE-COPY.json) kullanılm
    **Pending User Info** durumunda; Active değildir. Vergi eksikleri sürüyor.
 3. Hesap sahibi banka bilgilerini girip Certification ve adres kontrolü son onaylarını kendisi yaptı.
    Bank Accounts tablosunda bir kayıt oluştuğu ve **Processing** durumu doğrulandı; banka onayı
-   tamamlanmış sayılmaz. İlk IBAN ret uyarısından sonra owner bankadaki kaydını tekrar kontrol etti;
-   ancak Processing görülünce ekleme doğrulandı. Banka veya kimlik numaraları belgelere alınmadı.
+   tamamlanmış sayılmaz. Banka veya kimlik numaraları belgelere alınmadı.
 4. Vergi anketinden iki form oluşmuş: **U.S. Certificate of Foreign Status of Beneficial Owner** ve
-   **U.S. Form W-8BEN**. İkisi de Missing Tax Info. İlk form incelemeye açıldı; gerçek hak sahipliği,
-   ABD çalışan/varlık ve beyan yetkisi koşullarını hesap sahibi kendi durumuna göre değerlendirmeli,
-   doğruysa son imza/gönderimi kendisi tamamlamalıdır. Agent vergi yanıtı veya onay kutusu seçmedi.
+   **U.S. Form W-8BEN**. İlk formu owner inceleyip kendisi gönderdi; tabloda **Active** doğrulandı.
+   W-8BEN hâlâ **Missing Tax Info**. W-8BEN açıldı; ilk kimlik bölümü owner tarafından doldurulacak.
+   Vergi anlaşması/indirimli oran seçilmedi ve W-8BEN gönderilmedi. Agent vergi yanıtı veya onay kutusu seçmedi.
 5. AB dağıtımı istenirse DSA trader beyanı ayrıca doğru hukuki duruma göre tamamlanmalıdır.
    Trader/non-trader seçimi yapılmadı.
 
@@ -59,4 +58,5 @@ Resmî kaynaklar: [ürün oluşturma](https://developer.apple.com/help/app-store
 [fiyat çizelgesi](https://developer.apple.com/help/app-store-connect/manage-in-app-purchases/set-a-price-for-an-in-app-purchase/),
 [ürün alanları ve inceleme görseli](https://developer.apple.com/help/app-store-connect/reference/in-app-purchases-and-subscriptions/in-app-purchase-information),
 [banka bilgileri](https://developer.apple.com/help/app-store-connect/manage-banking-information/enter-banking-information/),
-[vergi bilgileri](https://developer.apple.com/help/app-store-connect/manage-tax-information/provide-tax-information/).
+[vergi bilgileri](https://developer.apple.com/help/app-store-connect/manage-tax-information/provide-tax-information/),
+[IRS W-8BEN talimatları](https://www.irs.gov/instructions/iw8ben).

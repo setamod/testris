@@ -41,11 +41,12 @@ kabul etti; sözleşmenin güncel durumu **Pending User Info**, henüz Active de
 Business → Bank Accounts altında owner'ın eklediği bir kayıt **Processing** olarak doğrulandı;
 aynı hesabı tekrar ekleme. Banka onayı henüz tamamlanmadı. Banka bilgileri ve son onaylar owner tarafından
 girildi; agent bunları belgelere almadı.
-Tax Forms altında **U.S. Certificate of Foreign Status of Beneficial Owner** ve **U.S. Form W-8BEN**
-Missing Tax Info görünüyor. İlk form açık; gerçek hak sahipliği, ABD'de çalışan ve Apple gelirinde kullanılan
-varlık/ekipman bulunmaması ile beyan yetkisi koşullarının doğruluğunu hesap sahibi değerlendirmelidir.
-Beyan ancak tüm koşullar doğruysa owner tarafından işaretlenip gönderilir; belirsizlikte vergi yanıtı
-uydurma, gerektiğinde mali müşavirine danış. W-8BEN de ayrıca incelenip tamamlanmalıdır.
+Tax Forms altında **U.S. Certificate of Foreign Status of Beneficial Owner** owner tarafından gönderildi
+ve **Active** görüldü. **U.S. Form W-8BEN** hâlâ Missing Tax Info. W-8BEN açık; önce kimlik bölümü,
+sonra gerçek vergi durumuna göre anlaşma/indirimli oran ve imza alanları incelenmelidir. Owner'ın
+doğum tarihi, vergi numarası veya gerçek mukimlik/indirimli oran uygunluğu varsayılmaz. Bu belge ilk
+formun Active olmasını tüm vergi işlemlerinin tamamlanması olarak yorumlamaz. Belirsizlikte vergi yanıtı
+uydurma, gerektiğinde mali müşavirine danış; son imza ve gönderim hesap sahibine aittir.
 Agent banka/vergi alanlarına veri girmedi veya mukimlik yanıtı seçmedi. Apple üyeliğine yeniden ödeme yapılmadı.
 Yeni build'in satın alma ekranından istenen ürün inceleme görseli hazırlanmalı; satış ülkeleri ve yerel
 fiyatlar son onayda kontrol edilmelidir. Eski yüklenmiş build'ler bu satın alma ekranını içermez.
