@@ -27,10 +27,12 @@ ve Git'teki [altı dilde kısa ürün metni](PREMIUM-STORE-COPY.json) kullanılm
 1. Hesap sahibi güncellenen Developer License Agreement ve Legal Entity adres doğrulamasını
    tamamladığını bildirdi. Yenilenen Apple ekranında önceki iki uyarı kalktı; Free Apps Agreement Active.
    Özel adres bilgileri kayda alınmadı ve agent tarafından değiştirilmedi.
-2. App Store Connect → Business artık Paid Apps Agreement için View and Agree to Terms sunuyor.
-   Gerçek sözleşme inceleme ekranı açıldı; son Agree işlemi hesap sahibine bırakıldı. Sözleşme
-   henüz Active olarak doğrulanmadı; kabul edilmiş sayılmaz.
-3. Bundan sonra erişilen vergi ve banka adımları hesap sahibi tarafından incelenip tamamlanmalıdır.
+2. Hesap sahibi Paid Apps Agreement'ı kabul etti. Business ekranında sözleşme artık
+   **Pending User Info** durumunda; Active değildir. Kabul uyarısı yerine banka/vergi eksikleri gösteriliyor.
+3. **Add New Bank Account** ve **U.S. Tax Questionnaire** ayrı sekmelerde açıldı. Banka ülkesi
+   veya vergi mukimliği yanıtı agent tarafından seçilmedi. Hesap sahibi kendi banka kayıtları ve gerçek
+   vergi durumuyla formları doldurup son kontrol/gönderimi kendisi tamamlamalıdır.
+   Banka kaydı ve vergi formu gönderilmiş veya onaylanmış sayılmaz.
 4. AB dağıtımı istenirse DSA trader beyanı ayrıca doğru hukuki duruma göre tamamlanmalıdır.
    Trader/non-trader seçimi yapılmadı.
 
@@ -51,4 +53,6 @@ Telefondaki ve orijinal `popzuno` dalındaki çalışan sürüm korunur.
 
 Resmî kaynaklar: [ürün oluşturma](https://developer.apple.com/help/app-store-connect/manage-in-app-purchases/create-consumable-or-non-consumable-in-app-purchases),
 [fiyat çizelgesi](https://developer.apple.com/help/app-store-connect/manage-in-app-purchases/set-a-price-for-an-in-app-purchase/),
-[ürün alanları ve inceleme görseli](https://developer.apple.com/help/app-store-connect/reference/in-app-purchases-and-subscriptions/in-app-purchase-information).
+[ürün alanları ve inceleme görseli](https://developer.apple.com/help/app-store-connect/reference/in-app-purchases-and-subscriptions/in-app-purchase-information),
+[banka bilgileri](https://developer.apple.com/help/app-store-connect/manage-banking-information/enter-banking-information/),
+[vergi bilgileri](https://developer.apple.com/help/app-store-connect/manage-tax-information/provide-tax-information/).

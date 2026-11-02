@@ -53,7 +53,7 @@
         "real App Store Connect non-consumable draft, US base USD 2.99, six localized names/descriptions and review notes saved; not submitted"
       ],
       "pending": [
-        "Apple Paid Apps Agreement, tax and banking owner actions",
+        "Apple bank and tax owner forms; Paid Apps Agreement pending user info, not active",
         "Apple review screenshot, availability and submission; real Google Play product and prices",
         "App Store sandbox and Play license test purchase/restore/refund/cancel"
       ]
@@ -212,12 +212,18 @@
     "paid_agreement_active": false,
     "real_storefront_tests_completed": false,
     "owner_action_pending": [
-      "paid_apps_agreement_review_and_acceptance"
+      "bank_account_setup",
+      "us_tax_questionnaire_and_resulting_tax_form"
     ],
     "native_binaries_changed": false,
     "developer_license_update_warning_cleared": true,
     "legal_entity_update_warning_cleared": true,
     "free_apps_agreement_status": "active",
-    "paid_agreement_status": "new_review_open_not_accepted_by_agent"
+    "paid_agreement_status": "pending_user_info",
+    "paid_agreement_accepted_by_owner": true,
+    "bank_account_form_opened": true,
+    "tax_questionnaire_opened": true,
+    "bank_account_added": false,
+    "tax_information_submitted": false
   }
 }

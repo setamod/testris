@@ -36,10 +36,14 @@ Durum Prepare for Submission; Availability seçilmedi, incelemeye gönderilmedi.
 [Apple kurulum kaydında](APPLE-PREMIUM-SETUP-TR.md).
 
 Hesap sahibi güncellenen Developer License Agreement ve Legal Entity adres doğrulamasını tamamladı;
-önceki uyarılar kalktı ve Free Apps Agreement Active görünüyor. Şimdi Business → Paid Apps Agreement →
-View and Agree to Terms ekranı açık. Hesap sahibi sözleşmeyi incelemeli, kabul ediyorsa onay kutusu ve
-Agree ile kendisi tamamlamalıdır. Bundan sonra erişilen vergi/banka adımları da hesap sahibine aittir;
-Paid Apps Agreement, vergi ve banka henüz tamamlanmış sayılmaz. Apple üyeliğine yeniden ödeme yapılmadı.
+önceki uyarılar kalktı ve Free Apps Agreement Active görünüyor. Paid Apps Agreement'ı da hesap sahibi
+kabul etti; sözleşmenin güncel durumu **Pending User Info**, henüz Active değil.
+Business → Bank Accounts → Add Bank Account ve Tax Forms → U.S. Tax Questionnaire ayrı sekmelerde açık.
+Banka ülkesini ve gerçek hesap bilgilerini hesap sahibi kendi banka kayıtlarına göre girmeli;
+vergi anketini gerçek durumuyla yanıtlayıp oluşan formu kontrol ederek kendisi göndermelidir.
+Agent banka/vergi alanlarına veri girmedi veya mukimlik yanıtı seçmedi. Özellikle IBAN ve hesap numarası
+farklı alanlardır; bilgileri bankadaki kayıtla aynı gir. Emin olmadığın vergi sorusunda bir yanıt uydurma;
+gerekiyorsa mali müşavirine danış. Formlar ve banka onayı henüz tamamlanmadı. Apple üyeliğine yeniden ödeme yapılmadı.
 Yeni build'in satın alma ekranından istenen ürün inceleme görseli hazırlanmalı; satış ülkeleri ve yerel
 fiyatlar son onayda kontrol edilmelidir. Eski yüklenmiş build'ler bu satın alma ekranını içermez.
 Sandbox test hesabını oluştur; geliştirici imzalı cihazda satın al, iptal et, geri yükle, tekrar aç ve iadeyi dene.
