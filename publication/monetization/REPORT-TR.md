@@ -118,7 +118,8 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
    [rıza taslaklarının son kontrolü](CONSENT-DRAFTS-TR.md), canlı gizlilik sayfası güncellemesi ve gerçek cihaz testleri gerekir.
 2. Apple non-consumable Premium ürün taslağı, ABD temel fiyatı 2,99 USD ve altı dil oluşturuldu.
    Developer License Agreement ve Legal Entity önceki uyarıları kalktı. Paid Apps Agreement hesap sahibi
-   tarafından kabul edildi; Pending User Info durumunda. Açılan banka/vergi formlarını hesap sahibi tamamlamalıdır.
+   tarafından kabul edildi; Pending User Info durumunda. Banka kaydı owner tarafından eklendi ve
+   Processing görüldü; son banka onayı ile iki vergi formu bekliyor. İlk vergi formu owner incelemesine açıldı.
    [Apple kayıt ayrıntıları](APPLE-PREMIUM-SETUP-TR.md). Gerçek cihazda sandbox satın alma/iptal/restore/iade dene.
 3. Google Play kaydı ödemesi daha önce ertelendi. Ayrı onay gelmeden ödeme yapılmaz. Hazır olunca
    aynı ürün, açık lisans doğrulama anahtarı ve internal/license test kullanıcılarıyla test yapılır.
@@ -129,7 +130,8 @@ Orijinal `aile-akisi`, `popzuno` dalı ve telefondaki çalışan sürüm korunur
 portre çizimi, mevcut depolama anahtarları ve anons klipleri taban sürümle birebir aynı tutuldu.
 App Store Connect girişi yenilendi. Hesap sahibi güncellenen geliştirici sözleşmesini ve yasal adres
 doğrulamasını tamamladı; önceki uyarıların kalktığı doğrulandı. Paid Apps Agreement da kabul edildi;
-Pending User Info durumunda banka/vergi bilgileri bekliyor. Açılan formlara agent yanıt/veri girmedi.
+Pending User Info durumunda. Banka kaydı Processing olarak doğrulandı; iki vergi formu Missing Tax Info.
+İlk form açık, beyanın doğruluğunu ve gönderimini hesap sahibi tamamlayacak. Açılan formlara agent yanıt/veri girmedi.
 Bu turda yalnızca konsol/metin kayıtları değişti; native kod veya ikililer yeniden derlenmedi.
 
 Geri dönmek için orijinal çalışma klasörü kullanılabilir veya temiz checkout'ta `git switch popzuno` yapılabilir;

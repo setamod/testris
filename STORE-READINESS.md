@@ -17,7 +17,7 @@ ve [aşama durumunda](publication/monetization/STATUS.json) tutulur.
 | Çocuklar dahil karma kitle | Nötr yaş aralığı; çocuk/genç/belirsiz yaşta reklam/yeni satın alma yok; son mağaza incelemesi bekliyor |
 | Gizlilik, veri güvenliği, hukuk | Altı dilde taslak güncellendi; mağaza beyanı ve hukuki onay tamamlanmadı |
 | AdMob / UMP | Hesap ve iOS/Android rewarded kimlikleri hazır; ödeme profili tamamlandı, hesap incelemesi sürüyor; Avrupa/ABD taslakları kaydedildi, yayın/mağaza bağlantıları/cihaz testleri bekliyor |
-| Mağaza ürünleri / vergi / banka | Apple non-consumable taslağı, ABD 2,99 USD ve altı dil kaydedildi; availability/inceleme kapalı. Paid Apps Agreement kabul edildi, Pending User Info: banka/vergi ve gerçek mağaza testleri bekliyor; Play ürünü oluşturulmadı |
+| Mağaza ürünleri / vergi / banka | Apple non-consumable taslağı, ABD 2,99 USD ve altı dil kaydedildi; availability/inceleme kapalı. Paid Apps Agreement Pending User Info; banka kaydı Processing, iki vergi formu ve gerçek mağaza testleri bekliyor; Play ürünü oluşturulmadı |
 | Android yayın | Google kayıt ödemesi sahibinin isteğiyle ertelendi; imzalı dağıtım yok |
 | iOS / TestFlight | Bu dalda yalnızca imzasız aday; bu sürüm yüklenmedi veya telefona kurulmadı |
 | Canlı destek sitesi | Bu dala ait metinler yerel taslak; eski canlı sayfa yeni SDK'ları henüz açıklamıyor |

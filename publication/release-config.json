@@ -29,5 +29,5 @@
   "premiumPriceTargetUSD": "2.99",
   "audience": "mixed_including_children",
   "adMobAccount": "payment_profile_completed_account_verification_in_progress",
-  "applePremiumProduct": "draft_created_US_2.99_six_locales_not_submitted_paid_agreement_pending_bank_tax"
+  "applePremiumProduct": "draft_created_US_2.99_six_locales_not_submitted_bank_processing_tax_missing"
 }

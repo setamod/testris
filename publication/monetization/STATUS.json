@@ -53,7 +53,7 @@
         "real App Store Connect non-consumable draft, US base USD 2.99, six localized names/descriptions and review notes saved; not submitted"
       ],
       "pending": [
-        "Apple bank and tax owner forms; Paid Apps Agreement pending user info, not active",
+        "Apple bank record Processing; two US tax forms Missing Tax Info; Paid Apps Agreement pending user info, not active",
         "Apple review screenshot, availability and submission; real Google Play product and prices",
         "App Store sandbox and Play license test purchase/restore/refund/cancel"
       ]
@@ -212,8 +212,8 @@
     "paid_agreement_active": false,
     "real_storefront_tests_completed": false,
     "owner_action_pending": [
-      "bank_account_setup",
-      "us_tax_questionnaire_and_resulting_tax_form"
+      "us_certificate_of_foreign_status_of_beneficial_owner",
+      "us_form_w8ben"
     ],
     "native_binaries_changed": false,
     "developer_license_update_warning_cleared": true,
@@ -223,7 +223,20 @@
     "paid_agreement_accepted_by_owner": true,
     "bank_account_form_opened": true,
     "tax_questionnaire_opened": true,
-    "bank_account_added": false,
-    "tax_information_submitted": false
+    "bank_account_added": true,
+    "tax_information_submitted": false,
+    "bank_account_status": "processing",
+    "bank_account_approved": false,
+    "tax_forms": {
+      "us_certificate_of_foreign_status_of_beneficial_owner": {
+        "status": "missing_tax_info",
+        "opened_for_owner_review": true,
+        "submitted": false
+      },
+      "us_form_w8ben": {
+        "status": "missing_tax_info",
+        "submitted": false
+      }
+    }
   }
 }

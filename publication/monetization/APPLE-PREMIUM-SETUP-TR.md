@@ -28,12 +28,16 @@ ve Git'teki [altı dilde kısa ürün metni](PREMIUM-STORE-COPY.json) kullanılm
    tamamladığını bildirdi. Yenilenen Apple ekranında önceki iki uyarı kalktı; Free Apps Agreement Active.
    Özel adres bilgileri kayda alınmadı ve agent tarafından değiştirilmedi.
 2. Hesap sahibi Paid Apps Agreement'ı kabul etti. Business ekranında sözleşme artık
-   **Pending User Info** durumunda; Active değildir. Kabul uyarısı yerine banka/vergi eksikleri gösteriliyor.
-3. **Add New Bank Account** ve **U.S. Tax Questionnaire** ayrı sekmelerde açıldı. Banka ülkesi
-   veya vergi mukimliği yanıtı agent tarafından seçilmedi. Hesap sahibi kendi banka kayıtları ve gerçek
-   vergi durumuyla formları doldurup son kontrol/gönderimi kendisi tamamlamalıdır.
-   Banka kaydı ve vergi formu gönderilmiş veya onaylanmış sayılmaz.
-4. AB dağıtımı istenirse DSA trader beyanı ayrıca doğru hukuki duruma göre tamamlanmalıdır.
+   **Pending User Info** durumunda; Active değildir. Vergi eksikleri sürüyor.
+3. Hesap sahibi banka bilgilerini girip Certification ve adres kontrolü son onaylarını kendisi yaptı.
+   Bank Accounts tablosunda bir kayıt oluştuğu ve **Processing** durumu doğrulandı; banka onayı
+   tamamlanmış sayılmaz. İlk IBAN ret uyarısından sonra owner bankadaki kaydını tekrar kontrol etti;
+   ancak Processing görülünce ekleme doğrulandı. Banka veya kimlik numaraları belgelere alınmadı.
+4. Vergi anketinden iki form oluşmuş: **U.S. Certificate of Foreign Status of Beneficial Owner** ve
+   **U.S. Form W-8BEN**. İkisi de Missing Tax Info. İlk form incelemeye açıldı; gerçek hak sahipliği,
+   ABD çalışan/varlık ve beyan yetkisi koşullarını hesap sahibi kendi durumuna göre değerlendirmeli,
+   doğruysa son imza/gönderimi kendisi tamamlamalıdır. Agent vergi yanıtı veya onay kutusu seçmedi.
+5. AB dağıtımı istenirse DSA trader beyanı ayrıca doğru hukuki duruma göre tamamlanmalıdır.
    Trader/non-trader seçimi yapılmadı.
 
 Adres, banka, vergi veya kimlik bilgileri bu belgeye ya da Git'e alınmadı. Ürün oluşturma/fiyat

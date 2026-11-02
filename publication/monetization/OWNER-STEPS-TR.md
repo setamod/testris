@@ -38,12 +38,15 @@ Durum Prepare for Submission; Availability seçilmedi, incelemeye gönderilmedi.
 Hesap sahibi güncellenen Developer License Agreement ve Legal Entity adres doğrulamasını tamamladı;
 önceki uyarılar kalktı ve Free Apps Agreement Active görünüyor. Paid Apps Agreement'ı da hesap sahibi
 kabul etti; sözleşmenin güncel durumu **Pending User Info**, henüz Active değil.
-Business → Bank Accounts → Add Bank Account ve Tax Forms → U.S. Tax Questionnaire ayrı sekmelerde açık.
-Banka ülkesini ve gerçek hesap bilgilerini hesap sahibi kendi banka kayıtlarına göre girmeli;
-vergi anketini gerçek durumuyla yanıtlayıp oluşan formu kontrol ederek kendisi göndermelidir.
-Agent banka/vergi alanlarına veri girmedi veya mukimlik yanıtı seçmedi. Özellikle IBAN ve hesap numarası
-farklı alanlardır; bilgileri bankadaki kayıtla aynı gir. Emin olmadığın vergi sorusunda bir yanıt uydurma;
-gerekiyorsa mali müşavirine danış. Formlar ve banka onayı henüz tamamlanmadı. Apple üyeliğine yeniden ödeme yapılmadı.
+Business → Bank Accounts altında owner'ın eklediği bir kayıt **Processing** olarak doğrulandı;
+aynı hesabı tekrar ekleme. Banka onayı henüz tamamlanmadı. Banka bilgileri ve son onaylar owner tarafından
+girildi; agent bunları belgelere almadı.
+Tax Forms altında **U.S. Certificate of Foreign Status of Beneficial Owner** ve **U.S. Form W-8BEN**
+Missing Tax Info görünüyor. İlk form açık; gerçek hak sahipliği, ABD'de çalışan ve Apple gelirinde kullanılan
+varlık/ekipman bulunmaması ile beyan yetkisi koşullarının doğruluğunu hesap sahibi değerlendirmelidir.
+Beyan ancak tüm koşullar doğruysa owner tarafından işaretlenip gönderilir; belirsizlikte vergi yanıtı
+uydurma, gerektiğinde mali müşavirine danış. W-8BEN de ayrıca incelenip tamamlanmalıdır.
+Agent banka/vergi alanlarına veri girmedi veya mukimlik yanıtı seçmedi. Apple üyeliğine yeniden ödeme yapılmadı.
 Yeni build'in satın alma ekranından istenen ürün inceleme görseli hazırlanmalı; satış ülkeleri ve yerel
 fiyatlar son onayda kontrol edilmelidir. Eski yüklenmiş build'ler bu satın alma ekranını içermez.
 Sandbox test hesabını oluştur; geliştirici imzalı cihazda satın al, iptal et, geri yükle, tekrar aç ve iadeyi dene.
