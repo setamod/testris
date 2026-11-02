@@ -102,7 +102,7 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
    Aynı mağaza hesabında geri yükleme vardır; mağazalar arası satın alma taşınmaz.
 3. Reklam sırasında normal arka plana geçişte oyun durur. İşlemi zorla öldürmek aktif oyunu
    kaybettirebilir; kota yazılmışsa hak tüketilmiş olabilir. Mevcut oyun tam disk oturum kurtarmasına sahip değildir.
-4. AdMob hesabı ve iki platformun üretim kimlikleri hazır; kimlikler yalnızca yerel yapılandırmada tutuluyor. Ödeme profili tamamlandı ve hesap incelemesi sürüyor; uygulama incelemesi için mağaza bağlantıları bekleniyor. Avrupa ve ABD mesajları yalnızca Draft durumunda; yayımlanmadı veya cihazda doğrulanmadı. Apple'ın gerçek ürün taslağı ve fiyatı kaydedildi; sözleşme/yasal bilgi/vergi/banka, inceleme görseli ve gerçek sandbox testleri bekliyor. Play ürünü/fiyatı ve gerçek satın alma
+4. AdMob hesabı ve iki platformun üretim kimlikleri hazır; kimlikler yalnızca yerel yapılandırmada tutuluyor. Ödeme profili tamamlandı ve hesap incelemesi sürüyor; uygulama incelemesi için mağaza bağlantıları bekleniyor. Avrupa ve ABD mesajları yalnızca Draft durumunda; yayımlanmadı veya cihazda doğrulanmadı. Apple'ın gerçek ürün taslağı ve fiyatı kaydedildi; iki ABD vergi formu Active. Banka ve Paid Apps Agreement Processing; etkinleşme, DSA beyanı, inceleme görseli ve gerçek sandbox testleri bekliyor. Play ürünü/fiyatı ve gerçek satın alma
    testleri yok. Çocuk/yaş beyanları, App Privacy/Data Safety ve hukuki/marka incelemesi sonuçlandırılmadı.
 5. Yeni politika/destek metinleri yerel taslaktır; canlı site hâlâ önceki sürüm açıklamasını içerebilir.
    Bu SDK'lı aday yayımlanmadan önce gerçek sayfalar ve konsol beyanları birlikte güncellenmelidir.
@@ -118,9 +118,9 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
    [rıza taslaklarının son kontrolü](CONSENT-DRAFTS-TR.md), canlı gizlilik sayfası güncellemesi ve gerçek cihaz testleri gerekir.
 2. Apple non-consumable Premium ürün taslağı, ABD temel fiyatı 2,99 USD ve altı dil oluşturuldu.
    Developer License Agreement ve Legal Entity önceki uyarıları kalktı. Paid Apps Agreement hesap sahibi
-   tarafından kabul edildi; Pending User Info durumunda. Banka kaydı owner tarafından eklendi ve
-   Processing görüldü; son banka onayı bekliyor. İlk vergi formu owner tarafından gönderildi ve Active
-   doğrulandı. W-8BEN kimlik bölümü owner incelemesine açıldı, form henüz gönderilmedi.
+   tarafından kabul edildi; Processing durumunda. Banka kaydı owner tarafından eklendi ve
+   Processing görüldü; banka ve sözleşmenin etkinleşmesi bekliyor. İki ABD vergi formu da hesap
+   sahibi tarafından gönderildi ve her ikisinin Active olduğu doğrulandı. Yeni vergi formu gönderimi gerekmez.
    [Apple kayıt ayrıntıları](APPLE-PREMIUM-SETUP-TR.md). Gerçek cihazda sandbox satın alma/iptal/restore/iade dene.
 3. Google Play kaydı ödemesi daha önce ertelendi. Ayrı onay gelmeden ödeme yapılmaz. Hazır olunca
    aynı ürün, açık lisans doğrulama anahtarı ve internal/license test kullanıcılarıyla test yapılır.
@@ -131,8 +131,10 @@ Orijinal `aile-akisi`, `popzuno` dalı ve telefondaki çalışan sürüm korunur
 portre çizimi, mevcut depolama anahtarları ve anons klipleri taban sürümle birebir aynı tutuldu.
 App Store Connect girişi yenilendi. Hesap sahibi güncellenen geliştirici sözleşmesini ve yasal adres
 doğrulamasını tamamladı; önceki uyarıların kalktığı doğrulandı. Paid Apps Agreement da kabul edildi;
-Pending User Info durumunda. Banka kaydı Processing, ilk vergi formu Active olarak doğrulandı.
-W-8BEN Missing Tax Info; kimlik bölümü açık ve son gönderim yapılmadı. Açılan formlara agent yanıt/veri girmedi.
+Processing durumunda. Banka kaydı Processing; ilk vergi formu ve W-8BEN Active olarak doğrulandı.
+W-8BEN'in kimlik alanlarını hesap sahibi doldurdu, Part II taslağı verdiği bilgilere göre hazırlandı.
+Onay kutularını ve son gönderimi hesap sahibi tamamladı. Kimlik/banka numaraları veya doğum tarihi
+belgelere/Git'e alınmadı. Active, form kaydının durumudur; vergi sınıflandırmasının hukuki onayı değildir.
 Bu turda yalnızca konsol/metin kayıtları değişti; native kod veya ikililer yeniden derlenmedi.
 
 Geri dönmek için orijinal çalışma klasörü kullanılabilir veya temiz checkout'ta `git switch popzuno` yapılabilir;

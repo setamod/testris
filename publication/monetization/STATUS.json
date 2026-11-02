@@ -50,10 +50,11 @@
         "Play Billing PURCHASED, RSA, acknowledge and current purchases",
         "cosmetic UI and entitlement/revocation tests",
         "8 actual local native StoreKit/SDK tests passed, including purchase/reopen/restore/refund and fail-closed error paths",
-        "real App Store Connect non-consumable draft, US base USD 2.99, six localized names/descriptions and review notes saved; not submitted"
+        "real App Store Connect non-consumable draft, US base USD 2.99, six localized names/descriptions and review notes saved; not submitted",
+        "owner submitted both required U.S. tax forms; both Active in App Store Connect"
       ],
       "pending": [
-        "Apple bank record Processing; foreign-status certificate Active, W-8BEN Missing Tax Info; Paid Apps Agreement pending user info, not active",
+        "Apple bank record and Paid Apps Agreement Processing; final activation pending",
         "Apple review screenshot, availability and submission; real Google Play product and prices",
         "App Store sandbox and Play license test purchase/restore/refund/cancel"
       ]
@@ -211,14 +212,12 @@
     "submitted_for_review": false,
     "paid_agreement_active": false,
     "real_storefront_tests_completed": false,
-    "owner_action_pending": [
-      "us_form_w8ben"
-    ],
+    "owner_action_pending": [],
     "native_binaries_changed": false,
     "developer_license_update_warning_cleared": true,
     "legal_entity_update_warning_cleared": true,
     "free_apps_agreement_status": "active",
-    "paid_agreement_status": "pending_user_info",
+    "paid_agreement_status": "processing",
     "paid_agreement_accepted_by_owner": true,
     "bank_account_form_opened": true,
     "tax_questionnaire_opened": true,
@@ -234,11 +233,13 @@
         "submitted_by_owner": true
       },
       "us_form_w8ben": {
-        "status": "missing_tax_info",
-        "submitted": false,
-        "opened_for_owner_review": true
+        "status": "active",
+        "submitted": true,
+        "opened_for_owner_review": true,
+        "submitted_by_owner": true
       }
     },
-    "tax_information_complete": false
+    "tax_information_complete": true,
+    "bank_processing_notice": "Apple says banking changes should appear within 24 hours; bank and agreement are not yet active"
   }
 }

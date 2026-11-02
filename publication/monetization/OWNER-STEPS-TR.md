@@ -37,17 +37,19 @@ Durum Prepare for Submission; Availability seçilmedi, incelemeye gönderilmedi.
 
 Hesap sahibi güncellenen Developer License Agreement ve Legal Entity adres doğrulamasını tamamladı;
 önceki uyarılar kalktı ve Free Apps Agreement Active görünüyor. Paid Apps Agreement'ı da hesap sahibi
-kabul etti; sözleşmenin güncel durumu **Pending User Info**, henüz Active değil.
+kabul etti; sözleşmenin güncel durumu **Processing**, henüz Active değil.
 Business → Bank Accounts altında owner'ın eklediği bir kayıt **Processing** olarak doğrulandı;
 aynı hesabı tekrar ekleme. Banka onayı henüz tamamlanmadı. Banka bilgileri ve son onaylar owner tarafından
 girildi; agent bunları belgelere almadı.
 Tax Forms altında **U.S. Certificate of Foreign Status of Beneficial Owner** owner tarafından gönderildi
-ve **Active** görüldü. **U.S. Form W-8BEN** hâlâ Missing Tax Info. W-8BEN açık; önce kimlik bölümü,
-sonra gerçek vergi durumuna göre anlaşma/indirimli oran ve imza alanları incelenmelidir. Owner'ın
-doğum tarihi, vergi numarası veya gerçek mukimlik/indirimli oran uygunluğu varsayılmaz. Bu belge ilk
-formun Active olmasını tüm vergi işlemlerinin tamamlanması olarak yorumlamaz. Belirsizlikte vergi yanıtı
-uydurma, gerektiğinde mali müşavirine danış; son imza ve gönderim hesap sahibine aittir.
-Agent banka/vergi alanlarına veri girmedi veya mukimlik yanıtı seçmedi. Apple üyeliğine yeniden ödeme yapılmadı.
+ve **Active** görüldü. **U.S. Form W-8BEN** de hesap sahibi tarafından gönderildi ve **Active** doğrulandı.
+Bu iki form yeniden doldurulmayacak. Apple, banka değişikliklerinin 24 saat içinde yansıyacağını
+belirtiyor; banka ve Paid Apps Agreement'ın etkinleşmesi henüz bekleniyor.
+W-8BEN'in kimlik alanlarını hesap sahibi girdi; Part II taslağı verdiği bilgilere göre hazırlandı.
+Kişisel beyan kutularını, imzalama onayını ve son Submit işlemini hesap sahibi tamamladı.
+Kimlik numarası, doğum tarihi veya banka numaraları belgelere/Git'e alınmadı. Active durumu,
+gelir sınıflandırmasının hukuki onayı veya gerçek kesinti testi değildir.
+Apple üyeliğine yeniden ödeme yapılmadı.
 Yeni build'in satın alma ekranından istenen ürün inceleme görseli hazırlanmalı; satış ülkeleri ve yerel
 fiyatlar son onayda kontrol edilmelidir. Eski yüklenmiş build'ler bu satın alma ekranını içermez.
 Sandbox test hesabını oluştur; geliştirici imzalı cihazda satın al, iptal et, geri yükle, tekrar aç ve iadeyi dene.

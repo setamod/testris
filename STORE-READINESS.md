@@ -17,13 +17,14 @@ ve [aşama durumunda](publication/monetization/STATUS.json) tutulur.
 | Çocuklar dahil karma kitle | Nötr yaş aralığı; çocuk/genç/belirsiz yaşta reklam/yeni satın alma yok; son mağaza incelemesi bekliyor |
 | Gizlilik, veri güvenliği, hukuk | Altı dilde taslak güncellendi; mağaza beyanı ve hukuki onay tamamlanmadı |
 | AdMob / UMP | Hesap ve iOS/Android rewarded kimlikleri hazır; ödeme profili tamamlandı, hesap incelemesi sürüyor; Avrupa/ABD taslakları kaydedildi, yayın/mağaza bağlantıları/cihaz testleri bekliyor |
-| Mağaza ürünleri / vergi / banka | Apple non-consumable taslağı, ABD 2,99 USD ve altı dil kaydedildi; availability/inceleme kapalı. Paid Apps Agreement Pending User Info; banka Processing, ilk vergi formu Active; W-8BEN ve gerçek mağaza testleri bekliyor; Play ürünü oluşturulmadı |
+| Mağaza ürünleri / vergi / banka | Apple non-consumable taslağı, ABD 2,99 USD ve altı dil kaydedildi; availability/inceleme kapalı. İki ABD vergi formu Active; banka ve Paid Apps Agreement Processing. Gerçek mağaza testleri bekliyor; Play ürünü oluşturulmadı |
 | Android yayın | Google kayıt ödemesi sahibinin isteğiyle ertelendi; imzalı dağıtım yok |
 | iOS / TestFlight | Bu dalda yalnızca imzasız aday; bu sürüm yüklenmedi veya telefona kurulmadı |
 | Canlı destek sitesi | Bu dala ait metinler yerel taslak; eski canlı sayfa yeni SDK'ları henüz açıklamıyor |
 | Canlıya geçiş | Kapalı; yayın kontrolü eksik hesap/ürün/beyan kapılarını reddeder |
 
 [Hesap sahibi rehberi](publication/monetization/OWNER-STEPS-TR.md) gerekli resmî sayfa ve menüleri içerir.
-Marka/ticari hak incelemesi sonuçlandırılmış sayılmaz. Ücretli hizmet, ödeme, sözleşme kabulü veya canlı yayın yapılmadı.
+Marka/ticari hak incelemesi sonuçlandırılmış sayılmaz. Hesap sahibinin Apple/AdMob sözleşme onayları
+ve vergi formu gönderimleri kaydedildi; agent ücretli hizmet başlatmadı, ödeme veya canlı yayın yapmadı.
 Kesin kişi başına kota ve güçlü mağaza/ödül sunucu doğrulaması için ayrıca backend gerekir;
 bu sürüm cihaz başına sınır uygular. Test ayrıntıları raporda açıkça ayrılır.
