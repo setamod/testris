@@ -4,7 +4,7 @@
 Güvenli taban: `popzuno` / `b21be94` / 0.9.17 (26).
 
 Kod ve yerel doğrulamalar hazırlanmıştır. **Gerçek reklam geliri veya mağaza satışı henüz açık değildir.**
-AdMob hesabı yok; mağaza Premium ürünleri oluşturulmadı. Gerçek mağaza, rıza ve cihaz testleri
+AdMob hesabı açıldı; iOS/Android kayıtları ve birer Rewarded birimi oluşturuldu. Ödeme profili, hesap/uygulama incelemesi ve rıza mesajları bekliyor. Mağaza Premium ürünleri oluşturulmadı. Gerçek mağaza, rıza ve cihaz testleri
 tamamlanmadan bu sürüm canlıya hazır sayılmaz. Ayrıntılı aşama durumu [STATUS.json](STATUS.json) içindedir.
 
 ## Tamamlanan geliştirmeler
@@ -101,19 +101,21 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
    Aynı mağaza hesabında geri yükleme vardır; mağazalar arası satın alma taşınmaz.
 3. Reklam sırasında normal arka plana geçişte oyun durur. İşlemi zorla öldürmek aktif oyunu
    kaybettirebilir; kota yazılmışsa hak tüketilmiş olabilir. Mevcut oyun tam disk oturum kurtarmasına sahip değildir.
-4. AdMob hesabı/üretim kimliği ve gerçek UMP mesajı yok. Mağaza ürünleri, gerçek fiyatlar ve satın alma
+4. AdMob hesabı ve iki platformun üretim kimlikleri hazır; kimlikler yalnızca yerel yapılandırmada tutuluyor. Ödeme profili/inceleme ve gerçek UMP mesajı tamamlanmadı. Mağaza ürünleri, gerçek fiyatlar ve satın alma
    testleri yok. Çocuk/yaş beyanları, App Privacy/Data Safety ve hukuki/marka incelemesi sonuçlandırılmadı.
 5. Yeni politika/destek metinleri yerel taslaktır; canlı site hâlâ önceki sürüm açıklamasını içerebilir.
    Bu SDK'lı aday yayımlanmadan önce gerçek sayfalar ve konsol beyanları birlikte güncellenmelidir.
 6. Bu sürüm telefona kurulmadı, TestFlight/Play'e gönderilmedi, canlı site yayımlanmadı.
-   Ödeme yapılmadı, ücretli hizmet başlatılmadı, yeni sözleşme kabul edilmedi.
+   Ödeme yapılmadı veya ücretli hizmet başlatılmadı. AdMob hesap açılışındaki sözleşmeyi
+   hesap sahibi Google ekranında kendisi kabul etti; agent sözleşme kabul etmedi.
 
 ## Sonraki hesap sahibi adımları
 
 [OWNER-STEPS-TR.md](OWNER-STEPS-TR.md) resmî sayfaları, menüleri ve gerekçeleri içerir:
 
-1. AdMob hesabını aç; sözleşme/kimlik/ödeme alanlarını kendin tamamla. iOS/Android uygulamalarını,
-   rewarded birimlerini ve Privacy & messaging bölgesel mesajlarını oluştur.
+1. AdMob hesabı, iki platformun uygulaması ve birer Rewarded birimi oluşturuldu. Hesap sahibi
+   ödeme/kimlik profilini tamamlamalı; ardından hesap/uygulama incelemesi, mağaza bağlantıları
+   ve Privacy & messaging bölgesel mesajları tamamlanmalıdır.
 2. App Store Connect'te non-consumable Premium ürününü ve hedef fiyatını oluştur; gerekli
    Agreements/Tax/Banking alanlarını tamamla. Gerçek cihazda sandbox satın alma/iptal/restore/iade dene.
 3. Google Play kaydı ödemesi daha önce ertelendi. Ayrı onay gelmeden ödeme yapılmaz. Hazır olunca

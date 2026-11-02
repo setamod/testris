@@ -7,8 +7,11 @@ Karma kitle çocukları içerir. Çocuk/genç/belirsiz yaşlarda reklam veya yen
 ## 1. AdMob hesabı ve dört kimlik
 
 Neden: Google'ın test reklamları gerçek gelir sağlamaz; kendi uygulama ve reklam birimleri gerekir.
+Dört üretim kimliği Git dışında `monetization.local.json` dosyasına kaydedildi; canlı reklamlar kapalıdır.
 [AdMob](https://admob.google.com/home/) → giriş/hesap oluşturma. Koşulları ve kimlik/ödeme bilgilerini
-hesap sahibi inceler ve kendisi tamamlar. Bu çalışma sırasında hesabın açılmadı, sözleşme kabul edilmedi.
+hesap sahibi inceler ve kendisi tamamlar. Hesap açılışı artık tamamlandı; sözleşme kabulünü hesap sahibi Google ekranında kendisi yaptı.
+iOS ve Android için Popzuno kayıtları ve birer Rewarded birimi oluşturuldu. Aşağıdaki oluşturma
+adımlarını yeniden uygulama; şu an gerekli işlem ödeme/kimlik profili ve inceleme sürecidir.
 
 Apps / Uygulamalar → Add app / Uygulama ekle → iOS. Mağazada listelenmemişse buna uygun seçeneği kullan.
 Adı Popzuno; gerçek iOS bundle kimliği `com.mertbekisoglu.bulusko`.
@@ -66,4 +69,4 @@ Release doğrulaması test reklam kimliklerini reddeder. `storeBundle`, imzalama
 - Gerçek iPhone/Android cihazında reklam erken kapatma, ağ kesilmesi, çağrı/arka plan ve ses dönüşünü dene.
 - Premium'un beş modu, standart fotoğrafları veya normal güçleri kilitlemediğini ve kurtarma vermediğini doğrula.
 
-Hiçbir mağaza gönderimi, gerçek ödeme, canlı reklam isteği veya yeni hukuki kabul bu görevde otomatik yapılmaz.
+Hiçbir mağaza gönderimi, gerçek ödeme veya canlı reklam isteği yapılmadı. AdMob sözleşmesini hesap sahibi kendisi kabul etti; yeni sözleşmeler otomatik kabul edilmez.

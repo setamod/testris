@@ -23,10 +23,11 @@
       "proof": [
         "official native rewarded SDKs compiled",
         "real Android Google test ad loaded, earned and dismissed",
-        "offline Google SDK load failed without crash or reward"
+        "offline Google SDK load failed without crash or reward",
+        "AdMob account and separate iOS/Android app records with one Rewarded unit each; production IDs stored locally, live ads remain disabled"
       ],
       "pending": [
-        "owner AdMob account and production IDs",
+        "owner payment profile, account review and later app store linkage/readiness review",
         "real UMP messages and regional/device tests",
         "real iOS rewarded ad presentation"
       ]
@@ -132,7 +133,7 @@
       "real_store_sheet_cancellation": "not tested"
     }
   },
-  "admob_account": "not_created",
+  "admob_account": "created_payment_profile_and_review_pending",
   "google_play_registration": "payment_deferred_by_owner",
   "price_target_usd": "2.99",
   "evidence_note": "Raw logs and xcresult are local ignored evidence; this tracked summary and artifact hashes describe their scope.",
@@ -144,5 +145,16 @@
     "Force-killing the process can lose the active game and a consumed reward.",
     "No cross-store purchase portability without an account/backend.",
     "Simulated iOS cancellation can surface as undocumented ASD error 907; real device cancellation remains pending."
-  ]
+  ],
+  "admob_setup": {
+    "ios_app_created": true,
+    "android_app_created": true,
+    "rewarded_units_created": 2,
+    "ids_storage": "ignored monetization.local.json; production IDs not committed",
+    "native_binaries_rebuilt_with_live_ids": false,
+    "account_approved": false,
+    "app_store_linkage_completed": false,
+    "payment_profile_completed": false,
+    "consent_messages_configured": false
+  }
 }
