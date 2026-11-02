@@ -4,7 +4,7 @@
 Güvenli taban: `popzuno` / `b21be94` / 0.9.17 (26).
 
 Kod ve yerel doğrulamalar hazırlanmıştır. **Gerçek reklam geliri veya mağaza satışı henüz açık değildir.**
-AdMob hesabı açıldı; iOS/Android kayıtları ve birer Rewarded birimi oluşturuldu. Ödeme profili, hesap/uygulama incelemesi ve rıza mesajları bekliyor. Mağaza Premium ürünleri oluşturulmadı. Gerçek mağaza, rıza ve cihaz testleri
+AdMob hesabı açıldı; iOS/Android kayıtları ve birer Rewarded birimi oluşturuldu. Ödeme profili tamamlandı ve Google hesap doğrulaması sürüyor. Avrupa/ABD rıza taslakları kaydedildi; yayın ve gerçek cihaz doğrulaması bekliyor. Mağaza Premium ürünleri oluşturulmadı. Gerçek mağaza, rıza ve cihaz testleri
 tamamlanmadan bu sürüm canlıya hazır sayılmaz. Ayrıntılı aşama durumu [STATUS.json](STATUS.json) içindedir.
 
 ## Tamamlanan geliştirmeler
@@ -101,7 +101,7 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
    Aynı mağaza hesabında geri yükleme vardır; mağazalar arası satın alma taşınmaz.
 3. Reklam sırasında normal arka plana geçişte oyun durur. İşlemi zorla öldürmek aktif oyunu
    kaybettirebilir; kota yazılmışsa hak tüketilmiş olabilir. Mevcut oyun tam disk oturum kurtarmasına sahip değildir.
-4. AdMob hesabı ve iki platformun üretim kimlikleri hazır; kimlikler yalnızca yerel yapılandırmada tutuluyor. Ödeme profili/inceleme ve gerçek UMP mesajı tamamlanmadı. Mağaza ürünleri, gerçek fiyatlar ve satın alma
+4. AdMob hesabı ve iki platformun üretim kimlikleri hazır; kimlikler yalnızca yerel yapılandırmada tutuluyor. Ödeme profili tamamlandı ve hesap incelemesi sürüyor; uygulama incelemesi için mağaza bağlantıları bekleniyor. Avrupa ve ABD mesajları yalnızca Draft durumunda; yayımlanmadı veya cihazda doğrulanmadı. Mağaza ürünleri, gerçek fiyatlar ve satın alma
    testleri yok. Çocuk/yaş beyanları, App Privacy/Data Safety ve hukuki/marka incelemesi sonuçlandırılmadı.
 5. Yeni politika/destek metinleri yerel taslaktır; canlı site hâlâ önceki sürüm açıklamasını içerebilir.
    Bu SDK'lı aday yayımlanmadan önce gerçek sayfalar ve konsol beyanları birlikte güncellenmelidir.
@@ -113,9 +113,8 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
 
 [OWNER-STEPS-TR.md](OWNER-STEPS-TR.md) resmî sayfaları, menüleri ve gerekçeleri içerir:
 
-1. AdMob hesabı, iki platformun uygulaması ve birer Rewarded birimi oluşturuldu. Hesap sahibi
-   ödeme/kimlik profilini tamamlamalı; ardından hesap/uygulama incelemesi, mağaza bağlantıları
-   ve Privacy & messaging bölgesel mesajları tamamlanmalıdır.
+1. AdMob hesabı, iki platformun uygulaması ve birer Rewarded birimi oluşturuldu. Ödeme profili tamamlandı; Google hesap doğrulaması sürüyor. Mağaza bağlantıları ve uygulama incelemesi,
+   [rıza taslaklarının son kontrolü](CONSENT-DRAFTS-TR.md), canlı gizlilik sayfası güncellemesi ve gerçek cihaz testleri gerekir.
 2. App Store Connect'te non-consumable Premium ürününü ve hedef fiyatını oluştur; gerekli
    Agreements/Tax/Banking alanlarını tamamla. Gerçek cihazda sandbox satın alma/iptal/restore/iade dene.
 3. Google Play kaydı ödemesi daha önce ertelendi. Ayrı onay gelmeden ödeme yapılmaz. Hazır olunca
@@ -125,5 +124,7 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
 
 Orijinal `aile-akisi`, `popzuno` dalı ve telefondaki çalışan sürüm korunur. Fotoğraf işleme,
 portre çizimi, mevcut depolama anahtarları ve anons klipleri taban sürümle birebir aynı tutuldu.
+App Store Connect oturumu bu hesap kurulumu sırasında yenileme istedi; hesap sahibinden giriş bekleniyor.
+
 Geri dönmek için orijinal çalışma klasörü kullanılabilir veya temiz checkout'ta `git switch popzuno` yapılabilir;
 bu yeni daldaki değişiklikleri silmek gerekmez.

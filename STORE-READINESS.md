@@ -16,7 +16,7 @@ ve [aşama durumunda](publication/monetization/STATUS.json) tutulur.
 | Kozmetik içerik | Prizma/Krom çerçeveler, Aurora efekt, Yörünge animasyonu, Kristal bonus sesi |
 | Çocuklar dahil karma kitle | Nötr yaş aralığı; çocuk/genç/belirsiz yaşta reklam/yeni satın alma yok; son mağaza incelemesi bekliyor |
 | Gizlilik, veri güvenliği, hukuk | Altı dilde taslak güncellendi; mağaza beyanı ve hukuki onay tamamlanmadı |
-| AdMob / UMP | Hesap ve iOS/Android rewarded kimlikleri hazır; ödeme profili, inceleme, mağaza bağlantıları ve bölgesel mesajlar bekliyor |
+| AdMob / UMP | Hesap ve iOS/Android rewarded kimlikleri hazır; ödeme profili tamamlandı, hesap incelemesi sürüyor; Avrupa/ABD taslakları kaydedildi, yayın/mağaza bağlantıları/cihaz testleri bekliyor |
 | Mağaza ürünleri / vergi / banka | Gerçek ürünler oluşturulmadı; gerekli işlemler sahibi tarafından tamamlanmalı |
 | Android yayın | Google kayıt ödemesi sahibinin isteğiyle ertelendi; imzalı dağıtım yok |
 | iOS / TestFlight | Bu dalda yalnızca imzasız aday; bu sürüm yüklenmedi veya telefona kurulmadı |

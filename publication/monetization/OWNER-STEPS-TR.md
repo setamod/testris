@@ -11,7 +11,8 @@ Dört üretim kimliği Git dışında `monetization.local.json` dosyasına kayde
 [AdMob](https://admob.google.com/home/) → giriş/hesap oluşturma. Koşulları ve kimlik/ödeme bilgilerini
 hesap sahibi inceler ve kendisi tamamlar. Hesap açılışı artık tamamlandı; sözleşme kabulünü hesap sahibi Google ekranında kendisi yaptı.
 iOS ve Android için Popzuno kayıtları ve birer Rewarded birimi oluşturuldu. Aşağıdaki oluşturma
-adımlarını yeniden uygulama; şu an gerekli işlem ödeme/kimlik profili ve inceleme sürecidir.
+adımlarını yeniden uygulama; ödeme profili de tamamlandı ve hesap incelemesi sürüyor. Avrupa ve ABD mesajları yalnızca taslaktır;
+yayınlanmadan önce CONSENT-DRAFTS-TR.md içindeki engeller giderilmelidir.
 
 Apps / Uygulamalar → Add app / Uygulama ekle → iOS. Mağazada listelenmemişse buna uygun seçeneği kullan.
 Adı Popzuno; gerçek iOS bundle kimliği `com.mertbekisoglu.bulusko`.
@@ -40,7 +41,7 @@ Yerel StoreKitTest başarıları App Store sandbox/gerçek ürün onayı yerine 
 ## 3. Google Play ürünü ve lisans testleri
 
 [Play Console](https://play.google.com/console/) hesabın henüz tamamlanmadı; ücret ödenmeden burada ilerlenemeyebilir.
-Bu görev ek ücret yetkisi vermediği için kayıt/ödeme yapılmadı.
+Bu görev ek ücret yetkisi vermediği için Google Play kayıt ödemesi yapılmadı.
 Hesap hazır olduğunda uygulama → Monetize with Play → Products → One-time products.
 Aynı ürün kimliğiyle **satın alma** seçeneği oluştur; kiralama/abonelik/tüketilebilir ürün oluşturma.
 ABD fiyat hedefi 2,99 USD; bölgesel fiyatları kontrol et.

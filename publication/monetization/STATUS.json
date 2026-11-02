@@ -27,8 +27,8 @@
         "AdMob account and separate iOS/Android app records with one Rewarded unit each; production IDs stored locally, live ads remain disabled"
       ],
       "pending": [
-        "owner payment profile, account review and later app store linkage/readiness review",
-        "real UMP messages and regional/device tests",
+        "account review and later published store linkage/readiness review",
+        "review/publish saved EU and US consent drafts after updated live policy and provider-purpose checks; regional/device tests",
         "real iOS rewarded ad presentation"
       ]
     },
@@ -64,7 +64,8 @@
         "no photo/name/board commerce payload",
         "Android advertising/AdServices identifiers removed",
         "no ATT request",
-        "disabled live defaults and production guard rejection"
+        "disabled live defaults and production guard rejection",
+        "EU six-language and US English/Spanish variants saved as unpublished drafts for both apps; no IDFA message or tracking enabled"
       ],
       "pending": [
         "audience/Kids/Families final review",
@@ -133,7 +134,7 @@
       "real_store_sheet_cancellation": "not tested"
     }
   },
-  "admob_account": "created_payment_profile_and_review_pending",
+  "admob_account": "payment_profile_completed_account_verification_in_progress",
   "google_play_registration": "payment_deferred_by_owner",
   "price_target_usd": "2.99",
   "evidence_note": "Raw logs and xcresult are local ignored evidence; this tracked summary and artifact hashes describe their scope.",
@@ -154,7 +155,35 @@
     "native_binaries_rebuilt_with_live_ids": false,
     "account_approved": false,
     "app_store_linkage_completed": false,
-    "payment_profile_completed": false,
-    "consent_messages_configured": false
+    "payment_profile_completed": true,
+    "consent_messages_configured": false,
+    "account_review_status": "being_verified",
+    "consent_drafts": {
+      "european": {
+        "saved": true,
+        "apps": 2,
+        "languages": [
+          "en",
+          "de",
+          "it",
+          "ru",
+          "es",
+          "tr"
+        ],
+        "published": false
+      },
+      "us_states": {
+        "saved": true,
+        "apps": 2,
+        "languages": [
+          "en-US",
+          "es",
+          "es-419"
+        ],
+        "published": false
+      }
+    },
+    "live_privacy_policy": "previous 2026-10-29 offline/no-ads version; update required before activation",
+    "apple_product_setup": "App Store Connect sign-in required; owner asked to renew session"
   }
 }
