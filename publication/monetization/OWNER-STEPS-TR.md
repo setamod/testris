@@ -35,11 +35,11 @@ kaydı oluşturuldu. ABD temel fiyatı 2,99 USD, altı dilde kısa açıklamalar
 Durum Prepare for Submission; Availability seçilmedi, incelemeye gönderilmedi. Ayrıntılar
 [Apple kurulum kaydında](APPLE-PREMIUM-SETUP-TR.md).
 
-Şu an Apple'ın istediği iki hesap sahibi adımı var: Apple Developer Account'taki güncellenen
-License Agreement'ı inceleyip kabul etmek ve Business → Edit Legal Entity formunda yasal adresi
-doğrulayarak boş State or Province alanını gerçek bilgiyle tamamlamak. Form açıldı, kişisel bilgiler
-agent tarafından değiştirilmedi. Ardından erişilebilen Paid Apps Agreement/vergi/banka adımları
-hesap sahibi tarafından tamamlanır; bunlar henüz tamamlanmış değildir. Apple üyeliğine yeniden ödeme yapılmadı.
+Hesap sahibi güncellenen Developer License Agreement ve Legal Entity adres doğrulamasını tamamladı;
+önceki uyarılar kalktı ve Free Apps Agreement Active görünüyor. Şimdi Business → Paid Apps Agreement →
+View and Agree to Terms ekranı açık. Hesap sahibi sözleşmeyi incelemeli, kabul ediyorsa onay kutusu ve
+Agree ile kendisi tamamlamalıdır. Bundan sonra erişilen vergi/banka adımları da hesap sahibine aittir;
+Paid Apps Agreement, vergi ve banka henüz tamamlanmış sayılmaz. Apple üyeliğine yeniden ödeme yapılmadı.
 Yeni build'in satın alma ekranından istenen ürün inceleme görseli hazırlanmalı; satış ülkeleri ve yerel
 fiyatlar son onayda kontrol edilmelidir. Eski yüklenmiş build'ler bu satın alma ekranını içermez.
 Sandbox test hesabını oluştur; geliştirici imzalı cihazda satın al, iptal et, geri yükle, tekrar aç ve iadeyi dene.

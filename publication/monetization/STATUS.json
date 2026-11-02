@@ -53,7 +53,7 @@
         "real App Store Connect non-consumable draft, US base USD 2.99, six localized names/descriptions and review notes saved; not submitted"
       ],
       "pending": [
-        "Apple updated Developer License Agreement, Legal Entity, Paid Apps Agreement, tax and banking owner actions",
+        "Apple Paid Apps Agreement, tax and banking owner actions",
         "Apple review screenshot, availability and submission; real Google Play product and prices",
         "App Store sandbox and Play license test purchase/restore/refund/cancel"
       ]
@@ -212,9 +212,12 @@
     "paid_agreement_active": false,
     "real_storefront_tests_completed": false,
     "owner_action_pending": [
-      "updated_developer_license_agreement",
-      "legal_entity_address_confirmation"
+      "paid_apps_agreement_review_and_acceptance"
     ],
-    "native_binaries_changed": false
+    "native_binaries_changed": false,
+    "developer_license_update_warning_cleared": true,
+    "legal_entity_update_warning_cleared": true,
+    "free_apps_agreement_status": "active",
+    "paid_agreement_status": "new_review_open_not_accepted_by_agent"
   }
 }

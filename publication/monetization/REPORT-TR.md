@@ -117,8 +117,9 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
 1. AdMob hesabı, iki platformun uygulaması ve birer Rewarded birimi oluşturuldu. Ödeme profili tamamlandı; Google hesap doğrulaması sürüyor. Mağaza bağlantıları ve uygulama incelemesi,
    [rıza taslaklarının son kontrolü](CONSENT-DRAFTS-TR.md), canlı gizlilik sayfası güncellemesi ve gerçek cihaz testleri gerekir.
 2. Apple non-consumable Premium ürün taslağı, ABD temel fiyatı 2,99 USD ve altı dil oluşturuldu.
-   Güncellenen Developer License Agreement, Legal Entity ve sonrasında erişilen Agreements/Tax/Banking
-   adımlarını tamamla. [Apple kayıt ayrıntıları](APPLE-PREMIUM-SETUP-TR.md). Gerçek cihazda sandbox satın alma/iptal/restore/iade dene.
+   Developer License Agreement ve Legal Entity önceki uyarıları kalktı. Şimdi açık Paid Apps Agreement
+   sözleşmesini ve sonrasında erişilen vergi/banka adımlarını hesap sahibi tamamlamalıdır.
+   [Apple kayıt ayrıntıları](APPLE-PREMIUM-SETUP-TR.md). Gerçek cihazda sandbox satın alma/iptal/restore/iade dene.
 3. Google Play kaydı ödemesi daha önce ertelendi. Ayrı onay gelmeden ödeme yapılmaz. Hazır olunca
    aynı ürün, açık lisans doğrulama anahtarı ve internal/license test kullanıcılarıyla test yapılır.
 4. Karma kitle/Kids/Families, gizlilik beyanları ve gerçek cihaz testleri tamamlanınca yerel yapılandırma
@@ -126,8 +127,9 @@ monochrome launcher katmanı; gelir sistemi hatası olarak gizlenmedi.
 
 Orijinal `aile-akisi`, `popzuno` dalı ve telefondaki çalışan sürüm korunur. Fotoğraf işleme,
 portre çizimi, mevcut depolama anahtarları ve anons klipleri taban sürümle birebir aynı tutuldu.
-App Store Connect girişi yenilendi. Hesap sahibinden Apple'ın güncellenen geliştirici sözleşmesi ve
-yasal adres doğrulaması bekleniyor. Bu turda yalnızca konsol/metin kayıtları değişti; native kod veya ikililer yeniden derlenmedi.
+App Store Connect girişi yenilendi. Hesap sahibi güncellenen geliştirici sözleşmesini ve yasal adres
+doğrulamasını tamamladı; önceki uyarıların kalktığı doğrulandı. Şimdi ayrı Paid Apps Agreement açık,
+son kabul hesap sahibinden bekleniyor. Bu turda yalnızca konsol/metin kayıtları değişti; native kod veya ikililer yeniden derlenmedi.
 
 Geri dönmek için orijinal çalışma klasörü kullanılabilir veya temiz checkout'ta `git switch popzuno` yapılabilir;
 bu yeni daldaki değişiklikleri silmek gerekmez.

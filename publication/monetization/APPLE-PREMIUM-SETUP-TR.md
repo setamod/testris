@@ -24,13 +24,13 @@ ve Git'teki [altı dilde kısa ürün metni](PREMIUM-STORE-COPY.json) kullanılm
 
 ## Hesap sahibine bırakılan somut adımlar
 
-1. [Apple Developer Account](https://developer.apple.com/account) güncellenen Apple Developer Program
-   License Agreement için kabul istiyor. Sözleşme inceleme ekranı açıldı; agent kabul etmedi.
-2. App Store Connect → Business, Paid Apps Agreement öncesinde Legal Entity güncellemesi istiyor.
-   Edit Legal Entity formu açıldı, alanlar değiştirilmedi. Hesap sahibi yasal adresini doğrulamalı ve
-   boş State or Province alanını gerçek bilgisiyle doldurup kendisi kaydetmelidir.
-3. Sonrasında görünen gerçek Paid Apps Agreement, vergi ve banka adımları hesap sahibi tarafından
-   incelenip tamamlanmalıdır. Bu aşamada Paid Apps Agreement etkin değildi; kabul edilmiş sayılmaz.
+1. Hesap sahibi güncellenen Developer License Agreement ve Legal Entity adres doğrulamasını
+   tamamladığını bildirdi. Yenilenen Apple ekranında önceki iki uyarı kalktı; Free Apps Agreement Active.
+   Özel adres bilgileri kayda alınmadı ve agent tarafından değiştirilmedi.
+2. App Store Connect → Business artık Paid Apps Agreement için View and Agree to Terms sunuyor.
+   Gerçek sözleşme inceleme ekranı açıldı; son Agree işlemi hesap sahibine bırakıldı. Sözleşme
+   henüz Active olarak doğrulanmadı; kabul edilmiş sayılmaz.
+3. Bundan sonra erişilen vergi ve banka adımları hesap sahibi tarafından incelenip tamamlanmalıdır.
 4. AB dağıtımı istenirse DSA trader beyanı ayrıca doğru hukuki duruma göre tamamlanmalıdır.
    Trader/non-trader seçimi yapılmadı.
 
