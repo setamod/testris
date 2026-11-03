@@ -1,4 +1,4 @@
-# Apple Premium ürün taslağı — 2 Kasım 2026
+# Apple Premium ürün taslağı — 3 Kasım 2026
 
 App Store Connect'te gerçek ürün kaydı oluşturuldu. Bu işlem ürünün onaylandığı, satın alınabildiği
 veya gerçek mağaza testlerinin geçtiği anlamına gelmez. Uygulamanın satış kapısı kapalıdır.
@@ -28,20 +28,23 @@ ve Git'teki [altı dilde kısa ürün metni](PREMIUM-STORE-COPY.json) kullanılm
    tamamladığını bildirdi. Yenilenen Apple ekranında önceki iki uyarı kalktı; Free Apps Agreement Active.
    Özel adres bilgileri kayda alınmadı ve agent tarafından değiştirilmedi.
 2. Hesap sahibi Paid Apps Agreement'ı kabul etti. Business ekranında sözleşme artık
-   **Processing** durumunda; Active değildir. Hesap sahibinin vergi formu gönderimleri tamamlandı.
+   **Active** durumunda; 3 Kasım kontrolünde doğrulandı. Vergi formu gönderimleri tamamlandı.
 3. Hesap sahibi banka bilgilerini girip Certification ve adres kontrolü son onaylarını kendisi yaptı.
-   Bank Accounts tablosunda bir kayıt oluştuğu ve **Processing** durumu doğrulandı; banka onayı
-   tamamlanmış sayılmaz. Banka veya kimlik numaraları belgelere alınmadı.
+   Bank Accounts tablosundaki tek kaydın **Active** olduğu 3 Kasım kontrolünde doğrulandı.
+   Banka veya kimlik numaraları belgelere alınmadı.
 4. Vergi anketinden iki form oluşmuş: **U.S. Certificate of Foreign Status of Beneficial Owner** ve
    **U.S. Form W-8BEN**. Hesap sahibi iki formu da inceleyip kendisi gönderdi; ikisi için de
    **Active** durumu doğrulandı. W-8BEN'in kişisel kimlik alanlarını hesap sahibi doldurdu;
    Part II taslağı verdiği bilgilere göre hazırlandı. Beyan kutularını ve son Submit işlemini
    hesap sahibi tamamladı. Active, Apple'daki form kaydının durumudur; vergi sınıflandırmasının
    hukuki onayı veya gerçek kesinti/satın alma testi anlamına gelmez.
-   Banka değişiklikleri için Apple'ın ekranda gösterdiği süre 24 saattir; banka ve sözleşme
-   etkinleşmeden bu adımlar onaylanmış sayılmaz. Aynı hesap veya vergi formu yeniden eklenmemelidir.
-5. AB dağıtımı istenirse DSA trader beyanı ayrıca doğru hukuki duruma göre tamamlanmalıdır.
-   Trader/non-trader seçimi yapılmadı.
+   Önceki Processing aşaması sona erdi; aynı banka hesabı veya vergi formları yeniden eklenmemelidir.
+5. Hesap sahibi, AB dağıtımı için **Trader** yolunu ve doğrulanabilir iletişim bilgilerinin
+   mağazada gösterileceği gerekliliğini 3 Kasım'da kabul etti. Wizard'da Trader seçildi;
+   **Contact Information Verification** formu açık. Bilinen ülke, arama kodu ve daha önce
+   kamusal kullanımı onaylanan destek e-postası hazırlandı; yayımlanacak adresi ve telefonu
+   hesap sahibi girecek. İletişim bilgileri, doğrulama kodları, istenecek belgeler ve son
+   DSA onayı henüz tamamlanmadı. Trader doğrulaması veya AB dağıtımı tamamlanmış sayılmaz.
 
 Adres, banka/kimlik numaraları veya doğum tarihi bu belgeye ya da Git'e alınmadı. Ürün oluşturma/fiyat
 kaydı yeni ödeme veya üyelik yenilemesi başlatmadı. Google Play kayıt ücreti ertelenmiş durumdadır.
@@ -63,4 +66,5 @@ Resmî kaynaklar: [ürün oluşturma](https://developer.apple.com/help/app-store
 [ürün alanları ve inceleme görseli](https://developer.apple.com/help/app-store-connect/reference/in-app-purchases-and-subscriptions/in-app-purchase-information),
 [banka bilgileri](https://developer.apple.com/help/app-store-connect/manage-banking-information/enter-banking-information/),
 [vergi bilgileri](https://developer.apple.com/help/app-store-connect/manage-tax-information/provide-tax-information/),
+[DSA iletişim doğrulaması](https://developer.apple.com/help/app-store-connect/manage-compliance-information/manage-european-union-digital-services-act-trader-requirements/),
 [IRS W-8BEN talimatları](https://www.irs.gov/instructions/iw8ben).

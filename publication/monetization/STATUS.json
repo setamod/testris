@@ -1,5 +1,6 @@
 {
   "checked_on": "2026-11-02",
+  "updated_on": "2026-11-03",
   "product": "Popzuno",
   "version": "0.10.0",
   "build": 27,
@@ -51,10 +52,10 @@
         "cosmetic UI and entitlement/revocation tests",
         "8 actual local native StoreKit/SDK tests passed, including purchase/reopen/restore/refund and fail-closed error paths",
         "real App Store Connect non-consumable draft, US base USD 2.99, six localized names/descriptions and review notes saved; not submitted",
-        "owner submitted both required U.S. tax forms; both Active in App Store Connect"
+        "owner submitted both required U.S. tax forms; both Active in App Store Connect",
+        "bank account and Paid Apps Agreement Active verified on 2026-11-03"
       ],
       "pending": [
-        "Apple bank record and Paid Apps Agreement Processing; final activation pending",
         "Apple review screenshot, availability and submission; real Google Play product and prices",
         "App Store sandbox and Play license test purchase/restore/refund/cancel"
       ]
@@ -72,6 +73,7 @@
       ],
       "pending": [
         "audience/Kids/Families final review",
+        "EU DSA trader contact verification, evidence and final owner confirmation",
         "App Privacy/Data Safety submission",
         "AdMob consent configuration",
         "updated live privacy/support pages",
@@ -189,6 +191,7 @@
     "live_privacy_policy": "previous 2026-10-29 offline/no-ads version; update required before activation"
   },
   "apple_premium_setup": {
+    "checked_on": "2026-11-03",
     "product_id": "com.mertbekisoglu.bulusko.premium",
     "apple_product_record": "6829742617",
     "reference_name": "Popzuno Premium Cosmetics",
@@ -210,21 +213,23 @@
     "availability_selected": false,
     "family_sharing_enabled": false,
     "submitted_for_review": false,
-    "paid_agreement_active": false,
+    "paid_agreement_active": true,
     "real_storefront_tests_completed": false,
-    "owner_action_pending": [],
+    "owner_action_pending": [
+      "dsa_contact_details_and_verification"
+    ],
     "native_binaries_changed": false,
     "developer_license_update_warning_cleared": true,
     "legal_entity_update_warning_cleared": true,
     "free_apps_agreement_status": "active",
-    "paid_agreement_status": "processing",
+    "paid_agreement_status": "active",
     "paid_agreement_accepted_by_owner": true,
     "bank_account_form_opened": true,
     "tax_questionnaire_opened": true,
     "bank_account_added": true,
     "tax_information_submitted": true,
-    "bank_account_status": "processing",
-    "bank_account_approved": false,
+    "bank_account_status": "active",
+    "bank_account_approved": true,
     "tax_forms": {
       "us_certificate_of_foreign_status_of_beneficial_owner": {
         "status": "active",
@@ -240,6 +245,19 @@
       }
     },
     "tax_information_complete": true,
-    "bank_processing_notice": "Apple says banking changes should appear within 24 hours; bank and agreement are not yet active"
+    "dsa_setup": {
+      "owner_selected_status": "trader",
+      "owner_choice_on": "2026-11-03",
+      "public_contact_requirement_acknowledged": true,
+      "wizard_choice_selected": true,
+      "contact_form_opened": true,
+      "contact_form_prepared": true,
+      "contact_details_submitted": false,
+      "email_verified": false,
+      "phone_verified": false,
+      "evidence_uploaded": false,
+      "final_confirmation_completed": false,
+      "verification_status": "in_progress_not_submitted"
+    }
   }
 }

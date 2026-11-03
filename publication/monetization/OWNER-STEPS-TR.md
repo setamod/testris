@@ -37,19 +37,27 @@ Durum Prepare for Submission; Availability seçilmedi, incelemeye gönderilmedi.
 
 Hesap sahibi güncellenen Developer License Agreement ve Legal Entity adres doğrulamasını tamamladı;
 önceki uyarılar kalktı ve Free Apps Agreement Active görünüyor. Paid Apps Agreement'ı da hesap sahibi
-kabul etti; sözleşmenin güncel durumu **Processing**, henüz Active değil.
-Business → Bank Accounts altında owner'ın eklediği bir kayıt **Processing** olarak doğrulandı;
-aynı hesabı tekrar ekleme. Banka onayı henüz tamamlanmadı. Banka bilgileri ve son onaylar owner tarafından
+kabul etti; sözleşmenin **Active** olduğu 3 Kasım 2026 kontrolünde doğrulandı.
+Business → Bank Accounts altında owner'ın eklediği tek kayıt da **Active**;
+aynı hesabı tekrar ekleme. Banka bilgileri ve son onaylar owner tarafından
 girildi; agent bunları belgelere almadı.
 Tax Forms altında **U.S. Certificate of Foreign Status of Beneficial Owner** owner tarafından gönderildi
 ve **Active** görüldü. **U.S. Form W-8BEN** de hesap sahibi tarafından gönderildi ve **Active** doğrulandı.
-Bu iki form yeniden doldurulmayacak. Apple, banka değişikliklerinin 24 saat içinde yansıyacağını
-belirtiyor; banka ve Paid Apps Agreement'ın etkinleşmesi henüz bekleniyor.
+Bu iki form yeniden doldurulmayacak. Banka ve Paid Apps Agreement'ın önceki Processing aşaması
+sona erdi; 3 Kasım kontrolünde ikisi de Active.
 W-8BEN'in kimlik alanlarını hesap sahibi girdi; Part II taslağı verdiği bilgilere göre hazırlandı.
 Kişisel beyan kutularını, imzalama onayını ve son Submit işlemini hesap sahibi tamamladı.
 Kimlik numarası, doğum tarihi veya banka numaraları belgelere/Git'e alınmadı. Active durumu,
 gelir sınıflandırmasının hukuki onayı veya gerçek kesinti testi değildir.
 Apple üyeliğine yeniden ödeme yapılmadı.
+
+AB için DSA: Hesap sahibi Trader yolunu ve iletişim bilgilerinin mağazada gösterileceği gerekliliğini
+onayladı. **Contact Information Verification** formunda ülke, telefon ülke kodu ve onaylı destek
+e-postası hazır. Hesap sahibi doğrulayabileceği, yayımlanmasını istediği adresi/posta kutusunu ve telefonu
+yalnızca Apple ekranına girmeli; sonra Apple'ın e-posta/telefon doğrulamasını ve istenen belge adımını
+tamamlamalıdır. Kodlar veya özel belgeler sohbete/Git'e alınmaz. Son bilgileri ve beyanı hesap sahibi
+inceler ve onaylar. Bu işlem henüz gönderilmedi veya Apple tarafından doğrulanmadı.
+
 Yeni build'in satın alma ekranından istenen ürün inceleme görseli hazırlanmalı; satış ülkeleri ve yerel
 fiyatlar son onayda kontrol edilmelidir. Eski yüklenmiş build'ler bu satın alma ekranını içermez.
 Sandbox test hesabını oluştur; geliştirici imzalı cihazda satın al, iptal et, geri yükle, tekrar aç ve iadeyi dene.

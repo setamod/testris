@@ -1,6 +1,7 @@
 # Popzuno 0.10.0 — yayın hazırlığı
 
 2 Kasım 2026. Yeni dal: `codex/popzuno-rewarded-premium`; güvenli taban `popzuno` / `b21be94`.
+Apple hesap durumları için son kontrol: 3 Kasım 2026.
 
 Uygulama ücretsizdir. Beş mod, standart fotoğraflar ve güçlendirmeler ücretsiz kalır.
 Yalnızca isteğe bağlı rewarded kurtarma ve 2,99 USD hedefli tek seferlik kozmetik Premium vardır.
@@ -17,7 +18,8 @@ ve [aşama durumunda](publication/monetization/STATUS.json) tutulur.
 | Çocuklar dahil karma kitle | Nötr yaş aralığı; çocuk/genç/belirsiz yaşta reklam/yeni satın alma yok; son mağaza incelemesi bekliyor |
 | Gizlilik, veri güvenliği, hukuk | Altı dilde taslak güncellendi; mağaza beyanı ve hukuki onay tamamlanmadı |
 | AdMob / UMP | Hesap ve iOS/Android rewarded kimlikleri hazır; ödeme profili tamamlandı, hesap incelemesi sürüyor; Avrupa/ABD taslakları kaydedildi, yayın/mağaza bağlantıları/cihaz testleri bekliyor |
-| Mağaza ürünleri / vergi / banka | Apple non-consumable taslağı, ABD 2,99 USD ve altı dil kaydedildi; availability/inceleme kapalı. İki ABD vergi formu Active; banka ve Paid Apps Agreement Processing. Gerçek mağaza testleri bekliyor; Play ürünü oluşturulmadı |
+| Mağaza ürünleri / vergi / banka | Apple non-consumable taslağı, ABD 2,99 USD ve altı dil kaydedildi; availability/inceleme kapalı. İki ABD vergi formu, banka ve Paid Apps Agreement Active. Gerçek mağaza testleri bekliyor; Play ürünü oluşturulmadı |
+| AB / DSA | Hesap sahibi Trader yolunu seçti; iletişim formu hazır. Adres/telefon, kod doğrulamaları, istenen belge ve son onay tamamlanmadı |
 | Android yayın | Google kayıt ödemesi sahibinin isteğiyle ertelendi; imzalı dağıtım yok |
 | iOS / TestFlight | Bu dalda yalnızca imzasız aday; bu sürüm yüklenmedi veya telefona kurulmadı |
 | Canlı destek sitesi | Bu dala ait metinler yerel taslak; eski canlı sayfa yeni SDK'ları henüz açıklamıyor |
